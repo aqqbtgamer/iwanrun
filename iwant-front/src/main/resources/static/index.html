@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no">
+    <link rel="icon" href="img/icon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/globalReset.css">
+    <link rel="stylesheet" href=" css/common.css">
+    <link rel="stylesheet" href="css/iconfont.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script type="application/javascript" src="script/jquery-3.3.1.min.js"></script>
+    <script type="application/javascript" src="script/vue.min.js"></script>
+    <title>我要跑-首页</title>
+</head>
+<body >
+<form>
+<div id="container" class="container">
+        <div id="common-header" class="common-head">
+            <div id="icon" class="icon-flow">
+                <img src="img/logo.png" alt="logo.png" width="100%">
+            </div>
+            <div id="location-selector" class="location-selector">
+                <select class="location-selector-item">
+                    <option>上海 </option>
+                </select>
+            </div>
+            <div id="url-nav" class="class-nav">
+                <nav class="navbar">
+                    <ul>
+                        <li class="tail-li-left"><a href="./index.html" class="active-link">首页</a></li>
+                        <li class="tail-li-left"><a href="./html/iwantrun/listproduction.html">找产品</a></li>
+                        <li class="tail-li-left"><a href="./html/iwantrun/listlocation.html">看场地</a></li>
+                        <li class="tail-li-left"><a href="./html/iwantrun/listcase.html">看案例</a></li>
+                        <li class="tail-li-left"><a href="./html/iwantrun/myAccount.html">个人中心</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div id="url-login" class="class-login-nav">
+                <nav class="navbar">
+                    <ul>
+                        <li class="li-right"><a href="#" @click="showLogin('咨询师登录')">咨询师登录</a></li>
+                        <li class="li-right"><a href="#" @click="showLogin('用户登录')">用户登录</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div id="banner" class="banner">
+            <img src="img/banner/banner1.png" alt="banner1.png" width="100%">
+        </div>
+        <div id="display-bar1" class="display-bar">
+            <div id="displaybox1" class="displaybox1">
+                <img src="img/displaybox2.png" alt="displaybox1.png" width="100%">
+            </div>
+            <div id="displaytext" class="displaytext">
+                <p>我要跑，帮助到许多素未谋面的企业和团队，设计有效的团队建设活动方案。无论您想组织跨地区的一系列活动或举办事件，我们都可以满足您的要求！</p>
+            </div>
+            <div id="displaybutton" class="displaybutton">
+                <input type="button" value="我们如何工作？" class="btn-primary">
+            </div>
+        </div>
+        <div id="content-box-production">
+            <div id="content-header-production" class="content-header-production">
+                    <div id="content-head-label" class="content-head-label">
+                        <label class="labelcenter">爆款产品</label>
+                    </div>
+                    <div id="content-head-link1" class="content-head-link">
+                        <a href="#" class="content-link-a">查看更多</a>
+                    </div>
+                <div class="clear"></div>
+            </div>
+            <div id="content-body-production" class="content-body-production">
+                <div id="content-left-production" class="content-table-production">
+                    <div id="outstandig-produnction" class="outstandig-produnction">
+                        <img src="img/otstandingproduction.png" alt="outstanding.png" width="100%">
+                    </div>
+                     <!--需要写js动态微调此处布局使其对其-->
+                    <div id="normal-production-1" class="normal-production">
+                        <div id="displayItem-production1" class="normal-item-left">
+                            <div id="displayImage-production1">
+                                <img src="img/normalpd1.png" alt="normalpd1.png" width="100%">
+                            </div>
+                            <div id="displayText-production1" class="displayText-production" >
+                                <p>长沙南区10公里员工慢跑</p>
+                                <p style="color:#FF7E00">288/人</p>
+                            </div>
+                        </div>
+                        <div id="displayItem-production2" class="normal-item-right">
+                            <div id="displayImage-production2">
+                                <img src="img/normalpd2.png" alt="normalpd2.png" width="100%">
+                            </div>
+                            <div id="displayText-production2" class="displayText-production" >
+                                <p>南湖水上龙舟游</p>
+                                <p style="color:#FF7E00">388/人</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                   <!-- <div id="normal-production-2"></div>-->
+                </div>
+                <div id="content-right-production" class="content-table-production">
+                    <div class="normal-production" style="margin-top: 0">
+                        <div id="displayItem-production3" class="normal-item-left">
+                            <div id="displayImage-production3">
+                                <img src="img/normalpd3.png" alt="normalpd3.png" width="100%">
+                            </div>
+                            <div id="displayText-production3" class="displayText-production" >
+                                <p>海岛户外挑战赛</p>
+                                <p style="color:#FF7E00">399/人</p>
+                            </div>
+                        </div>
+                        <div id="displayItem-production4" class="normal-item-right">
+                            <div id="displayImage-production4">
+                                <img src="img/normalpd4.png" alt="normalpd3.png" width="100%">
+                            </div>
+                            <div id="displayText-production4" class="displayText-production">
+                                <p>团队森林长跑体能赛</p>
+                                <p style="color:#FF7E00">588/人</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="normal-production"  style="margin-top: 2vw" >
+                        <div id="displayItem-production5" class="normal-item-left">
+                            <div id="displayImage-production5">
+                                <img src="img/normalpd5.png" alt="normalpd2.png" width="100%">
+                            </div>
+                            <div id="displayText-production5" class="displayText-production">
+                                <p>海岛户外挑战赛</p>
+                                <p style="color:#FF7E00">288/人</p>
+                            </div>
+                        </div>
+                        <div id="displayItem-production6" class="normal-item-right">
+                            <div id="displayImage-production6">
+                                <img src="img/normalpd6.png" alt="normalpd2.png" width="100%">
+                            </div>
+                            <div id="displayText-production6" class="displayText-production">
+                                <p>金山沙滩热身赛</p>
+                                <p style="color:#FF7E00">388/人</p>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="content-box-location">
+            <div id="content-box-location-header" class="content-header-production">
+                <div id="content-head-labe2" class="content-head-label">
+                    <label class="labelcenter">爆款场地</label>
+                </div>
+                <div id="content-head-link2" class="content-head-link">
+                    <a href="#" class="content-link-a">查看更多</a>
+                </div>
+            </div>
+            <div id="content-box-location-body" class="content-box-location-body">
+                <div id="content-box-location-line1" class="content-box-location-line">
+                    <div id="location-description-text1" class="location-text">
+                        <div class="location-text-head">
+                            <p>夏日清凉专场 | 水上球类运动 &nbsp;&nbsp;<i class="iconfont icon-sanjiaoright"></i></p></div>
+                        <div class="location-text-detail">
+                            <p>You may of heard fast growing companies require motivated and healthy employees that communicate efficiently. Clearly it’s easier than ever to speak to one another online but we’ve found that doesn’t create meaningful relationships. </p>
+                        </div>
+                    </div>
+                    <div id="location-description-image1" class="location-image">
+                        <img src="img/location1.png" alt="location1.png" width="100%">
+                    </div>
+                </div>
+                <div id="content-box-location-line2" class="content-box-location-line">
+                    <div id="location-description-image2" class="location-image">
+                        <img src="img/location2.png" alt="location2.png" width="100%">
+                    </div>
+                    <div id="location-description-text2" class="location-text">
+                        <div class="location-text-head">
+                            <p><i class="iconfont icon-sanjiaoleft"></i>&nbsp;专业场地 | 卡丁车火速激励赛</p>
+                        </div>
+                        <div class="location-text-detail">
+                            <p>You may of heard fast growing companies require motivated and healthy employees that communicate efficiently. Clearly it’s easier than ever to speak to one another online but we’ve found that doesn’t create meaningful relationships. </p>
+                        </div>
+                    </div>
+                </div>
+                <div id="content-box-location-line3" class="content-box-location-line">
+                    <div id="location-description-text3" class="location-text">
+                        <div class="location-text-head">
+                            <p>酒店团队游戏 | 比比谁更高&nbsp;<i class="iconfont icon-sanjiaoright"></i></p>
+                        </div>
+                        <div class="location-text-detail">
+                            <p>You may of heard fast growing companies require motivated and healthy employees that communicate efficiently. Clearly it’s easier than ever to speak to one another online but we’ve found that doesn’t create meaningful relationships. </p>
+                        </div>
+                    </div>
+                    <div id="location-description-image3" class="location-image">
+                        <img src="img/location3.png" alt="location3.png" width="100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="display-bar2" class="content-header-display">
+           <div id="display-bar2-header" class="display-bar2-header">
+                <p class="p-displaybar2-header">团队建设的优势</p>
+            </div>
+            <div id="display-bar2-describe" class="display-bar2-content">
+                <p class="p-displaybar2-content">
+                    团队建设是一个伟大的创造，它是现代企业管理的一个基础，
+                    是一个平台，也是构建公司的一个基本出发点。
+                </p>
+            </div>
+            <div id="display-bar2-buttongroup" class="display-bar2-buttongroup">
+                <div class="display-bar2-button">
+                    <input type="button" value="团队协作" class="btn-bar2-primary">
+                </div>
+                <div class="display-bar2-button">
+                    <input type="button" value="品牌建设"  class="btn-bar2-primary">
+                </div>
+                <div class="display-bar2-button">
+                    <input type="button" value="强化团队精神"  class="btn-bar2-primary">
+                </div>
+                <div class="display-bar2-button">
+                    <input type="button" value="主观激励"  class="btn-bar2-primary">
+                </div>
+            </div>
+        </div>
+        <div id="content-box-case" class="content-box-case">
+            <div id="content-box-case-header">
+                <div id="content-box-case-label" class="content-head-label" style="margin-left: 3.18vw">
+                    <label class="labelcenter content-black" style="color:#414141;font-weight: bold">精选案例</label>
+                </div>
+                <div id="content-box-case-link1" class="content-head-link" style="margin-right:1.04vw">
+                    <a href="#" class="content-link-b" >查看更多</a>
+                </div>
+            </div>
+            <div id="content-box-case-line1" class="content-box-case-line">
+                <div id="content-box-case-image1" class="content-box-case-imgbig">
+                    <img src="img/case1.png" alt="case1.png" width="100%">
+                </div>
+                <div id="content-box-case-image2" class="content-box-case-imgsmall">
+                    <img src="img/case2.png" alt="case2.png" width="100%">
+                </div>
+                <div id="content-box-case-image3" class="content-box-case-imgsmall">
+                    <img src="img/case3.png" alt="case3.png" width="100%">
+                </div>
+            </div>
+            <div id="content-box-case-line2" class="content-box-case-line">
+                <div id="content-box-case-image4" class="content-box-case-imgsmall" >
+                    <img src="img/case4.png" alt="case4.png" width="100%">
+                </div>
+                <div id="content-box-case-image5" class="content-box-case-imgsmall">
+                    <img src="img/case5.png" alt="case5.png" width="100%">
+                </div>
+                <div id="content-box-case-image6" class="content-box-case-imgbig" >
+                    <img src="img/case6.png" alt="case6.png" width="100%">
+                </div>
+            </div>
+
+        </div>
+        <div class="common-tail-bg">
+            <div id="common-tail" class="common-tail">
+                <div id="tail-nav" class="tail-nav">
+                    <nav >
+                        <ul>
+                            <li class="tail-li-left" ><a href="#">关于我们</a></li>
+                            <li class="tail-li-left" ><a href="#">加入我们</a></li>
+                            <li class="tail-li-left" ><a href="#">联系我们</a></li>
+                            <li class="tail-li-left" ><a href="#">条款</a></li>
+                            <li class="tail-li-left " style="margin-right: 0"><a href="#">网站导航</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div id="icon-connect" class="icon-connect">
+                    <p>
+                        <i class="iconfont icon-facebookfacebook52 clickIcon" style="font-size: 2vw"></i>
+                        <i class="iconfont icon-twitter3 clickIcon" style="font-size: 2vw"></i>
+                        <i class="iconfont icon-weixin-copy clickIcon" style="font-size: 2vw"></i>
+                        <i class="iconfont icon-weibo clickIcon" style="font-size: 2vw"></i>
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div id="mask" class="mask" v-if="mask" v-cloak></div>
+        <div id="login-pannel" class="login-pannel" v-if="loginWindow" v-cloak>
+            <div id="close-pannel" class="close-pannel">
+                <i class="iconfont-user1 icon-close" @click="closeLogin"></i>
+            </div>
+            <div id="login-head"  class="login-head">
+                <h2>{{loginTitle}}</h2>
+            </div>
+            <div id="username-input" class="username-input">
+                <div id="user-icon" class="user-icon">
+                    <i class="iconfont-user2 icon-yonghu" ></i>
+                </div>
+                <div id="user-input" class="user-input">
+                    <input type="text" class="inputText" placeholder="请输入手机号">
+                </div>
+            </div>
+            <div id="password-input" class="userpwd-input">
+                <div id="pwd-icon" class="user-icon">
+                    <i class="iconfont-user2 icon-mima"></i>
+                </div>
+                <div id="pwd-input" class="user-pwd">
+                    <input type="password" class="inputText" placeholder="请输入验证码">
+                </div>
+                <div id="pwd-button" class="user-button">
+                    <input type="button" value="短信验证" class="sms-send-button">
+                </div>
+            </div>
+            <div id="extra-message" class="extra-message">
+                <div id="icon-selected" class="exttra-message-left" >
+                    <i class="iconfont-user3 icon-gouxuan "  @click="changeAutoLogin" v-if="autoLogin"></i>
+                    <i class="iconfont-user3 icon-gouxuan1"  @click="changeAutoLogin" v-else></i>
+                </div>
+                <div class="exttra-message-right">
+                    <p>自动登陆</p>
+                </div>
+            </div>
+             <div id="login-button" class="login-button">
+                 <input type="button" value="登 录" class="sms-login-button">
+             </div>
+            <div id="join-account-login"class="join-account-login">
+                <div id="join-account-left" class="join-account-left">
+                    <p>其他账号登陆</p>
+                </div>
+                <div class="join-account-right">
+                    <i class="iconfont icon-facebookfacebook52 clickIcon"></i>
+                    <i class="iconfont icon-weixin-copy clickIcon"></i>
+                    <i class="iconfont icon-weibo clickIcon"></i>
+                </div>
+            </div>
+        </div>
+        <div id="float-collect-requirement" class="slidebar">
+            <h2 class="slidebar-head">急速获取免费方案</h2>
+            <p  class="slidebar-text">
+                超过100位专业咨询师免费为您提供
+                量身定制的团建方案，优质供应链。
+            </p>
+            <div id="slider-button" class="slider-button">
+                <input type="button" value="提交需求" class="slider-button-item" @click="toOrderSubmit()">
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+<script type="application/javascript" src="script-dev/indexJquery.js"></script>
+<script type="application/javascript" src="script-dev/indexVue.js"></script>
+</html>

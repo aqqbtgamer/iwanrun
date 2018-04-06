@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no">
+    <link rel="icon" href="../../img/icon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../css/globalReset.css">
+    <link rel="stylesheet" href=" ../../css/common.css">
+    <link rel="stylesheet" href="../../css/iconfont.css">
+    <link rel="stylesheet" href="../../css/listcase.css">
+    <script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="application/javascript" src="../../script/vue.min.js"></script>
+    <title>我要跑-搜索案例列表</title>
+</head>
+<body>
+<form action="">
+    <div id="container" class="container">
+        <div id="common-header" class="common-head">
+            <div id="icon" class="icon-flow">
+                <img src="../../img/logo.png" alt="logo.png" width="100%">
+            </div>
+            <div id="location-selector" class="location-selector">
+                <select class="location-selector-item">
+                    <option>上海 </option>
+                </select>
+            </div>
+            <div id="url-nav" class="class-nav">
+                <nav class="navbar">
+                    <ul>
+                        <li class="tail-li-left"><a href="../../index.html">首页</a></li>
+                        <li class="tail-li-left"><a href="./listproduction.html">找产品</a></li>
+                        <li class="tail-li-left"><a href="./listlocation.html">看场地</a></li>
+                        <li class="tail-li-left"><a href="./listcase.html" class="active-link">看案例</a></li>
+                        <li class="tail-li-left"><a href="./myAccount.html">个人中心</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div id="url-login" class="class-login-nav">
+                <nav class="navbar">
+                    <ul>
+                        <li class="li-right"><a href="#" @click="showLogin('咨询师登录')">咨询师登录</a></li>
+                        <li class="li-right"><a href="#" @click="showLogin('用户登录')">用户登录</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div id="page-location" class="page-location">
+            <p class="page-location-text">首页 >  搜索案例列表</p>
+        </div>
+        <div id="queryform" class="queryform">
+        <div id="querytable" class="querytable">
+            <div id="table-row1" class="querytable-row">
+                <div id="table-column-11" class="querytable-column-lable">
+                   <p class="label-font">地区</p>
+                </div>
+                <div id="table-colunmn-12" class="query-column-reset">
+                    <input type="button" value="不限" class="btn-primary">
+                </div>
+                <div id="table-column-13" class="query-column-checkbox">
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="location" id="location-shanghai" class="checkbox-primary">
+                    <label for="location-shanghai">上海地区</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="location" id="location-around" class="checkbox-primary">
+                    <label for="location-around">周边地区</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="location" id="location-outsea" class="checkbox-primary">
+                    <label for="location-outsea">境外城市</label>
+                </div>
+            </div>
+            <div class="seperate"></div>
+            <div id="table-row2" class="querytable-row">
+                <div id="table-column-21" class="querytable-column-lable">
+                    <p class="label-font">活动类型</p>
+                </div>
+                <div id="table-colunmn-22" class="query-column-reset">
+                    <input type="button" value="不限" class="btn-primary">
+                </div>
+                <div id="table-column-23" class="query-column-checkbox">
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="activity" id="activity1" class="checkbox-primary">
+                    <label for="location-shanghai">室内球类运动</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="activity" id="activity2" class="checkbox-primary">
+                    <label for="location-around">户外水上运动</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="activity" id="activity3" class="checkbox-primary">
+                    <label for="location-outsea">户外拓展</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="activity" id="activity4" class="checkbox-primary">
+                    <label for="location-outsea">室内趣味运动</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="activity" id="activity5" class="checkbox-primary">
+                    <label for="location-outsea">户外体育场</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="activity" id="activity6" class="checkbox-primary">
+                    <label for="location-outsea">拓展培训</label>
+                </div>
+                <div class="query-column-openmore">
+                    <i class="iconfont icon-xiajiantou hover-color"></i>
+                </div>
+            </div>
+            <div class="seperate"></div>
+            <div id="table-row3" class="querytable-row">
+                <div id="table-column-31" class="querytable-column-lable">
+                    <p class="label-font">企业类型</p>
+                </div>
+                <div id="table-colunmn-32" class="query-column-reset">
+                    <input type="button" value="不限" class="btn-primary">
+                </div>
+                <div id="table-column-33" class="query-column-checkbox">
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="company-type" id="company1" class="checkbox-primary">
+                    <label for="location-shanghai">个体私营企业</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="company-type" id="company2" class="checkbox-primary">
+                    <label for="location-around">外资企业</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="company-type" id="company3" class="checkbox-primary">
+                    <label for="location-outsea">国企</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="company-type" id="company4" class="checkbox-primary">
+                    <label for="location-outsea">中外合资</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="company-type" id="company5" class="checkbox-primary">
+                    <label for="location-outsea">自由职业</label>
+                </div>
+            </div>
+            <div class="seperate"></div>
+            <div id="table-row4" class="querytable-row">
+                <div id="table-column-41" class="querytable-column-lable">
+                    <p class="label-font">人数</p>
+                </div>
+                <div id="table-colunmn-42" class="query-column-reset">
+                    <input type="button" value="不限" class="btn-primary">
+                </div>
+                <div id="table-column-43" class="query-column-checkbox">
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="personNum" id="personNum1" class="checkbox-primary">
+                    <label for="location-shanghai">20人以下</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="personNum" id="personNum2" class="checkbox-primary">
+                    <label for="location-around">20-40人</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="personNum" id="personNum3" class="checkbox-primary">
+                    <label for="location-outsea">40-60人</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="personNum" id="personNum4" class="checkbox-primary">
+                    <label for="location-outsea">60人以上</label>
+                </div>
+            </div>
+            <div class="seperate"></div>
+            <div id="table-row5" class="querytable-row">
+                <div id="table-column-51" class="querytable-column-lable">
+                    <p class="label-font">天数</p>
+                </div>
+                <div id="table-colunmn-52" class="query-column-reset">
+                    <input type="button" value="不限" class="btn-primary">
+                </div>
+                <div id="table-column-53" class="query-column-checkbox">
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="duration" id="duration1" class="checkbox-primary">
+                    <label for="location-shanghai">半天</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="duration" id="duration2" class="checkbox-primary">
+                    <label for="location-around">1天</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="duration" id="duration3" class="checkbox-primary">
+                    <label for="location-outsea">2天</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="duration" id="duration4" class="checkbox-primary">
+                    <label for="location-outsea">3天</label>
+                    <i class="iconfont-grey icon-checkbox-non"></i>
+                    <input type="checkbox" name="duration" id="duration5" class="checkbox-primary">
+                    <label for="location-outsea">3天以上</label>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="content-header-production">
+        <a href="#" class="content-header-link-left">热门推荐</a>
+        <a href="#" class="content-header-link">价格从高到底</a>
+        <a href="#" class="content-header-link">价格从低到高</a>
+    </div>
+        <div id ="list-case-item1" class="list-case-item">
+        <div id="list-case-image1" class="list-case-item-left">
+            <div class="wrapper">
+                <img src="../../img/list-case1.png" alt="list-case1.png">
+            </div>
+        </div>
+        <div id="list-case-right1" class="list-case-item-right">
+            <div class="list-case-item-line">
+                <div class="list-case-item-table-top">
+                    <p class="case-title">上海卢湾体育场——
+                        大型综合体育项目场所 </p>
+                    <p style="margin-top: 0.84vw">
+                        <span class="case-tip">现代化体育馆</span>
+                        <span class="case-tip">体育配套设施</span>
+                        <span class="case-tip">专人维护</span>
+                    </p>
+                </div>
+            </div>
+            <div class="list-case-item-line">
+                <div class="list-case-item-table-bottom">
+                    <div class="case-details-content">
+                       <div class="case-details-up">
+                           <p class="case-price-hint">参考价格: 300元/人</p>
+                       </div>
+                        <div class="case-detail-desc">
+                            <div class="case-detail-row">
+                                <div class="case-detail-col">
+                                    <p>地区：上海市  </p>
+                                </div>
+                                <div class="case-detail-col">
+                                    <p> 类型：户外体育场 </p>
+                                </div>
+                            </div>
+                            <div class="case-detail-row">
+                                <div class="case-detail-col">
+                                    <p>人数：1500-2000人</p>
+                                </div>
+                                <div class="case-detail-col">
+                                    <p>天数：1天 </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-detail-button">
+                        <div class="case-detail-button-wrapper">
+                            <input type="button" class="btn-primary-big" value="查看详情">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div id ="list-case-item2" class="list-case-item">
+        <div id="list-case-image2" class="list-case-item-left">
+            <div class="wrapper">
+                <img src="../../img/list-case2.png" alt="list-case1.png">
+            </div>
+        </div>
+        <div id="list-case-right2" class="list-case-item-right">
+            <div class="list-case-item-line">
+                <div class="list-case-item-table-top">
+                    <p class="case-title">中智关爱通——爱乐汇穿越八皖 </p>
+                    <p style="margin-top: 0.84vw">
+                        <span class="case-tip">户外徒步</span>
+                        <span class="case-tip">创新思维</span>
+                        <span class="case-tip">强化合作</span>
+                        <span class="case-tip">提升荣誉感</span>
+                    </p>
+                </div>
+            </div>
+            <div class="list-case-item-line">
+                <div class="list-case-item-table-bottom">
+                    <div class="case-details-content">
+                        <div class="case-details-up">
+                            <p class="case-price-hint">参考价格: 1000-3000/人</p>
+                        </div>
+                        <div class="case-detail-desc">
+                            <div class="case-detail-row">
+                                <div class="case-detail-col">
+                                    <p>地区：上海市  </p>
+                                </div>
+                                <div class="case-detail-col">
+                                    <p> 类型：户外体育场 </p>
+                                </div>
+                            </div>
+                            <div class="case-detail-row">
+                                <div class="case-detail-col">
+                                    <p>人数：1500-2000人</p>
+                                </div>
+                                <div class="case-detail-col">
+                                    <p>天数：1天 </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-detail-button">
+                        <div class="case-detail-button-wrapper">
+                            <input type="button" class="btn-primary-big" value="查看详情">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div id ="list-case-item3" class="list-case-item">
+        <div id="list-case-image3" class="list-case-item-left">
+            <div class="wrapper">
+                <img src="../../img/list-case1.png" alt="list-case1.png">
+            </div>
+        </div>
+        <div id="list-case-right3" class="list-case-item-right">
+            <div class="list-case-item-line">
+                <div class="list-case-item-table-top">
+                    <p class="case-title">上海卢湾体育场——
+                        大型综合体育项目场所 </p>
+                    <p style="margin-top: 0.84vw">
+                        <span class="case-tip">现代化体育馆</span>
+                        <span class="case-tip">体育配套设施</span>
+                        <span class="case-tip">专人维护</span>
+                    </p>
+                </div>
+            </div>
+            <div class="list-case-item-line">
+                <div class="list-case-item-table-bottom">
+                    <div class="case-details-content">
+                        <div class="case-details-up">
+                            <p class="case-price-hint">参考价格: 300元/人</p>
+                        </div>
+                        <div class="case-detail-desc">
+                            <div class="case-detail-row">
+                                <div class="case-detail-col">
+                                    <p>地区：上海市  </p>
+                                </div>
+                                <div class="case-detail-col">
+                                    <p> 类型：户外体育场 </p>
+                                </div>
+                            </div>
+                            <div class="case-detail-row">
+                                <div class="case-detail-col">
+                                    <p>人数：1500-2000人</p>
+                                </div>
+                                <div class="case-detail-col">
+                                    <p>天数：1天 </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-detail-button">
+                        <div class="case-detail-button-wrapper">
+                            <input type="button" class="btn-primary-big" value="查看详情">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div id ="list-case-item4" class="list-case-item">
+        <div id="list-case-image4" class="list-case-item-left">
+            <div class="wrapper">
+                <img src="../../img/list-case2.png" alt="list-case1.png">
+            </div>
+        </div>
+        <div id="list-case-right4" class="list-case-item-right">
+            <div class="list-case-item-line">
+                <div class="list-case-item-table-top">
+                    <p class="case-title">中智关爱通——爱乐汇穿越八皖 </p>
+                    <p style="margin-top: 0.84vw">
+                        <span class="case-tip">户外徒步</span>
+                        <span class="case-tip">创新思维</span>
+                        <span class="case-tip">强化合作</span>
+                        <span class="case-tip">提升荣誉感</span>
+                    </p>
+                </div>
+            </div>
+            <div class="list-case-item-line">
+                <div class="list-case-item-table-bottom">
+                    <div class="case-details-content">
+                        <div class="case-details-up">
+                            <p class="case-price-hint">参考价格: 1000-3000/人</p>
+                        </div>
+                        <div class="case-detail-desc">
+                            <div class="case-detail-row">
+                                <div class="case-detail-col">
+                                    <p>地区：上海市  </p>
+                                </div>
+                                <div class="case-detail-col">
+                                    <p> 类型：户外体育场 </p>
+                                </div>
+                            </div>
+                            <div class="case-detail-row">
+                                <div class="case-detail-col">
+                                    <p>人数：1500-2000人</p>
+                                </div>
+                                <div class="case-detail-col">
+                                    <p>天数：1天 </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-detail-button">
+                        <div class="case-detail-button-wrapper">
+                            <input type="button" class="btn-primary-big" value="查看详情">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div id ="list-case-item5" class="list-case-item">
+        <div id="list-case-image5" class="list-case-item-left">
+            <div class="wrapper">
+                <img src="../../img/list-case1.png" alt="list-case1.png">
+            </div>
+        </div>
+        <div id="list-case-right5" class="list-case-item-right">
+            <div class="list-case-item-line">
+                <div class="list-case-item-table-top">
+                    <p class="case-title">上海卢湾体育场——
+                        大型综合体育项目场所 </p>
+                    <p style="margin-top: 0.84vw">
+                        <span class="case-tip">现代化体育馆</span>
+                        <span class="case-tip">体育配套设施</span>
+                        <span class="case-tip">专人维护</span>
+                    </p>
+                </div>
+            </div>
+            <div class="list-case-item-line">
+                <div class="list-case-item-table-bottom">
+                    <div class="case-details-content">
+                        <div class="case-details-up">
+                            <p class="case-price-hint">参考价格: 300元/人</p>
+                        </div>
+                        <div class="case-detail-desc">
+                            <div class="case-detail-row">
+                                <div class="case-detail-col">
+                                    <p>地区：上海市  </p>
+                                </div>
+                                <div class="case-detail-col">
+                                    <p> 类型：户外体育场 </p>
+                                </div>
+                            </div>
+                            <div class="case-detail-row">
+                                <div class="case-detail-col">
+                                    <p>人数：1500-2000人</p>
+                                </div>
+                                <div class="case-detail-col">
+                                    <p>天数：1天 </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-detail-button">
+                        <div class="case-detail-button-wrapper">
+                            <input type="button" class="btn-primary-big" value="查看详情">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div id ="list-case-item6" class="list-case-item">
+        <div id="list-case-image6" class="list-case-item-left">
+            <div class="wrapper">
+                <img src="../../img/list-case3.png" alt="list-case1.png">
+            </div>
+        </div>
+        <div id="list-case-right6" class="list-case-item-right">
+            <div class="list-case-item-line">
+                <div class="list-case-item-table-top">
+                    <p class="case-title">夏日水上球类运动——
+                        某集团户外团体水球趣味赛 </p>
+                    <p style="margin-top: 0.84vw">
+                        <span class="case-tip">循环泳池</span>
+                        <span class="case-tip">日光浴</span>
+                        <span class="case-tip">悠闲游戏</span>
+                        <span class="case-tip">五星级酒店</span>
+                    </p>
+                </div>
+            </div>
+            <div class="list-case-item-line">
+                <div class="list-case-item-table-bottom">
+                    <div class="case-details-content">
+                        <div class="case-details-up">
+                            <p class="case-price-hint">参考价格: 400-500元/人</p>
+                        </div>
+                        <div class="case-detail-desc">
+                            <div class="case-detail-row">
+                                <div class="case-detail-col">
+                                    <p>地区：苏州市  </p>
+                                </div>
+                                <div class="case-detail-col">
+                                    <p> 类型：水上运动</p>
+                                </div>
+                            </div>
+                            <div class="case-detail-row">
+                                <div class="case-detail-col">
+                                    <p>人数：30-40人</p>
+                                </div>
+                                <div class="case-detail-col">
+                                    <p>天数：半天 </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-detail-button">
+                        <div class="case-detail-button-wrapper">
+                            <input type="button" class="btn-primary-big" value="查看详情">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div id="page-navigation" class="page-navigation">
+        <ul class="pagenation">
+            <li class="active"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&#62</a></li>
+        </ul>
+    </div>
+        <div class="common-tail-bg">
+            <div id="common-tail" class="common-tail">
+                <div id="tail-nav" class="tail-nav">
+                    <nav >
+                        <ul>
+                            <li class="tail-li-left" ><a href="#">关于我们</a></li>
+                            <li class="tail-li-left" ><a href="#">加入我们</a></li>
+                            <li class="tail-li-left" ><a href="#">联系我们</a></li>
+                            <li class="tail-li-left" ><a href="#">条款</a></li>
+                            <li class="tail-li-left " style="margin-right: 0"><a href="#">网站导航</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div id="icon-connect" class="icon-connect">
+                    <p>
+                        <i class="iconfont icon-facebookfacebook52 clickIcon" style="font-size: 2vw"></i>
+                        <i class="iconfont icon-twitter3 clickIcon" style="font-size: 2vw"></i>
+                        <i class="iconfont icon-weixin-copy clickIcon" style="font-size: 2vw"></i>
+                        <i class="iconfont icon-weibo clickIcon" style="font-size: 2vw"></i>
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div id="mask" class="mask" v-if="mask" v-cloak></div>
+        <div id="login-pannel" class="login-pannel" v-if="loginWindow" v-cloak>
+            <div id="close-pannel" class="close-pannel">
+                <i class="iconfont-user1 icon-close" @click="closeLogin"></i>
+            </div>
+            <div id="login-head"  class="login-head">
+                <h2>{{loginTitle}}</h2>
+            </div>
+            <div id="username-input" class="username-input">
+                <div id="user-icon" class="user-icon">
+                    <i class="iconfont-user2 icon-yonghu" ></i>
+                </div>
+                <div id="user-input" class="user-input">
+                    <input type="text" class="inputText" placeholder="请输入手机号">
+                </div>
+            </div>
+            <div id="password-input" class="userpwd-input">
+                <div id="pwd-icon" class="user-icon">
+                    <i class="iconfont-user2 icon-mima"></i>
+                </div>
+                <div id="pwd-input" class="user-pwd">
+                    <input type="password" class="inputText" placeholder="请输入验证码">
+                </div>
+                <div id="pwd-button" class="user-button">
+                    <input type="button" value="短信验证" class="sms-send-button">
+                </div>
+            </div>
+            <div id="extra-message" class="extra-message">
+                <div id="icon-selected" class="exttra-message-left" >
+                    <i class="iconfont-user3 icon-gouxuan "  @click="changeAutoLogin" v-if="autoLogin"></i>
+                    <i class="iconfont-user3 icon-gouxuan1"  @click="changeAutoLogin" v-else></i>
+                </div>
+                <div class="exttra-message-right">
+                    <p>自动登陆</p>
+                </div>
+            </div>
+            <div id="login-button" class="login-button">
+                <input type="button" value="登 录" class="sms-login-button">
+            </div>
+            <div id="join-account-login"class="join-account-login">
+                <div id="join-account-left" class="join-account-left">
+                    <p>其他账号登陆</p>
+                </div>
+                <div class="join-account-right">
+                    <i class="iconfont icon-facebookfacebook52 clickIcon"></i>
+                    <i class="iconfont icon-weixin-copy clickIcon"></i>
+                    <i class="iconfont icon-weibo clickIcon"></i>
+                </div>
+            </div>
+        </div>
+        <div id="float-collect-requirement" class="slidebar-list">
+            <h2 class="slidebar-head">急速获取免费方案</h2>
+            <p  class="slidebar-text">
+                超过100位专业咨询师免费为您提供
+                量身定制的团建方案，优质供应链。
+            </p>
+            <div id="slider-button" class="slider-button">
+                <input type="button" value="提交需求" class="slider-button-item">
+            </div>
+        </div>
+    </div>
+</form>
+<script type="application/javascript" src="../../script-dev/listCase.js"></script>
+</body>
+</html>
