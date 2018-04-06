@@ -1,0 +1,518 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="description" content="Reflect Template" />
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+        <title>列表页</title>
+        <link rel="stylesheet" href="css/style_all.css" type="text/css" media="screen" />
+        
+        
+        
+        <!-- to choose another color scheme uncomment one of the foloowing stylesheets and wrap styl1.css into a comment -->
+        <link rel="stylesheet" href="css/style8.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="css/jquery-ui.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="ueditor1_2_2_0-utf8-php/themes/default/ueditor.css" type="text/css" media="screen" />
+        
+        <!--Internet Explorer Trancparency fix-->
+        <!--[if IE 6]>
+        <script src="js/ie6pngfix.js"></script>
+        <script>
+          DD_belatedPNG.fix('#head, a, a span, img, .message p, .click_to_close, .ie6fix');
+        </script>
+        <![endif]--> 
+        
+        <script type='text/javascript' src='js/all-ck.js'></script>
+        <script type='text/javascript' src='ueditor1_2_2_0-utf8-php/editor_config.js'></script>
+        <script type='text/javascript' src='js/custom.js'></script>
+    </head>
+    
+    <body>
+        <div id="top">
+        
+            <div id="head">
+            	<h1 class="logo">
+                	<a href=""></a>
+                </h1>
+                <div class="head_memberinfo">
+                    <div class="head_memberinfo_logo">
+                        <span>1</span>
+                        <img src="images/unreadmail.png" alt=""/>
+                    </div>
+                    
+                    <span class='memberinfo_span'>
+                         欢迎 <a href="">管理员</a>
+                    </span>
+                    
+                    <span class='memberinfo_span'>
+                        <a href="">设置</a>
+                    </span>
+                    
+                    <span>
+                        <a href="login.html">登出</a>
+                    </span>
+                    
+                    <span class='memberinfo_span2'>
+                        <a href="">1 条私信</a>
+                    </span>
+                </div>
+                <!--end head_memberinfo-->
+            
+            </div><!--end head-->
+           	
+            	<div id="bg_wrapper">
+                
+                    <div id="main">
+                        <div id="content">
+
+                            <h2>Table 例子</h2>
+                            <!-- 类dataGrid将被默认初始化。期待一个模板和一个初始化data。用method指定ajax方法，默认为get。-->
+                            <!-- 获取json数据有三种方式： -->
+                            <!-- 1.form内部的json块。在初始化时就加载。 -->
+                            <!-- 2.表单提交。 -->
+                            <!-- 3. 点击没有target属性的a，其href属性会附加在form的action后面提交。 -->
+                            <!-- 需要返回错误信息时，在json中设置error属性 -->
+                            <form action="/json/gridData.json?" class="dataGrid" method="get">
+                                <!-- 模板，使用juicer语法 -->
+                                <script type="text/juicer-tpl">
+                                    <table class="table_liquid datalist" cellspacing="0">
+                                        <caption>
+                                            Table A:ajax示例 
+                                            <input type="submit" value="删除所选"/>
+                                        </caption>
+                                        <thead>
+                                            <tr>
+                                            <!-- 类min将设置单元格宽度为最短 -->
+                                                <th class="nobg min">
+                                                    <label class="inline"><input type="checkbox" onchange="$(this).parents('table').find(':checkbox').attr('checked',!!$(this).attr('checked'))" /> 全选</label>
+                                                </th>
+                                                
+                                                <th><a class="sort {@if sort.key=='种类'}${sort.order}{@/if}" href="?sort/种类/asc" title="点击以排序">种类</a></th>
+                                                <th><a class="sort {@if sort.key=='标签'}${sort.order}{@/if}" href="?sort/标签/asc" title="点击以排序">标签</a></th>
+                                                <th>选项</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {@each list as item}
+                                            <tr>
+                                                <th scope="row">
+                                                   <input type="checkbox" name="${item.name}[]" value="${item.id}" /> 
+                                                </th>
+                                                <td>${item.field1}</td>
+                                                <td>${item.field2}</td>
+                                                <td><a href="del/id/${item.id}">删除</a></td>
+                                            </tr>
+                                        {@/each}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <div class="pagination">
+                                                        {@if page.current != 1}
+                                                        <a href="page/1" title="First Page">« 首页</a>
+                                                        <a href="page/${page.prev}" title="Previous Page">« 前一页</a>
+                                                        {@/if}
+                                                        {@each page.range as index}
+                                                        <a href="page/${index}" class="number {@if index == page.current}current{@/each}" title="${index}">${index}</a>
+                                                        {@/each}
+                                                        {@if page.current != page.count}
+                                                        <a href="page/${page.next}" title="Next Page">后一页 »</a>
+                                                        <a href="page/${page.count}" title="Last Page">尾页 »</a>
+                                                        {@/if}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </script>
+                                <!-- 页面首次载入时的json数据,可选。-->
+                                <script type="text/json">
+                                {
+                                    "sort":{},
+                                    "list":[
+                                        {
+                                            "name":"userId",
+                                            "id":2,
+                                            "field1":"测试字段1",
+                                            "field2":"测试字段2"
+                                        },
+                                        {
+                                            "name":"userId",
+                                            "id":2,
+                                            "field1":"测试字段1",
+                                            "field2":"测试字段2"
+                                        },
+                                        {
+                                            "name":"userId",
+                                            "id":2,
+                                            "field1":"测试字段1",
+                                            "field2":"测试字段2"
+                                        },
+                                        {
+                                            "name":"userId",
+                                            "id":2,
+                                            "field1":"测试字段1",
+                                            "field2":"测试字段2"
+                                        },
+                                        {
+                                            "name":"userId",
+                                            "id":2,
+                                            "field1":"测试字段1",
+                                            "field2":"测试字段2"
+                                        }
+                                    ],
+                                    "page":{
+                                        "prev":7,
+                                        "next":8,
+                                        "current":8,
+                                        "range":[1,2,3,4,5,6,7,8],
+                                        "count":8
+                                    }
+                                }
+                                </script>
+                            </form>
+
+                            <table class="table_liquid datalist" cellspacing="0">
+                                <caption>
+                                    <form action="">
+                                        Table 3: 流体布局示例 (总是扩展到最大宽度)
+                                        <select name="" id="">
+                                            <option value="">筛选</option>
+                                            <option value="">1</option>
+                                            <option value="">2</option>
+                                            <option value="">3</option>
+                                            <option value="">4</option>
+                                            <option value="">5</option>
+                                        </select>
+                                        <input type="text" name="keyword"/>
+                                        <button>查找</button>
+                                    </form>
+                                </caption>
+                                <thead>
+                                    <tr>
+                                        <th class="nobg">流体表格</th>
+                                        <th>种类</th>
+                                        <th>标签</th>
+                                        <th>选项</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    <tr>
+                                        <th>Lorem ipsum dolor</th>
+                                        <td>Blog post</td>
+                                        <td>latin, blind copy</td>
+                                        <td>none</td>
+                                    </tr>
+                                    <tr>
+                                        <th>About me</th>
+                                        <td>Static content</td>
+                                        <td>personal, information</td>
+                                        <td>none</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Portfolio</th>
+                                        <td>Portfolio entry</td>
+                                        <td>project, graphic, web design</td>
+                                        <td>none</td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <th>A random Blog post</th>
+                                        <td>Blog post</td>
+                                        <td>random, post, fun</td>
+                                        <td>none</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="pagination">
+                                                <a href="#" title="First Page">« 首页</a>
+                                                <a href="#" title="Previous Page">« 前一页</a>
+                                                <a href="#" class="number" title="1">1</a>
+                                                <a href="#" class="number" title="2">2</a>
+                                                <a href="#" class="number current" title="3">3</a>
+                                                <a href="#" class="number" title="4">4</a>
+                                                <a href="#" title="Next Page">后一页 »</a>
+                                                <a href="#" title="Last Page">尾页 »</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <table class="table_auto datalist" cellspacing="0">
+                                <caption>
+                                    Table 2: 弹性布局示例 (表格内容决定宽度) 
+                                    <select name="" id="">
+                                        <option value="">选择排序字段</option>
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        <option value="">3</option>
+                                        <option value="">4</option>
+                                        <option value="">5</option>
+                                    </select>
+                                </caption>
+                                <thead>
+                                    <tr>
+                                        <th class="nobg">弹性表格</th>
+                                        <th>种类</th>
+                                        <th>标签</th>
+                                        <th>选项</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Lorem ipsum dolor</th>
+                                        <td>Blog post</td>
+                                        <td>latin, blind copy</td>
+                                        <td><a href="">删除</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>About me</th>
+                                        <td>Static content</td>
+                                        <td>personal, information</td>
+                                        <td>none</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Portfolio</th>
+                                        <td>Portfolio entry</td>
+                                        <td>project, graphic, web design</td>
+                                        <td>none</td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <th>A random Blog post</th>
+                                        <td>Blog post</td>
+                                        <td>random, post, fun</td>
+                                        <td>none</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="pagination">
+                                                <a href="#" title="First Page">« 首页</a>
+                                                <a href="#" title="Previous Page">« 前一页</a>
+                                                <a href="#" class="number" title="1">1</a>
+                                                <a href="#" class="number" title="2">2</a>
+                                                <a href="#" class="number current" title="3">3</a>
+                                                <a href="#" class="number" title="4">4</a>
+                                                <a href="#" title="Next Page">后一页 »</a>
+                                                <a href="#" title="Last Page">尾页 »</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <table class="table_fixed datalist" cellspacing="0">
+                                <caption>Table 1: 固定表格示例</caption>
+                                <thead>
+                                    <tr>
+                                        <th class="nobg">固定表格</th>
+                                        
+                                        <th>种类</th>
+                                        <th>标签</th>
+                                        <th>选项</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    <tr>
+                                        <th scope="row">Lorem ipsum dolor</th>
+                                        <td>Blog post</td>
+                                        
+                                        <td>latin, blind copy</td>
+                                        <td>none</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">About me</th>
+                                        <td>Static content</td>
+                                        <td>personal, information</td>
+                                        
+                                        <td>none</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Portfolio</th>
+                                        <td>Portfolio entry</td>
+                                        <td>project, graphic, web design</td>
+                                        <td>none</td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">A random Blog post</th>
+                                        <td>Blog post</td>
+                                        <td>random, post, fun</td>
+                                        <td>none</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="pagination">
+                                                <a href="#" title="First Page">« 首页</a>
+                                                <a href="#" title="Previous Page">« 前一页</a>
+                                                <a href="#" class="number" title="1">1</a>
+                                                <a href="#" class="number" title="2">2</a>
+                                                <a href="#" class="number current" title="3">3</a>
+                                                <a href="#" class="number" title="4">4</a>
+                                                <a href="#" title="Next Page">后一页 »</a>
+                                                <a href="#" title="Last Page">尾页 »</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>                
+
+                            <table class="table_fixed datalist" cellspacing="0">
+                                <caption>
+                                    Table 0: 多选表格示例
+                                    <button>删除所选</button>
+                                </caption>
+                                <thead>
+                                    <tr>
+                                        <th class="nobg">
+                                            <label class="inline"><input type="checkbox" onchange="$(this).parents('table').find(':checkbox').attr('checked',!!$(this).attr('checked'))" /> 全选</label>
+                                        </th>
+                                        
+                                        <th>Category</th>
+                                        <th>Tags</th>
+                                        <th>Options</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    <tr>
+                                        <th scope="row">
+                                           <input type="checkbox" /> 
+                                        </th>
+                                        <td>Blog post</td>
+                                        
+                                        <td>latin, blind copy</td>
+                                        <td>none</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <input type="checkbox" />
+                                        </th>
+                                        <td>Static content</td>
+                                        <td>personal, information</td>
+                                        
+                                        <td>none</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <input type="checkbox" />
+                                        </th>
+                                        <td>Portfolio entry</td>
+                                        <td>project, graphic, web design</td>
+                                        <td>none</td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <input type="checkbox" />
+                                        </th>
+                                        <td>Blog post</td>
+                                        <td>random, post, fun</td>
+                                        <td>none</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="pagination">
+                                                <a href="#" title="First Page">« 首页</a>
+                                                <a href="#" title="Previous Page">« 前一页</a>
+                                                <a href="#" class="number" title="1">1</a>
+                                                <a href="#" class="number" title="2">2</a>
+                                                <a href="#" class="number current" title="3">3</a>
+                                                <a href="#" class="number" title="4">4</a>
+                                                <a href="#" title="Next Page">后一页 »</a>
+                                                <a href="#" title="Last Page">尾页 »</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            
+                        </div>
+                        <!--end content-->
+                        
+                    </div><!--end main-->
+                    
+                    <div id="sidebar">
+                        <ul class="nav">
+                            <li><a class="headitem item1" href="#">仪表盘</a>
+                                <ul class="opened"><!-- ul items without this class get hiddden by jquery-->
+                                    <li><a href="#">菜单管理</a></li>
+                                    <li><a href="#">脚本页</a></li>
+                                    <li class="current"><a href="#">插件管理</a></li>
+                                    <li><a href="#">用户管理</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="headitem item2" href="#">设置</a>
+                                <ul>
+                                    <li><a href="#">日志设置</a></li>
+                                    <li><a href="#">用户设置</a></li>
+                                    <li><a href="#">找不到结果构建</a></li>
+                                </ul>                            
+                            </li>
+                            <li><a class="headitem item4" href="#">编辑</a>
+                                <ul>
+                                    <li><a href="#">编辑日志</a></li>
+                                    <li><a href="#">编辑页面</a></li>
+                                    <li><a href="#">编辑链接</a></li>
+                                    <li><a href="#">编辑菜单元素</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="headitem item5" href="#">站点搜索</a>
+                                <ul>
+                                    <li><a href="#">基础搜索</a></li>
+                                    <li><a href="#">高级搜索</a></li>
+                                    <li><a href="#">搜索设置</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="headitem item6" href="#">已删除项目</a>
+                                <ul>
+                                    <li><a href="#">内容</a></li>
+                                    <li><a href="#">图片</a></li>
+                                    <li><a href="#">音频</a></li>
+                                    <li><a href="#">视频</a></li>
+                                    <li><a href="#">PDF</a></li>
+                                    <li><a href="#">脚本</a></li>
+                                    <li><a href="#">其他</a></li>
+                                </ul>
+                            </li>
+                        </ul><!--end subnav-->
+
+                        <div class="flexy_datepicker"></div>
+
+                        <ul>
+                         <li><a class="headitem item7" href="#">任务管理</a>
+                            <ul>
+                                <li><a href="#">写博客</a></li>
+                                <li><a href="#">脚本页</a></li>
+                                <li><a href="#">8:00和妹子约会</a></li>
+                            </ul>
+                        </li>
+                    </ul>     
+
+                </div>
+                    <!--end sidebar-->
+                        
+                     </div><!--end bg_wrapper-->
+                     
+                <div id="footer">
+                
+                </div><!--end footer-->
+                
+        </div><!-- end top -->
+        
+    </body>
+    
+</html>

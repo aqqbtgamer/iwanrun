@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="description" content="Reflect Template" />
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+        <title>表单-字段名水平</title>
+        <link rel="stylesheet" href="css/style_all.css" type="text/css" media="screen" />
+        
+        
+        
+        <!-- to choose another color scheme uncomment one of the foloowing stylesheets and wrap styl1.css into a comment -->
+        <link rel="stylesheet" href="css/style8.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="css/jquery-ui.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="ueditor1_2_2_0-utf8-php/themes/default/ueditor.css" type="text/css" media="screen" />
+        
+        <!--Internet Explorer Trancparency fix-->
+        <!--[if IE 6]>
+        <script src="js/ie6pngfix.js"></script>
+        <script>
+          DD_belatedPNG.fix('#head, a, a span, img, .message p, .click_to_close, .ie6fix');
+        </script>
+        <![endif]--> 
+        
+        <script type='text/javascript' src='js/all-ck.js'></script>
+        <script type='text/javascript' src='ueditor1_2_2_0-utf8-php/editor_config.js'></script>
+        <script type='text/javascript' src='js/custom.js'></script>
+    </head>
+    
+    <body>
+        <div id="top">
+        
+            <div id="head">
+            	<h1 class="logo">
+                	<a href=""></a>
+                </h1>
+                
+                <div class="head_memberinfo">
+                	<div class="head_memberinfo_logo">
+                    	<span>1</span>
+                    	<img src="images/unreadmail.png" alt=""/>
+                    </div>
+                    
+                    <span class='memberinfo_span'>
+                   		 欢迎 <a href="">管理员</a>
+                    </span>
+                    
+                    <span class='memberinfo_span'>
+                    	<a href="">设置</a>
+                    </span>
+                    
+                    <span>
+                    	<a href="login.html">登出</a>
+                    </span>
+                    
+                    <span class='memberinfo_span2'>
+                    	<a href="">1 条私信</a>
+                    </span>
+                </div><!--end head_memberinfo-->
+            
+            </div><!--end head-->
+           	
+            	<div id="bg_wrapper">
+                
+                    <div id="main">
+                        <div id="content">
+                            <h2 class="jquery_tab_title">水平状的表单</h2>
+                            <form method="post">
+                                <!-- form_h类用于格式化水平排列的表单 -->
+                                <table class="form_h">
+                                    <tr>
+                                        <th>
+                                            <label for="name">姓名</label>
+                                        </th>
+                                        <td>
+                                            <input class="input-small" type="text" value="input-small" name="name" id="name"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            <label for="mail">E-Mail</label>
+                                        </th>
+                                        <td>
+                                            <input class="input-medium" type="text" value="input-medium" name="mail" id="mail"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            <label for="url">个人站</label>
+                                        </th>
+                                        <td>
+                                            <input class="input-big" type="text" value="input-big" name="url" id="url"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            <label for="flex">柔软的区域</label>
+                                        </th>
+                                        <td>
+                                            <input class="input-flex" type="text" value="input-flex" name="flex" id="flex"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            <label for="date">日期</label>
+                                        </th>
+                                        <td>
+                                            <input class="input-small flexy_datepicker_input" type="text" value="" name="flexy_datepicker" id="date"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                       <th class="vat">
+                                           <label for="textarea2">富文本</label>
+                                       </th>
+                                       <td>
+                                            <!-- 在custom.js中，所有uEditor类的容器都将被初始化为uEditor -->
+                                           <script type="text/plain" class="uEditor" name="editorValue">待编辑的文本</script>
+                                       </td>
+                                   </tr>
+                                    <tr>
+                                        <th>
+                                            <label for="selectbox">列表</label>
+                                        </th>
+                                        <td>
+                                            <!-- data-observer属性指定观者，onchange时会抛出dataChange事件通知他们 -->
+                                            <!-- data-source属性指数据源，dataChange时会向该数据源请求json数据,若请求成功会抛出一个dataRender事件 -->
+                                            <!-- data-template-name属性指定模板名，将用dataRender事件中得到的数据来渲染模板,渲染完成后抛出onchange事件以通知它的观察者(如果有) -->
+                                            <select name="selectbox" id="selectbox_A" data-observer="#selectbox_B" data-source="json/listdata.json" data-template-name="option">
+                                                <option value="0">#selectbox_A</option>
+                                                <option value="1">主页</option>
+                                                <option value="2">成员</option>
+                                                <option value="3">公文包</option>
+                                                <option value="4">博客</option>
+                                            </select>
+                                            <select name="selectbox" id="selectbox_B" data-source="json/listdata.json" data-template-name="option">
+                                                <option value="">#selectbox_B</option>
+                                            </select> 
+                                            这个例子设定selectbox_B观察selectbox_A的change
+                                            <!-- juicer模板，有name属性以供调用。juicer的文档位于http://juicer.name/-->
+                                            <script type="text/juicer" name="option">
+                                                {@each list as item}
+                                                <option value="${item.value}">${item.text}</option>
+                                                {@/each}
+                                            </script>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>单选</th>
+                                        <!-- 多个表单项可在他们的父节点上设置观察者 -->
+                                        <td data-observer="#selectbox_A">
+                                            <label for="radiobutton1" class="inline">True</label>
+                                            <input id="radiobutton1" name="radiobutton" type="radio" value="1" class="jquery_improved" checked="checked"/>
+                                            
+                                            <label for="radiobutton2" class="inline">False</label>
+                                            <input id="radiobutton2" name="radiobutton" type="radio" value="2" class="jquery_improved"/>
+                                            这个例子设定selectbox_A观察这组单选按钮的change
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>多选</th>
+                                        <td>
+                                            <label for="checkbox1" class="inline">True</label>
+                                            <input type="checkbox" value="1" name="checkbox1" id="checkbox1" />
+                                            <label for="checkbox2" class="inline">False</label>
+                                            <input type="checkbox" value="2" name="checkbox2" id="checkbox2" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>文件</th>
+                                        <td><input type="file" /></td>
+                                    </tr>
+                                    <tr>
+                                       <th class="vat">
+                                           <label for="textarea">写点儿字</label>
+                                       </th>
+                                       <td>
+                                           <textarea name="textarea" id="textarea" class="area-small">area-small</textarea>
+                                           <textarea name="textarea" id="textarea" class="area-medium">area-medium</textarea>
+                                           <textarea name="textarea" id="textarea">default</textarea>
+                                           <textarea name="textarea" id="textarea" class="area-big">area-big</textarea>
+                                       </td>
+                                   </tr>
+
+                                   
+                                   <tr>
+                                        <th class="vat">图片</th>
+                                        <td class="imgUploadManager">
+                                            <input type="file" name="ooxx[]"/>
+                                            <label><input type="checkbox" class="checkAll"/>全选</label>
+                                            <label><button class="delAll">删除</button></label>
+                                            <ul class="imgManage">
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                            </ul>
+                                            
+                                        </td>
+                                    </tr>
+                                   <tr>
+                                    <th></th>
+                                    <td>
+                                        <input class="button" name="submit" type="submit" value="Submit"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                        </div>
+                        <!--end content-->
+                        
+                    </div><!--end main-->
+                    
+                    <div id="sidebar">
+                            <ul class="nav">
+                                <li><a class="headitem item1" href="#">仪表盘</a>
+                                    <ul class="opened"><!-- ul items without this class get hiddden by jquery-->
+                                    <li><a href="#">菜单管理</a></li>
+                                    <li><a href="#">脚本页</a></li>
+                                    <li class="current"><a href="#">插件管理</a></li>
+                                    <li><a href="#">用户管理</a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="headitem item2" href="#">设置</a>
+                                    <ul>
+                                    <li><a href="#">日志设置</a></li>
+                                    <li><a href="#">用户设置</a></li>
+                                    <li><a href="#">找不到结果构建</a></li>
+                                    </ul>                            
+                                </li>
+                                <li><a class="headitem item4" href="#">编辑</a>
+                                    <ul>
+                                    <li><a href="#">编辑日志</a></li>
+                                    <li><a href="#">编辑页面</a></li>
+                                    <li><a href="#">编辑链接</a></li>
+                                    <li><a href="#">编辑菜单元素</a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="headitem item5" href="#">站点搜索</a>
+                                    <ul>
+                                    <li><a href="#">基础搜索</a></li>
+                                    <li><a href="#">高级搜索</a></li>
+                                    <li><a href="#">搜索设置</a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="headitem item6" href="#">已删除项目</a>
+                                    <ul>
+                                    <li><a href="#">内容</a></li>
+                                    <li><a href="#">图片</a></li>
+                                    <li><a href="#">音频</a></li>
+                                    <li><a href="#">视频</a></li>
+                                    <li><a href="#">PDF</a></li>
+                                    <li><a href="#">脚本</a></li>
+                                    <li><a href="#">其他</a></li>
+                                    </ul>
+                                </li>
+                            </ul><!--end subnav-->
+                            
+                          <div class="flexy_datepicker"></div>
+                           
+                           <ul>
+                           <li><a class="headitem item7" href="#">任务管理</a>
+                                    <ul>
+                                    <li><a href="#">写博客</a></li>
+                                    <li><a href="#">脚本页</a></li>
+                                    <li><a href="#">8:00和妹子约会</a></li>
+                                    </ul>
+                                </li>
+                           </ul>     
+                            
+                        </div><!--end sidebar-->
+                        
+                     </div><!--end bg_wrapper-->
+                     
+                <div id="footer">
+                
+                </div><!--end footer-->
+                
+        </div><!-- end top -->
+        
+    </body>
+    
+</html>

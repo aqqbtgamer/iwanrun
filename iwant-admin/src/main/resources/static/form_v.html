@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="description" content="Reflect Template" />
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+        <title>表单－字段名垂直</title>
+        <link rel="stylesheet" href="css/style_all.css" type="text/css" media="screen" />
+        
+        
+        
+        <!-- to choose another color scheme uncomment one of the foloowing stylesheets and wrap styl1.css into a comment -->
+        <link rel="stylesheet" href="css/style8.css" type="text/css" media="screen" />
+        
+        <link rel="stylesheet" href="css/jquery-ui.css" type="text/css" media="screen" />
+        
+        <link rel="stylesheet" href="ueditor1_2_2_0-utf8-php/themes/default/ueditor.css" type="text/css" media="screen" />
+        <!--Internet Explorer Trancparency fix-->
+        <!--[if IE 6]>
+        <script src="js/ie6pngfix.js"></script>
+        <script>
+          DD_belatedPNG.fix('#head, a, a span, img, .message p, .click_to_close, .ie6fix');
+        </script>
+        <![endif]--> 
+
+        <script type='text/javascript' src='js/all-ck.js'></script>
+        <script type='text/javascript' src='ueditor1_2_2_0-utf8-php/editor_config.js'></script>
+        <script type='text/javascript' src='js/custom.js'></script>
+    </head>
+    
+    <body>
+        <div id="top">
+        
+            <div id="head">
+            	<h1 class="logo">
+                	<a href=""></a>
+                </h1>
+                
+                <div class="head_memberinfo">
+                	<div class="head_memberinfo_logo">
+                    	<span>1</span>
+                    	<img src="images/unreadmail.png" alt=""/>
+                    </div>
+                    
+                    <span class='memberinfo_span'>
+                   		 Welcome <a href="">Admin</a>
+                    </span>
+                    
+                    <span class='memberinfo_span'>
+                    	<a href="">Settings</a>
+                    </span>
+                    
+                    <span>
+                    	<a href="login.html">logout</a>
+                    </span>
+                    
+                    <span class='memberinfo_span2'>
+                    	<a href="">1 Private Message recieved</a>
+                    </span>
+                </div><!--end head_memberinfo-->
+            
+            </div><!--end head-->
+           	
+            	<div id="bg_wrapper">
+                
+                    <div id="main">
+                        <div id="content">
+                            <form method="post">
+                                <p>
+                                    <label for="name">名字（小输入字段）</label>
+                                    <input class="input-small" type="text" value="input-small" name="name" id="name"/>
+                                </p>
+
+                                <p>
+                                    <label for="mail">E-Mail地址（中型输入字段）</label>
+                                    <input class="input-medium" type="text" value="input-medium" name="mail" id="mail"/>
+                                </p>
+
+                                <p>
+                                    <label for="url">您的网站（大输入字段）</label>
+                                    <input class="input-big" type="text" value="input-big" name="url" id="url"/>
+                                </p>
+
+                                <p>
+                                    <label for="flex">弹性域（灵活的输入字段，宽度窗口的大小取决于）</label>
+                                    <input class="input-flex" type="text" value="input-flex" name="flex" id="flex"/>
+                                </p>
+
+                                <p>
+                                    <label for="date">点击输入字段选择日期</label>
+                                    <input class="input-small flexy_datepicker_input" type="text" value="" name="flexy_datepicker" id="date"/>    
+                                </p>
+
+                                <p>
+                                    <label for="selectbox">这是一个下拉列表</label>
+                                    <select name="selectbox" id="selectbox" >
+                                        <option value="">Choose an option</option>
+                                        <option value="1">Home</option>
+                                        <option value="2">Member</option>
+                                        <option value="3">Portfolio</option>
+                                        <option value="4">Blog</option>
+                                    </select>
+                                </p>
+
+                                <p>
+                                    <label for="radiobutton1" class="inline">True</label>
+                                    <input id="radiobutton1" name="radiobutton" type="radio" value="1" class="jquery_improved" checked="checked"/>
+
+                                    <label for="radiobutton2" class="inline">False</label>
+                                    <input id="radiobutton2" name="radiobutton" type="radio" value="2" class="jquery_improved"/>
+                                </p>
+
+                                <p>
+                                    <label for="checkbox1" class="inline">True</label>
+                                    <input type="checkbox" value="1" name="checkbox1" id="checkbox1" />
+                                    <label for="checkbox2" class="inline">False</label>
+                                    <input type="checkbox" value="2" name="checkbox2" id="checkbox2" />
+                                </p>
+
+                                <p>
+                                    <label for="textarea">上传文件</label>
+                                    <input type="file"/>
+                                </p>
+                                
+                                <p>
+                                    <label for="textarea">输入一些文字</label>
+                                    <textarea name="textarea" id="textarea" class="area-small">area-small</textarea>
+                                </p>
+                                <p>
+                                    <label for="textarea">输入一些文字</label>
+                                    <textarea name="textarea" id="textarea" class="area-medium">area-medium</textarea>
+                                </p>
+                                <p>
+                                    <label for="textarea">输入一些文字</label>
+                                    <textarea name="textarea" id="textarea">default</textarea>
+                                </p>
+                                <p>
+                                    <label for="textarea">输入一些文字</label>
+                                    <textarea name="textarea" id="textarea" class="area-big">area-big</textarea>
+                                </p>
+
+                                <p>
+                                    <label for="textarea2">进入丰富的文本编辑器的一些文字</label>
+                                     <!-- 在custom.js中，所有uEditor类的容器都将被初始化为uEditor -->
+                                    <script type="text/plain" class="uEditor" name="editorValue">待编辑的文本</script>
+                                </p>
+
+                                    <label>图片</label>
+                                    <div class="imgUploadManager">
+                                            <input type="file" name="ooxx[]"/>
+                                            <label><input type="checkbox" class="checkAll"/>全选</label>
+                                            <label><button class="delAll">删除</button></label>
+                                            <ul class="imgManage">
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                                <li>
+                                                    <img src="images/1210000.jpg" alt="" />
+                                                    <input type="checkbox" />
+                                                    <a>删除</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                <p>
+                                    <input class="button" name="submit" type="submit" value="Submit"/>
+                                </p>
+                            </form>
+                        </div>
+                        <!--end content-->
+                        
+                    </div><!--end main-->
+                    
+                    <div id="sidebar">
+                            <ul class="nav">
+                                <li><a class="headitem item1" href="#">Dashboard</a>
+                                    <ul class="opened"><!-- ul items without this class get hiddden by jquery-->
+                                    <li><a href="#">Menu Manager</a></li>
+                                    <li><a href="#">Script Pages</a></li>
+                                    <li class="current"><a href="#">Plugin Manager</a></li>
+                                    <li><a href="#">User Manager</a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="headitem item2" href="#">Settings</a>
+                                    <ul>
+                                    <li><a href="#">Post settings</a></li>
+                                    <li><a href="#">User settings</a></li>
+                                    <li><a href="#">Permalink Structure</a></li>
+                                    </ul>                            
+                                </li>
+                                <li><a class="headitem item4" href="#">Edit</a>
+                                    <ul>
+                                    <li><a href="#">Edit Posts</a></li>
+                                    <li><a href="#">Edit Pages</a></li>
+                                    <li><a href="#">Edit Links</a></li>
+                                    <li><a href="#">Edit Menu Items</a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="headitem item5" href="#">Search Site</a>
+                                    <ul>
+                                    <li><a href="#">Basic Search</a></li>
+                                    <li><a href="#">Advanced Search</a></li>
+                                    <li><a href="#">Search Option</a></li>
+                                    </ul>
+                                </li>
+                                <li><a class="headitem item6" href="#">Deleted Items</a>
+                                    <ul>
+                                    <li><a href="#">Content</a></li>
+                                    <li><a href="#">Images</a></li>
+                                    <li><a href="#">Audio</a></li>
+                                    <li><a href="#">Video</a></li>
+                                    <li><a href="#">PDF</a></li>
+                                    <li><a href="#">Scripts</a></li>
+                                    <li><a href="#">Other</a></li>
+                                    </ul>
+                                </li>
+                            </ul><!--end subnav-->
+                            
+                          <div class="flexy_datepicker"></div>
+                           
+                           <ul>
+                           <li><a class="headitem item7" href="#">Task Manager</a>
+                                    <ul>
+                                    <li><a href="#">Write Blogpost</a></li>
+                                    <li><a href="#">Script Pages</a></li>
+                                    <li><a href="#">Meeting at 8.00</a></li>
+                                    </ul>
+                                </li>
+                           </ul>     
+                            
+                        </div><!--end sidebar-->
+                        
+                     </div><!--end bg_wrapper-->
+                     
+                <div id="footer">
+                
+                </div><!--end footer-->
+                
+        </div><!-- end top -->
+        
+    </body>
+    
+</html>
