@@ -10,31 +10,41 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.iwantrun.admin.utils.LoginTokenVerifyUtils;
+
 public class LoginInterceptor implements HandlerInterceptor {
 	
 	Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
 	
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 		logger.info("into pre handles");
-		String login_token = null ;
+		String loginToken = null ;
+		String currentUser = null ;
+		String sessionId = request.getSession().getId();
 		Cookie[] cookies = request.getCookies();
 		//search for login_token
 		for(Cookie cookie : cookies) {
 			if("login_token".equals(cookie.getName())) {
-				login_token = cookie.getValue();
+				loginToken = cookie.getValue();
+			}
+			if("current_user".equals(cookie.getName())) {
+				currentUser = cookie.getValue();
 			}
 		}
-		if(login_token == null) {
-			logger.info("login_token not found");
-			try {
-				response.sendRedirect(request.getContextPath()+"/login");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		if(loginToken == null) {
+			logger.info("login_token not found");			
+			response.sendRedirect(request.getContextPath()+"/login");
 			return false ;
 		}else {
-			return true;
+			if(LoginTokenVerifyUtils.verifyLoginToken(sessionId, currentUser, loginToken)){
+				logger.info("login_token valid");
+				return true ;
+			}else {
+				logger.info("login_token invalid");
+				response.sendRedirect(request.getContextPath()+"/login");
+				return false;
+			}
 		}
 				
 	}
