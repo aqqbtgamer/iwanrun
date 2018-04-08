@@ -1,4 +1,4 @@
-package com.iwantrun.admin.utils;
+package com.iwantrun.core.service.utils;
 
 import org.junit.Test;
 

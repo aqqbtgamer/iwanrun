@@ -36,7 +36,7 @@ public class LoginPageController {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		logger.info("login user :"+username );
-		String loginToken =loginService.getLoginTokenByCetification(username, AESUtils.encode(password));
+		String loginToken =loginService.getLoginTokenByCetification(username, AESUtils.encode(password),request.getSession().getId());
 		if(!StringUtils.isEmpty(loginToken)) {
 			Cookie cookie = new Cookie("login_token", loginToken);
 			cookie.setPath(request.getContextPath());

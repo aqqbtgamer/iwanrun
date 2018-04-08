@@ -20,11 +20,13 @@ public class LoginTokenService {
     private RestTemplate restTemplate;
 
 	
-	public String getLoginTokenByCetification(String username, String certification) {
+	public String getLoginTokenByCetification(String username, String certification,String sessionId) {
 		String serviceUrl = env.getProperty("application.serverbase")+env.getProperty("application.loginToken.service");
 		JSONObject object = new JSONObject();
 		object.put("username",username);
 		object.put("certification", certification);
+		object.put("role", 1);
+		object.put("sessionId", sessionId);
 		Message message = new Message();
 		message.setRequestMethod(env.getProperty("application.loginToken.service"));
 		message.setMessageBody(object.toJSONString());
