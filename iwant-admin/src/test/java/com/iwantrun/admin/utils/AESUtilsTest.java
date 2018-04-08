@@ -1,7 +1,5 @@
 package com.iwantrun.admin.utils;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
