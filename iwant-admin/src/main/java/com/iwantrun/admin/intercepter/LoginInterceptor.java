@@ -24,6 +24,11 @@ public class LoginInterceptor implements HandlerInterceptor {
 		String sessionId = request.getSession().getId();
 		Cookie[] cookies = request.getCookies();
 		//search for login_token
+		if(cookies == null) {
+			logger.info("login_token not found");			
+			response.sendRedirect(request.getContextPath()+"/login");
+			return false ;
+		}
 		for(Cookie cookie : cookies) {
 			if("login_token".equals(cookie.getName())) {
 				loginToken = cookie.getValue();

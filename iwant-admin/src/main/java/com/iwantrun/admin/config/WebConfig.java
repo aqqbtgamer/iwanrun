@@ -1,12 +1,12 @@
 package com.iwantrun.admin.config;
 
-import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.iwantrun.admin.intercepter.LoginInterceptor;
 
-@Configurable
+@Configuration
 //@EnableWebMvc
 //@ComponentScan(basePackageClasses=WebConfig.class)
 @Component
@@ -25,7 +25,8 @@ public class WebConfig  implements WebMvcConfigurer{
 	        				      "/json/**",
 	        				      "/ueditor1_2_2_0-utf8-php/**",
 	        				      "/login.html",
-	        				      "/login"
+	        				      "/login",
+	        				      "/getLoginToken"
 	        		}		
 	        );
 	        WebMvcConfigurer.super.addInterceptors(registry);

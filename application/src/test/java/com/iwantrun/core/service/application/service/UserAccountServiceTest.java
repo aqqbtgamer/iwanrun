@@ -22,7 +22,7 @@ public class UserAccountServiceTest {
 	private UserAccountService userService;
 
 	@Test
-	public void test() {
+	public void testFindAll() {
 		if(userService == null) {
 			fail("test setting not valid");
 		}else {
@@ -33,6 +33,22 @@ public class UserAccountServiceTest {
 			}
 		}
 		
+	}
+	
+	@Test
+	public void testFindByName() {
+		if(userService == null) {
+			fail("test setting not valid");
+		}else {
+			List<UserAccount> resultList = userService.findUserByName("admin",1);
+			assertNotNull(resultList);
+			assertEquals(1, resultList.size());
+			UserAccount item = resultList.get(0);
+			assertEquals("admin",item.getUsername());
+			List<UserAccount> resultList1 = userService.findUserByName("admin1",1);
+			assertNotNull(resultList1);
+			assertEquals(0, resultList1.size());
+		}
 	}
 
 }
