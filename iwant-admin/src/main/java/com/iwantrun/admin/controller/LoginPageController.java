@@ -38,11 +38,17 @@ public class LoginPageController {
 		logger.info("login user :"+username );
 		String loginToken =loginService.getLoginTokenByCetification(username, AESUtils.encode(password),request.getSession().getId());
 		if(!StringUtils.isEmpty(loginToken)) {
-			Cookie cookie = new Cookie("login_token", loginToken);
-			cookie.setPath(request.getContextPath());
-			response.addCookie(cookie);
+			Cookie cookie1 = new Cookie("login_token", loginToken);
+			cookie1.setPath(request.getContextPath());
+			response.addCookie(cookie1);
+			Cookie cookie2 = new Cookie("current_user", username);
+			cookie2.setPath(request.getContextPath());
+			response.addCookie(cookie2);
+			response.sendRedirect("home.html");
+		}else {
+			response.sendRedirect("login.html?loginerror=true");
 		}
-		response.sendRedirect("home.html");
+		
 		return null;
 	}
 }

@@ -33,10 +33,11 @@
           DD_belatedPNG.fix('#head, a, a span, img, .message p, .click_to_close, .ie6fix');
         </script>
         <![endif]--> 
-        
+        <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
         <script type='text/javascript' src='js/all-ck.js'></script>
         <script type='text/javascript' src='ueditor1_2_2_0-utf8-php/editor_config.js'></script>
         <script type='text/javascript' src='js/custom.js'></script>
+        <script type="text/javascript" src="js/utils.js"></script>
     </head>
     
     <body class="nobackground">
@@ -72,9 +73,21 @@
             </form>
         </div>
         
-        <div class="login_message message error undisplay" >
-          <p>Wrong Username or password.</p>
+        <div class="login_message message error undisplay"  id="info-text">
+          <p>用户名或者密码错误</p>
         </div>
     </body>
-    
+    <script type="text/javascript">
+        function disPlayLoginMessage(){
+            if("true" == getUrlParam("loginerror")){
+                $("#info-text").removeClass("undisplay")
+            }
+        }
+
+        $(document).ready(
+            function(){
+                disPlayLoginMessage();
+            }
+        )
+    </script>
 </html>
