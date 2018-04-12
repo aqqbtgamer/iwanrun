@@ -11,6 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
+import com.iwantrun.core.service.application.transfer.Message;
+import com.iwantrun.core.service.utils.LoginTokenVerifyUtils;
+
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 
 @Aspect
 @Component
@@ -27,10 +32,30 @@ public class ControllInvokerIntercepter {
 	public Object intercepter(ProceedingJoinPoint  point) {
 		logger.info("enter controller intercepter");
 		Signature signature = point.getSignature();
+		Object[] args =point.getArgs();
 		MethodSignature methodSignature = (MethodSignature)signature;
 		NeedTokenVerify need = methodSignature.getMethod().getAnnotation(NeedTokenVerify.class);
 		if(need != null) {
 			logger.info("need TokenVerify");
+			boolean validToken = false ;
+			try {
+				if(args != null && args.length >0) {
+					for(Object arg : args) {
+						if(arg instanceof Message) {
+							String messageBody = ((Message)arg).getMessageBody();
+							JSONObject object =(JSONObject) JSONValue.parse(messageBody);							
+							validToken = 
+									LoginTokenVerifyUtils.verifyLoginToken
+									(object.getAsString("sessionId"), object.getAsString("currentUser"), object.getAsString("loginToken"));
+						}
+					}
+				}
+				if(!validToken) {
+					return "token verify failed  not valid user";
+				}
+			}catch(Exception e) {
+				logger.info("getting input params error");
+			}
 		}		
 		try {
 			return point.proceed();
