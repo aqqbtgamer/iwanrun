@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
 import com.iwantrun.core.service.application.domain.UserAccount;
 import com.iwantrun.core.service.application.service.LoginTokenService;
 import com.iwantrun.core.service.application.service.UserAccountService;
@@ -57,6 +58,12 @@ public class LoginTokenGenerationController {
 			}
 		}
 		return response ;
+	}
+	
+	@RequestMapping(value="/application/verifyToken")
+	@NeedTokenVerify
+	public String testTokenVerify() {
+		return "only test dummy";
 	}
 
 }
