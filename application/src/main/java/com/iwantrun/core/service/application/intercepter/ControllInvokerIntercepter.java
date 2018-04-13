@@ -42,8 +42,8 @@ public class ControllInvokerIntercepter {
 				if(args != null && args.length >0) {
 					for(Object arg : args) {
 						if(arg instanceof Message) {
-							String messageBody = ((Message)arg).getMessageBody();
-							JSONObject object =(JSONObject) JSONValue.parse(messageBody);							
+							String accessToken = ((Message)arg).getAccessToken();
+							JSONObject object =(JSONObject) JSONValue.parse(accessToken);							
 							validToken = 
 									LoginTokenVerifyUtils.verifyLoginToken
 									(object.getAsString("sessionId"), object.getAsString("currentUser"), object.getAsString("loginToken"));

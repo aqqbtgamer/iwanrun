@@ -57,7 +57,21 @@ public class LoginTokenGenerationController {
 				logger.warn("password not correct with input");
 			}
 		}
+		response.setRequestMethod("LoginTokenGenerationController.generateLoginToken");
 		return response ;
+	}
+	
+	@RequestMapping(value="/application/refreshToken")
+	@NeedTokenVerify
+	public Message refreshLoginToken(@RequestBody Message message) {
+		Message response = new Message();
+		String accessToken = message.getAccessToken();
+		JSONObject object =(JSONObject) JSONValue.parse(accessToken);
+		String token = logintokenService.tokenGenerate(object.getAsString("tokenHolder"), object.getAsString("tokenSession"));
+		response.setAccessToken(message.getAccessToken());
+		response.setMessageBody(token);
+		response.setRequestMethod("LoginTokenGenerationController.refreshLoginToken");
+		return response;
 	}
 	
 	@RequestMapping(value="/application/verifyToken")
