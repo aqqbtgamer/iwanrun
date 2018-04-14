@@ -16,7 +16,7 @@
 
     <link rel="stylesheet" href="css/jquery-ui.css" type="text/css" media="screen" />
 
-    <link rel="stylesheet" href="ueditor1_2_2_0-utf8-php/themes/default/ueditor.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="ueditor1_4_3_3-utf8-jsp/utf8-jsp/themes/default/ueditor.css" type="text/css" media="screen" />
 
     <link rel="stylesheet" href="css/css_dev/style_dev_all.css">
 
@@ -28,8 +28,9 @@
     </script>
     <![endif]-->
 
-    <script type='text/javascript' src='js/all-ck.js'></script>
-    <script type='text/javascript' src='ueditor1_2_2_0-utf8-php/editor_config.js'></script>
+   <script type='text/javascript' src='js/all-ck.js'></script>
+   <!-- <script type='text/javascript' src='ueditor1_2_2_0-utf8-php/editor_config.js'></script>-->
+
     <script type='text/javascript' src='js/custom.js'></script>
     <script type="text/javascript" src="js/js_dev/locationlist.app.js"></script>
     <style type="text/css">
@@ -78,8 +79,8 @@
                 <h2 class="jquery_tab_title">场地列表</h2>
                 <table class="table_liquid datalist" cellspacing="0">
                     <caption>
-                        <form action="">
-                            <button>新增</button>
+
+                            <button method="href" to="createLocation.html">新增</button>
                             <select name="" id="">
                                 <option value="">筛选</option>
                                 <option value="">场地名称</option>
@@ -90,7 +91,7 @@
                             </select>
                             <input type="text" name="keyword"/>
                             <button>查找</button>
-                        </form>
+
                     </caption>
                     <thead>
                     <tr>
@@ -107,7 +108,7 @@
 
                     <tr>
                         <th><input type="checkbox"></th>
-                        <td>Lorem ipsum dolor</td>
+                        <th>Lorem ipsum dolor</th>
                         <td>Blog post</td>
                         <td>latin, blind copy</td>
                         <td>none</td>

@@ -3,7 +3,7 @@ $(document).ready(function() {
 	kriesi_navigation(".nav"); /*remove this if you dont want a jquery sidebar menu*/
 	kriesi_closeable_divs(".closeable"); /*remove this if you dont want message box to be closeable*/
 	$(".flexy_datepicker, .flexy_datepicker_input").datepicker(); //datepicker input field and box
-	$("#dialog").dialog(); //pop up dialog window on pageopen.
+	//$("#dialog").dialog(); //pop up dialog window on pageopen.
 	// 初始化uEditor
 	if (window.UEDITOR_CONFIG) {
 		window.UEDITOR_CONFIG.UEDITOR_HOME_URL = "/ueditor1_2_2_0-utf8-php/";

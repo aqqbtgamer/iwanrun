@@ -23,7 +23,7 @@ public class WebConfig  implements WebMvcConfigurer{
 	        				      "/images/**",
 	        				      "/js/**",
 	        				      "/json/**",
-	        				      "/ueditor1_2_2_0-utf8-php/**",
+	        				      "/ueditor1_4_3_3-utf8-jsp/**",
 	        				      "/login.html",
 	        				      "/login",
 	        				      "/getLoginToken"
