@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.iwantrun.admin.constant.AdminApplicationConstants;
 import com.iwantrun.admin.intercepter.LoginInterceptor;
 import com.iwantrun.admin.service.LoginTokenService;
 import com.iwantrun.admin.utils.AESUtils;
@@ -28,7 +29,7 @@ public class LoginPageController {
 	
 	@RequestMapping(value="/login")
 	public String loginPage(HttpServletRequest request,HttpServletResponse response) {
-		return "login";
+		return AdminApplicationConstants.LOGIN_PAGE;
 	}
 	
 	@RequestMapping(value="/getLoginToken")
@@ -38,15 +39,15 @@ public class LoginPageController {
 		logger.info("login user :"+username );
 		String loginToken =loginService.getLoginTokenByCetification(username, AESUtils.encode(password),request.getSession().getId());
 		if(!StringUtils.isEmpty(loginToken)) {
-			Cookie cookie1 = new Cookie("login_token", loginToken);
+			Cookie cookie1 = new Cookie(AdminApplicationConstants.LOGIN_TOKEN, loginToken);
 			cookie1.setPath(request.getContextPath());
 			response.addCookie(cookie1);
-			Cookie cookie2 = new Cookie("current_user", username);
+			Cookie cookie2 = new Cookie(AdminApplicationConstants.USER_TOKEN, username);
 			cookie2.setPath(request.getContextPath());
 			response.addCookie(cookie2);
-			response.sendRedirect("home.html");
+			response.sendRedirect(AdminApplicationConstants.HOME_PAGE_FILE);
 		}else {
-			response.sendRedirect("login.html?loginerror=true");
+			response.sendRedirect(AdminApplicationConstants.LOGIN_PAGE_FILE+"?loginerror=true");
 		}
 		
 		return null;

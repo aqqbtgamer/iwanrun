@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.iwantrun.admin.constant.AdminApplicationConstants;
 import com.iwantrun.admin.utils.LoginTokenVerifyUtils;
 
 public class LoginInterceptor implements HandlerInterceptor {
@@ -26,20 +27,20 @@ public class LoginInterceptor implements HandlerInterceptor {
 		//search for login_token
 		if(cookies == null) {
 			logger.info("login_token not found");			
-			response.sendRedirect(request.getContextPath()+"/login");
+			response.sendRedirect(request.getContextPath()+"/"+AdminApplicationConstants.LOGIN_PAGE);
 			return false ;
 		}
 		for(Cookie cookie : cookies) {
-			if("login_token".equals(cookie.getName())) {
+			if(AdminApplicationConstants.LOGIN_TOKEN.equals(cookie.getName())) {
 				loginToken = cookie.getValue();
 			}
-			if("current_user".equals(cookie.getName())) {
+			if(AdminApplicationConstants.USER_TOKEN.equals(cookie.getName())) {
 				currentUser = cookie.getValue();
 			}
 		}
 		if(loginToken == null) {
 			logger.info("login_token not found");			
-			response.sendRedirect(request.getContextPath()+"/login");
+			response.sendRedirect(request.getContextPath()+"/"+AdminApplicationConstants.LOGIN_PAGE);
 			return false ;
 		}else {
 			if(LoginTokenVerifyUtils.verifyLoginToken(sessionId, currentUser, loginToken)){
@@ -47,7 +48,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 				return true ;
 			}else {
 				logger.info("login_token invalid");
-				response.sendRedirect(request.getContextPath()+"/login");
+				response.sendRedirect(request.getContextPath()+"/"+AdminApplicationConstants.LOGIN_PAGE);
 				return false;
 			}
 		}

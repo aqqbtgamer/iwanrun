@@ -26,7 +26,7 @@ public class Locations {
 	@Column(name="group_number_limit")
 	private String groupNumberLimit ;
 	
-	@Column(name="activity_province_code")
+	@Column(name="group_number_limit_code")
 	private String groupNumberLimitCode ;
 	
 	@Column(name="activity_province_code")
@@ -70,6 +70,12 @@ public class Locations {
 	
 	@Column(name="descirbe_text3")
 	private String descirbeText3;
+	
+	@Column(name="location_type_code")
+	private String locationTypeCode ;
+	
+	@Column(name="special_tags_code")
+	private String specialTagsCode ;
 
 	public int getId() {
 		return id;
@@ -190,5 +196,55 @@ public class Locations {
 	public void setQrCode(String qrCode) {
 		this.qrCode = qrCode;
 	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getDescirbeText1() {
+		return descirbeText1;
+	}
+
+	public void setDescirbeText1(String descirbeText1) {
+		this.descirbeText1 = descirbeText1;
+	}
+
+	public String getDescirbeText2() {
+		return descirbeText2;
+	}
+
+	public void setDescirbeText2(String descirbeText2) {
+		this.descirbeText2 = descirbeText2;
+	}
+
+	public String getDescirbeText3() {
+		return descirbeText3;
+	}
+
+	public void setDescirbeText3(String descirbeText3) {
+		this.descirbeText3 = descirbeText3;
+	}
+
+	public String getLocationTypeCode() {
+		return locationTypeCode;
+	}
+
+	public void setLocationTypeCode(String locationTypeCode) {
+		this.locationTypeCode = locationTypeCode;
+	}
+
+	public String getSpecialTagsCode() {
+		return specialTagsCode;
+	}
+
+	public void setSpecialTagsCode(String specialTagsCode) {
+		this.specialTagsCode = specialTagsCode;
+	}
+	
+	
 
 }
