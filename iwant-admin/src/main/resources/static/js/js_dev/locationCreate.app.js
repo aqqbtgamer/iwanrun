@@ -2,29 +2,30 @@
  * Created by WXP22 on 2018/4/14.
  */
 
+var uploadServer = '/iwant_admin/remote/fileupload';
+var submitUrl = '/iwant_admin/location/add'
+
 $(document).ready(
     function(){
         initUE();
-        bindUploadFile('mainImageUpload','/iwant_admin/remote/fileupload','mainImage');
+        bindUploadFile('mainImageUpload',uploadServer,'mainImage',singleDisplay);
+        bindUploadFile('uploadedLocationImages',uploadServer,'imgManage',mutipleDisplay);
+        bindDataSubmit('submitForm',
+            new Array('name',
+                'location_type_code',
+                'special_tags',
+                'group_number_limit_code',
+                'activity_province_code',
+                'activity_city_code',
+                'activity_dist_code',
+                'location',
+                'mainImage',
+                'imgManage'
+            ),
+            submitUrl);
     }
 );
 
-function initUE() {
-    ue.ready(function (obj) {
-        var editorId = '#' + ue.container.id;
-        $(editorId).css('max-width', 800);
-    });
-}
 
 
-function bindUploadFile(id,url,displayId){
-	console.log("绑定："+id+"的上传事件")
-    $("#"+id).change(
-        function(){
-           var callback = function(param){
-               $("#"+displayId).prop("src",param);              
-           }
-           fileUpload(id,url,callback);
-        }
-    );
-}
+

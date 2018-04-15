@@ -30,10 +30,13 @@
 
     <script type='text/javascript' src='js/all-ck.js'></script>
     <!-- <script type='text/javascript' src='ueditor1_2_2_0-utf8-php/editor_config.js'></script>-->
+    <!-- <script type="text/javascript" scr="js/jquery.js"></script> -->
+    <script type="text/javascript" src="js/utf8-jsp/ueditor.config.js"></script>
     <script type="text/javascript" src="ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.config.js"></script>
     <script type="text/javascript" src="ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.all.js"></script>
     <script type='text/javascript' src='js/custom.js'></script>
     <script type="text/javascript" src="js/js_dev/common.app.js"></script>
+
 </head>
 
 <body>
@@ -85,7 +88,7 @@
                         <th> <label for="location_type_code">场地类型</label></th>
                         <td>
                             <select name="location_type_code"  id="location_type_code">
-                                <option value="">体育馆</option>
+                                <option value="1">体育馆</option>
                             </select>
                         </td>
                     </tr>
@@ -93,16 +96,16 @@
                         <th> <label >特色关键字</label></th>
                         <td>
                             <label for="special_tags1">环境优美</label>
-                            <input type="checkbox" name="special_tags1" id="special_tags1">
+                            <input type="checkbox" name="special_tags" id="special_tags1" value="1">
                             <label for="special_tags1">设备先进</label>
-                            <input type="checkbox" name="special_tags2" id="special_tags2">
+                            <input type="checkbox" name="special_tags" id="special_tags2" value="2">
                         </td>
                     </tr>
                     <tr>
                         <th> <label for="activity_type_code">活动类型</label></th>
                         <td>
                             <select name="activity_type_code"  id="activity_type_code">
-                                <option value="">跑步</option>
+                                <option value="1">跑步</option>
                             </select>
                         </td>
                     </tr>
@@ -110,7 +113,7 @@
                         <th> <label for="group_number_limit_code">最大活动人数</label></th>
                         <td>
                             <select name="group_number_limit_code" id="group_number_limit_code" >
-                                <option value="">1000人</option>
+                                <option value="1">1000人</option>
                             </select>
                         </td>
                     </tr>
@@ -119,15 +122,15 @@
                         <td>
                             <label for="activity_province_code">省份：</label>
                             <select name="activity_province_code" id="activity_province_code" >
-                                <option value="">上海</option>
+                                <option value="1">上海</option>
                             </select>
                             <label for="activity_city_code">市：</label>
                             <select name="activity_city_code" id="activity_city_code" >
-                                <option value="">上海</option>
+                                <option value="1">上海</option>
                             </select>
                             <label for="activity_dist_code">区：</label>
                             <select name="activity_dist_code" id="activity_dist_code" >
-                                <option value="">上海</option>
+                                <option value="1">上海</option>
                             </select>
                         </td>
                     </tr>
@@ -149,30 +152,16 @@
                     </tr>
                     <tr>
                         <th>主图效果</th>
-                        <td width="600"><img width="100%" src="images/1210000.jpg" alt="" id="mainImage"/></td>
+                        <td width="600"><img width="100%" src="images/1210000.jpg" alt="images/1210000.jpg" id="mainImage" name="mainImage"/></td>
                     </tr>
                     <tr>
                         <th class="vat">场地轮播图</th>
                         <td class="imgUploadManager">
-                            <input type="file" name="uploadedLocationImages"/>
+                            <input type="file" name="uploadedLocationImages" id="uploadedLocationImages"/>
                             <label><input type="checkbox" class="checkAll"/>全选</label>
                             <label><button class="delAll">删除</button></label>
-                            <ul class="imgManage">
-                                <li>
-                                    <img src="images/1210000.jpg" alt="" />
-                                    <input type="checkbox" />
-                                    <a>删除</a>
-                                </li>
-                                <li>
-                                    <img src="images/1210000.jpg" alt="" />
-                                    <input type="checkbox" />
-                                    <a>删除</a>
-                                </li>
-                                <li>
-                                    <img src="images/1210000.jpg" alt="" />
-                                    <input type="checkbox" />
-                                    <a>删除</a>
-                                </li>
+                            <ul class="imgManage" id="imgManage" name="imgManage">
+                               
                             </ul>
                         </td>
                     </tr>
@@ -180,11 +169,23 @@
                         <th><label>场地介绍</label></th>
                         <td>
 
-                            <script id="container" name="content" type="text/plain" >
+                            <script id="container" name="ueditor" type="text/plain" >
                                     场地详情编辑
                             </script>
 
                         </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>
+                            <input class="button" id="submitForm" type="button" value="提交"/>
+                        </td>
+                    </tr>
+                    <tr>
+                       <th id="hidden_value">
+                       
+                       </th>
+                       <td></td>
                     </tr>
                 </table>
             </div>

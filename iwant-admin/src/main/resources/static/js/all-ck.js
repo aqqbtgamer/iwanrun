@@ -215,6 +215,7 @@ jQuery(function($){
                     var reader = new FileReader();
                     reader.onload = function(e){
                         img.attr("src",e.target.result);
+                        img.attr("_src",imgSrc)
                     }
                     reader.readAsDataURL(e.target.files[0]);
                 }
@@ -237,7 +238,7 @@ jQuery(function($){
 	}
 
 	$(function(){
-		$(".imgUploadManager").imgUploadManager();
+		//$(".imgUploadManager").imgUploadManager();
 	});
 })(jQuery);
 

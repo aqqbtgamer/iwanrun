@@ -1,5 +1,7 @@
 package com.iwantrun.core.service.application.domain;
 
+import java.sql.Blob;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,11 +13,11 @@ import javax.persistence.Table;
 @Table(name="biz_location_attachements")
 public class LocationAttachments {
 	
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id ;
 	
-	@Column(name="location_id")
+	@Column(name="location_id",nullable=false)
 	private int location_id ;
 	
 	@Column(name="fileName")
@@ -24,8 +26,12 @@ public class LocationAttachments {
 	@Column(name="filePath")
 	private String filePath ;
 	
-	@Column(name="fileSnapShot")
-	private String fileSnapShot;
+	@Column(name="page_path")
+	private String pagePath ;
+	
+
+	@Column(name="file_snapshot")
+	private Blob fileSnapShot;
 
 	public int getId() {
 		return id;
@@ -57,13 +63,21 @@ public class LocationAttachments {
 
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
+	}	
+
+	public String getPagePath() {
+		return pagePath;
 	}
 
-	public String getFileSnapShot() {
+	public void setPagePath(String pagePath) {
+		this.pagePath = pagePath;
+	}
+
+	public Blob getFileSnapShot() {
 		return fileSnapShot;
 	}
 
-	public void setFileSnapShot(String fileSnapShot) {
+	public void setFileSnapShot(Blob fileSnapShot) {
 		this.fileSnapShot = fileSnapShot;
 	}
 

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name="biz_dictionary")
 public class Dictionary {
 	
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
 	

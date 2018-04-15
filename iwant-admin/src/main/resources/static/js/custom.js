@@ -20,9 +20,9 @@ $(document).ready(function() {
 
 	choosetab();
 
-	$("body").on("click","a:contains('删除')",function(){
+	/*$("body").on("click","a:contains('删除')",function(){
 		return confirm("确定删除吗？");
-	});
+	})*/;
 });
 
 
