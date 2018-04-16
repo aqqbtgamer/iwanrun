@@ -1,12 +1,18 @@
 package com.iwantrun.core.service.application.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.iwantrun.core.service.application.dao.ProductionInfoDao;
 import com.iwantrun.core.service.application.domain.ProductionInfo;
@@ -28,24 +34,36 @@ public class ProductionInfoService {
 	 * 查询产品信息 按照多个查询条件查询产品
 	 */
 	public List<ProductionInfo> queryByCondition(ProductionInfo param) {
-		/**
-		 * .(param.getActivityCityCode(), GenericPropertyMatchers.exact())
-		 * .withMatcher(param.getActivityDistCode(), eg)
-		 * .withMatcher(param.getActivityProvinceCode(), eg)
-		 * .withMatcher(param.getActivityTypeCode(), eg)
-		 * .withMatcher(param.getCreateTime(), eg) .withMatcher(param.getDuring(), eg)
-		 * .withMatcher(param.getDuringCode(), eg) .withMatcher(param.getGroupNumber(),
-		 * eg) .withMatcher(param.getGroupNumberCode(), eg))
-		 */
-		ExampleMatcher.GenericPropertyMatcher eg = GenericPropertyMatchers.contains();
-		/*ExampleMatcher matcher = ExampleMatcher.matching().withMatcher(param.getDescirbeText1(), eg)
-				.withMatcher(param.getDescirbeText2(), eg).withMatcher(param.getDescirbeText3(), eg)
-				.withMatcher(param.getLocation(), eg).withMatcher(param.getMainImageIcon(), eg)
-				.withMatcher(param.getMainImageLarge(), eg).withMatcher(param.getName(), eg)
-				.withMatcher(param.getQrcode(), eg).withIgnorePaths("id");*/
-		//ExampleMatcher matcher = ExampleMatcher.matching().withMatcher(param.getDescirbeText1(), eg);
-//		/Example<ProductionInfo> example = Example.of(param, matcher);
-		return productionInfoDao.findAll();
+		// 多条件组装
+		Specification<ProductionInfo> specification = new Specification<ProductionInfo>() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Predicate toPredicate(Root<ProductionInfo> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				String name=param.getName();
+				Integer activityCityCode =param.getActivityCityCode();
+				String descirbeText1 = param.getDescirbeText1();
+				
+				Path<String> namePath = root.get("name");
+				Path<Integer> activityCityCodePath = root.get("activityCityCode");
+				Path<String> descirbeText1Path = root.get("descirbeText1");
+				
+				List<Predicate> list = new ArrayList<Predicate>();
+				if (!StringUtils.isEmpty(name)) {
+					list.add(cb.like(namePath, "%" + name + "%"));
+				}
+				if (null != activityCityCodePath) {
+					list.add(cb.ge(activityCityCodePath, activityCityCode));
+				}
+				if (!StringUtils.isEmpty(descirbeText1)) {
+					list.add(cb.like(descirbeText1Path, "%" + descirbeText1 + "%"));
+				}
+				Predicate[] p = new Predicate[list.size()];
+				return cb.and(list.toArray(p));
+			}
+		};
+		return productionInfoDao.findAll(specification);
 	}
 
 	/**

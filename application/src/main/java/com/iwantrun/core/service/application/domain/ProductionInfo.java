@@ -16,43 +16,43 @@ public class ProductionInfo {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id; // 系统主键
+	private Integer id; // 系统主键
 
 	@Column(name = "activity_type_code")
-	private int activityTypeCode; // 活动类型
+	private Integer activityTypeCode; // 活动类型
 
 	@Column(name = "during")
-	private int during; // 活动天数
+	private Integer during; // 活动天数
 
 	@Column(name = "during_code")
-	private int duringCode; // 活动天数范围
+	private Integer duringCode; // 活动天数范围
 
 	@Column(name = "group_number")
-	private int groupNumber; // 活动人数
+	private Integer groupNumber; // 活动人数
 
 	@Column(name = "group_number_code")
-	private int groupNumberCode; // 活动人数范围
+	private Integer groupNumberCode; // 活动人数范围
 
 	@Column(name = "priority")
-	private int priority; // 优先权重
+	private Integer priority; // 优先权重
 
 	@Column(name = "status")
-	private int status; // 状态 0-正常 1-下架'
+	private Integer status; // 状态 0-正常 1-下架'
 
 	@Column(name = "order_simulate_price_code")
-	private int orderSimulatePriceCode; // 订单人均参考报价范围
+	private Integer orderSimulatePriceCode; // 订单人均参考报价范围
 
 	@Column(name = "order_group_price_code")
-	private int orderGroupPriceCode; // 订单团体参考报价范围
+	private Integer orderGroupPriceCode; // 订单团体参考报价范围
 
 	@Column(name = "activity_province_code")
-	private int activityProvinceCode; // 产品省编码
+	private Integer activityProvinceCode; // 产品省编码
 
 	@Column(name = "activity_city_code")
-	private int activityCityCode; // 产品市编码
+	private Integer activityCityCode; // 产品市编码
 
 	@Column(name = "activity_dist_code")
-	private int activityDistCode; // 产品区编码
+	private Integer activityDistCode; // 产品区编码
 
 	@Column(name = "shift_time")
 	private Date shiftTime; // 上架时间
@@ -69,7 +69,7 @@ public class ProductionInfo {
 	@Column(name = "main_image_icon")
 	private String mainImageIcon; // 产品主宣传缩略图放位置
 
-	@Column(name = "descirbe_text1")
+	@Column(name = "descirbe_text1", nullable=true)
 	private String descirbeText1; /// 详情描述1
 
 	@Column(name = "descirbe_text2")
@@ -84,107 +84,107 @@ public class ProductionInfo {
 	@Column(name = "qrcode")
 	private String qrcode; // 二维码信息地址
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getActivityTypeCode() {
+	public Integer getActivityTypeCode() {
 		return activityTypeCode;
 	}
 
-	public void setActivityTypeCode(int activityTypeCode) {
+	public void setActivityTypeCode(Integer activityTypeCode) {
 		this.activityTypeCode = activityTypeCode;
 	}
 
-	public int getDuring() {
+	public Integer getDuring() {
 		return during;
 	}
 
-	public void setDuring(int during) {
+	public void setDuring(Integer during) {
 		this.during = during;
 	}
 
-	public int getDuringCode() {
+	public Integer getDuringCode() {
 		return duringCode;
 	}
 
-	public void setDuringCode(int duringCode) {
+	public void setDuringCode(Integer duringCode) {
 		this.duringCode = duringCode;
 	}
 
-	public int getGroupNumber() {
+	public Integer getGroupNumber() {
 		return groupNumber;
 	}
 
-	public void setGroupNumber(int groupNumber) {
+	public void setGroupNumber(Integer groupNumber) {
 		this.groupNumber = groupNumber;
 	}
 
-	public int getGroupNumberCode() {
+	public Integer getGroupNumberCode() {
 		return groupNumberCode;
 	}
 
-	public void setGroupNumberCode(int groupNumberCode) {
+	public void setGroupNumberCode(Integer groupNumberCode) {
 		this.groupNumberCode = groupNumberCode;
 	}
 
-	public int getPriority() {
+	public Integer getPriority() {
 		return priority;
 	}
 
-	public void setPriority(int priority) {
+	public void setPriority(Integer priority) {
 		this.priority = priority;
 	}
 
-	public int getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public int getOrderSimulatePriceCode() {
+	public Integer getOrderSimulatePriceCode() {
 		return orderSimulatePriceCode;
 	}
 
-	public void setOrderSimulatePriceCode(int orderSimulatePriceCode) {
+	public void setOrderSimulatePriceCode(Integer orderSimulatePriceCode) {
 		this.orderSimulatePriceCode = orderSimulatePriceCode;
 	}
 
-	public int getOrderGroupPriceCode() {
+	public Integer getOrderGroupPriceCode() {
 		return orderGroupPriceCode;
 	}
 
-	public void setOrderGroupPriceCode(int orderGroupPriceCode) {
+	public void setOrderGroupPriceCode(Integer orderGroupPriceCode) {
 		this.orderGroupPriceCode = orderGroupPriceCode;
 	}
 
-	public int getActivityProvinceCode() {
+	public Integer getActivityProvinceCode() {
 		return activityProvinceCode;
 	}
 
-	public void setActivityProvinceCode(int activityProvinceCode) {
+	public void setActivityProvinceCode(Integer activityProvinceCode) {
 		this.activityProvinceCode = activityProvinceCode;
 	}
 
-	public int getActivityCityCode() {
+	public Integer getActivityCityCode() {
 		return activityCityCode;
 	}
 
-	public void setActivityCityCode(int activityCityCode) {
+	public void setActivityCityCode(Integer activityCityCode) {
 		this.activityCityCode = activityCityCode;
 	}
 
-	public int getActivityDistCode() {
+	public Integer getActivityDistCode() {
 		return activityDistCode;
 	}
 
-	public void setActivityDistCode(int activityDistCode) {
+	public void setActivityDistCode(Integer activityDistCode) {
 		this.activityDistCode = activityDistCode;
 	}
 

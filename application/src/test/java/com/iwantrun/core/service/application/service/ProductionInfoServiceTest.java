@@ -27,13 +27,15 @@ public class ProductionInfoServiceTest {
 			fail("test setting not valid");
 		} else {
 			ProductionInfo param = new ProductionInfo();
+			param.setName("wlm1314");
+			// param.setName("whq1314");
 			param.setActivityCityCode(0);
-			param.setDescirbeText1("");
+			param.setDescirbeText1("1314 love you, my family!");
 			List<ProductionInfo> infos = service.queryByCondition(param);
 			System.out.println(infos);
-			//assertNotNull(infos);
+			assertNotNull(infos);
 			for (ProductionInfo info : infos) {
-				System.out.println(info);
+				System.out.println("查到了" + info);
 			}
 		}
 
