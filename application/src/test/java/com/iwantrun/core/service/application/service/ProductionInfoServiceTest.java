@@ -34,7 +34,7 @@ public class ProductionInfoServiceTest {
 			param.setActivityCityCode(0);
 			param.setDescirbeText1("1314 love you, my family!");
 			Sort sort= new Sort(Direction.DESC, "priority");
-			List<ProductionInfo> infos = service.findAllByParam(param, sort);
+			List<ProductionInfo> infos = service.findAllByParam(param);
 			System.out.println(infos);
 			assertNotNull(infos);
 			for (ProductionInfo info : infos) {

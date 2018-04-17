@@ -52,7 +52,15 @@ public class ProductionInfoService {
 
 	/**
 	 * 查询产品信息 按照多个查询条件查询产品
-	 * @param sort 
+	 */
+	public List<ProductionInfo> findAllByParam(ProductionInfo param) {
+		return findAllByParam(param, null);
+	}
+
+	/**
+	 * 查询产品信息 按照多个查询条件查询产品
+	 * 
+	 * @param sort
 	 */
 	public List<ProductionInfo> findAllByParam(ProductionInfo param, Sort sort) {
 		// 多条件组装
@@ -63,16 +71,42 @@ public class ProductionInfoService {
 			@Override
 			public Predicate toPredicate(Root<ProductionInfo> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 				String name = param.getName();
+				Integer activityTypeCode = param.getActivityTypeCode();
+				Integer during = param.getDuring();
+				Integer groupNumber = param.getGroupNumber();
+				Integer orderSimulatePriceCode = param.getOrderSimulatePriceCode();
+				Integer orderGroupPriceCode = param.getOrderGroupPriceCode();
 				Integer activityCityCode = param.getActivityCityCode();
 				String descirbeText1 = param.getDescirbeText1();
 
 				Path<String> namePath = root.get("name");
+				Path<Integer> activityTypeCodePath = root.get("activityTypeCode");
+				Path<Integer> duringPath = root.get("during");
+				Path<Integer> groupNumberPath = root.get("groupNumber");
+				Path<Integer> orderSimulatePriceCodePath = root.get("orderSimulatePriceCode");
+				Path<Integer> orderGroupPriceCodePath = root.get("orderGroupPriceCode");
 				Path<Integer> activityCityCodePath = root.get("activityCityCode");
 				Path<String> descirbeText1Path = root.get("descirbeText1");
 
 				List<Predicate> list = new ArrayList<Predicate>();
+
 				if (!StringUtils.isEmpty(name)) {
 					list.add(cb.like(namePath, "%" + name + "%"));
+				}
+				if (null != activityTypeCodePath) {
+					list.add(cb.equal(activityCityCodePath, activityTypeCode));
+				}
+				if (null != duringPath) {
+					list.add(cb.equal(activityCityCodePath, during));
+				}
+				if (null != groupNumberPath) {
+					list.add(cb.equal(activityCityCodePath, groupNumber));
+				}
+				if (null != orderSimulatePriceCodePath) {
+					list.add(cb.equal(activityCityCodePath, orderSimulatePriceCode));
+				}
+				if (null != orderGroupPriceCodePath) {
+					list.add(cb.equal(activityCityCodePath, orderGroupPriceCode));
 				}
 				if (null != activityCityCodePath) {
 					list.add(cb.equal(activityCityCodePath, activityCityCode));
@@ -80,12 +114,19 @@ public class ProductionInfoService {
 				if (!StringUtils.isEmpty(descirbeText1)) {
 					list.add(cb.like(descirbeText1Path, "%" + descirbeText1 + "%"));
 				}
+
 				Predicate[] p = new Predicate[list.size()];
 				return cb.and(list.toArray(p));
 			}
 		};
-		
-		List<ProductionInfo> infos = productionInfoDao.findAll(specification, sort);
+
+		List<ProductionInfo> infos;
+
+		if (sort == null) {
+			infos = productionInfoDao.findAll(specification);
+		} else {
+			infos = productionInfoDao.findAll(specification, sort);
+		}
 
 		// 封装产品的场地信息
 		for (ProductionInfo info : infos) {
@@ -115,12 +156,12 @@ public class ProductionInfoService {
 	@Modifying
 	public void edit(ProductionInfo param) {
 		Optional<ProductionInfo> infoOptional = productionInfoDao.findById(param.getId());
-		if(infoOptional !=null && infoOptional.get() !=null) {
+		if (infoOptional != null && infoOptional.get() != null) {
 			ProductionInfo info = infoOptional.get();
-			if(!StringUtils.isEmpty(param.getName())) {
+			if (!StringUtils.isEmpty(param.getName())) {
 				info.setName(param.getName());
 			}
-			if(!StringUtils.isEmpty(param.getStatus())) {
+			if (!StringUtils.isEmpty(param.getStatus())) {
 				info.setStatus(param.getStatus());
 			}
 		}
@@ -131,7 +172,7 @@ public class ProductionInfoService {
 	 */
 	@Transactional
 	@Modifying
-	public void unShift(ProductionInfo param) { 
+	public void unShift(ProductionInfo param) {
 		param.setStatus(1);
 		edit(param);
 	}
