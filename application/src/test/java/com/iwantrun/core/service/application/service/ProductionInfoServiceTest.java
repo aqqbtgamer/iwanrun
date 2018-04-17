@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -27,11 +29,12 @@ public class ProductionInfoServiceTest {
 			fail("test setting not valid");
 		} else {
 			ProductionInfo param = new ProductionInfo();
-			param.setName("wlm1314");
-			// param.setName("whq1314");
+			//param.setName("wlm1314");
+			param.setName("whq1314");
 			param.setActivityCityCode(0);
 			param.setDescirbeText1("1314 love you, my family!");
-			List<ProductionInfo> infos = service.queryByCondition(param);
+			Sort sort= new Sort(Direction.DESC, "priority");
+			List<ProductionInfo> infos = service.findAllByParam(param, sort);
 			System.out.println(infos);
 			assertNotNull(infos);
 			for (ProductionInfo info : infos) {
@@ -39,5 +42,30 @@ public class ProductionInfoServiceTest {
 			}
 		}
 
+	}
+	@Test
+	public void save() {
+		ProductionInfo param = new ProductionInfo();
+		param.setName("whq1314");
+		param.setActivityCityCode(0);
+		param.setActivityTypeCode(0);
+		param.setDuring(6);
+		param.setStatus(0);
+		param.setDescirbeText1("1314 love you, my family!");
+		param = service.save(param);
+		assertNotNull(param);
+	}
+	@Test
+	public void edit() {
+		ProductionInfo param = new ProductionInfo();
+		param.setId(1);
+		param.setName("wlm1314");
+		service.edit(param);
+	}
+	@Test
+	public void unShift() {
+		ProductionInfo param = new ProductionInfo();
+		param.setId(1);
+		service.unShift(param);
 	}
 }

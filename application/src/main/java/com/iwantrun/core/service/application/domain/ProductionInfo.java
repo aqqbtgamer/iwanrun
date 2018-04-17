@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "biz_productions")
@@ -15,7 +16,7 @@ public class ProductionInfo {
 
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id; // 系统主键
 
 	@Column(name = "activity_type_code")
@@ -48,7 +49,7 @@ public class ProductionInfo {
 	@Column(name = "activity_province_code")
 	private Integer activityProvinceCode; // 产品省编码
 
-	@Column(name = "activity_city_code")
+	@Column(name = "activity_city_code", nullable = true)
 	private Integer activityCityCode; // 产品市编码
 
 	@Column(name = "activity_dist_code")
@@ -83,6 +84,17 @@ public class ProductionInfo {
 
 	@Column(name = "qrcode")
 	private String qrcode; // 二维码信息地址
+	
+	@Transient
+	private Locations locations;
+	
+	public Locations getLocations() {
+		return locations;
+	}
+
+	public void setLocations(Locations locations) {
+		this.locations = locations;
+	}
 
 	public Integer getId() {
 		return id;
