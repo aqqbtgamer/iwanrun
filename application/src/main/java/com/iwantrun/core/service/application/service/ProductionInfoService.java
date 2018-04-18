@@ -12,7 +12,8 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -56,13 +57,13 @@ public class ProductionInfoService {
 	public List<ProductionInfo> findAllByParam(ProductionInfo param) {
 		return findAllByParam(param, null);
 	}
-
+	
 	/**
 	 * 查询产品信息 按照多个查询条件查询产品
 	 * 
 	 * @param sort
 	 */
-	public List<ProductionInfo> findAllByParam(ProductionInfo param, Sort sort) {
+	public List<ProductionInfo> findAllByParam(ProductionInfo param, Pageable page) {
 		// 多条件组装
 		Specification<ProductionInfo> specification = new Specification<ProductionInfo>() {
 
@@ -122,10 +123,11 @@ public class ProductionInfoService {
 
 		List<ProductionInfo> infos;
 
-		if (sort == null) {
+		if (page == null) {
 			infos = productionInfoDao.findAll(specification);
 		} else {
-			infos = productionInfoDao.findAll(specification, sort);
+			Page<ProductionInfo> pageProductionInfo = productionInfoDao.findAll(specification, page);
+			infos =pageProductionInfo.getContent();
 		}
 
 		// 封装产品的场地信息
