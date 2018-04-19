@@ -23,6 +23,8 @@ $(document).ready(
                 'imgManage'
             ),
             submitUrl);
+        bindSeclectAll("checkAll");
+        bindDeleteSelected("deleteAll");
     }
 );
 

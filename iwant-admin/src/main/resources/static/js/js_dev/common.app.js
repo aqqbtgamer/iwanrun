@@ -152,3 +152,24 @@ function fileUpload(contentId,url,callback) {
             return imgArray ;
         }
     }
+    
+    
+    function bindSeclectAll(bindId){
+    	$("#"+bindId).parent().find("ul").find("input[type='checkbox']").check();
+    }
+
+
+    function bindDeleteSelected(bindId){
+        var checkedBoxList = $("#"+bindId).parent().find("ul").find("li");
+        var confirmDelete = confirm("createLocation.html");
+        if(confirmDelete){
+            checkedBoxList.each(
+                function(){
+                    if($(this).find("input[type='checkbox']").is(":checked")){
+                        $(this).find("img").remove();
+                    }
+                }
+            )
+        }
+
+    }
