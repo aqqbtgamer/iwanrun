@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,34 +37,50 @@ public class ProductionInfoController {
 	 */
 	@RequestMapping("/application/productionInfo/find")
 	@NeedTokenVerify
-	public Message findByParam(@RequestBody Message message) {
+	public List<ProductionInfo> findByParam(@RequestBody Message message) {
+
 		JSONObject body = (JSONObject) JSONValue.parse(message.getMessageBody());
+
+		Number activityTypeCode = body.getAsNumber("activityTypeCode");
+		Number during = body.getAsNumber("during");
+		Number groupNumber = body.getAsNumber("groupNumber");
+		Number orderSimulatePriceCode = body.getAsNumber("orderSimulatePriceCode");
+		Number orderGroupPriceCode = body.getAsNumber("orderGroupPriceCode");
+		Number pageNum = body.getAsNumber("pageNum");
+		Number pageSize = body.getAsNumber("pageSize");
+		String sortFlag = body.getAsString("sortFlag");
 
 		ProductionInfo param = new ProductionInfo();
 
-		param.setActivityTypeCode(body.getAsNumber("activityTypeCode").intValue());
-		param.setDuring(body.getAsNumber("during").intValue());
-		param.setGroupNumber(body.getAsNumber("groupNumber").intValue());
-		param.setOrderSimulatePriceCode(body.getAsNumber("orderSimulatePriceCode").intValue());
-		param.setOrderGroupPriceCode(body.getAsNumber("orderGroupPriceCode").intValue());
-
-		int pageNum = body.getAsNumber("pageNum").intValue();
-		int pageSize = body.getAsNumber("pageSize").intValue();
+		if (null != activityTypeCode) {
+			param.setActivityTypeCode(activityTypeCode.intValue());
+		}
+		if (null != during) {
+			param.setDuring(during.intValue());
+		}
+		if (null != groupNumber) {
+			param.setGroupNumber(groupNumber.intValue());
+		}
+		if (null != orderSimulatePriceCode) {
+			param.setOrderSimulatePriceCode(orderSimulatePriceCode.intValue());
+		}
+		if (null != orderGroupPriceCode) {
+			param.setOrderGroupPriceCode(orderGroupPriceCode.intValue());
+		}
+		if (pageNum == null) {
+			pageNum = 0;
+		}
+		if (pageSize == null) {
+			pageSize = 10;
+		}
 
 		Pageable page;
-		String sortFlag = body.getAsString("sortFlag");
 		if (StringUtils.isEmpty(sortFlag)) {
-			page = PageRequest.of(pageNum, pageSize);
+			page = PageRequest.of(pageNum.intValue(), pageSize.intValue());
 		} else {
-			// Sort.by(Direction.ASC, sortFlag
-			// The type com.querydsl.core.types.OrderSpecifier cannot be resolved. It is indirectly referenced from required .class files
-			// Pageable page = new QPageRequest(pageNum, pageSize, QSort.by(Direction.ASC, sortFlag)); 如果这样写就会报上面的编译错误，最后决定如下
-			page = PageRequest.of(pageNum, pageSize, Direction.ASC, sortFlag);
+			page = PageRequest.of(pageNum.intValue(), pageSize.intValue(), Direction.ASC, sortFlag);
 		}
-		new Sort(Direction.ASC, sortFlag);
 
-		List<ProductionInfo> infos = productionInfoService.findAllByParam(param, page);
-
-		return null;
+		return productionInfoService.findAllByParam(param, page);
 	}
 }

@@ -19,7 +19,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-		logger.info("into pre handles");
+		/*logger.info("into pre handles");
 		String loginToken = null ;
 		String currentUser = null ;
 		String sessionId = request.getSession().getId();
@@ -51,8 +51,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 				response.sendRedirect(request.getContextPath()+"/"+AdminApplicationConstants.LOGIN_PAGE);
 				return false;
 			}
-		}
-				
+		}*/
+		return true;		
 	}
 
 }

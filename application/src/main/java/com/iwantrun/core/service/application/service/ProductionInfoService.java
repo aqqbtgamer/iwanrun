@@ -1,20 +1,17 @@
 package com.iwantrun.core.service.application.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -64,69 +61,41 @@ public class ProductionInfoService {
 	 * @param sort
 	 */
 	public List<ProductionInfo> findAllByParam(ProductionInfo param, Pageable page) {
-		// 多条件组装
-		Specification<ProductionInfo> specification = new Specification<ProductionInfo>() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Predicate toPredicate(Root<ProductionInfo> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				String name = param.getName();
-				Integer activityTypeCode = param.getActivityTypeCode();
-				Integer during = param.getDuring();
-				Integer groupNumber = param.getGroupNumber();
-				Integer orderSimulatePriceCode = param.getOrderSimulatePriceCode();
-				Integer orderGroupPriceCode = param.getOrderGroupPriceCode();
-				Integer activityCityCode = param.getActivityCityCode();
-				String descirbeText1 = param.getDescirbeText1();
-
-				Path<String> namePath = root.get("name");
-				Path<Integer> activityTypeCodePath = root.get("activityTypeCode");
-				Path<Integer> duringPath = root.get("during");
-				Path<Integer> groupNumberPath = root.get("groupNumber");
-				Path<Integer> orderSimulatePriceCodePath = root.get("orderSimulatePriceCode");
-				Path<Integer> orderGroupPriceCodePath = root.get("orderGroupPriceCode");
-				Path<Integer> activityCityCodePath = root.get("activityCityCode");
-				Path<String> descirbeText1Path = root.get("descirbeText1");
-
-				List<Predicate> list = new ArrayList<Predicate>();
-
-				if (!StringUtils.isEmpty(name)) {
-					list.add(cb.like(namePath, "%" + name + "%"));
-				}
-				if (null != activityTypeCodePath) {
-					list.add(cb.equal(activityCityCodePath, activityTypeCode));
-				}
-				if (null != duringPath) {
-					list.add(cb.equal(activityCityCodePath, during));
-				}
-				if (null != groupNumberPath) {
-					list.add(cb.equal(activityCityCodePath, groupNumber));
-				}
-				if (null != orderSimulatePriceCodePath) {
-					list.add(cb.equal(activityCityCodePath, orderSimulatePriceCode));
-				}
-				if (null != orderGroupPriceCodePath) {
-					list.add(cb.equal(activityCityCodePath, orderGroupPriceCode));
-				}
-				if (null != activityCityCodePath) {
-					list.add(cb.equal(activityCityCodePath, activityCityCode));
-				}
-				if (!StringUtils.isEmpty(descirbeText1)) {
-					list.add(cb.like(descirbeText1Path, "%" + descirbeText1 + "%"));
-				}
-
-				Predicate[] p = new Predicate[list.size()];
-				return cb.and(list.toArray(p));
-			}
-		};
-
+		ExampleMatcher matcher = ExampleMatcher.matchingAll();
+		GenericPropertyMatcher strMatcher = GenericPropertyMatchers.contains();
+		GenericPropertyMatcher numMatcher = GenericPropertyMatchers.exact();
+		
+		if (!StringUtils.isEmpty(param.getName())) {
+			matcher.withMatcher("name", strMatcher);
+		}
+		if (null != param.getActivityTypeCode()) {
+			matcher.withMatcher("activityTypeCode", numMatcher);
+		}
+		if (null !=  param.getDuring()) {
+			matcher.withMatcher("during", numMatcher);
+		}
+		if (null != param.getGroupNumber()) {
+			matcher.withMatcher("groupNumber", numMatcher);
+		}
+		if (null != param.getOrderSimulatePriceCode()) {
+			matcher.withMatcher("orderSimulatePriceCode", numMatcher);
+		}
+		if (null != param.getOrderGroupPriceCode()) {
+			matcher.withMatcher("orderGroupPriceCode", numMatcher);
+		}
+		if (null != param.getActivityCityCode()) {
+			matcher.withMatcher("activityCityCode", numMatcher);
+		}
+		if (!StringUtils.isEmpty(param.getDescirbeText1())) {
+			matcher.withMatcher("descirbeText1", strMatcher);
+		}
+		Example<ProductionInfo> example = Example.of(param, matcher);
+		
 		List<ProductionInfo> infos;
-
 		if (page == null) {
-			infos = productionInfoDao.findAll(specification);
+			infos = productionInfoDao.findAll(example);
 		} else {
-			Page<ProductionInfo> pageProductionInfo = productionInfoDao.findAll(specification, page);
+			Page<ProductionInfo> pageProductionInfo = productionInfoDao.findAll(example, page);
 			infos =pageProductionInfo.getContent();
 		}
 
@@ -141,7 +110,7 @@ public class ProductionInfoService {
 			}
 		}
 
-		return productionInfoDao.findAll(specification);
+		return infos;
 	}
 
 	/**
