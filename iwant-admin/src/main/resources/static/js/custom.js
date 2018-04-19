@@ -2,16 +2,16 @@ $(document).ready(function() {
 	kriesi_tab('#content', '.jquery_tab_title', '.jquery_tab'); /*remove this if you dont want to have jquery tabs*/
 	kriesi_navigation(".nav"); /*remove this if you dont want a jquery sidebar menu*/
 	kriesi_closeable_divs(".closeable"); /*remove this if you dont want message box to be closeable*/
-	$(".flexy_datepicker, .flexy_datepicker_input").datepicker(); //datepicker input field and box
+	//$(".flexy_datepicker, .flexy_datepicker_input").datepicker(); //datepicker input field and box
 	//$("#dialog").dialog(); //pop up dialog window on pageopen.
 	// 初始化uEditor
-	if (window.UEDITOR_CONFIG) {
+	/*if (window.UEDITOR_CONFIG) {
 		window.UEDITOR_CONFIG.UEDITOR_HOME_URL = "/ueditor1_2_2_0-utf8-php/";
 		$(".uEditor").each(function() {
 			var editor = new baidu.editor.ui.Editor();
 			editor.render(this);
 		});
-	}
+	}*/
 
 	$("table.datalist").each(function() {
 		$("tbody tr:odd", this).addClass("odd");

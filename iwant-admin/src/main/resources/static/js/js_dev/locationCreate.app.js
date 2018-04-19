@@ -7,7 +7,7 @@ var submitUrl = '/iwant_admin/location/add'
 
 $(document).ready(
     function(){
-        initUE();
+        //initUE();
         bindUploadFile('mainImageUpload',uploadServer,'mainImage',singleDisplay);
         bindUploadFile('uploadedLocationImages',uploadServer,'imgManage',mutipleDisplay);
         bindDataSubmit('submitForm',

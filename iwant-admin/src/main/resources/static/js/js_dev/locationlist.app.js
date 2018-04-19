@@ -11,7 +11,6 @@ $(document).ready(
 function wrapCustomerItems(){
     console.log("开始处理自定义组件功能");
     wrapCustomerButtons();
-    initUE();
 }
 
 function wrapCustomerButtons(){

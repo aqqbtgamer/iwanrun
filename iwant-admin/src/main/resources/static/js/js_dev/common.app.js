@@ -4,6 +4,11 @@
 console.log("common.js加载")
 var permittedUploadTypes = new Array("JPG","JPEG","PNG","BMP","BMP")
 
+window.alert = function(e){
+	alert("准备开始alert啦");
+	alert(e);
+}
+
 function fileUpload(contentId,url,callback) {
     var formData = new FormData();
     var uploadFile = $("#" + contentId).prop("files")[0];
@@ -55,6 +60,7 @@ function fileUpload(contentId,url,callback) {
             $(editorId).css('max-width', 800);
         });
     }
+   
 
     function bindUploadFile(id,url,displayId,callback){
     	console.log("绑定："+id+"的上传事件")
@@ -155,21 +161,35 @@ function fileUpload(contentId,url,callback) {
     
     
     function bindSeclectAll(bindId){
-    	$("#"+bindId).parent().find("ul").find("input[type='checkbox']").check();
+    	console.log(bindId+"绑定bindSeclectAll方法");
+    	$("#"+bindId).bind("change",function(){
+    		if(($("#"+bindId).is(":checked"))){
+    			$("#"+bindId).parent().parent().find("ul").find("input[type='checkbox']").prop("checked",true);
+    		}else{
+    			$("#"+bindId).parent().parent().find("ul").find("input[type='checkbox']").prop("checked",false);
+    		}
+    	})
+    	
     }
 
 
     function bindDeleteSelected(bindId){
-        var checkedBoxList = $("#"+bindId).parent().find("ul").find("li");
-        var confirmDelete = confirm("createLocation.html");
-        if(confirmDelete){
-            checkedBoxList.each(
-                function(){
-                    if($(this).find("input[type='checkbox']").is(":checked")){
-                        $(this).find("img").remove();
-                    }
-                }
-            )
-        }
+    	console.log(bindId+"绑定bindDeleteSelected方法");
+    	$("#"+bindId).bind("click",function(){
+    		 var checkedBoxList = $("#"+bindId).parent().parent().find("ul").find("li");
+    		 var confirmDelete = confirm("是否确认删除全部?");
+    		 if(confirmDelete){
+    	            checkedBoxList.each(
+    	                function(){
+    	                    if($(this).find("input[type='checkbox']").is(":checked")){
+    	                        $(this).remove();
+    	                    }
+    	                }
+    	            )
+    	        }
+    	})
+       
+        
+       
 
     }
