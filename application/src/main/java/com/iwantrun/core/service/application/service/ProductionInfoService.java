@@ -54,7 +54,7 @@ public class ProductionInfoService {
 	public List<ProductionInfo> findAllByParam(ProductionInfo param) {
 		return findAllByParam(param, null);
 	}
-	
+
 	/**
 	 * 查询产品信息 按照多个查询条件查询产品
 	 * 
@@ -64,14 +64,14 @@ public class ProductionInfoService {
 		ExampleMatcher matcher = ExampleMatcher.matchingAll();
 		GenericPropertyMatcher strMatcher = GenericPropertyMatchers.contains();
 		GenericPropertyMatcher numMatcher = GenericPropertyMatchers.exact();
-		
+
 		if (!StringUtils.isEmpty(param.getName())) {
 			matcher.withMatcher("name", strMatcher);
 		}
 		if (null != param.getActivityTypeCode()) {
 			matcher.withMatcher("activityTypeCode", numMatcher);
 		}
-		if (null !=  param.getDuring()) {
+		if (null != param.getDuring()) {
 			matcher.withMatcher("during", numMatcher);
 		}
 		if (null != param.getGroupNumber()) {
@@ -90,13 +90,13 @@ public class ProductionInfoService {
 			matcher.withMatcher("descirbeText1", strMatcher);
 		}
 		Example<ProductionInfo> example = Example.of(param, matcher);
-		
+
 		List<ProductionInfo> infos;
 		if (page == null) {
 			infos = productionInfoDao.findAll(example);
 		} else {
 			Page<ProductionInfo> pageProductionInfo = productionInfoDao.findAll(example, page);
-			infos =pageProductionInfo.getContent();
+			infos = pageProductionInfo.getContent();
 		}
 
 		// 封装产品的场地信息
@@ -109,8 +109,24 @@ public class ProductionInfoService {
 				}
 			}
 		}
-
+		//相关联的案例
+		
 		return infos;
+	}
+
+	public ProductionInfo findById(Integer id) {
+		Optional<ProductionInfo> productionInfoOpt = productionInfoDao.findById(id);
+		ProductionInfo info = productionInfoOpt.get();
+		if(info!=null) {
+			ProductionLocationRelation pLocationRelation = pLocationRelationDao.findByProductionId(info.getId());
+			if (pLocationRelation != null) {
+				Optional<Locations> locationsOpt = locationsDao.findById(pLocationRelation.getLocationId());
+				if (locationsOpt != null) {
+					info.setLocations(locationsOpt.get());
+				}
+			}
+		}
+		return info;
 	}
 
 	/**

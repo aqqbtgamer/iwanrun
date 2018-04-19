@@ -1,5 +1,7 @@
 package com.iwantrun.core.service.application.controller;
 
+import static org.assertj.core.api.Assertions.in;
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -78,9 +80,52 @@ public class ProductionInfoController {
 		if (StringUtils.isEmpty(sortFlag)) {
 			page = PageRequest.of(pageNum.intValue(), pageSize.intValue());
 		} else {
-			page = PageRequest.of(pageNum.intValue(), pageSize.intValue(), Direction.ASC, sortFlag);
+			page = PageRequest.of(pageNum.intValue(), pageSize.intValue(),
+					Direction.fromString(body.getAsString("direction")), sortFlag);
 		}
 
 		return productionInfoService.findAllByParam(param, page);
+	}
+
+	/**
+	 * 产品详细介绍
+	 */
+	@RequestMapping("/application/productionInfo/detail")
+	@NeedTokenVerify
+	public ProductionInfo detail(@RequestBody Message message) {
+		JSONObject body = (JSONObject) JSONValue.parse(message.getMessageBody());
+		Number id = body.getAsNumber("id");
+		if (id == null) {
+			return null;
+		}
+		return productionInfoService.findById(id.intValue());
+	}
+	/**
+	 * 收藏产品
+	 * 将当前产品加入到【我的收藏】中
+	 */
+	@RequestMapping("/application/productionInfo/collect")
+	@NeedTokenVerify
+	public boolean collect(@RequestBody Message message) {
+		JSONObject body = (JSONObject) JSONValue.parse(message.getMessageBody());
+		Number id = body.getAsNumber("id");
+		if (id == null) {
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * 	分享产品
+	 *  通过生成二维码扫码的方式将产品信息分享到微信好友或微信朋友圈
+	 */
+	@RequestMapping("/application/productionInfo/share")
+	@NeedTokenVerify
+	public boolean share(@RequestBody Message message) {
+		JSONObject body = (JSONObject) JSONValue.parse(message.getMessageBody());
+		Number id = body.getAsNumber("id");
+		if (id == null) {
+			return false;
+		}
+		return true;
 	}
 }
