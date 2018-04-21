@@ -75,7 +75,13 @@
 		    <version>1.9</version>
 		</dependency>
 		<!-- dependencys for ueditor end-->
-		
+		<!-- easy mock -->
+		<dependency>
+		    <groupId>org.easymock</groupId>
+		    <artifactId>easymock</artifactId>
+		    <version>3.6</version>
+		    <scope>test</scope>
+		</dependency>		
 	</dependencies>
 
 	<build>

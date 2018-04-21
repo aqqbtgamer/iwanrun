@@ -41,6 +41,7 @@ public class RemoteFileService {
 		String FileRealName = fileName.substring(0, suffixIndex);
 		String suffixName = fileName.substring(suffixIndex+1);
 		String uploadedName = FileRealName+"_"+currenTime+"."+suffixName ;
+		FileOutputStream out = null;
 		try {
 			File path = new File(ResourceUtils.getURL("classpath:").getPath());
 			String uploadPath = env.getProperty("remote.file.upload");
@@ -52,15 +53,23 @@ public class RemoteFileService {
 			if(!upload.exists()) {
 				upload.createNewFile();
 			}
-			@SuppressWarnings("resource")
-			FileOutputStream out = new FileOutputStream(upload);
+			out = new FileOutputStream(upload);
 			out.write(fileBytes);
 			out.flush();
+			out.close();
 			result.setMessageBody(env.getProperty("remote.file.visitpath")+uploadedName);
 		} catch (FileNotFoundException e) {
 			logger.error("path is not find for upload",e);
 		} catch (IOException e) {
 			logger.error("file write error",e);
+		}finally {
+			if(out != null) {
+				try {
+					out.close();
+				} catch (IOException e) {
+					out = null ;
+				}
+			}
 		}
 		return result;
 	}

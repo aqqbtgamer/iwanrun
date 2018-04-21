@@ -1,14 +1,24 @@
 package com.iwantrun.admin.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.assertj.core.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.iwantrun.admin.constant.AdminApplicationConstants;
+import com.iwantrun.admin.transfer.Message;
 import com.iwantrun.admin.utils.CookieUtils;
+import com.iwantrun.admin.utils.FormDataUtils;
+
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 
 @Service
 public class LocationService {
@@ -28,20 +38,31 @@ public class LocationService {
         //'location',
         //'mainImage',
         //'imgManage'
-		String name = request.getParameter("name");
-		String locationType = request.getParameter("location_type_code");
-		String[] specialTagsArray = request.getParameterValues("special_tags[]");
-		String groupNumber = request.getParameter("group_number_limit_code");
-		String province = request.getParameter("activity_province_code");
-		String city = request.getParameter("activity_city_code");
-		String district = request.getParameter("activity_dist_code");
-		String location = request.getParameter("location");
-		String mainImage = request.getParameter("mainImage");
-		String[] imgManage = request.getParameterValues("imgManage[]");
-		String details = request.getParameter("_ue");
 		String token = CookieUtils.getLoginToken(request);
-		
-		return AdminApplicationConstants.HTTP_RESULT_FAILED ;
+		List<String> paramList = FormDataUtils.stringArray2List(new String[] {
+				"name",
+				"location_type_code",
+				"special_tags[]",
+				"group_number_limit_code",
+				"activity_province_code",
+				"activity_city_code",
+				"activity_dist_code",
+				"location",
+				"mainImage",
+				"imgManage[]",
+				"_ue"
+				
+				
+		});
+		String json = FormDataUtils.formData2Json(request,paramList);
+		String postUrl = env.getProperty("application.location.add");
+		String baseUrl = env.getProperty("application.serverbase");
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(json);
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);		
+		return response == null ? null : response.getBody().getMessageBody();
 	}
 
 }
