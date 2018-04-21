@@ -22,11 +22,19 @@ $(document).ready(
                 'mainImage',
                 'imgManage'
             ),
-            submitUrl);
+            submitUrl,returnListPage);
         bindSeclectAll("checkAll");
         bindDeleteSelected("deleteAll");
     }
 );
+
+function returnListPage(result){
+	if(result == "failed"){
+		alert("后台处理数据失败")
+	}else{
+		window.location.href="locationlist.html";
+	}
+}
 
 
 

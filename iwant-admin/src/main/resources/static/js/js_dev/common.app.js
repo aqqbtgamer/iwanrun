@@ -74,7 +74,7 @@ function fileUpload(contentId,url,callback) {
         );
     }
 
-    function bindDataSubmit(id,fieldArray,url){
+    function bindDataSubmit(id,fieldArray,url,callback){
         $("#"+id).bind('click',function(){
             var formData = collectFormDatas(fieldArray);
             $.ajax(
@@ -86,6 +86,7 @@ function fileUpload(contentId,url,callback) {
                     type:"POST",
                     success:function(result){
                         console.log("提交到"+url+"成功");
+                        callback();
                     },
                     error:function(XMLHttpRequest ,error,exception){
                         console.log("提交到"+url+"失败,原因是: "+ error.toString());
@@ -134,6 +135,7 @@ function fileUpload(contentId,url,callback) {
         formdData['_ue']= ue.getContent();
         return formdData;
     }
+    
 
     function fufilItem(collect){
         if(collect.prop('nodeName').toLowerCase() == 'input'){
