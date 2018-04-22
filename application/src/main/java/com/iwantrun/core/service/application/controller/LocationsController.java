@@ -69,7 +69,7 @@ public class LocationsController {
 			return s.substring(index+1);
 		} ;
 		
-		BiFunction<String,Integer,String> biFun = (value,index) -> value+"_"+index ;
+		BiFunction<String,Integer,String> biFun = (value,index) -> value+"-"+index ;
 		ListUpdateUtils.updateListProperty(locationAttachments, 
 				new String[] {
 						"filePath=>fileName"

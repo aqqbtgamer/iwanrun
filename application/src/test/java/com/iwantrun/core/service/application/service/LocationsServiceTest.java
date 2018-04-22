@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -24,7 +25,7 @@ public class LocationsServiceTest {
 	private LocationsService service ;
 
 	@Test
-	public void test() {
+	public void testAdd() {
 		Locations location = new Locations();
 		location.setName("test1");
 		location.setActiveTypeCode("1");
@@ -38,6 +39,25 @@ public class LocationsServiceTest {
 		list.add(attach);
 		boolean result = service.createLocations(location, list);
 		assertEquals(true, result);
+	}
+	
+	@Test
+	public void testFindAll() {
+		Page<Locations> resultPage = service.findAllLocationsPageable(0);
+		assertEquals(1,resultPage.getTotalElements());
+		List<Locations> locations =resultPage.getContent();
+		assertEquals(1,locations.size());
+	}
+	
+	
+	@Test
+	public void testQueryLocationpageAble() {
+		Locations location = new Locations();
+		location.setName("test");
+		Page<Locations> resultPage = service.queryLocationByConditionPageable(0, location);
+		assertEquals(1,resultPage.getTotalElements());
+		List<Locations> locations =resultPage.getContent();
+		assertEquals(1,locations.size());
 	}
 
 }

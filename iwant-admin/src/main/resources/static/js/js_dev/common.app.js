@@ -90,6 +90,7 @@ function fileUpload(contentId,url,callback) {
                     },
                     error:function(XMLHttpRequest ,error,exception){
                         console.log("提交到"+url+"失败,原因是: "+ error.toString());
+                        alert("上传失败 服务端无法连接")
                     }
                 }
             )

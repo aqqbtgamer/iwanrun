@@ -107,8 +107,9 @@ public class ListUpdateUtils {
 						}
 					}
 				}
+				index ++ ;
 			}
-			index ++ ;
+			
 		}
 		return tList;
 	}
