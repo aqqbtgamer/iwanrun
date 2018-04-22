@@ -76,7 +76,7 @@
 
         <div id="main">
             <div id="content">
-                <h2 class="jquery_tab_title">新增场地</h2>
+                <h2 class="jquery_tab_title">新增产品</h2>
                 <table class="form_h">
                     <tr>
                         <th><label for="name">名称</label></th>
@@ -85,7 +85,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th> <label for="location_type_code">活动类型</label></th>
+                        <th> <label for="activity_type_code">活动类型</label></th>
                         <td>
                             <select name="activity_type_code"  id="activity_type_code">
                                 <option value="1">跑步</option>
@@ -95,36 +95,36 @@
                     <tr>
                         <th> <label for="during">活动天数</label></th>
                         <td>
-                            <input class="input-small" type="text"  name="during" id="during" />
+                            <input class="input-small" type="number"  name="during" id="during" />
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <th> <label for="location_type_code">活动天数范围</label></th>
                         <td>
                             <select name="during_code"  id="during_code">
                                 <option value="1">跑步</option>
                             </select>
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
-                        <th> <label for="groupNumber">活动人数</label></th>
+                        <th> <label for="group_number">活动人数</label></th>
                         <td>
-                            <input class="input-small" type="text"  name="groupNumber" id="groupNumber" />
+                            <input class="input-small" type="number"  name="group_number" id="group_number" />
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <th> <label for="groupNumberCode">活动人数范围</label></th>
                         <td>
                             <input class="input-small" type="text"  name="groupNumberCode" id="groupNumberCode" />
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <th><label for="priority">优先级</label></th>
                         <td>
                             <input  type="number"  name="priority" id="priority" />
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <th><label for="orderSimulatePriceCode">订单人均参考报价范围</label></th>
                         <td>
                             <input  type="number"  name="orderSimulatePriceCode" id="orderSimulatePriceCode" />
@@ -135,13 +135,7 @@
                         <td>
                             <input  type="number"  name="orderGroupPriceCode" id="orderGroupPriceCode" />
                         </td>
-                    </tr>
-                    <tr>
-                        <th><label for="orderGroupPriceCode">订单团体参考报价范围</label></th>
-                        <td>
-                            <input  type="number"  name="orderGroupPriceCode" id="orderGroupPriceCode" />
-                        </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <th> <label >产品地址</label></th>
                         <td>
@@ -160,16 +154,53 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="orderGroupPriceCode">订单团体参考报价范围</label></th>
+                        <th><label for="descirbeText1">详情描述1</label></th>
                         <td>
-                            <input  type="number"  name="orderGroupPriceCode" id="orderGroupPriceCode" />
+                            <input  type="text"  name="descirbeText1" id="descirbeText1" />
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="orderGroupPriceCode">订单团体参考报价范围</label></th>
+                        <th><label for="descirbeText2">详情描述2</label></th>
                         <td>
-                            <input  type="number"  name="orderGroupPriceCode" id="orderGroupPriceCode" />
+                            <input  type="text"  name="descirbeText2" id="descirbeText2" />
                         </td>
+                    </tr>
+                    <tr>
+                        <th><label for="descirbeText1">详情描述3</label></th>
+                        <td>
+                            <input  type="text"  name="descirbeText3" id="descirbeText3" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>产品主图</th>
+                        <td><input type="file" id="mainImageUpload"/></td>
+                    </tr>
+                    <tr>
+                        <th>主图效果</th>
+                        <td width="600"><img width="100%" src="images/1210000.jpg" alt="images/1210000.jpg" id="mainImage" name="mainImage"/></td>
+                    </tr>
+                    <!-- <tr>
+                        <th class="vat">场地轮播图</th>
+                        <td class="imgUploadManager">
+                            <input type="file" name="uploadedLocationImages" id="uploadedLocationImages"/>
+                            <label><input type="checkbox" class="checkAll" id="checkAll"/>全选</label>
+                            <label><button class="delAll" id="deleteAll">删除</button></label>
+                            <ul class="imgManage" id="imgManage" name="imgManage">
+                               
+                            </ul>
+                        </td>
+                    </tr> -->
+                    <tr>
+                        <th></th>
+                        <td>
+                            <input class="button" id="submitForm" type="button" value="提交"/>
+                        </td>
+                    </tr>
+                    <tr>
+                       <th id="hidden_value">
+                       
+                       </th>
+                       <td></td>
                     </tr>
                 </table>
             </div>
@@ -182,7 +213,7 @@
                 <li><a class="headitem item1" href="#">基础管理</a>
                     <ul><!-- ul items without this class get hiddden by jquery-->
                         <li><a href="./locationlist.html">场地管理</a></li>
-                        <li><a href="#">产品管理</a></li>
+                        <li><a href="./productionInfoList.html">产品管理</a></li>
                         <li><a href="home.html">案例管理</a></li>
                         <li><a href="#">用户管理</a></li>
                         <li><a href="#">交易管理</a></li>
@@ -242,5 +273,5 @@
     	serverUrl:"/iwant_admin/ueEditor/server"
     }); 
 </script>
-<script type="text/javascript" src="js/js_dev/locationCreate.app.js"></script>
+<script type="text/javascript" src="js/js_dev/productionInfoCreate.app.js"></script>
 </html>
