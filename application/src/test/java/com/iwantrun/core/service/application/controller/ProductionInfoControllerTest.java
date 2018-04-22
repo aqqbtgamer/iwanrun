@@ -21,7 +21,7 @@ import com.iwantrun.core.service.application.transfer.Message;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootConfiguration
 //是一级注释，用于声明一个ApplicationContext集成测试加载WebApplicationContext。作用是模拟ServletContext
-@WebAppConfiguration
+@WebAppConfiguration("wac")
 public class ProductionInfoControllerTest {
 	private MockMvc mockMvc;
 	@org.junit.Before

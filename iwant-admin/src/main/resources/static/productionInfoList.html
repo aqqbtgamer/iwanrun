@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content="Reflect Template" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <link rel="icon" href="images/icon/favicon.ico" type="image/x-icon">
+    <title>我要跑-后台管理首页</title>
+    <link rel="stylesheet" href="css/style_all.css" type="text/css" media="screen" />
+
+    <!-- to choose another color scheme uncomment one of the foloowing stylesheets and wrap styl1.css into a comment -->
+    <link rel="stylesheet" href="css/style8.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/jquery-ui.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/css_dev/style_dev_all.css">
+
+	<script type='text/javascript' src='js/jquery.js'></script>
+
+	<script type="text/javascript" src="js/js_dev/common.pagination.js"></script>
+    <script type="text/javascript" src="js/js_dev/productionInfoList.app.js"></script>
+    <style type="text/css">
+
+
+    </style>
+</head>
+
+<body>
+<div id="top">
+    <div id="head">
+        <h1 class="logo">
+            <a href="home.html"></a>
+        </h1>
+        <div class="head_memberinfo">
+            <div class="head_memberinfo_logo">
+                <span>1</span>
+                <img src="images/unreadmail.png" alt=""/>
+            </div>
+
+            <span class='memberinfo_span'>
+                       欢迎 <a href="">管理员</a>
+                   </span>
+
+            <span class='memberinfo_span'>
+                    <a href="">设置</a>
+                </span>
+
+            <span>
+                    <a href="login.html">登出</a>
+                </span>
+
+            <span class='memberinfo_span2'>
+                    <a href="">1 条私信</a>
+                </span>
+        </div>
+        <!--end head_memberinfo-->
+
+    </div>
+    <!--end head-->
+
+    <div id="bg_wrapper">
+
+        <div id="main">
+            <div id="content">
+                <h2 class="jquery_tab_title">场地列表</h2>
+                <table class="table_liquid datalist" cellspacing="0">
+                    <caption>
+
+                            <button method="href" to="createLocation.html">新增</button>
+                            <select name="" id="searchSelect"><!-- 活动类型、天数、人数、参考价格 -->
+                                <option>筛选</option>
+                                <option value="activityTypeCode">活动类型</option>
+                                <option value="during">天数</option>
+                                <option value="groupNumber">人数</option>
+                                <option value="orderSimulatePriceCode">人均参考价格</option>
+                            </select>
+                            <input type="text" name="keyword" id="searchText"/>
+                            <button onclick="search()">查找</button>
+
+                    </caption>
+                    <thead>
+                    <tr>
+                    	<!-- 产品缩略图、产品名称、活动类型、活动天数、人数上限、参考报价 -->
+                        <th><input type="checkbox">选择全部</th>
+                        <th>产品缩略图</th>
+                        <th>产品名称</th>
+                        <th>活动类型</th>
+                        <th>活动天数</th>
+                        <th>人数上限</th>
+                        <th>人均参考报价范围 </th>
+                        <th>团体参考报价 范围</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="node">
+                    
+                    <!-- <tr>
+                        <th><input type="checkbox"></th>
+                        <th><img src="" alt="" /></th>
+                        <td>产品名称</td>
+                        <td>活动类型</td>
+                        <td>活动天数</td>
+                        <td>人数上限</td>
+                        <td>参考报价</td>
+                        <td> <a>修改</a> / <a>删除</a></td>
+                    </tr> -->
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="9">
+                            <div class="pagination" id="pagination">
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!--end content-->
+
+        </div><!--end main-->
+
+        <div id="sidebar">
+            <ul class="nav">
+                <li><a class="headitem item1" href="#">基础管理</a>
+                    <ul><!-- ul items without this class get hiddden by jquery-->
+                        <li><a href="./locationlist.html">场地管理</a></li>
+                        <li><a href="#">产品管理</a></li>
+                        <li><a href="home.html">案例管理</a></li>
+                        <li><a href="#">用户管理</a></li>
+                        <li><a href="#">交易管理</a></li>
+                    </ul>
+                </li>
+                <li><a class="headitem item2" href="#">系统配置</a>
+                    <ul>
+                        <li><a href="#">日志设置</a></li>
+                        <li><a href="#">用户设置</a></li>
+                        <li><a href="#">找不到结果构建</a></li>
+                    </ul>
+                </li>
+                <li><a class="headitem item4" href="#">编辑</a>
+                    <ul>
+                        <li><a href="#">编辑日志</a></li>
+                        <li><a href="#">编辑页面</a></li>
+                        <li><a href="#">编辑链接</a></li>
+                        <li><a href="#">编辑菜单元素</a></li>
+                    </ul>
+                </li>
+                <li><a class="headitem item5" href="#">站点搜索</a>
+                    <ul>
+                        <li><a href="#">基础搜索</a></li>
+                        <li><a href="#">高级搜索</a></li>
+                        <li><a href="#">搜索设置</a></li>
+                    </ul>
+                </li>
+                <li><a class="headitem item6" href="#">已删除项目</a>
+                    <ul>
+                        <li><a href="#">内容</a></li>
+                        <li><a href="#">图片</a></li>
+                        <li><a href="#">音频</a></li>
+                        <li><a href="#">视频</a></li>
+                        <li><a href="#">PDF</a></li>
+                        <li><a href="#">脚本</a></li>
+                        <li><a href="#">其他</a></li>
+                    </ul>
+                </li>
+            </ul><!--end subnav-->
+
+
+
+        </div>
+        <!--end sidebar-->
+
+    </div><!--end bg_wrapper-->
+
+    <div id="footer" style="color: #fff;text-align: center">
+
+    </div><!--end footer-->
+
+</div><!-- end top -->
+
+</body>
+
+</html>

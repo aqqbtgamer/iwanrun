@@ -1,12 +1,11 @@
 package com.iwantrun.core.service.application.controller;
 
-import static org.assertj.core.api.Assertions.in;
-
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -35,11 +34,12 @@ public class ProductionInfoController {
 	}
 
 	/**
-	 * 按照指定的字段筛选、查找产品，如活动类型、天数、人数、参考价格等 按照指定的字段对产品列表进行排序，如访问热度、上架时间、参考价格等
+	 * 按照指定的字段筛选、查找产品，如活动类型、天数、人数、参考价格等 
+	 * 按照指定的字段对产品列表进行排序，如访问热度、上架时间、参考价格等
 	 */
 	@RequestMapping("/application/productionInfo/find")
 	@NeedTokenVerify
-	public List<ProductionInfo> findByParam(@RequestBody Message message) {
+	public Page<ProductionInfo> findByParam(@RequestBody Message message) {
 
 		JSONObject body = (JSONObject) JSONValue.parse(message.getMessageBody());
 
@@ -69,10 +69,10 @@ public class ProductionInfoController {
 		if (null != orderGroupPriceCode) {
 			param.setOrderGroupPriceCode(orderGroupPriceCode.intValue());
 		}
-		if (pageNum == null) {
+		if (pageNum == null || pageNum.intValue() < 0) {
 			pageNum = 0;
 		}
-		if (pageSize == null) {
+		if (pageSize == null || pageSize.intValue() < 0) {
 			pageSize = 10;
 		}
 
@@ -83,7 +83,7 @@ public class ProductionInfoController {
 			page = PageRequest.of(pageNum.intValue(), pageSize.intValue(),
 					Direction.fromString(body.getAsString("direction")), sortFlag);
 		}
-
+		System.err.println(productionInfoService);
 		return productionInfoService.findAllByParam(param, page);
 	}
 

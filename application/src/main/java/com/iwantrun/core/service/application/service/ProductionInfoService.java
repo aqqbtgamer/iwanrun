@@ -11,6 +11,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -51,8 +52,9 @@ public class ProductionInfoService {
 	/**
 	 * 查询产品信息 按照多个查询条件查询产品
 	 */
-	public List<ProductionInfo> findAllByParam(ProductionInfo param) {
-		return findAllByParam(param, null);
+	public Page<ProductionInfo> findAllByParam(ProductionInfo param) {
+		Pageable page = PageRequest.of(0, Integer.MAX_VALUE); 
+		return findAllByParam(param, page);
 	}
 
 	/**
@@ -60,7 +62,7 @@ public class ProductionInfoService {
 	 * 
 	 * @param sort
 	 */
-	public List<ProductionInfo> findAllByParam(ProductionInfo param, Pageable page) {
+	public Page<ProductionInfo> findAllByParam(ProductionInfo param, Pageable page) {
 		ExampleMatcher matcher = ExampleMatcher.matchingAll();
 		GenericPropertyMatcher strMatcher = GenericPropertyMatchers.contains();
 		GenericPropertyMatcher numMatcher = GenericPropertyMatchers.exact();
@@ -91,14 +93,17 @@ public class ProductionInfoService {
 		}
 		Example<ProductionInfo> example = Example.of(param, matcher);
 
-		List<ProductionInfo> infos;
+		/*List<ProductionInfo> infos;
 		if (page == null) {
 			infos = productionInfoDao.findAll(example);
 		} else {
 			Page<ProductionInfo> pageProductionInfo = productionInfoDao.findAll(example, page);
 			infos = pageProductionInfo.getContent();
-		}
+		}*/
 
+		Page<ProductionInfo> pageProductionInfo = productionInfoDao.findAll(example, page);
+		List<ProductionInfo> infos = pageProductionInfo.getContent();
+		
 		// 封装产品的场地信息
 		for (ProductionInfo info : infos) {
 			ProductionLocationRelation pLocationRelation = pLocationRelationDao.findByProductionId(info.getId());
@@ -111,7 +116,7 @@ public class ProductionInfoService {
 		}
 		//相关联的案例
 		
-		return infos;
+		return pageProductionInfo;
 	}
 
 	public ProductionInfo findById(Integer id) {
