@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	loadListData();// 加载列表数据
+	wrapCustomerItems();
 });
 function loadListData(urlparamstr){
 	var url = "./productionInfo/find?pageNum=" + currPage + "&pageSize=" + pageSize;
@@ -62,4 +63,19 @@ function search(){
 	var searchText = $("#searchText").val();
 	
 	loadListData(searchSelected + "=" + searchText);
+}
+
+function wrapCustomerItems() {
+	console.log("开始处理自定义组件功能");
+	wrapCustomerButtons();
+}
+
+function wrapCustomerButtons() {
+	$("button").unbind();
+	console.log("开始处理自定义byutton功能");
+	$("button[method='href']").each(function(index, element) {
+		$(element).click(function() {
+			window.location.href = $(element).attr('to');
+		});
+	})
 }

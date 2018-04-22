@@ -7,7 +7,7 @@ public class ProductionInfo {
 	private Integer id; // 系统主键
 	private Integer activityTypeCode; // 活动类型
 	private Integer during; // 活动天数
-	private Integer duringCode; // 活动天数范围
+	private Integer duringCode; // 活动天数范围，以下和此包含范围的属性，都需要关联数据字典表查询，都在数据字典那边维护
 	private Integer groupNumber; // 活动人数
 	private Integer groupNumberCode; // 活动人数范围
 	private Integer priority; // 优先权重
