@@ -30,4 +30,10 @@ public class ProductionInfoController {
 	public String find(HttpServletRequest request) {
 		return service.find(request);
 	}
+	
+	@RequestMapping("/productionInfo/add")
+	@ResponseBody
+	public String add(HttpServletRequest request) {
+		return service.add(request);
+	}
 }
