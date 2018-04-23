@@ -29,14 +29,13 @@
     <![endif]-->
 
    
-    <script type='text/javascript' src='js/all-ck.js'></script>
-    <!-- <script type='text/javascript' src='ueditor1_2_2_0-utf8-php/editor_config.js'></script>-->
- <!--    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script> -->
-   <script type="text/javascript" src="ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.config.js"></script>
+   	<script type='text/javascript' src='js/all-ck.js'></script>
+    <script type='text/javascript' src="js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.config.js"></script>
     <script type="text/javascript" src="ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.all.js"></script>
     <script type='text/javascript' src='js/custom.js'></script>
     <script type="text/javascript" src="js/js_dev/common.app.js"></script>
-
+   
 </head>
 
 <body>
@@ -99,10 +98,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <th> <label for="location_type_code">活动天数范围</label></th>
+                        <th> <label for="location_type_code">活动天数范围</label></th> 
                         <td>
-                        	<select name="duringCode"  id="duringCode">
-                                <option value="1">5~10天</option>
+                        	<select name="during_code"  id="during_code">
+                                <option value="1">5~10 天</option>
+                                <option value="2">10~15 天</option>
                             </select>
                         </td>
                     </tr>
@@ -113,10 +113,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <th> <label for="groupNumberCode">活动人数范围</label></th>
+                        <th> <label for="group_number_code">活动人数范围</label></th>
                         <td>
-                            <input class="input-small" type="text"  name="groupNumberCode" id="groupNumberCode" />
+                        	<select name="group_number_code"  id="group_number_code">
+                                <option value="1">5~10 人</option>
+                                <option value="2">10~15 人</option>
+                            </select>
                         </td>
+                    </tr>
                     </tr>
                     <tr>
                         <th><label for="priority">优先级</label></th>
@@ -125,15 +129,21 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="orderSimulatePriceCode">订单人均参考报价范围</label></th>
+                        <th><label for="order_simulate_price_code">订单人均参考报价范围</label></th>
                         <td>
-                            <input  type="number"  name="orderSimulatePriceCode" id="orderSimulatePriceCode" />
+                        	<select name="order_simulate_price_code"  id="order_simulate_price_code">
+                                <option value="1">500~1000 元</option>
+                                <option value="2">1000~1500 元</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="orderGroupPriceCode">订单团体参考报价范围</label></th>
+                        <th><label for="order_group_price_code">订单团体参考报价范围</label></th>
                         <td>
-                            <input  type="number"  name="orderGroupPriceCode" id="orderGroupPriceCode" />
+                        	<select name="order_group_price_code"  id="order_group_price_code">
+                                <option value="1">500~1000 元</option>
+                                <option value="2">1000~1500 元</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -142,6 +152,7 @@
                             <label for="activity_province_code">省份：</label>
                             <select name="activity_province_code" id="activity_province_code" >
                                 <option value="1">上海</option>
+                                <option value="1">北京</option>
                             </select>
                             <label for="activity_city_code">市：</label>
                             <select name="activity_city_code" id="activity_city_code" >
@@ -154,42 +165,46 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="descirbeText1">详情描述1</label></th>
+                        <th><label for="location">详细地址</label></th>
                         <td>
-                            <input  type="text"  name="descirbeText1" id="descirbeText1" />
+                            <input  type="text"  name="location" id="location" />
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                        <th><label for="descirbe_text1">详情描述1</label></th>
+                        <td>
+                            <input  type="text"  name="descirbe_text1" id="descirbe_text1" />
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="descirbeText2">详情描述2</label></th>
+                        <th><label for="descirbe_text2">详情描述2</label></th>
                         <td>
-                            <input  type="text"  name="descirbeText2" id="descirbeText2" />
+                            <input  type="text"  name="descirbe_text2" id="descirbe_text2" />
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="descirbeText1">详情描述3</label></th>
+                        <th><label for="descirbe_text3">详情描述3</label></th>
                         <td>
-                            <input  type="text"  name="descirbeText3" id="descirbeText3" />
+                            <input  type="text"  name="descirbe_text3" id="descirbe_text3" />
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <th>产品主图</th>
                         <td><input type="file" id="mainImageUpload"/></td>
                     </tr>
                     <tr>
                         <th>主图效果</th>
-                        <td width="600"><img width="100%" src="images/1524319241.png" alt="images/1524319241.png id="mainImage" name="mainImage"/></td>
+                        <td width="600"><img width="80%" height="99%" src="images/1524319241.png" alt="images/1524319241.png" id="mainImage" name="mainImage"/></td>
                     </tr>
-                    <!-- <tr>
-                        <th class="vat">场地轮播图</th>
-                        <td class="imgUploadManager">
-                            <input type="file" name="uploadedLocationImages" id="uploadedLocationImages"/>
-                            <label><input type="checkbox" class="checkAll" id="checkAll"/>全选</label>
-                            <label><button class="delAll" id="deleteAll">删除</button></label>
-                            <ul class="imgManage" id="imgManage" name="imgManage">
-                               
-                            </ul>
+                    <tr>
+                        <th><label>产品介绍</label></th>
+                        <td>
+                            <script id="container" name="ueditor" type="text/plain" >
+								产品详情编辑
+                            </script>
+
                         </td>
-                    </tr> -->
+                    </tr>
                     <tr>
                         <th></th>
                         <td>
@@ -270,7 +285,8 @@
 </body>
 <script type="text/javascript">
      var ue = UE.getEditor('container',{
-    	serverUrl:"/iwant_admin/ueEditor/server"
+    	initialFrameWidth:1900px,
+    	serverUrl:"ueEditor/server"
     }); 
 </script>
 <script type="text/javascript" src="js/js_dev/productionInfoCreate.app.js"></script>

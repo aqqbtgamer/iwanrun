@@ -38,6 +38,31 @@ function returnListPage(result){
 	}
 }
 
+/*function add(){
+	getDatas();
+}
+
+function getDatas(){
+	 activity_type_code  during_code group_number group_number_code priority  order_simulate_price_code order_group_price_code location descirbe_text3 
+	 var name = getEleVal("name");
+	 var name = getEleVal("during");
+	 var name = getEleVal("name");
+	 var name = getEleVal("name");
+	 var name = getEleVal("name");
+	 var name = getEleVal("name");
+	 var name = getEleVal("name");
+	 var name = getEleVal("name");
+	 var name = getEleVal("name");
+}
+
+function getEleVal(id){
+	return $("#" + id).val();
+}
+
+function getSelectedEleVal(){
+	return $("#" + id + "")
+}*/
+
 
 
 
