@@ -53,6 +53,7 @@ public class LocationsServiceTest {
 	@Test
 	public void testQueryLocationpageAble() {
 		Locations location = new Locations();
+		location.setId(11);
 		location.setName("test");
 		Page<Locations> resultPage = service.queryLocationByConditionPageable(0, location);
 		assertEquals(1,resultPage.getTotalElements());

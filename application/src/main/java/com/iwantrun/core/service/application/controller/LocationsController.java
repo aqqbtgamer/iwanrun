@@ -9,6 +9,7 @@ import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.utils.EntityBeanUtils;
 import com.iwantrun.core.service.utils.ListUpdateUtils;
 import com.iwantrun.core.service.utils.MappingGenerateUtils;
+import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -91,6 +93,28 @@ public class LocationsController {
 			response.setMessageBody("failed");
 		}
 		return response;
+	}
+	
+	@RequestMapping("/application/location/findAll")
+	public Message findAll(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		JSONObject object = (JSONObject) JSONValue.parse(dataJson);
+		String pageIndex = object.getAsString("pageIndex");
+		Page<Locations> resultPage =locationService.findAllLocationsPageable(Integer.parseInt(pageIndex));
+		message.setMessageBody(PageDataWrapUtils.page2Json(resultPage));
+		return message;		
+	}
+	
+	@RequestMapping("/application/location/findByExample")
+	public Message findByExample(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		JSONObject object = (JSONObject) JSONValue.parse(dataJson);
+		String pageIndex = object.getAsString("locationService");
+		JSONObject locations = (JSONObject) object.get("example");
+		Locations example = JSONValue.parse(locations.toJSONString(), Locations.class);
+		Page<Locations> resultPage = locationService.queryLocationByConditionPageable(Integer.parseInt(pageIndex), example);
+		message.setMessageBody(PageDataWrapUtils.page2Json(resultPage));
+		return message;		
 	}
 
 }

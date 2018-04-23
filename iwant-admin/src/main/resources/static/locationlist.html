@@ -16,7 +16,7 @@
 
     <link rel="stylesheet" href="css/jquery-ui.css" type="text/css" media="screen" />
 
-    <link rel="stylesheet" href="ueditor1_4_3_3-utf8-jsp/utf8-jsp/themes/default/ueditor.css" type="text/css" media="screen" />
+
 
     <link rel="stylesheet" href="css/css_dev/style_dev_all.css">
 
@@ -32,6 +32,7 @@
    <!-- <script type='text/javascript' src='ueditor1_2_2_0-utf8-php/editor_config.js'></script>-->
 
     <script type='text/javascript' src='js/custom.js'></script>
+    <script type="text/javascript" src="js/js_dev/common.app.js"></script>
     <script type="text/javascript" src="js/js_dev/locationlist.app.js"></script>
     <style type="text/css">
 
@@ -77,7 +78,7 @@
         <div id="main">
             <div id="content">
                 <h2 class="jquery_tab_title">场地列表</h2>
-                <table class="table_liquid datalist" cellspacing="0">
+                <table class="table_liquid datalist" cellspacing="0" id="locationTable">
                     <caption>
 
                             <button method="href" to="createLocation.html">新增</button>
@@ -106,55 +107,19 @@
                     </thead>
                     <tbody>
 
-                    <tr>
-                        <th><input type="checkbox"></th>
-                        <th>Lorem ipsum dolor</th>
-                        <td>Blog post</td>
-                        <td>latin, blind copy</td>
-                        <td>none</td>
-                        <td>a</td>
-                        <td> <a>修改</a> / <a>删除</a></td>
-                    </tr>
-                    <tr>
-                        <th><input type="checkbox"></th>
-                        <th>About me</th>
-                        <td>Static content</td>
-                        <td>personal, information</td>
-                        <td>none</td>
-                        <td>a</td>
-                        <td> <a>修改</a> / <a>删除</a></td>
-                    </tr>
-                    <tr>
-                        <th><input type="checkbox"></th>
-                        <th>Portfolio</th>
-                        <td>Portfolio entry</td>
-                        <td>project, graphic, web design</td>
-                        <td>none</td>
-                        <td>a</td>
-                        <td> <a>修改</a> / <a>删除</a></td>
-                    </tr>
-                    <tr>
-                        <th><input type="checkbox"></th>
-                        <th>A random Blog post</th>
-                        <td>Blog post</td>
-                        <td>random, post, fun</td>
-                        <td>none</td>
-                        <td>a</td>
-                        <td> <a>修改</a> / <a>删除</a></td>
-                    </tr>
                     </tbody>
                     <tfoot>
                     <tr>
                         <td colspan="7">
-                            <div class="pagination">
-                                <a href="#" title="First Page">« 首页</a>
-                                <a href="#" title="Previous Page">« 前一页</a>
-                                <a href="#" class="number" title="1">1</a>
-                                <a href="#" class="number" title="2">2</a>
-                                <a href="#" class="number current" title="3">3</a>
-                                <a href="#" class="number" title="4">4</a>
-                                <a href="#" title="Next Page">后一页 »</a>
-                                <a href="#" title="Last Page">尾页 »</a>
+                            <div class="pagination" id="pagination">
+                                <!-- <a href="#" title="First Page" id="first" page="#">« 首页</a>
+                                <a href="#" title="Previous Page" id="previous" page="#">« 前一页</a>
+                                <a href="#" class="number current" page="0">1</a>
+                                <a href="#" class="number" page="1">2</a>
+                                <a href="#" class="number " page="2">3</a>
+                                <a href="#" class="number" page="3">4</a>
+                                <a href="#" title="Next Page" id="next" page="#">后一页 »</a>
+                                <a href="#" title="Last Page" id="last" page="#">尾页 »</a> -->
                             </div>
                         </td>
                     </tr>

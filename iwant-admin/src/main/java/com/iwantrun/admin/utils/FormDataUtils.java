@@ -21,8 +21,10 @@ public class FormDataUtils {
 				if(param.endsWith("[]")) {
 					String[] paramvalues = request.getParameterValues(param);
 					JSONArray array = new JSONArray();
-					array.addAll(Arrays.asList(paramvalues));
-					obj.put(param, array);
+					if(paramvalues != null) {
+						array.addAll(Arrays.asList(paramvalues));
+						obj.put(param, array);
+					}					
 				}else{
 					obj.put(param, request.getParameter(param));
 				}

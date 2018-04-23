@@ -1,13 +1,13 @@
 /**
  * 
  */
-console.log("common.js加载")
-var permittedUploadTypes = new Array("JPG","JPEG","PNG","BMP","BMP")
+console.log("common.app.js加载")
+//上传文件限制
+const permittedUploadTypes = new Array("JPG","JPEG","PNG","BMP","BMP");
+//分页栏除了当前页面之外最多展示位数  必须是奇数
+const displayPagenationlLimit = 7 ;
 
-window.alert = function(e){
-	alert("准备开始alert啦");
-	alert(e);
-}
+
 
 function fileUpload(contentId,url,callback) {
     var formData = new FormData();
@@ -191,8 +191,166 @@ function fileUpload(contentId,url,callback) {
     	            )
     	        }
     	})
-       
-        
-       
+    }
+    
+  
+    function pageDataInit(tableId,pageId,dataUrl,columns,pageIndex){
+    	var table = $("#"+tableId);
+    	var requestData = new Object();
+    	if(pageIndex == null){
+    		requestData.pageIndex = 0 ;
+    	}else{
+    		requestData.pageIndex = pageIndex ;
+    	}
+    	
+    	$.ajax(
+            {
+                url:dataUrl,
+                cache:false,
+                data:requestData,
+                dataType:"text",
+                type:"POST",
+                type:"POST",
+                success:function(result){
+                    console.log("提交到"+dataUrl+"成功");
+                    insertTableData(result,tableId,pageId,columns,dataUrl);
+                },
+                error:function(XMLHttpRequest ,error,exception){
+                    console.log("提交到"+dataUrl+"失败,原因是: "+ exception.toString());
+                }
+            }
+        )
+    }
 
+    function insertTableData(result,tableId,pageId,columns,dataUrl){
+        //console.log("获取后台信息:"+result);
+        var ret = $.parseJSON(result);
+        var tableData = ret.content;
+        var table = $("#"+tableId).find("tbody");
+        table.empty();
+        for(var i=0; i<tableData.length ; i++ ){
+            var column = tableData[i] ;
+            var tr = $("<tr></tr>");
+            if(i%2 == 0){
+            	tr.addClass("odd");
+            }else{
+            	tr.addClass("even");
+            }
+            var tdCheck = $("<th></th>");
+            var checkBox = $("<input>").prop("type","checkbox").attr("id",column.id);
+            tdCheck.append(checkBox);
+            tr.append(tdCheck);
+            for(var j=0 ; j<columns.length ; j++){
+                var td = $("<td></td>");
+                td.text(column[columns[j]]);
+                tr.append(td);
+            }
+            var tdOpration = $("<td></td>");
+            var linkModify = $("<a></a>").text("修改");
+            var linkDelete = $("<a></a>").text("删除");
+            tdOpration.append(linkModify);
+            tdOpration.append("/");
+            tdOpration.append(linkDelete);
+            tr.append(tdOpration);
+            table.append(tr);
+        }
+        var pagedata = ret.pageInfo;
+        //最多显示前三和后三 多了添加一个省略号
+        var totalPage = pagedata.totalpage ;
+        var pageDiv = $("#"+pageId);
+        pageDiv.empty();
+       //首页
+        var first = generatePageLink(tableId,pageId,dataUrl,columns,0,"« 首页");
+        var previous = generatePageLink(tableId,pageId,dataUrl,columns,Math.max(0,pagedata.currentPage-1),"« 前一页");
+        pageDiv.append(first);
+        pageDiv.append(previous);
+        if(totalPage > displayPagenationlLimit){
+        	//大于等于限制页数 显示
+        	//1.计算cuurent page 到两端的距离 
+        	var begin =  0 ;
+        	var max = pagedata.totalpage-1 ;
+        	var current = pagedata.currentPage ;
+        	var leftMargin = current - begin ;
+        	var righrMargin = max - current ;
+        	if(leftMargin <= (displayPagenationlLimit-1)/2 && righrMargin > (displayPagenationlLimit-1)/2){
+        		//省略号位于右半边
+        		for(var i = 0 ; i< leftMargin ; i++){
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i);
+        			pageDiv.append(pageLink);
+        		}
+        		var currentLink = generatePageLink(tableId,pageId,dataUrl,columns,current).addClass("current");
+        		pageDiv.append(currentLink);
+        		for(var i=0 ; i< displayPagenationlLimit - leftMargin -1 ; i++){
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i+current+1);
+        			pageDiv.append(pageLink);
+        		}
+        		var blankPageLink = generatePageLink(tableId,pageId,dataUrl,columns,"#","...",true);
+        		pageDiv.append(blankPageLink);
+        	}else if(leftMargin > (displayPagenationlLimit-1)/2 && righrMargin <= (displayPagenationlLimit-1)/2){
+        		//省略号位于左半边
+        		var blankPageLink = generatePageLink(tableId,pageId,dataUrl,columns,"#","...",true);
+        		pageDiv.append(blankPageLink);
+        		var leftStart = max-displayPagenationlLimit +1 ;
+        		for(var i = leftStart; i < leftMargin ; i++){
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i);
+        			pageDiv.append(pageLink);
+        		}
+        		var currentLink = generatePageLink(tableId,pageId,dataUrl,columns,i).addClass("current");
+        		pageDiv.append(currentLink);
+        		for(var i=current+1 ; i < max+1 ; i++){
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i);
+        			pageDiv.append(pageLink);
+        		}
+        	}else{
+    			//左右都有省略号
+    			var blankPageLink = generatePageLink(tableId,pageId,dataUrl,columns,"#","...",true);
+        		pageDiv.append(blankPageLink);
+        		var leftStart = current - (displayPagenationlLimit-1)/2;
+        		for(var i = leftStart; i < leftMargin ; i++){
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i);
+        			pageDiv.append(pageLink);
+        		}
+        		var currentLink = generatePageLink(tableId,pageId,dataUrl,columns,i).addClass("current");
+        		pageDiv.append(currentLink);
+        		var rightEnd = current + (displayPagenationlLimit-1)/2;
+        		for(var i = current+1; i < rightEnd +1; i++){
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i);
+        			pageDiv.append(pageLink);
+        		}
+        		var blankPageLink = generatePageLink(tableId,pageId,dataUrl,columns,"#","...",true);
+        		pageDiv.append(blankPageLink);
+    		}
+        	
+
+        }else{
+        	//小于等于限制页数直接展示
+            for(var i = 0 ; i<totalPage ; i++){
+                var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i);
+                if(i == pagedata.currentPage){
+                	pageLink.addClass("current");                	
+                }
+                pageDiv.append(pageLink);
+            }
+        }
+        var next = generatePageLink(tableId,pageId,dataUrl,columns,Math.min(pagedata.totalpage-1,pagedata.currentPage+1),"后一页  »");
+        var end = generatePageLink(tableId,pageId,dataUrl,columns,pagedata.totalpage-1,"尾页  »");
+        pageDiv.append(next);
+        pageDiv.append(end);
+        
+    }
+    
+    
+    function generatePageLink(tableId,pageId,dataUrl,columns,pageIndex,content,blank){
+    	var pageLink = $("<a></a>").attr("page",pageIndex);
+    	if(content == null){
+    		pageLink.addClass("number").text(pageIndex+1);
+    	}else{
+    		pageLink.text(content);
+    	}
+    	if(!blank){
+    		pageLink.bind("click",function(){
+            	pageDataInit(tableId,pageId,dataUrl,columns,pageIndex);
+            });
+    	}        
+        return pageLink;
     }

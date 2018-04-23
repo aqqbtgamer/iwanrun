@@ -729,6 +729,7 @@ html body {
 
 				.pagination a.number {
 					border: 1px solid #ddd;
+					cursor: pointer;
 				}
 
 				.pagination a.current {

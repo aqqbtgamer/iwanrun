@@ -57,4 +57,21 @@ public class LocationService {
 		return response == null ? null : response.getBody().getMessageBody();
 	}
 
+
+	public String findAll(HttpServletRequest request) {
+		String token = CookieUtils.getLoginToken(request);
+		List<String> paramList = FormDataUtils.stringArray2List(new String[] {
+				"pageIndex"
+		});
+		String json = FormDataUtils.formData2Json(request,paramList);
+		String postUrl = env.getProperty("application.location.findAll");
+		String baseUrl = env.getProperty("application.serverbase");
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(json);
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);		
+		return response == null ? null : response.getBody().getMessageBody();
+	}
+
 }
