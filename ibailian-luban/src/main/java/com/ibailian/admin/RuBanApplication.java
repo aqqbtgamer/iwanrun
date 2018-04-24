@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RuBanApplication {
 
 	//added by han
-	//123
+	//123  123
 	public static void main(String[] args) {
 		SpringApplication.run(RuBanApplication.class, args);
 	}
