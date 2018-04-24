@@ -3,26 +3,30 @@
  */
 
 var uploadServer = '/iwant_admin/remote/fileupload';
-var submitUrl = '/iwant_admin/location/add'
+var submitUrl = '/iwant_admin/productionInfo/add'
 
 $(document).ready(
     function(){
         //initUE();
+    	//            
         bindUploadFile('mainImageUpload',uploadServer,'mainImage',singleDisplay);
-        bindUploadFile('uploadedLocationImages',uploadServer,'imgManage',mutipleDisplay);
+        bindUploadFile('uploadedProductionInfoImages',uploadServer,'imgManage',mutipleDisplay);
         bindDataSubmit('submitForm',
             new Array("name",
     				"activity_type_code",
     				"during",
+    				"during_code",
+    				"location",
+    				"order_group_price_code",
+    				"order_simulate_price_code",
     				"group_number",
+    				"group_number_code",
     				"priority",
     				"activity_province_code",
     				"activity_city_code",
     				"activity_dist_code",
-    				"descirbeText1",
-    				"descirbeText2",
-    				"descirbeText3",
-    				"mainImage"
+    				"mainImage",
+    				'imgManage'
             ),
             submitUrl,returnListPage);
         bindSeclectAll("checkAll");

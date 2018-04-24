@@ -22,6 +22,7 @@ import com.iwantrun.core.service.application.dao.ProductionInfoDao;
 import com.iwantrun.core.service.application.dao.ProductionLocationRelationDao;
 import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.ProductionInfo;
+import com.iwantrun.core.service.application.domain.ProductionInfoAttachments;
 import com.iwantrun.core.service.application.domain.ProductionLocationRelation;
 
 @Service
@@ -167,5 +168,15 @@ public class ProductionInfoService {
 	public void unShift(ProductionInfo param) {
 		param.setStatus(1);
 		edit(param);
+	}
+
+	/**
+	 * 创建新的产品 上架新的产品信息
+	 * 保存产品附件
+	 */
+	public boolean add(ProductionInfo info, List<ProductionInfoAttachments> infoAttachments) {
+		// TODO Auto-generated method stub
+		
+		return false;
 	}
 }

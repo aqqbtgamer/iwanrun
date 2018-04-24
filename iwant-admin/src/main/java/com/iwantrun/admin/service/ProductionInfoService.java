@@ -35,19 +35,21 @@ public class ProductionInfoService {
 				"name",
 				"activity_type_code",
 				"during",
+				"during_code",
+				"location",
+				"order_group_price_code",
+				"order_simulate_price_code",
 				"group_number",
+				"group_number_code",
 				"priority",
 				"activity_province_code",
 				"activity_city_code",
 				"activity_dist_code",
-				"descirbeText1",
-				"descirbeText2",
-				"descirbeText3",
 				"mainImage",
 				"_ue"
 		});
 		String json = FormDataUtils.formData2Json(request,paramList);
-		String postUrl = env.getProperty("application.location.add");
+		String postUrl = env.getProperty("application.productionInfo.add");
 		String baseUrl = env.getProperty("application.serverbase");
 		Message message = new Message();
 		message.setAccessToken(token);
@@ -89,5 +91,11 @@ public class ProductionInfoService {
 		System.err.println("响应====="+obj.toJSONString());
 		
 		return obj.toJSONString();
+	}
+
+	public String add(String json) {
+		// TODO Auto-generated method stub
+		System.out.println(json);
+		return null;
 	}
 }

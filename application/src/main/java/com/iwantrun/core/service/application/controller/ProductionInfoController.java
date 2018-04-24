@@ -1,6 +1,10 @@
 package com.iwantrun.core.service.application.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,10 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
+import com.iwantrun.core.service.application.domain.LocationAttachments;
+import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.ProductionInfo;
+import com.iwantrun.core.service.application.domain.ProductionInfoAttachments;
 import com.iwantrun.core.service.application.service.ProductionInfoService;
 import com.iwantrun.core.service.application.transfer.Message;
+import com.iwantrun.core.service.utils.EntityBeanUtils;
+import com.iwantrun.core.service.utils.ListUpdateUtils;
+import com.iwantrun.core.service.utils.MappingGenerateUtils;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
@@ -127,5 +138,73 @@ public class ProductionInfoController {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * 	添加产品
+	 *  保存产品信息
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/application/productionInfo/add")
+	@NeedTokenVerify
+	public Message add(@RequestBody Message message) {
+		Message response = new Message();
+		response.setAccessToken(message.getAccessToken());
+		response.setRequestMethod(message.getRequestMethod());
+		ProductionInfo info = new ProductionInfo();
+		String dataJson = message.getMessageBody();
+		JSONObject object = (JSONObject) JSONValue.parse(dataJson);
+		Map<String,String> mappingRelation = 
+				MappingGenerateUtils.generateMappingRelation(new String[] {
+	    				"name =>name",
+	    				"activity_type_code =>activity_type_code",
+	    				"during =>during",
+	    				"during_code =>during_code",
+	    				"location =>location",
+	    				"order_group_price_code =>order_group_price_code",
+	    				"order_simulate_price_code =>order_simulate_price_code",
+	    				"group_number =>group_number",
+	    				"group_number_code =>group_number_code",
+						"priority =>priority",
+						"activity_province_code =>activity_province_code",
+						"activity_city_code =>activity_city_code",
+						"activity_dist_code =>activity_dist_code",
+						"descirbeText1=>_ue"
+				});
+		EntityBeanUtils.beanCreateFromJson(info, mappingRelation, object);
+		Map<String,String> mappingRelation0 = 
+				MappingGenerateUtils.generateMappingRelation(new String[] {
+						"filePath=>bean"
+				});
+		JSONArray array = (JSONArray) object.get("imgManage[]");
+		List<ProductionInfoAttachments> infoAttachments = new ArrayList<ProductionInfoAttachments>();
+		EntityBeanUtils.listBeanCreateFromJson(infoAttachments, mappingRelation0, array, ProductionInfoAttachments.class);
+		Function<String,String> fun = s -> {
+			int index = s.lastIndexOf("/");
+			return s.substring(index+1);
+		} ;
+
+		BiFunction<String,Integer,String> biFun = (value,index) -> value+"-"+index ;
+		ListUpdateUtils.updateListProperty(infoAttachments, 
+				new String[] {
+						"filePath=>fileName"
+				}, 
+				new Function[] {
+						fun
+				}
+				, new String[] {
+						"pagePath==sideImage"
+				}
+		 		, (BiFunction<String,Integer,String>[])new BiFunction[]{
+						biFun
+				} 
+		);
+		boolean updateResult =productionInfoService.add(info, infoAttachments);
+		if(updateResult) {			
+			response.setMessageBody(String.valueOf(info.getId()));
+		}else {
+			response.setMessageBody("failed");
+		}
+		return response;
 	}
 }

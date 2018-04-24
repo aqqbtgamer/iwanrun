@@ -86,7 +86,7 @@
                     <tr>
                         <th> <label for="activity_type_code">活动类型</label></th>
                         <td>
-                            <select name="activity_type_code"  id="activity_type_code">
+                            <select name="activityTypeCode"  id="activity_type_code">
                                 <option value="1">跑步</option>
                             </select>
                         </td>
@@ -98,7 +98,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th> <label for="location_type_code">活动天数范围</label></th> 
+                        <th> <label for="during_code">活动天数范围</label></th> 
                         <td>
                         	<select name="during_code"  id="during_code">
                                 <option value="1">5~10 天</option>
@@ -197,6 +197,17 @@
                         <td width="600"><img width="80%" height="99%" src="images/1524319241.png" alt="images/1524319241.png" id="mainImage" name="mainImage"/></td>
                     </tr>
                     <tr>
+                        <th class="vat">产品轮播图</th>
+                        <td class="imgUploadManager">
+                            <input type="file" name="uploadedProductionInfoImages" id="uploadedProductionInfoImages"/>
+                            <label><input type="checkbox" class="checkAll" id="checkAll"/>全选</label>
+                            <label><button class="delAll" id="deleteAll">删除</button></label>
+                            <ul class="imgManage" id="imgManage" name="imgManage">
+                               
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
                         <th><label>产品介绍</label></th>
                         <td>
                             <script id="container" name="ueditor" type="text/plain" >
@@ -285,7 +296,8 @@
 </body>
 <script type="text/javascript">
      var ue = UE.getEditor('container',{
-    	initialFrameWidth:1900px,
+    	initialFrameWidth:	600,
+    	initialFrameHeight: 200,
     	serverUrl:"ueEditor/server"
     }); 
 </script>

@@ -13,7 +13,7 @@ function loadListData(urlparamstr){
 	        type: 'GET',
 	        url: url,
 	        data:null,
-	        contentType: "application/json;cherset=utf-8",
+	        contentType: "application/json;charset=utf-8",
 	        dataType: "json",
 	        success: function (data){
 	        	$('.node').empty()

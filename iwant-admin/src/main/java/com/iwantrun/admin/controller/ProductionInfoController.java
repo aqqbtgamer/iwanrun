@@ -3,6 +3,7 @@ package com.iwantrun.admin.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +34,8 @@ public class ProductionInfoController {
 	
 	@RequestMapping("/productionInfo/add")
 	@ResponseBody
-	public String add(HttpServletRequest request) {
-		return service.add(request);
+	public String add(@RequestBody String json, HttpServletRequest request) {
+		String mainImage = request.getParameter("mainImage");
+		return service.add(json);
 	}
 }
