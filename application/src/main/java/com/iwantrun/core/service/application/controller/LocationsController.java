@@ -19,6 +19,7 @@ import com.iwantrun.core.service.application.domain.LocationAttachments;
 import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.service.LocationsService;
 import com.iwantrun.core.service.application.transfer.Message;
+import com.iwantrun.core.service.application.transfer.PageDomianRequest;
 import com.iwantrun.core.service.utils.EntityBeanUtils;
 import com.iwantrun.core.service.utils.ListUpdateUtils;
 import com.iwantrun.core.service.utils.MappingGenerateUtils;
@@ -108,11 +109,9 @@ public class LocationsController {
 	@RequestMapping("/application/location/findByExample")
 	public Message findByExample(@RequestBody Message message) {
 		String dataJson = message.getMessageBody();
-		JSONObject object = (JSONObject) JSONValue.parse(dataJson);
-		String pageIndex = object.getAsString("locationService");
-		JSONObject locations = (JSONObject) object.get("example");
-		Locations example = JSONValue.parse(locations.toJSONString(), Locations.class);
-		Page<Locations> resultPage = locationService.queryLocationByConditionPageable(Integer.parseInt(pageIndex), example);
+		@SuppressWarnings("unchecked")
+		PageDomianRequest<Locations> example = JSONValue.parse(dataJson,PageDomianRequest.class);
+		Page<Locations> resultPage = locationService.queryLocationByConditionPageable(example.getPageIndex(), example.getObj());
 		message.setMessageBody(PageDataWrapUtils.page2Json(resultPage));
 		return message;		
 	}
