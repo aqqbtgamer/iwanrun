@@ -11,20 +11,20 @@ $(document).ready(
     	//            
         bindUploadFile('mainImageUpload',uploadServer,'mainImage',singleDisplay);
         bindUploadFile('uploadedProductionInfoImages',uploadServer,'imgManage',mutipleDisplay);
-        bindDataSubmit('submitForm',
+        bindDataSubmitJSON('submitForm',
             new Array("name",
-    				"activity_type_code",
+    				"activityTypeCode",
     				"during",
-    				"during_code",
+    				"duringCode",
     				"location",
-    				"order_group_price_code",
-    				"order_simulate_price_code",
-    				"group_number",
-    				"group_number_code",
+    				"orderGroupPriceCode",
+    				"orderSimulatePriceCode",
+    				"groupNumber",
+    				"groupNumberCode",
     				"priority",
-    				"activity_province_code",
-    				"activity_city_code",
-    				"activity_dist_code",
+    				"activityProvinceCode",
+    				"activityCityCode",
+    				"activityDistCode",
     				"mainImage",
     				'imgManage'
             ),
@@ -42,31 +42,33 @@ function returnListPage(result){
 	}
 }
 
-/*function add(){
-	getDatas();
+function bindDataSubmitJSON(id,fieldArray,url,callback){
+    $("#"+id).bind('click',function(){
+        var formData = collectFormDatas(fieldArray);
+        formData.descirbeText1=formData['_ue'];
+        var param = {};
+		param.messageBody = JSON.stringify(formData);
+        var paramJSON = JSON.stringify(param);
+        $.ajax(
+            {
+                url:url,
+                cahce:false,
+                data:paramJSON,
+                dataType:"json",
+                contentType:"application/json;charset=utf-8",
+                type:"POST",
+                success:function(result){
+                    console.log("提交到"+url+"成功");
+                    callback();
+                },
+                error:function(XMLHttpRequest ,error,exception){
+                    console.log("提交到"+url+"失败,原因是: "+ error.toString());
+                    alert("上传失败 服务端无法连接")
+                }
+            }
+        )
+    });
 }
-
-function getDatas(){
-	 activity_type_code  during_code group_number group_number_code priority  order_simulate_price_code order_group_price_code location descirbe_text3 
-	 var name = getEleVal("name");
-	 var name = getEleVal("during");
-	 var name = getEleVal("name");
-	 var name = getEleVal("name");
-	 var name = getEleVal("name");
-	 var name = getEleVal("name");
-	 var name = getEleVal("name");
-	 var name = getEleVal("name");
-	 var name = getEleVal("name");
-}
-
-function getEleVal(id){
-	return $("#" + id).val();
-}
-
-function getSelectedEleVal(){
-	return $("#" + id + "")
-}*/
-
 
 
 

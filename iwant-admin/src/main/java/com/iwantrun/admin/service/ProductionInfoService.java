@@ -14,7 +14,6 @@ import com.iwantrun.admin.transfer.Message;
 import com.iwantrun.admin.utils.CookieUtils;
 import com.iwantrun.admin.utils.FormDataUtils;
 
-import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
 @Service
@@ -93,9 +92,11 @@ public class ProductionInfoService {
 		return obj.toJSONString();
 	}
 
-	public String add(String json) {
-		// TODO Auto-generated method stub
-		System.out.println(json);
-		return null;
+	public String add(Message message) {
+		String postUrl = env.getProperty("application.productionInfo.add");
+		String baseUrl = env.getProperty("application.serverbase");
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = template.postForEntity(baseUrl+postUrl, message, Message.class);		
+		return response == null ? null : response.getBody().getMessageBody();
 	}
 }

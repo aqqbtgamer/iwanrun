@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.admin.service.ProductionInfoService;
+import com.iwantrun.admin.transfer.Message;
+import com.iwantrun.admin.utils.CookieUtils;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -34,8 +36,9 @@ public class ProductionInfoController {
 	
 	@RequestMapping("/productionInfo/add")
 	@ResponseBody
-	public String add(@RequestBody String json, HttpServletRequest request) {
-		String mainImage = request.getParameter("mainImage");
-		return service.add(json);
+	public String add(@RequestBody Message message, HttpServletRequest request) {
+		String token = CookieUtils.getLoginToken(request);
+		message.setAccessToken(token);
+		return service.add(message);
 	}
 }

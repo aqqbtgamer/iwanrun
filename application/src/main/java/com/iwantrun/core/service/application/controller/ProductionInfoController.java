@@ -207,4 +207,16 @@ public class ProductionInfoController {
 		}
 		return response;
 	}
+	
+	/*@RequestMapping("/application/productionInfo/add")
+	@NeedTokenVerify
+	public Message add(@RequestBody Message message) {
+		Message response = new Message();
+		response.setAccessToken(message.getAccessToken());
+		response.setRequestMethod(message.getRequestMethod());
+		
+		JSONValue.pa
+		
+		String dataJson = message.getMessageBody();
+	}*/
 }
