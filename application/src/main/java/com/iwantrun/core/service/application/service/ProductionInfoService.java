@@ -1,11 +1,14 @@
 package com.iwantrun.core.service.application.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
@@ -24,15 +27,20 @@ import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.ProductionInfo;
 import com.iwantrun.core.service.application.domain.ProductionInfoAttachments;
 import com.iwantrun.core.service.application.domain.ProductionLocationRelation;
+import com.iwantrun.core.service.application.transfer.ProductionInfoRequest;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 @Service
 public class ProductionInfoService {
+	@Autowired  
+    private Environment env;  
 	@Autowired
-	ProductionInfoDao productionInfoDao;
+	private ProductionInfoDao productionInfoDao;
 	@Autowired
-	LocationsDao locationsDao;
+	private LocationsDao locationsDao;
 	@Autowired
-	ProductionLocationRelationDao pLocationRelationDao;
+	private ProductionLocationRelationDao pLocationRelationDao;
 
 	public ProductionInfoDao getProductionInfoDao() {
 		return productionInfoDao;
@@ -54,7 +62,7 @@ public class ProductionInfoService {
 	 * 查询产品信息 按照多个查询条件查询产品
 	 */
 	public Page<ProductionInfo> findAllByParam(ProductionInfo param) {
-		Pageable page = PageRequest.of(0, Integer.MAX_VALUE); 
+		Pageable page = PageRequest.of(0, Integer.MAX_VALUE);
 		return findAllByParam(param, page);
 	}
 
@@ -94,17 +102,16 @@ public class ProductionInfoService {
 		}
 		Example<ProductionInfo> example = Example.of(param, matcher);
 
-		/*List<ProductionInfo> infos;
-		if (page == null) {
-			infos = productionInfoDao.findAll(example);
-		} else {
-			Page<ProductionInfo> pageProductionInfo = productionInfoDao.findAll(example, page);
-			infos = pageProductionInfo.getContent();
-		}*/
+		/*
+		 * List<ProductionInfo> infos; if (page == null) { infos =
+		 * productionInfoDao.findAll(example); } else { Page<ProductionInfo>
+		 * pageProductionInfo = productionInfoDao.findAll(example, page); infos =
+		 * pageProductionInfo.getContent(); }
+		 */
 
 		Page<ProductionInfo> pageProductionInfo = productionInfoDao.findAll(example, page);
 		List<ProductionInfo> infos = pageProductionInfo.getContent();
-		
+
 		// 封装产品的场地信息
 		for (ProductionInfo info : infos) {
 			ProductionLocationRelation pLocationRelation = pLocationRelationDao.findByProductionId(info.getId());
@@ -115,15 +122,15 @@ public class ProductionInfoService {
 				}
 			}
 		}
-		//相关联的案例
-		
+		// 相关联的案例
+
 		return pageProductionInfo;
 	}
 
 	public ProductionInfo findById(Integer id) {
 		Optional<ProductionInfo> productionInfoOpt = productionInfoDao.findById(id);
 		ProductionInfo info = productionInfoOpt.get();
-		if(info!=null) {
+		if (info != null) {
 			ProductionLocationRelation pLocationRelation = pLocationRelationDao.findByProductionId(info.getId());
 			if (pLocationRelation != null) {
 				Optional<Locations> locationsOpt = locationsDao.findById(pLocationRelation.getLocationId());
@@ -171,12 +178,27 @@ public class ProductionInfoService {
 	}
 
 	/**
-	 * 创建新的产品 上架新的产品信息
-	 * 保存产品附件
+	 * 创建新的产品 上架新的产品信息 保存产品附件
 	 */
 	public boolean add(ProductionInfo info, List<ProductionInfoAttachments> infoAttachments) {
 		// TODO Auto-generated method stub
-		
+
 		return false;
+	}
+
+	/**
+	 * 生成主图缩略图
+	 * 
+	 * @param mainImageLarge
+	 * @throws IOException 
+	 */
+	public void thumbnailator(String mainImageLarge) throws IOException {
+		if (!StringUtils.isEmpty(mainImageLarge)) {
+			File file=new File(mainImageLarge);
+			if(file !=null && file.exists()) {
+				String iconSize = env.getProperty("production.info.main.image.icon.size", "[200, 200]");
+				Thumbnails.of(mainImageLarge).size(2560, 2048).toFile("C:\\Users\\user\\Desktop\\a380_2560x2048.jpg");
+			}
+		}
 	}
 }

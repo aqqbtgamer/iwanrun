@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.application.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
-import com.iwantrun.core.service.application.domain.LocationAttachments;
-import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.ProductionInfo;
 import com.iwantrun.core.service.application.domain.ProductionInfoAttachments;
 import com.iwantrun.core.service.application.service.ProductionInfoService;
 import com.iwantrun.core.service.application.transfer.Message;
+import com.iwantrun.core.service.application.transfer.ProductionInfoRequest;
 import com.iwantrun.core.service.utils.EntityBeanUtils;
+import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.ListUpdateUtils;
 import com.iwantrun.core.service.utils.MappingGenerateUtils;
 
@@ -147,7 +148,7 @@ public class ProductionInfoController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/application/productionInfo/add")
 	@NeedTokenVerify
-	public Message add(@RequestBody Message message) {
+	public Message add2(@RequestBody Message message) {
 		Message response = new Message();
 		response.setAccessToken(message.getAccessToken());
 		response.setRequestMethod(message.getRequestMethod());
@@ -208,15 +209,36 @@ public class ProductionInfoController {
 		return response;
 	}
 	
-	/*@RequestMapping("/application/productionInfo/add")
+	@RequestMapping("/application/productionInfo/add")
 	@NeedTokenVerify
 	public Message add(@RequestBody Message message) {
 		Message response = new Message();
 		response.setAccessToken(message.getAccessToken());
 		response.setRequestMethod(message.getRequestMethod());
 		
-		JSONValue.pa
+		ProductionInfoRequest infoRequest = JSONUtils.jsonToObj(message.getMessageBody(), ProductionInfoRequest.class);
 		
-		String dataJson = message.getMessageBody();
-	}*/
+		try {
+			if(infoRequest.getInfo()==null) {
+				response.setMessageBody("failed");
+			}else {
+				ProductionInfo info = infoRequest.getInfo();
+				
+				//生成主图缩略图
+				productionInfoService.thumbnailator(info.getMainImageLarge());
+				
+				boolean updateResult =productionInfoService.add(infoRequest.getInfo(), infoRequest.getAttachments());
+				
+				if(updateResult) {			
+					response.setMessageBody(String.valueOf(info.getId()));
+				}else {
+					response.setMessageBody("failed");
+				}
+			}
+		}catch(IOException ioe) {
+			response.setMessageBody("failed");
+		}
+		
+		return response;
+	}
 }

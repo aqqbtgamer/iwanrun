@@ -12,9 +12,6 @@ import com.iwantrun.admin.service.ProductionInfoService;
 import com.iwantrun.admin.transfer.Message;
 import com.iwantrun.admin.utils.CookieUtils;
 
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
-
 @RestController
 public class ProductionInfoController {
 	@Autowired
