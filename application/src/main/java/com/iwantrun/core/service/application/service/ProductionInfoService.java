@@ -3,6 +3,7 @@ package com.iwantrun.core.service.application.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -28,8 +29,11 @@ import com.iwantrun.core.service.application.domain.ProductionInfo;
 import com.iwantrun.core.service.application.domain.ProductionInfoAttachments;
 import com.iwantrun.core.service.application.domain.ProductionLocationRelation;
 import com.iwantrun.core.service.application.transfer.ProductionInfoRequest;
+import com.iwantrun.core.service.utils.JSONUtils;
+import com.iwantrun.core.service.utils.ThumbnailatorUtils;
 
 import net.coobird.thumbnailator.Thumbnails;
+import net.minidev.json.JSONObject;
 
 @Service
 public class ProductionInfoService {
@@ -189,16 +193,12 @@ public class ProductionInfoService {
 	/**
 	 * 生成主图缩略图
 	 * 
-	 * @param mainImageLarge
+	 * @param mainImageLarge 主图全路径
 	 * @throws IOException 
 	 */
 	public void thumbnailator(String mainImageLarge) throws IOException {
 		if (!StringUtils.isEmpty(mainImageLarge)) {
-			File file=new File(mainImageLarge);
-			if(file !=null && file.exists()) {
-				String iconSize = env.getProperty("production.info.main.image.icon.size", "[200, 200]");
-				Thumbnails.of(mainImageLarge).size(2560, 2048).toFile("C:\\Users\\user\\Desktop\\a380_2560x2048.jpg");
-			}
+			ThumbnailatorUtils.thumbnailator(mainImageLarge);
 		}
 	}
 }

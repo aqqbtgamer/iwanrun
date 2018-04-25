@@ -2,7 +2,8 @@ package com.iwantrun.core.service.utils;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,7 +23,7 @@ public class JSONUtils {
 			mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 
 			return mapper.writeValueAsString(t);
-			
+
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
@@ -35,13 +36,13 @@ public class JSONUtils {
 		try {
 			// MapperFeature.INFER_PROPERTY_MUTATORS 推断出属性赋值
 			ObjectMapper mapper = new ObjectMapper();
-			
+
 			mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 			mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-			
+
 			return mapper.readValue(jsonStr, clazz);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,14 +50,28 @@ public class JSONUtils {
 		return null;
 	}
 
-	// 转化为Collection
-	public static <T> Collection<T> toCollection(String text, Class<T> clazz, Class<Collection<T>> clazzC) {
+	// 转化为List
+	public static <T> List<T> toList(String text, Class<T> clazz) {
 		try {
-			TypeFactory factory = TypeFactory.defaultInstance(); 
+			TypeFactory factory = TypeFactory.defaultInstance();
+			ObjectMapper mapper = new ObjectMapper();
+
+			return mapper.readValue(text, factory.constructCollectionType(List.class, clazz));
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	// 转化为List
+	public static <K, V> Map<K, V> toMap(String text, Class<V> valueClass) {
+		try {
+			TypeFactory factory = TypeFactory.defaultInstance();
 			ObjectMapper mapper = new ObjectMapper();
 			
-			return mapper.readValue(text,factory.constructCollectionType(clazzC,clazz));
-			
+			return mapper.readValue(text, factory.constructMapType(Map.class, String.class, valueClass));
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

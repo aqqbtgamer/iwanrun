@@ -1,18 +1,13 @@
 package com.iwantrun.admin.utils;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.ArrayType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
 public class JSONUtils {
@@ -52,13 +47,13 @@ public class JSONUtils {
 		return null;
 	}
 
-	// 转化为list
-	public static <T> Collection<T> toList(String text, Class<T> clazz, Class<Collection<T>> clazzC) {
+	// 转化为List
+	public static <T> List<T> toList(String text, Class<T> clazz) {
 		try {
 			TypeFactory factory = TypeFactory.defaultInstance();
 			ObjectMapper mapper = new ObjectMapper();
 
-			return mapper.readValue(text, factory.constructCollectionType(clazzC, clazz));
+			return mapper.readValue(text, factory.constructCollectionType(List.class, clazz));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
