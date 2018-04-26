@@ -236,9 +236,11 @@ public class ProductionInfoController {
 				}
 			}
 		}catch(IOException ioe) {
+			ioe.printStackTrace();
 			response.setMessageBody("failed");
 		}
 		
 		return response;
 	}
 }
+
