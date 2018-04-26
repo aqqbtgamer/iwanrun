@@ -46,13 +46,15 @@ public class PageDataWrapUtils {
 			Set<String> properties =beanMap.keySet();
 			for(String property : properties) {
 				Object value = beanMap.get(property);
-				if(value instanceof Date) {
-					Date date = new Date();
-					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					obj.put(property, format.format(date));
-				}else {
-					obj.put(property, value.toString());
-				}
+				if(value != null) {
+					if(value instanceof Date) {
+						Date date = new Date();
+						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						obj.put(property, format.format(date));
+					}else {
+						obj.put(property, value.toString());
+					}
+				}				
 			}
 		} catch (IllegalAccessException e) {
 			logger.error("error for bean copy ...",e);
