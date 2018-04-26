@@ -85,7 +85,8 @@ public class LocationService {
 				"obj"
 		});
 		JSONObject json = FormDataUtils.formData2JsonObj(request,paramList);
-		JSONObject obj  = (JSONObject) JSONValue.parse(json.getAsString("obj"));
+		JSONObject obj  = (JSONObject) JSONValue
+				.parse(json.getAsString("obj"));
 		json.put("obj", obj);
 		Message message = new Message();
 		message.setAccessToken(token);
@@ -93,7 +94,8 @@ public class LocationService {
 		String postUrl = env.getProperty("application.location.queryAll");
 		String baseUrl = env.getProperty("application.serverbase");
 		message.setRequestMethod(baseUrl+postUrl);
-		return null;
+		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);	
+		return response == null ? null : response.getBody().getMessageBody();
 	}
 
 }

@@ -75,5 +75,6 @@ public class LocationsService {
 				"=,status,and"				
 		}),page);
 	}
-
+	
+	
 }
