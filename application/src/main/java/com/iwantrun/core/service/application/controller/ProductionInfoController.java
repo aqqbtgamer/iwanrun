@@ -146,7 +146,7 @@ public class ProductionInfoController {
 	 *  保存产品信息
 	 */
 	@SuppressWarnings("unchecked")
-	@RequestMapping("/application/productionInfo/add")
+	//@RequestMapping("/application/productionInfo/add")
 	@NeedTokenVerify
 	public Message add2(@RequestBody Message message) {
 		Message response = new Message();

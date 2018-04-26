@@ -1,7 +1,7 @@
 /**
  * Created by WXP22 on 2018/4/13.
  */
-const dataInitUrl = '/iwant_admin/location/findAll'
+const dataInitUrl = '/iwant_admin/location/findAll';
 
 $(document).ready(
     function(){

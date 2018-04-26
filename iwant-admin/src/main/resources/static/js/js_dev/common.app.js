@@ -194,13 +194,16 @@ function fileUpload(contentId,url,callback) {
     }
     
   
-    function pageDataInit(tableId,pageId,dataUrl,columns,pageIndex){
+    function pageDataInit(tableId,pageId,dataUrl,columns,pageIndex,data){
     	var table = $("#"+tableId);
     	var requestData = new Object();
     	if(pageIndex == null){
     		requestData.pageIndex = 0 ;
     	}else{
     		requestData.pageIndex = pageIndex ;
+    	}
+    	if(data != null){
+    		requestData.obj = data;
     	}
     	
     	$.ajax(
@@ -221,6 +224,7 @@ function fileUpload(contentId,url,callback) {
             }
         )
     }
+    
 
     function insertTableData(result,tableId,pageId,columns,dataUrl){
         //console.log("获取后台信息:"+result);
