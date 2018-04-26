@@ -243,4 +243,3 @@ public class ProductionInfoController {
 		return response;
 	}
 }
-
