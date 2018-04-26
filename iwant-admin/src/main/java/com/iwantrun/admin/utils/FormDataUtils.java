@@ -34,6 +34,26 @@ public class FormDataUtils {
 		return result ;
 	}
 	
+	
+	public static JSONObject formData2JsonObj(HttpServletRequest request,List<String> paramList) {
+		JSONObject obj = new JSONObject();
+		for(String param : paramList) {
+			if(!StringUtils.isEmpty(param)) {
+				if(param.endsWith("[]")) {
+					String[] paramvalues = request.getParameterValues(param);
+					JSONArray array = new JSONArray();
+					if(paramvalues != null) {
+						array.addAll(Arrays.asList(paramvalues));
+						obj.put(param, array);
+					}					
+				}else{
+					obj.put(param, request.getParameter(param));
+				}
+			}
+		}		
+		return obj ;
+	}
+	
 	public static List<String> stringArray2List(String[] array){
 		List<String> result = new ArrayList<String>();
 		if(array != null) {

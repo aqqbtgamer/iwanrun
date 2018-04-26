@@ -26,5 +26,11 @@ public class LocationController {
 	public String findAll(HttpServletRequest request) {
 		return locationService.findAll(request);
 	}
+	
+	@RequestMapping("/location/queryAll")
+	@ResponseBody
+	public String queryAll(HttpServletRequest request) {
+		return locationService.queryAll(request);
+	}
 
 }

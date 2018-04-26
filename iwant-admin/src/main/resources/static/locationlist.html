@@ -82,16 +82,16 @@
                     <caption>
 
                             <button method="href" to="createLocation.html">新增</button>
-                            <select name="" id="">
+                            <select name="" id="queryField">
                                 <option value="">筛选</option>
-                                <option value="">场地名称</option>
-                                <option value="">活动类型</option>
-                                <option value="">最大活动人数</option>
-                                <option value="">地址</option>
-                                <option value="">参考报价</option>
+                                <option value="name">场地名称</option>
+                                <option value="activity_type_code">活动类型</option>
+                                <option value="group_number_limit_code">最大活动人数</option>
+                                <option value="location">地址</option>
+                                <option value="simulatePriceCode">参考报价</option>
                             </select>
-                            <input type="text" name="keyword"/>
-                            <button>查找</button>
+                            <input type="text" name="keyword" id="fieldInput"/>
+                            <button id="queryCondtion">查找</button>
 
                     </caption>
                     <thead>
@@ -112,14 +112,7 @@
                     <tr>
                         <td colspan="7">
                             <div class="pagination" id="pagination">
-                                <!-- <a href="#" title="First Page" id="first" page="#">« 首页</a>
-                                <a href="#" title="Previous Page" id="previous" page="#">« 前一页</a>
-                                <a href="#" class="number current" page="0">1</a>
-                                <a href="#" class="number" page="1">2</a>
-                                <a href="#" class="number " page="2">3</a>
-                                <a href="#" class="number" page="3">4</a>
-                                <a href="#" title="Next Page" id="next" page="#">后一页 »</a>
-                                <a href="#" title="Last Page" id="last" page="#">尾页 »</a> -->
+
                             </div>
                         </td>
                     </tr>

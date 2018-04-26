@@ -193,6 +193,25 @@ function fileUpload(contentId,url,callback) {
     	})
     }
     
+    function bindClickQuery(bindId,filedId,inputId,tableId,pageId,dataUrl,columns){
+    	$("#"+bindId).click(
+    	    function (){
+    	        var requestObj = new Object();
+    	        requestObj.pageIndex = 0 ;
+                var fieldName = $("#"+filedId).find("option:selected").val();
+                var obj = new Object();
+                if(fieldName != ""){
+                    obj[fieldName] = $("#"+inputId).val();
+                }else{
+                    obj['*'] = $("#"+inputId).val();
+                }
+
+                requestObj.obj = obj ;
+                pageDataInit(tableId,pageId,dataUrl,columns,requestObj.pageIndex,JSON.stringify(requestObj.obj));
+            }
+        )
+    }
+    
   
     function pageDataInit(tableId,pageId,dataUrl,columns,pageIndex,data){
     	var table = $("#"+tableId);
