@@ -25,7 +25,7 @@ $(document).ready(
     				"activityProvinceCode",
     				"activityCityCode",
     				"activityDistCode",
-    				"mainImage",
+    				"mainImageLarge",
     				'imgManage'
             ),
             submitUrl,returnListPage);
@@ -45,9 +45,11 @@ function returnListPage(result){
 function bindDataSubmitJSON(id,fieldArray,url,callback){
     $("#"+id).bind('click',function(){
         var formData = collectFormDatas(fieldArray);
-        formData.descirbeText1=formData['_ue'];
+        var infoRequest={};
+        formData.descirbeText1=formData['_ue'];//UEeditor编辑器数据
+        infoRequest.info=formData;
         var param = {};
-		param.messageBody = JSON.stringify(formData);
+		param.messageBody = JSON.stringify(infoRequest);
         var paramJSON = JSON.stringify(param);
         $.ajax(
             {

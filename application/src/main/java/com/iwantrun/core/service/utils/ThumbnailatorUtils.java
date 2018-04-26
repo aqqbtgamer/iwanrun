@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.StandardEnvironment;
 import org.springframework.util.StringUtils;
 
 import net.coobird.thumbnailator.Thumbnails;
@@ -26,13 +27,15 @@ public class ThumbnailatorUtils {
 	 * @throws IOException
 	 */
 	public static void thumbnailator(String fullPath) throws IOException {
+		Environment environment = new StandardEnvironment();
 		if (!StringUtils.isEmpty(fullPath)) {
 			File file = new File(fullPath);
-			if (file != null && file.exists()) {
-				String iconSizeStr = env.getProperty(IMAGE_ICON_SIZE_ENV_KEY, IMAGE_ICON_SIZE_DEFAULT);
-				String toPath = env.getProperty(IMAGE_ICON_TO_PATH_KEY);
+			if (file != null && !file.exists()) {
+				String iconSizeStr = environment.getProperty(IMAGE_ICON_SIZE_ENV_KEY, IMAGE_ICON_SIZE_DEFAULT);
+				String toPath = environment.getProperty(IMAGE_ICON_TO_PATH_KEY);
 				if (StringUtils.isEmpty(toPath)) {
-					toPath = ThumbnailatorUtils.class.getClassLoader().getResource("").getPath();
+					//toPath = ThumbnailatorUtils.class.getClassLoader().getResource("").getPath();
+					toPath = fullPath.substring(0, fullPath.lastIndexOf("."))+"_icon.jpg";
 				}
 				Map<String, Integer> iconSizeMap = JSONUtils.toMap(iconSizeStr, Integer.class);
 				Thumbnails.of(fullPath).size(iconSizeMap.get("width"), iconSizeMap.get("height")).toFile(toPath);
