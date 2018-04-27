@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ import com.iwantrun.core.service.application.service.LocationsService;
 import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.application.transfer.PageDomianRequest;
 import com.iwantrun.core.service.utils.EntityBeanUtils;
+import com.iwantrun.core.service.utils.JPADBUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.ListUpdateUtils;
 import com.iwantrun.core.service.utils.MappingGenerateUtils;
@@ -111,12 +113,22 @@ public class LocationsController {
 	public Message findByExample(@RequestBody Message message) {
 		String dataJson = message.getMessageBody();
 		PageDomianRequest example = JSONUtils.jsonToObj(dataJson, PageDomianRequest.class);
+		Page<Locations> resultPage = null ;
 		if(!example.getObj().containsKey("*")) {
-			Page<Locations> resultPage = locationService.queryLocationByConditionPageable(example.getPageIndex(), example.getObjAsType(Locations.class));
+			resultPage =locationService.queryLocationByConditionPageable(example.getPageIndex(), example.getObjAsType(Locations.class));
 		}else {
-			
+			String value = (String) example.getObj().get("*");
+			Locations defaultLocation = new Locations();
+			defaultLocation.setName(value);
+			defaultLocation.setLocation(value);
+			String[] defaultSpecification = new String[] {
+					"like,name,or",
+					"like,location,or",
+			};
+			Specification<Locations> specification = JPADBUtils.generateSpecificationFromExample(defaultLocation, defaultSpecification);
+			resultPage = locationService.queryLocationBySpecificationPageable(example.getPageIndex(), specification);
 		}
-		Page<Locations> resultPage = locationService.queryLocationByConditionPageable(example.getPageIndex(), example.getObjAsType(Locations.class));
+		
 		message.setMessageBody(PageDataWrapUtils.page2Json(resultPage));
 		return message;		
 	}

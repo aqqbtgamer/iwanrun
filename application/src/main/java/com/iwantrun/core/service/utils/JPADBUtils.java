@@ -29,6 +29,8 @@ public class JPADBUtils {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				Predicate predicate = criteriaBuilder.isNotNull(root.get("id").as(Integer.class));
+				int index = 0 ;
+				Predicate previous = null ;
 				for(String condition : conditions) {
 					String[] opArray = condition.split(",");
 					SQLConditions opration = SQLConditions.matchSymbol(opArray[0]);
@@ -37,13 +39,17 @@ public class JPADBUtils {
 					try {
 						if(preCheck(PropertyUtils.getSimpleProperty(t, propertyName))) {
 							Predicate customerPre = generatepredicateExample(criteriaBuilder,t,root,propertyName,opration);
-							predicate  = connectPredicate(predicate,customerPre, criteriaBuilder, connector);
+							if(index ++ > 0) {
+								previous  = connectPredicate(previous,customerPre, criteriaBuilder, connector);
+							}else {
+								previous = customerPre ;
+							}							
 						}						
 					} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 						logger.error("生成条件查询失败",e);
 					}
 				}
-				return predicate;
+				return criteriaBuilder.and(predicate,previous);
 			}
 			
 		};

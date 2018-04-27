@@ -235,7 +235,7 @@ function fileUpload(contentId,url,callback) {
                 type:"POST",
                 success:function(result){
                     console.log("提交到"+dataUrl+"成功");
-                    insertTableData(result,tableId,pageId,columns,dataUrl);
+                    insertTableData(result,tableId,pageId,columns,dataUrl,data);
                 },
                 error:function(XMLHttpRequest ,error,exception){
                     console.log("提交到"+dataUrl+"失败,原因是: "+ exception.toString());
@@ -245,7 +245,7 @@ function fileUpload(contentId,url,callback) {
     }
     
 
-    function insertTableData(result,tableId,pageId,columns,dataUrl){
+    function insertTableData(result,tableId,pageId,columns,dataUrl,data){
         //console.log("获取后台信息:"+result);
         var ret = $.parseJSON(result);
         var tableData = ret.content;
@@ -283,8 +283,8 @@ function fileUpload(contentId,url,callback) {
         var pageDiv = $("#"+pageId);
         pageDiv.empty();
        //首页
-        var first = generatePageLink(tableId,pageId,dataUrl,columns,0,"« 首页");
-        var previous = generatePageLink(tableId,pageId,dataUrl,columns,Math.max(0,pagedata.currentPage-1),"« 前一页");
+        var first = generatePageLink(tableId,pageId,dataUrl,columns,0,"« 首页",false,data);
+        var previous = generatePageLink(tableId,pageId,dataUrl,columns,Math.max(0,pagedata.currentPage-1),"« 前一页",false,data);
         pageDiv.append(first);
         pageDiv.append(previous);
         if(totalPage > displayPagenationlLimit){
@@ -298,13 +298,13 @@ function fileUpload(contentId,url,callback) {
         	if(leftMargin <= (displayPagenationlLimit-1)/2 && righrMargin > (displayPagenationlLimit-1)/2){
         		//省略号位于右半边
         		for(var i = 0 ; i< leftMargin ; i++){
-        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i);
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i,null,false,data);
         			pageDiv.append(pageLink);
         		}
-        		var currentLink = generatePageLink(tableId,pageId,dataUrl,columns,current).addClass("current");
+        		var currentLink = generatePageLink(tableId,pageId,dataUrl,columns,current,null,false,data).addClass("current");
         		pageDiv.append(currentLink);
         		for(var i=0 ; i< displayPagenationlLimit - leftMargin -1 ; i++){
-        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i+current+1);
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i+current+1,null,false,data);
         			pageDiv.append(pageLink);
         		}
         		var blankPageLink = generatePageLink(tableId,pageId,dataUrl,columns,"#","...",true);
@@ -315,13 +315,13 @@ function fileUpload(contentId,url,callback) {
         		pageDiv.append(blankPageLink);
         		var leftStart = max-displayPagenationlLimit +1 ;
         		for(var i = leftStart; i < leftMargin ; i++){
-        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i);
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i,null,false,data);
         			pageDiv.append(pageLink);
         		}
         		var currentLink = generatePageLink(tableId,pageId,dataUrl,columns,i).addClass("current");
         		pageDiv.append(currentLink);
         		for(var i=current+1 ; i < max+1 ; i++){
-        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i);
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i,null,false,data);
         			pageDiv.append(pageLink);
         		}
         	}else{
@@ -330,14 +330,14 @@ function fileUpload(contentId,url,callback) {
         		pageDiv.append(blankPageLink);
         		var leftStart = current - (displayPagenationlLimit-1)/2;
         		for(var i = leftStart; i < leftMargin ; i++){
-        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i);
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i,null,false,data);
         			pageDiv.append(pageLink);
         		}
         		var currentLink = generatePageLink(tableId,pageId,dataUrl,columns,i).addClass("current");
         		pageDiv.append(currentLink);
         		var rightEnd = current + (displayPagenationlLimit-1)/2;
         		for(var i = current+1; i < rightEnd +1; i++){
-        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i);
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i,null,false,data);
         			pageDiv.append(pageLink);
         		}
         		var blankPageLink = generatePageLink(tableId,pageId,dataUrl,columns,"#","...",true);
@@ -348,22 +348,22 @@ function fileUpload(contentId,url,callback) {
         }else{
         	//小于等于限制页数直接展示
             for(var i = 0 ; i<totalPage ; i++){
-                var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i);
+                var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i,null,false,data);
                 if(i == pagedata.currentPage){
                 	pageLink.addClass("current");                	
                 }
                 pageDiv.append(pageLink);
             }
         }
-        var next = generatePageLink(tableId,pageId,dataUrl,columns,Math.min(pagedata.totalpage-1,pagedata.currentPage+1),"后一页  »");
-        var end = generatePageLink(tableId,pageId,dataUrl,columns,pagedata.totalpage-1,"尾页  »");
+        var next = generatePageLink(tableId,pageId,dataUrl,columns,Math.min(pagedata.totalpage-1,pagedata.currentPage+1),"后一页  »",null,false,data);
+        var end = generatePageLink(tableId,pageId,dataUrl,columns,pagedata.totalpage-1,"尾页  »",null,false,data);
         pageDiv.append(next);
         pageDiv.append(end);
         
     }
     
     
-    function generatePageLink(tableId,pageId,dataUrl,columns,pageIndex,content,blank){
+    function generatePageLink(tableId,pageId,dataUrl,columns,pageIndex,content,blank,data){
     	var pageLink = $("<a></a>").attr("page",pageIndex);
     	if(content == null){
     		pageLink.addClass("number").text(pageIndex+1);
@@ -372,7 +372,7 @@ function fileUpload(contentId,url,callback) {
     	}
     	if(!blank){
     		pageLink.bind("click",function(){
-            	pageDataInit(tableId,pageId,dataUrl,columns,pageIndex);
+            	pageDataInit(tableId,pageId,dataUrl,columns,pageIndex,data);
             });
     	}        
         return pageLink;

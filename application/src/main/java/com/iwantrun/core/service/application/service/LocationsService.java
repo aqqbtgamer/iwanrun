@@ -77,4 +77,11 @@ public class LocationsService {
 	}
 	
 	
+	public Page<Locations> queryLocationBySpecificationPageable(int pageIndex,Specification<Locations> example){		
+		Integer pageSize = Integer.parseInt(env.getProperty("common.pageSize"));
+		Pageable page =  PageRequest.of(pageIndex, pageSize, Sort.Direction.ASC, "id") ;
+		return locationDao.findAll(example,page);
+	}
+	
+	
 }
