@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +48,7 @@ public class ProductionInfoController {
 	}
 
 	/**
-	 * 按照指定的字段筛选、查找产品，如活动类型、天数、人数、参考价格等 
-	 * 按照指定的字段对产品列表进行排序，如访问热度、上架时间、参考价格等
+	 * 按照指定的字段筛选、查找产品，如活动类型、天数、人数、参考价格等 按照指定的字段对产品列表进行排序，如访问热度、上架时间、参考价格等
 	 */
 	@RequestMapping("/application/productionInfo/find")
 	@NeedTokenVerify
@@ -112,9 +113,9 @@ public class ProductionInfoController {
 		}
 		return productionInfoService.findById(id.intValue());
 	}
+
 	/**
-	 * 收藏产品
-	 * 将当前产品加入到【我的收藏】中
+	 * 收藏产品 将当前产品加入到【我的收藏】中
 	 */
 	@RequestMapping("/application/productionInfo/collect")
 	@NeedTokenVerify
@@ -126,9 +127,9 @@ public class ProductionInfoController {
 		}
 		return true;
 	}
+
 	/**
-	 * 	分享产品
-	 *  通过生成二维码扫码的方式将产品信息分享到微信好友或微信朋友圈
+	 * 分享产品 通过生成二维码扫码的方式将产品信息分享到微信好友或微信朋友圈
 	 */
 	@RequestMapping("/application/productionInfo/share")
 	@NeedTokenVerify
@@ -140,13 +141,12 @@ public class ProductionInfoController {
 		}
 		return true;
 	}
-	
+
 	/**
-	 * 	添加产品
-	 *  保存产品信息
+	 * 添加产品 保存产品信息
 	 */
 	@SuppressWarnings("unchecked")
-	//@RequestMapping("/application/productionInfo/add")
+	// @RequestMapping("/application/productionInfo/add")
 	@NeedTokenVerify
 	public Message add2(@RequestBody Message message) {
 		Message response = new Message();
@@ -155,91 +155,76 @@ public class ProductionInfoController {
 		ProductionInfo info = new ProductionInfo();
 		String dataJson = message.getMessageBody();
 		JSONObject object = (JSONObject) JSONValue.parse(dataJson);
-		Map<String,String> mappingRelation = 
-				MappingGenerateUtils.generateMappingRelation(new String[] {
-	    				"name =>name",
-	    				"activity_type_code =>activity_type_code",
-	    				"during =>during",
-	    				"during_code =>during_code",
-	    				"location =>location",
-	    				"order_group_price_code =>order_group_price_code",
-	    				"order_simulate_price_code =>order_simulate_price_code",
-	    				"group_number =>group_number",
-	    				"group_number_code =>group_number_code",
-						"priority =>priority",
-						"activity_province_code =>activity_province_code",
-						"activity_city_code =>activity_city_code",
-						"activity_dist_code =>activity_dist_code",
-						"descirbeText1=>_ue"
-				});
+		Map<String, String> mappingRelation = MappingGenerateUtils.generateMappingRelation(new String[] { "name =>name",
+				"activity_type_code =>activity_type_code", "during =>during", "during_code =>during_code",
+				"location =>location", "order_group_price_code =>order_group_price_code",
+				"order_simulate_price_code =>order_simulate_price_code", "group_number =>group_number",
+				"group_number_code =>group_number_code", "priority =>priority",
+				"activity_province_code =>activity_province_code", "activity_city_code =>activity_city_code",
+				"activity_dist_code =>activity_dist_code", "descirbeText1=>_ue" });
 		EntityBeanUtils.beanCreateFromJson(info, mappingRelation, object);
-		Map<String,String> mappingRelation0 = 
-				MappingGenerateUtils.generateMappingRelation(new String[] {
-						"filePath=>bean"
-				});
+		Map<String, String> mappingRelation0 = MappingGenerateUtils
+				.generateMappingRelation(new String[] { "filePath=>bean" });
 		JSONArray array = (JSONArray) object.get("imgManage[]");
 		List<ProductionInfoAttachments> infoAttachments = new ArrayList<ProductionInfoAttachments>();
-		EntityBeanUtils.listBeanCreateFromJson(infoAttachments, mappingRelation0, array, ProductionInfoAttachments.class);
-		Function<String,String> fun = s -> {
+		EntityBeanUtils.listBeanCreateFromJson(infoAttachments, mappingRelation0, array,
+				ProductionInfoAttachments.class);
+		Function<String, String> fun = s -> {
 			int index = s.lastIndexOf("/");
-			return s.substring(index+1);
-		} ;
+			return s.substring(index + 1);
+		};
 
-		BiFunction<String,Integer,String> biFun = (value,index) -> value+"-"+index ;
-		ListUpdateUtils.updateListProperty(infoAttachments, 
-				new String[] {
-						"filePath=>fileName"
-				}, 
-				new Function[] {
-						fun
-				}
-				, new String[] {
-						"pagePath==sideImage"
-				}
-		 		, (BiFunction<String,Integer,String>[])new BiFunction[]{
-						biFun
-				} 
-		);
-		boolean updateResult =productionInfoService.add(info, infoAttachments);
-		if(updateResult) {			
+		BiFunction<String, Integer, String> biFun = (value, index) -> value + "-" + index;
+		ListUpdateUtils.updateListProperty(infoAttachments, new String[] { "filePath=>fileName" },
+				new Function[] { fun }, new String[] { "pagePath==sideImage" },
+				(BiFunction<String, Integer, String>[]) new BiFunction[] { biFun });
+		boolean updateResult = productionInfoService.add(info, infoAttachments);
+		if (updateResult) {
 			response.setMessageBody(String.valueOf(info.getId()));
-		}else {
+		} else {
 			response.setMessageBody("failed");
 		}
 		return response;
 	}
 	
+	/**
+	 * 添加产品 保存产品信息
+	 */
 	@RequestMapping("/application/productionInfo/add")
 	@NeedTokenVerify
-	public Message add(@RequestBody Message message) {
+	public Message add(@RequestBody Message message, HttpServletRequest request) {
 		Message response = new Message();
 		response.setAccessToken(message.getAccessToken());
 		response.setRequestMethod(message.getRequestMethod());
-		
+
 		ProductionInfoRequest infoRequest = JSONUtils.jsonToObj(message.getMessageBody(), ProductionInfoRequest.class);
-		
+
 		try {
-			if(infoRequest.getInfo()==null) {
+			if (infoRequest.getInfo() == null) {
 				response.setMessageBody("failed");
-			}else {
+			} else {
 				ProductionInfo info = infoRequest.getInfo();
+
+				// 生成主图缩略图
+				String iconPath = productionInfoService.thumbnailator(info.getMainImageLarge());
+
+				String url = request.getRequestURL().toString();
 				
-				//生成主图缩略图
-				productionInfoService.thumbnailator(info.getMainImageLarge());
-				
-				boolean updateResult =productionInfoService.add(infoRequest.getInfo(), infoRequest.getAttachments());
-				
-				if(updateResult) {			
+				info.setMainImageIcon(iconPath);
+
+				boolean updateResult = productionInfoService.add(info, infoRequest.getAttachments());
+
+				if (updateResult) {
 					response.setMessageBody(String.valueOf(info.getId()));
-				}else {
+				} else {
 					response.setMessageBody("failed");
 				}
 			}
-		}catch(IOException ioe) {
+		} catch (IOException ioe) {
 			ioe.printStackTrace();
 			response.setMessageBody("failed");
 		}
-		
+
 		return response;
 	}
 }

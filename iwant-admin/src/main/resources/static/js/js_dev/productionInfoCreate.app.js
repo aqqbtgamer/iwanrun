@@ -3,14 +3,14 @@
  */
 
 var uploadServer = '/iwant_admin/remote/fileupload';
-var submitUrl = '/iwant_admin/productionInfo/add'
+var submitUrl = '/iwant_admin/productionInfo/add';
 
 $(document).ready(
     function(){
         //initUE();
     	//            
-        bindUploadFile('mainImageUpload',uploadServer,'mainImage',singleDisplay);
-        bindUploadFile('uploadedProductionInfoImages',uploadServer,'imgManage',mutipleDisplay);
+        bindUploadFile('mainImageUpload',uploadServer,'mainImageLarge',singleDisplay);
+        //bindUploadFile('uploadedProductionInfoImages',uploadServer,'imgManage',mutipleDisplay);
         bindDataSubmitJSON('submitForm',
             new Array("name",
     				"activityTypeCode",

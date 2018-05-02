@@ -1,9 +1,7 @@
 package com.iwantrun.core.service.application.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -28,17 +26,12 @@ import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.ProductionInfo;
 import com.iwantrun.core.service.application.domain.ProductionInfoAttachments;
 import com.iwantrun.core.service.application.domain.ProductionLocationRelation;
-import com.iwantrun.core.service.application.transfer.ProductionInfoRequest;
-import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.ThumbnailatorUtils;
-
-import net.coobird.thumbnailator.Thumbnails;
-import net.minidev.json.JSONObject;
 
 @Service
 public class ProductionInfoService {
-	@Autowired  
-    private Environment env;  
+	@Autowired
+	private Environment env;
 	@Autowired
 	private ProductionInfoDao productionInfoDao;
 	@Autowired
@@ -193,12 +186,12 @@ public class ProductionInfoService {
 	/**
 	 * 生成主图缩略图
 	 * 
-	 * @param mainImageLarge 主图全路径
-	 * @throws IOException 
+	 * @param mainImageLarge
+	 *            主图全路径
+	 * @return 
+	 * @throws IOException
 	 */
-	public void thumbnailator(String mainImageLarge) throws IOException {
-		if (!StringUtils.isEmpty(mainImageLarge)) {
-			ThumbnailatorUtils.thumbnailator(mainImageLarge);
-		}
+	public String thumbnailator(String mainImageLarge) throws IOException {
+		return ThumbnailatorUtils.thumbnailator(mainImageLarge);
 	}
 }
