@@ -85,10 +85,7 @@ public class ThumbnailatorUtils {
 
 				File file = new File(iconFullPath);
 				if (file.exists()) {
-					
-					//iconFullPath.split("/static/")
-					
-					return iconFullPath;
+					return iconFullPath.split("static")[1];
 				}
 			}
 		}

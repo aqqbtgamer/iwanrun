@@ -206,10 +206,7 @@ public class ProductionInfoController {
 				ProductionInfo info = infoRequest.getInfo();
 
 				// 生成主图缩略图
-				String iconPath = productionInfoService.thumbnailator(info.getMainImageLarge());
-
-				String url = request.getRequestURL().toString();
-				
+				String iconPath = productionInfoService.thumbnailator(info.getMainImageLarge(), request);
 				info.setMainImageIcon(iconPath);
 
 				boolean updateResult = productionInfoService.add(info, infoRequest.getAttachments());

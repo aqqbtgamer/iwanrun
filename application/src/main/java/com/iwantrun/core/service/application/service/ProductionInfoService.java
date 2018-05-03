@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -188,10 +189,18 @@ public class ProductionInfoService {
 	 * 
 	 * @param mainImageLarge
 	 *            主图全路径
+	 * @param request 
 	 * @return 
 	 * @throws IOException
 	 */
-	public String thumbnailator(String mainImageLarge) throws IOException {
-		return ThumbnailatorUtils.thumbnailator(mainImageLarge);
+	public String thumbnailator(String mainImageLarge, HttpServletRequest request) throws IOException {
+		String imageIconPath=ThumbnailatorUtils.thumbnailator(mainImageLarge);
+		if(imageIconPath!=null) {
+			String contextPath=request.getContextPath();
+			String url=request.getRequestURL().toString();
+			String basePath=url.split(contextPath)[0]+contextPath;
+			return basePath+imageIconPath;
+		}
+		return null;
 	}
 }

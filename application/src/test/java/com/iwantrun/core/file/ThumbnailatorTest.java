@@ -37,4 +37,17 @@ public class ThumbnailatorTest {
 		Thumbnails.of(url).size(2560, 2048);
 		//ThumbnailatorUtils.thumbnailator("");
 	}
+	
+	@Test
+	public void testName2() throws Exception {
+		String url="http://127.0.0.1:9999/iwant_app/application/productionInfo/add";
+		String contextPath="/iwant_app";
+		System.out.println(url.split(contextPath)[0]+contextPath);
+	}
+	
+	@Test
+	public void testName3() throws Exception {
+		String url="/D:/JavaProject/iwanrun/application/target/classes//static/icon/1524620559_1525331852103_icon.jpg";
+		System.out.println(url.split("static")[1]);
+	}
 }

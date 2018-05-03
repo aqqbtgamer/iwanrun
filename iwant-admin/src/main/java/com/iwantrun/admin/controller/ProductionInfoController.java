@@ -17,10 +17,6 @@ public class ProductionInfoController {
 	@Autowired
 	private ProductionInfoService service;
 	
-	public void setService(ProductionInfoService service) {
-		this.service = service;
-	}
-
 	/**
 	 * 按照指定的字段筛选、查找产品，如活动类型、天数、人数、参考价格等 
 	 * 按照指定的字段对产品列表进行排序，如访问热度、上架时间、参考价格等
