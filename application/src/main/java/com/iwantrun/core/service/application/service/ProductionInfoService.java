@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Example;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.iwantrun.core.service.application.dao.LocationsDao;
+import com.iwantrun.core.service.application.dao.ProductionInfoAttachmentsDao;
 import com.iwantrun.core.service.application.dao.ProductionInfoDao;
 import com.iwantrun.core.service.application.dao.ProductionLocationRelationDao;
 import com.iwantrun.core.service.application.domain.Locations;
@@ -39,23 +41,9 @@ public class ProductionInfoService {
 	private LocationsDao locationsDao;
 	@Autowired
 	private ProductionLocationRelationDao pLocationRelationDao;
-
-	public ProductionInfoDao getProductionInfoDao() {
-		return productionInfoDao;
-	}
-
-	public void setProductionInfoDao(ProductionInfoDao productionInfoDao) {
-		this.productionInfoDao = productionInfoDao;
-	}
-
-	public LocationsDao getLocationsDao() {
-		return locationsDao;
-	}
-
-	public void setLocationsDao(LocationsDao locationsDao) {
-		this.locationsDao = locationsDao;
-	}
-
+	@Autowired
+	private ProductionInfoAttachmentsDao pAttachmentsDao;
+	
 	/**
 	 * 查询产品信息 按照多个查询条件查询产品
 	 */
@@ -178,9 +166,24 @@ public class ProductionInfoService {
 	/**
 	 * 创建新的产品 上架新的产品信息 保存产品附件
 	 */
-	public boolean add(ProductionInfo info, List<ProductionInfoAttachments> infoAttachments) {
-		// TODO Auto-generated method stub
-
+	@Transactional
+	public boolean add(ProductionInfo info, List<ProductionInfoAttachments> attachmentses) {
+		if(info != null) {
+			info = productionInfoDao.saveAndFlush(info);
+			if(info==null) {
+				return false;
+			}
+			if(CollectionUtils.isNotEmpty(attachmentses)) {
+				for (ProductionInfoAttachments attachments : attachmentses) {
+					attachments.setProductionId(info.getId());
+				}
+				List<ProductionInfoAttachments>  savedAttachments = pAttachmentsDao.saveAll(attachmentses);
+				if(CollectionUtils.isEmpty(savedAttachments)) {
+					return false;
+				}
+			}
+			return true;
+		}
 		return false;
 	}
 
@@ -202,5 +205,26 @@ public class ProductionInfoService {
 			return basePath+imageIconPath;
 		}
 		return null;
+	}
+
+	/**
+	 * 校验数据完整性
+	 * @param info 
+	 * @return
+	 */
+	public boolean validateData(ProductionInfo info) {
+		if(StringUtils.isEmpty(info.getName())) {
+			return false;
+		}
+		if(StringUtils.isEmpty(info.getActivityTypeCode())) {
+			return false;
+		}
+		if(StringUtils.isEmpty(info.getDuring())) {
+			return false;
+		}
+		if(StringUtils.isEmpty(info.getStatus())) {
+			return false;
+		}
+		return true;
 	}
 }

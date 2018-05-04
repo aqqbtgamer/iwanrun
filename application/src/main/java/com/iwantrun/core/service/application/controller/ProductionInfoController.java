@@ -200,28 +200,27 @@ public class ProductionInfoController {
 		ProductionInfoRequest infoRequest = JSONUtils.jsonToObj(message.getMessageBody(), ProductionInfoRequest.class);
 
 		try {
-			if (infoRequest.getInfo() == null) {
-				response.setMessageBody("failed");
-			} else {
+			if (infoRequest.getInfo() != null) {
 				ProductionInfo info = infoRequest.getInfo();
-
-				// 生成主图缩略图
-				String iconPath = productionInfoService.thumbnailator(info.getMainImageLarge(), request);
-				info.setMainImageIcon(iconPath);
-
-				boolean updateResult = productionInfoService.add(info, infoRequest.getAttachments());
-
-				if (updateResult) {
-					response.setMessageBody(String.valueOf(info.getId()));
-				} else {
-					response.setMessageBody("failed");
+				//数据校验
+				boolean validated=productionInfoService.validateData(info);
+				if(validated) {
+					// 生成主图缩略图
+					String iconPath = productionInfoService.thumbnailator(info.getMainImageLarge(), request);
+					info.setMainImageIcon(iconPath);
+					
+					boolean updateResult = productionInfoService.add(info, infoRequest.getAttachments());
+					
+					if (updateResult) {
+						response.setMessageBody(String.valueOf(info.getId()));
+						return response;
+					}
 				}
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-			response.setMessageBody("failed");
 		}
-
+		response.setMessageBody("failed");
 		return response;
 	}
 }

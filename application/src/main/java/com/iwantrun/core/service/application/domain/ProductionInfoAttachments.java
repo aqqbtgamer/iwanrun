@@ -1,15 +1,23 @@
 package com.iwantrun.core.service.application.domain;
 
+import java.sql.Blob;
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
-import com.mysql.jdbc.Blob;
-
+@Entity
 @Table(name = "biz_production_attachements")
 public class ProductionInfoAttachments {
+	@Id
 	@Column(name = "id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;// int primary key AUTO_INCREMENT comment '系统主键',
-	@Column(name = "production_id")
+	@Column(name = "production_id", nullable=false)
 	private Integer productionId;// int not null comment '附件所属产品号 虚拟外键 关联biz_cases',
 	@Column(name = "file_name")
 	private String fileName;// varchar(256) comment '文件名',

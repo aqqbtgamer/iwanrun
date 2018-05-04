@@ -8,6 +8,6 @@ import com.iwantrun.core.service.application.domain.ProductionLocationRelation;
 @Repository
 public interface ProductionLocationRelationDao extends JpaRepository<ProductionLocationRelation, Integer>{
 
-	ProductionLocationRelation findByProductionId(Integer id);
+	ProductionLocationRelation findByProductionId(int id);
 
 }

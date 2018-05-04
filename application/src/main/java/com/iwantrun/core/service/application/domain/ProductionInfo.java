@@ -19,10 +19,10 @@ public class ProductionInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id; // 系统主键
 
-	@Column(name = "activity_type_code")
+	@Column(name = "activity_type_code",nullable=false)
 	private Integer activityTypeCode; // 活动类型
 
-	@Column(name = "during")
+	@Column(name = "during", nullable=false)
 	private Integer during; // 活动天数
 
 	@Column(name = "during_code")
@@ -37,7 +37,7 @@ public class ProductionInfo {
 	@Column(name = "priority")
 	private Integer priority; // 优先权重
 
-	@Column(name = "status")
+	@Column(name = "status",nullable=false)
 	private Integer status; // 状态 0-正常 1-下架'
 
 	@Column(name = "order_simulate_price_code")
@@ -55,13 +55,13 @@ public class ProductionInfo {
 	@Column(name = "activity_dist_code")
 	private Integer activityDistCode; // 产品区编码
 
-	@Column(name = "shift_time")
+	@Column(name = "shift_time",nullable=false)
 	private Date shiftTime; // 上架时间
 
-	@Column(name = "create_time")
+	@Column(name = "create_time",nullable=false)
 	private Date createTime; // 创建时间
 
-	@Column(name = "name")
+	@Column(name = "name", nullable=false)
 	private String name; // 缩略名称
 
 	@Column(name = "main_image_large")
