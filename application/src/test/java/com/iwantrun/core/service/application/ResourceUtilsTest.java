@@ -1,12 +1,16 @@
 package com.iwantrun.core.service.application;
 
+import static org.junit.Assert.*;
+
 import java.net.URI;
 import java.net.URL;
 
+import org.junit.Test;
 import org.springframework.util.ResourceUtils;
 
 public class ResourceUtilsTest {
-	public static void main(String[] args) {
+	@Test
+	public void testName() throws Exception {
 		try {
 			String fileUrl = "http://localhost:8089/iwant_admin/images/1524319241.png";
 			
