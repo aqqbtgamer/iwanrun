@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.application.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -24,7 +25,12 @@ import com.iwantrun.core.service.application.dao.LocationsDao;
 import com.iwantrun.core.service.application.domain.LocationAttachments;
 import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.intercepter.ControllInvokerIntercepter;
+import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import com.iwantrun.core.service.utils.JPADBUtils;
+
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 
 @Service
 public class LocationsService {
@@ -72,7 +78,8 @@ public class LocationsService {
 				"=,activityDistCode,and",
 				"like,location,and",
 				"=,priority,and",
-				"=,status,and"				
+				"=,status,and",
+				"=,simulatePriceCode,and"
 		}),page);
 	}
 	
@@ -81,6 +88,35 @@ public class LocationsService {
 		Integer pageSize = Integer.parseInt(env.getProperty("common.pageSize"));
 		Pageable page =  PageRequest.of(pageIndex, pageSize, Sort.Direction.ASC, "id") ;
 		return locationDao.findAll(example,page);
+	}
+
+	@Transactional
+	public String delete(String id) {
+		SimpleMessageBody simple = new SimpleMessageBody();
+		try {
+			JSONObject jsonId = (JSONObject) JSONValue.parse(id);
+			if(jsonId != null) {
+				if(jsonId.getAsString("id")!= null) {
+					Integer deleteId = Integer.parseInt(jsonId.getAsString("id"));
+					this.locationDao.deleteById(deleteId);
+				}
+				if(jsonId.get("id[]") != null) {
+					JSONArray jsonIdArray = (JSONArray) jsonId.get("id[]");
+					Iterator<Object> it =  jsonIdArray.iterator();
+					while(it.hasNext()) {
+						Object idDelete = it.next();
+						Integer deleteId = Integer.parseInt(idDelete.toString());
+						this.locationDao.deleteById(deleteId);
+					}
+				}
+			}		
+			simple.setSuccessful(true);
+		}catch(NumberFormatException e) {
+			simple.setSuccessful(false);
+			simple.setDescription(e.getMessage());
+			logger.error("Id want to be deleted is not in good format",e);
+		}		
+		return JSONValue.toJSONString(simple);
 	}
 	
 	

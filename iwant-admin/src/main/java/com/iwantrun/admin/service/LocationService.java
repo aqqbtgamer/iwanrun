@@ -98,4 +98,22 @@ public class LocationService {
 		return response == null ? null : response.getBody().getMessageBody();
 	}
 
+
+	public String delete(HttpServletRequest request) {
+		String token = CookieUtils.getLoginToken(request);
+		List<String> paramList = FormDataUtils.stringArray2List(new String[] {
+				"id",
+				"id[]"
+		});
+		JSONObject json = FormDataUtils.formData2JsonObj(request,paramList);
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(json.toJSONString());
+		String postUrl = env.getProperty("application.location.delete");
+		String baseUrl = env.getProperty("application.serverbase");
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);	
+		return response == null ? null : response.getBody().getMessageBody();
+	}
+
 }

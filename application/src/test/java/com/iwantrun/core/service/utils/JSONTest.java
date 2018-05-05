@@ -1,7 +1,5 @@
 package com.iwantrun.core.service.utils;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,17 +12,9 @@ import com.iwantrun.core.service.application.transfer.ProductionInfoRequest;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import net.minidev.json.JSONValue;
-import net.minidev.json.parser.ParseException;
 
 public class JSONTest {
-	public static void main(String[] args) throws ParseException {
-		JSONObject object=new JSONObject();
-		object.put("name2", "name2");
-		object.put("name", "name");
-		ProductionInfo info = JSONValue.parse(object.toJSONString(), ProductionInfo.class);
-		System.out.println(info);
-	}
+	
 	@Test
 	public void testName() throws Exception {
 		int[] arr = {1, 2};

@@ -132,5 +132,15 @@ public class LocationsController {
 		message.setMessageBody(PageDataWrapUtils.page2Json(resultPage));
 		return message;		
 	}
+	
+	@RequestMapping("/application/location/delete")
+	@NeedTokenVerify
+	public Message delete(@RequestBody Message message) {
+		String id = message.getMessageBody();
+		String result = locationService.delete(id);
+		message.setMessageBody(String.valueOf(result));
+		return message ;
+	}
+	
 
 }

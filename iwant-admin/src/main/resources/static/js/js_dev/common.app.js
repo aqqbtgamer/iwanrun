@@ -54,7 +54,7 @@ function fileUpload(contentId,url,callback) {
     }
 
 
-    function initUE() {
+    function initUE(){
         ue.ready(function (obj) {
             var editorId = '#' + ue.container.id;
             $(editorId).css('max-width', 800);
@@ -193,7 +193,7 @@ function fileUpload(contentId,url,callback) {
     	})
     }
     
-    function bindClickQuery(bindId,filedId,inputId,tableId,pageId,dataUrl,columns){
+    function bindClickQuery(bindId,filedId,inputId,tableId,pageId,dataUrl,deleteUrl,columns){
     	$("#"+bindId).click(
     	    function (){
     	        var requestObj = new Object();
@@ -207,13 +207,13 @@ function fileUpload(contentId,url,callback) {
                 }
 
                 requestObj.obj = obj ;
-                pageDataInit(tableId,pageId,dataUrl,columns,requestObj.pageIndex,JSON.stringify(requestObj.obj));
+                pageDataInit(tableId,pageId,dataUrl,deleteUrl,columns,requestObj.pageIndex,JSON.stringify(requestObj.obj));
             }
         )
     }
     
   
-    function pageDataInit(tableId,pageId,dataUrl,columns,pageIndex,data){
+    function pageDataInit(tableId,pageId,dataUrl,deleteUrl,columns,pageIndex,data){
     	var table = $("#"+tableId);
     	var requestData = new Object();
     	if(pageIndex == null){
@@ -232,10 +232,9 @@ function fileUpload(contentId,url,callback) {
                 data:requestData,
                 dataType:"text",
                 type:"POST",
-                type:"POST",
                 success:function(result){
                     console.log("提交到"+dataUrl+"成功");
-                    insertTableData(result,tableId,pageId,columns,dataUrl,data);
+                    insertTableData(result,tableId,pageId,columns,dataUrl,deleteUrl,data);
                 },
                 error:function(XMLHttpRequest ,error,exception){
                     console.log("提交到"+dataUrl+"失败,原因是: "+ exception.toString());
@@ -245,8 +244,7 @@ function fileUpload(contentId,url,callback) {
     }
     
 
-    function insertTableData(result,tableId,pageId,columns,dataUrl,data){
-        //console.log("获取后台信息:"+result);
+    function insertTableData(result,tableId,pageId,columns,dataUrl,deleteUrl,data){
         var ret = $.parseJSON(result);
         var tableData = ret.content;
         var table = $("#"+tableId).find("tbody");
@@ -271,6 +269,10 @@ function fileUpload(contentId,url,callback) {
             var tdOpration = $("<td></td>");
             var linkModify = $("<a></a>").text("修改");
             var linkDelete = $("<a></a>").text("删除");
+            linkDelete.attr("id",column.id);
+            linkDelete.bind("click",function(event){            	
+            	deleteSingle($(event.target).attr("id"),deleteUrl,tableId,pageId,dataUrl,columns,data);
+            });
             tdOpration.append(linkModify);
             tdOpration.append("/");
             tdOpration.append(linkDelete);
@@ -283,8 +285,8 @@ function fileUpload(contentId,url,callback) {
         var pageDiv = $("#"+pageId);
         pageDiv.empty();
        //首页
-        var first = generatePageLink(tableId,pageId,dataUrl,columns,0,"« 首页",false,data);
-        var previous = generatePageLink(tableId,pageId,dataUrl,columns,Math.max(0,pagedata.currentPage-1),"« 前一页",false,data);
+        var first = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,0,"« 首页",false,data);
+        var previous = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,Math.max(0,pagedata.currentPage-1),"« 前一页",false,data);
         pageDiv.append(first);
         pageDiv.append(previous);
         if(totalPage > displayPagenationlLimit){
@@ -298,49 +300,49 @@ function fileUpload(contentId,url,callback) {
         	if(leftMargin <= (displayPagenationlLimit-1)/2 && righrMargin > (displayPagenationlLimit-1)/2){
         		//省略号位于右半边
         		for(var i = 0 ; i< leftMargin ; i++){
-        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i,null,false,data);
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,i,null,false,data);
         			pageDiv.append(pageLink);
         		}
-        		var currentLink = generatePageLink(tableId,pageId,dataUrl,columns,current,null,false,data).addClass("current");
+        		var currentLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,current,null,false,data).addClass("current");
         		pageDiv.append(currentLink);
         		for(var i=0 ; i< displayPagenationlLimit - leftMargin -1 ; i++){
-        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i+current+1,null,false,data);
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,i+current+1,null,false,data);
         			pageDiv.append(pageLink);
         		}
-        		var blankPageLink = generatePageLink(tableId,pageId,dataUrl,columns,"#","...",true);
+        		var blankPageLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,"#","...",true);
         		pageDiv.append(blankPageLink);
         	}else if(leftMargin > (displayPagenationlLimit-1)/2 && righrMargin <= (displayPagenationlLimit-1)/2){
         		//省略号位于左半边
-        		var blankPageLink = generatePageLink(tableId,pageId,dataUrl,columns,"#","...",true);
+        		var blankPageLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,"#","...",true);
         		pageDiv.append(blankPageLink);
         		var leftStart = max-displayPagenationlLimit +1 ;
         		for(var i = leftStart; i < leftMargin ; i++){
-        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i,null,false,data);
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,i,null,false,data);
         			pageDiv.append(pageLink);
         		}
-        		var currentLink = generatePageLink(tableId,pageId,dataUrl,columns,i).addClass("current");
+        		var currentLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,i).addClass("current");
         		pageDiv.append(currentLink);
         		for(var i=current+1 ; i < max+1 ; i++){
-        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i,null,false,data);
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,i,null,false,data);
         			pageDiv.append(pageLink);
         		}
         	}else{
     			//左右都有省略号
-    			var blankPageLink = generatePageLink(tableId,pageId,dataUrl,columns,"#","...",true);
+    			var blankPageLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,"#","...",true);
         		pageDiv.append(blankPageLink);
         		var leftStart = current - (displayPagenationlLimit-1)/2;
         		for(var i = leftStart; i < leftMargin ; i++){
-        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i,null,false,data);
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,i,null,false,data);
         			pageDiv.append(pageLink);
         		}
-        		var currentLink = generatePageLink(tableId,pageId,dataUrl,columns,i).addClass("current");
+        		var currentLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,i).addClass("current");
         		pageDiv.append(currentLink);
         		var rightEnd = current + (displayPagenationlLimit-1)/2;
         		for(var i = current+1; i < rightEnd +1; i++){
-        			var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i,null,false,data);
+        			var pageLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,i,null,false,data);
         			pageDiv.append(pageLink);
         		}
-        		var blankPageLink = generatePageLink(tableId,pageId,dataUrl,columns,"#","...",true);
+        		var blankPageLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,"#","...",true);
         		pageDiv.append(blankPageLink);
     		}
         	
@@ -348,22 +350,22 @@ function fileUpload(contentId,url,callback) {
         }else{
         	//小于等于限制页数直接展示
             for(var i = 0 ; i<totalPage ; i++){
-                var pageLink = generatePageLink(tableId,pageId,dataUrl,columns,i,null,false,data);
+                var pageLink = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,i,null,false,data);
                 if(i == pagedata.currentPage){
                 	pageLink.addClass("current");                	
                 }
                 pageDiv.append(pageLink);
             }
         }
-        var next = generatePageLink(tableId,pageId,dataUrl,columns,Math.min(pagedata.totalpage-1,pagedata.currentPage+1),"后一页  »",null,false,data);
-        var end = generatePageLink(tableId,pageId,dataUrl,columns,pagedata.totalpage-1,"尾页  »",null,false,data);
+        var next = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,Math.min(pagedata.totalpage-1,pagedata.currentPage+1),"后一页  »",null,false,data);
+        var end = generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,pagedata.totalpage-1,"尾页  »",null,false,data);
         pageDiv.append(next);
         pageDiv.append(end);
         
     }
     
     
-    function generatePageLink(tableId,pageId,dataUrl,columns,pageIndex,content,blank,data){
+    function generatePageLink(tableId,pageId,dataUrl,deleteUrl,columns,pageIndex,content,blank,data){
     	var pageLink = $("<a></a>").attr("page",pageIndex);
     	if(content == null){
     		pageLink.addClass("number").text(pageIndex+1);
@@ -372,8 +374,52 @@ function fileUpload(contentId,url,callback) {
     	}
     	if(!blank){
     		pageLink.bind("click",function(){
-            	pageDataInit(tableId,pageId,dataUrl,columns,pageIndex,data);
+            	pageDataInit(tableId,pageId,dataUrl,deleteUrl,columns,pageIndex,data);
             });
     	}        
         return pageLink;
     }
+    
+    function deleteSingle(id,deleteUrl,tableId,pageId,dataUrl,columns,data){
+    	var requestData = new Object();
+    	requestData.id = id ;
+    	var isDelete = confirm("确认删除吗?");
+    	if(isDelete){
+    		$.ajax(
+        			{
+        				url:deleteUrl,
+        				cache:false,
+        				data:requestData,
+                        dataType:"text",
+                        type:"POST",
+                        success:function(result){
+                        	console.log("提交到"+deleteUrl+"成功："+result);
+                        	pageDataInit(tableId,pageId,dataUrl,deleteUrl,columns,0,data);
+                        },
+    	    			error:function(XMLHttpRequest ,error,exception){
+    	                    console.log("提交到"+deleteUrl+"失败,原因是: "+ exception.toString());
+    	                }
+        			}
+        	);
+    	}
+    	
+    }
+    
+    
+    function selectAll(tableId){
+    	var selector = $("#"+tableId).find("thead checkbox");
+    	if(selector.prop("checked")){
+    		$("#"+tableId).find("tbody checkbox :not(:checked)").prop("checked",null);
+    	}else{
+    		$("#"+tableId).find("tbody checkbox :not(:checked)").prop("checked","checked");
+    	}    	
+    }
+    
+    function bindSelectAll(bindId,tableId){
+    	$("#"+bindId).click(function(){
+    		selectAll(tableId);
+    	})
+    }
+    
+    
+    

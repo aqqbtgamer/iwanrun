@@ -32,5 +32,11 @@ public class LocationController {
 	public String queryAll(HttpServletRequest request) {
 		return locationService.queryAll(request);
 	}
+	
+	@RequestMapping("/location/delete")
+	@ResponseBody
+	public String delete(HttpServletRequest request) {
+		return locationService.delete(request);
+	}
 
 }

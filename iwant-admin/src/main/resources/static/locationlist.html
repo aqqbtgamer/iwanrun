@@ -85,18 +85,19 @@
                             <select name="" id="queryField">
                                 <option value="">筛选</option>
                                 <option value="name">场地名称</option>
-                                <option value="activity_type_code">活动类型</option>
-                                <option value="group_number_limit_code">最大活动人数</option>
+                                <option value="activeTypeCode">活动类型</option>
+                                <option value="groupNumberLimitCode">最大活动人数</option>
                                 <option value="location">地址</option>
                                 <option value="simulatePriceCode">参考报价</option>
                             </select>
                             <input type="text" name="keyword" id="fieldInput"/>
                             <button id="queryCondtion">查找</button>
+                            <button id="deleteAll">删除</button>
 
                     </caption>
                     <thead>
                     <tr>
-                         <th><input type="checkbox">选择全部</th>
+                         <th><input type="checkbox" id="selectAll">选择全部</th>
                         <th>场地名称</th>
                         <th>活动类型</th>
                         <th>最大活动人数</th>
