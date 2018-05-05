@@ -1,6 +1,7 @@
 package com.iwantrun.core.service.application.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -169,13 +170,18 @@ public class ProductionInfoService {
 	@Transactional
 	public boolean add(ProductionInfo info, List<ProductionInfoAttachments> attachmentses) {
 		if(info != null) {
-			info = productionInfoDao.saveAndFlush(info);
-			if(info==null) {
+			
+			info.setStatus(0);
+			info.setCreateTime(new Date());
+			info.setShiftTime(new Date());
+			
+			ProductionInfo savedInfo = productionInfoDao.saveAndFlush(info);
+			if(savedInfo==null) {
 				return false;
 			}
 			if(CollectionUtils.isNotEmpty(attachmentses)) {
 				for (ProductionInfoAttachments attachments : attachmentses) {
-					attachments.setProductionId(info.getId());
+					attachments.setProductionId(savedInfo.getId());
 				}
 				List<ProductionInfoAttachments>  savedAttachments = pAttachmentsDao.saveAll(attachmentses);
 				if(CollectionUtils.isEmpty(savedAttachments)) {
@@ -220,9 +226,6 @@ public class ProductionInfoService {
 			return false;
 		}
 		if(StringUtils.isEmpty(info.getDuring())) {
-			return false;
-		}
-		if(StringUtils.isEmpty(info.getStatus())) {
 			return false;
 		}
 		return true;

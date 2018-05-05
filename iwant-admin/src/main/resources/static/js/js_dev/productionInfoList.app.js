@@ -1,12 +1,15 @@
 $(document).ready(function(){
-	loadListData();// 加载列表数据
+	$.post('',{},function(data){
+		console.log(data);
+	});
+	loadListData(null, fillPagesData);// 加载列表数据
 	wrapCustomerItems();
 });
-function loadListData(urlparamstr){
+function loadListData(urlparamstr, loadback){
 	var url = "./productionInfo/find?pageNum=" + currPage + "&pageSize=" + pageSize;
 	
 	if (urlparamstr != null && urlparamstr != undefined) {
-		url +=  urlparamstr;
+		url += ("&"+ urlparamstr);
 	}
 	
 	$.ajax({
@@ -15,8 +18,12 @@ function loadListData(urlparamstr){
 	        data:null,
 	        contentType: "application/json;charset=utf-8",
 	        dataType: "json",
-	        success: function (data){
-	        	$('.node').empty()
+	        success: loadback
+	 });
+}
+
+function fillPagesData(data){
+	$('.node').empty();
 	            // 取出后端传过来的list值
 	        	var list = data.content;
 	        	
@@ -31,9 +38,10 @@ function loadListData(urlparamstr){
 					var groupNumberCode = list[index].groupNumberCode;
 					var orderSimulatePriceCode = list[index].orderSimulatePriceCode;
 					var orderGroupPriceCode = list[index].orderGroupPriceCode;
+					var id = list[index].id;
 					
 					groupNumberCode = groupNumberCode == null ? '' : groupNumberCode;
-					groupNumberCode += ("id=" + list[index].id);
+					groupNumberCode += ("id=" + id);
 					orderSimulatePriceCode = orderSimulatePriceCode == null ? '' : orderSimulatePriceCode;
 					orderGroupPriceCode = orderGroupPriceCode == null ? '' : orderGroupPriceCode;
 					
@@ -41,7 +49,6 @@ function loadListData(urlparamstr){
 					// 找到html的tr节点
 					rowTr.className = "node";
 					var child = "<th><input type='checkbox'></th>"
-//					+"<th><img src='"+list[index].mainImageIcon+"' alt='' /></th>"
 					+"<td><img src='./images/1524319241.png' alt='' /></td>"	
 					+"<td>"+name+"</td>"
 					+"<td>"+activityTypeCode+"</td>"
@@ -49,20 +56,18 @@ function loadListData(urlparamstr){
 					+"<td>"+groupNumberCode+"</td>"
 					+"<td>"+orderSimulatePriceCode+"</td>"
 					+"<td>"+orderGroupPriceCode+"</td>"
-					+"<td> <a>修改</a> / <a>删除</a></td>"
+					+"<td> <a href='editProductionInfo.html?id="+id+"'>修改</a> / <a>删除</a></td>"
 					// 将要展示的信息写入页面
 					rowTr.innerHTML = child;
 					// 将信息追加
 					($(".node")[0]).append(rowTr)
 				});
-	        }        
-	 });
 }
 function search(){
 	var searchSelected = $("#searchSelect option:selected").val();
 	var searchText = $("#searchText").val();
 	
-	loadListData(searchSelected + "=" + searchText);
+	loadListData(searchSelected + "=" + searchText, fillPagesData);
 }
 
 function wrapCustomerItems() {

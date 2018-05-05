@@ -27,6 +27,15 @@ public class ProductionInfoController {
 		return service.find(request);
 	}
 	
+	/**
+	 * 根据ID查找产品信息
+	 */
+	@RequestMapping("/productionInfo/detail")
+	@ResponseBody
+	public String detail(HttpServletRequest request) {
+		return service.detail(request);
+	}
+	
 	@RequestMapping("/productionInfo/add")
 	@ResponseBody
 	public String add(@RequestBody Message message, HttpServletRequest request) {

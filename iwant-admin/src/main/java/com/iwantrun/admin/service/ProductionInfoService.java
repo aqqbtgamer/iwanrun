@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.iwantrun.admin.transfer.Message;
@@ -20,13 +21,8 @@ import net.minidev.json.JSONObject;
 public class ProductionInfoService {
 	@Autowired  
     private Environment env;  
-	
 	@Autowired
 	private RestTemplate template;
-
-	public void setTemplate(RestTemplate template) {
-		this.template = template;
-	}
 
 	public String add(HttpServletRequest request) {
 		String token = CookieUtils.getLoginToken(request);
@@ -84,8 +80,10 @@ public class ProductionInfoService {
 		
 		System.err.println("请求====="+param.toJSONString());
 		
-		JSONObject obj = template.postForEntity("http://127.0.0.1:9999/iwant_app/application/productionInfo/find",
-				message, JSONObject.class).getBody();
+		//String baseUrl = env.getProperty("application.serverbase");
+		String postUrl = env.getProperty("application.productionInfo.find");
+		String baseUrl = env.getProperty("application.serverbase");
+		JSONObject obj = template.postForEntity(baseUrl+postUrl, message, JSONObject.class).getBody();
 
 		System.err.println("响应====="+obj.toJSONString());
 		
@@ -94,9 +92,23 @@ public class ProductionInfoService {
 
 	public String add(Message message) {
 		String postUrl = env.getProperty("application.productionInfo.add");
+		//String baseUrl = env.getProperty("application.serverbase");
 		String baseUrl = env.getProperty("application.serverbase");
 		message.setRequestMethod(baseUrl+postUrl);
 		ResponseEntity<Message> response = template.postForEntity(baseUrl+postUrl, message, Message.class);		
 		return response == null ? null : response.getBody().getMessageBody();
+	}
+
+	public String detail(HttpServletRequest request) {
+		String id=request.getParameter("id");
+		if(!StringUtils.isEmpty(id)) {
+			Message message = new Message();
+			message.setMessageBody("{\"id\":"+id+"}");
+			String baseUrl = env.getProperty("application.serverbase");
+			String postUrl = env.getProperty("application.productionInfo.detail");
+			JSONObject obj = template.postForEntity(baseUrl+postUrl, message, JSONObject.class).getBody();
+			return obj.toJSONString();
+		}
+		return null;
 	}
 }

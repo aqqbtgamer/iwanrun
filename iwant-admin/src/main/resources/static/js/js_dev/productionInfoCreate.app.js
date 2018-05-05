@@ -8,7 +8,7 @@ var submitUrl = '/iwant_admin/productionInfo/add';
 $(document).ready(
     function(){
         //initUE();
-    	//            
+    	//   
         bindUploadFile('mainImageUpload',uploadServer,'mainImageLarge',singleDisplay);
         //bindUploadFile('uploadedProductionInfoImages',uploadServer,'imgManage',mutipleDisplay);
         bindDataSubmitJSON('submitForm',
