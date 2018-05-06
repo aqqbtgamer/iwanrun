@@ -9,7 +9,7 @@ var dataArr = new Array("name", "activityTypeCode", "during", "duringCode",
 
 $(document).ready(
     function(){
-    	initPageData();
+    	initPageData();// 设置产品详情数据
         bindUploadFile('mainImageUpload', uploadServer, 'mainImageLarge', singleDisplay);
         bindDataSubmitJSON('submitForm', dataArr, submitUrl, returnListPage);
         bindSeclectAll("checkAll");
@@ -21,71 +21,84 @@ function returnListPage(result){
 	if(result == "failed"){
 		alert("后台处理数据失败")
 	}else{
-		window.location.href="locationlist.html";
+		window.location.href = "productionInfoList.html";
 	}
 }
 
-function bindDataSubmitJSON(id,fieldArray,url,callback){
-    $("#"+id).bind('click',function(){
+function bindDataSubmitJSON(id, fieldArray, url, callback){
+    $("#" + id).bind('click', function() {
         var formData = collectFormDatas(fieldArray);
-        var infoRequest={};
-        formData.descirbeText1=formData['_ue'];//UEeditor编辑器数据
-        infoRequest.info=formData;
-        var param = {};
+		var infoRequest = {};
+		formData.descirbeText1 = formData['_ue'];// UEeditor编辑器数据
+		formData.id = getUrlParam().id;
+		infoRequest.info = formData;
+		var param = {};
 		param.messageBody = JSON.stringify(infoRequest);
-        var paramJSON = JSON.stringify(param);
+		var paramJSON = JSON.stringify(param);
         $.ajax(
             {
-                url:url,
-                cahce:false,
-                data:paramJSON,
-                dataType:"json",
-                contentType:"application/json;charset=utf-8",
-                type:"POST",
-                success:function(result){
-                    console.log("提交到"+url+"成功");
-                    callback();
-                },
-                error:function(XMLHttpRequest ,error,exception){
-                    console.log("提交到"+url+"失败,原因是: "+ error.toString());
-                    alert("上传失败 服务端无法连接")
-                }
+                url : url,
+				cahce : false,
+				data : paramJSON,
+				dataType : "json",
+				contentType : "application/json;charset=utf-8",
+				type : "POST",
+				success : function(result) {
+					console.log("提交到" + url + "成功");
+					callback();
+				},
+				error : function(XMLHttpRequest, error, exception) {
+					console.log("提交到" + url + "失败,原因是: " + error.toString());
+					alert("上传失败 服务端无法连接")
+				}
             }
         )
     });
 }
 
 function getUrlParam() {   
-   var url = location.search; //获取url中"?"符后的字串   
+   var url = location.search; // 获取url中"?"符后的字串
    var theRequest = new Object();   
-   if (url.indexOf("?") != -1) {   
-      var str = url.substr(1);   
-      strs = str.split("&");   
-      for(var i = 0; i < strs.length; i ++) {   
-         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);   
-      }   
-   }   
-   return theRequest;   
+   if (url.indexOf("?") != -1) {
+		var str = url.substr(1);
+		strs = str.split("&");
+		for (var i = 0; i < strs.length; i++) {
+			theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+		}
+	}   
+	return theRequest;   
 }   
 function initPageData(){
-	var id=getUrlParam();
-    $.post('./productionInfo/detail',id,function(dataJson){
-    	var data=JSON.parse(dataJson);
-    	fillPageDatas(data);
+	var id = getUrlParam();
+    $.post('./productionInfo/detail', id, function(dataJson){
+    	var data = JSON.parse(dataJson);
+		fillPageDatas(data);
     });  
 }
 
 function fillPageDatas(data) {
-	var formdData = new Object();
+	setUEData(data);// 设置UE编辑器内容
+	
 	for (var i = 0; i < dataArr.length; i++) {
 		var name = dataArr[i];
 		var val = data[name];
 		if (val != null) {
 			var ele = $("[name='" + name + "']");
-			formdData[name] = fillItem(ele, val);
+			fillItem(ele, val);
 		}
 	}
-	return formdData;
+}
+function setUEData(data) {
+	var descirbeText1 = data.descirbeText1 == null ? '' : data.descirbeText1;
+	var descirbeText2 = data.descirbeText2 == null ? '' : data.descirbeText2;
+	var descirbeText3 = data.descirbeText3 == null ? '' : data.descirbeText3;
+	var ueData = descirbeText1 + descirbeText2 + descirbeText3;
+	if (ueData == '') {
+		ueData = '产品详情编辑';
+	}
+	ue.ready(function() {
+		ue.setContent(ueData);
+	});
 }
 function fillItem(ele, val){
 	if (ele.prop('nodeName').toLowerCase() == 'input') {

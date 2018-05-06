@@ -80,9 +80,8 @@ public class ProductionInfoService {
 		
 		System.err.println("请求====="+param.toJSONString());
 		
-		//String baseUrl = env.getProperty("application.serverbase");
-		String postUrl = env.getProperty("application.productionInfo.find");
 		String baseUrl = env.getProperty("application.serverbase");
+		String postUrl = env.getProperty("application.productionInfo.find");
 		JSONObject obj = template.postForEntity(baseUrl+postUrl, message, JSONObject.class).getBody();
 
 		System.err.println("响应====="+obj.toJSONString());
@@ -92,7 +91,6 @@ public class ProductionInfoService {
 
 	public String add(Message message) {
 		String postUrl = env.getProperty("application.productionInfo.add");
-		//String baseUrl = env.getProperty("application.serverbase");
 		String baseUrl = env.getProperty("application.serverbase");
 		message.setRequestMethod(baseUrl+postUrl);
 		ResponseEntity<Message> response = template.postForEntity(baseUrl+postUrl, message, Message.class);		
@@ -110,5 +108,21 @@ public class ProductionInfoService {
 			return obj.toJSONString();
 		}
 		return null;
+	}
+
+	public String edit(Message message) {
+		String postUrl = env.getProperty("application.productionInfo.edit");
+		String baseUrl = env.getProperty("application.serverbase");
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = template.postForEntity(baseUrl+postUrl, message, Message.class);		
+		return response == null ? null : response.getBody().getMessageBody();
+	}
+
+	public String unShift(Message message) {
+		String postUrl = env.getProperty("application.productionInfo.unShift");
+		String baseUrl = env.getProperty("application.serverbase");
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = template.postForEntity(baseUrl+postUrl, message, Message.class);		
+		return response == null ? null : response.getBody().getMessageBody();
 	}
 }

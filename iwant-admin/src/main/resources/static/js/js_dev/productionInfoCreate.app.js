@@ -8,9 +8,7 @@ var submitUrl = '/iwant_admin/productionInfo/add';
 $(document).ready(
     function(){
         //initUE();
-    	//   
         bindUploadFile('mainImageUpload',uploadServer,'mainImageLarge',singleDisplay);
-        //bindUploadFile('uploadedProductionInfoImages',uploadServer,'imgManage',mutipleDisplay);
         bindDataSubmitJSON('submitForm',
             new Array("name",
     				"activityTypeCode",
@@ -38,18 +36,28 @@ function returnListPage(result){
 	if(result == "failed"){
 		alert("后台处理数据失败")
 	}else{
-		window.location.href="locationlist.html";
+		window.location.href="productionInfoList.html";
 	}
 }
 
 function bindDataSubmitJSON(id,fieldArray,url,callback){
     $("#"+id).bind('click',function(){
         var formData = collectFormDatas(fieldArray);
+    	
+    	var validatedResult = validateDatas(formData);
+    	
+    	if(validatedResult){
+    		alert(validatedResult);
+    		return;
+    	}
+    	
         var infoRequest={};
+        var param = {};
+        
         formData.descirbeText1=formData['_ue'];//UEeditor编辑器数据
         infoRequest.info=formData;
-        var param = {};
 		param.messageBody = JSON.stringify(infoRequest);
+		
         var paramJSON = JSON.stringify(param);
         $.ajax(
             {
@@ -71,6 +79,14 @@ function bindDataSubmitJSON(id,fieldArray,url,callback){
         )
     });
 }
-
+function validateDatas(formData){
+	if(!formData['name']){
+		return '请输入产品名称';
+	}
+	if(!formData['during']){
+		return '请输入活动天数';
+	}
+	return null;
+}
 
 

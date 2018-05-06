@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -132,36 +133,43 @@ public class ProductionInfoService {
 	/**
 	 * 创建新的产品 上架新的产品信息
 	 */
+	@Transactional
+	@Modifying
 	public ProductionInfo save(ProductionInfo param) {
-		return productionInfoDao.saveAndFlush(param);
+		return productionInfoDao.save(param);
 	}
 
 	/**
 	 * 编辑产品信息 编辑修改产品信息
+	 * @param attachmentses 
+	 * @return 
+	 * @return 
 	 */
 	@Transactional
 	@Modifying
-	public void edit(ProductionInfo param) {
-		Optional<ProductionInfo> infoOptional = productionInfoDao.findById(param.getId());
-		if (infoOptional != null && infoOptional.get() != null) {
-			ProductionInfo info = infoOptional.get();
-			if (!StringUtils.isEmpty(param.getName())) {
-				info.setName(param.getName());
+	public boolean edit(ProductionInfo param, List<ProductionInfoAttachments> attachmentses) {
+		if(param != null) {
+			if(param.getStatus() == null) {
+				param.setStatus(0);
 			}
-			if (!StringUtils.isEmpty(param.getStatus())) {
-				info.setStatus(param.getStatus());
+			productionInfoDao.save(param);
+			if(attachmentses!=null) {
+				for (ProductionInfoAttachments attachments : attachmentses) {
+					pAttachmentsDao.save(attachments);
+				}
 			}
+			
 		}
+		
+		return true;
 	}
 
 	/**
 	 * 下架产品 将产品放入回收站（随时可还原恢复），客户端无法查看该产品
 	 */
 	@Transactional
-	@Modifying
-	public void unShift(ProductionInfo param) {
-		param.setStatus(1);
-		edit(param);
+	public int unShift(ProductionInfo param) {
+		return productionInfoDao.updateStatusById(1, param.getId());
 	}
 
 	/**
@@ -192,7 +200,6 @@ public class ProductionInfoService {
 		}
 		return false;
 	}
-
 	/**
 	 * 生成主图缩略图
 	 * 
@@ -229,5 +236,9 @@ public class ProductionInfoService {
 			return false;
 		}
 		return true;
+	}
+
+	public void edit(ProductionInfo param) {
+		edit(param, null);
 	}
 }

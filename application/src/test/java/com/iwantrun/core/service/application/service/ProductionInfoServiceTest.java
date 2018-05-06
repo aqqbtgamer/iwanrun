@@ -57,15 +57,15 @@ public class ProductionInfoServiceTest {
 	}
 	@Test
 	public void edit() {
-		ProductionInfo param = new ProductionInfo();
-		param.setId(1);
-		param.setName("wlm1314");
+		ProductionInfo param = service.findById(1);
+		param.setName("____wlm1314");
 		service.edit(param);
 	}
 	@Test
 	public void unShift() {
 		ProductionInfo param = new ProductionInfo();
 		param.setId(1);
-		service.unShift(param);
+		int num=service.unShift(param);
+		System.out.println(num);
 	}
 }

@@ -5,12 +5,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iwantrun.admin.domain.ProductionInfo;
 import com.iwantrun.admin.service.ProductionInfoService;
 import com.iwantrun.admin.transfer.Message;
 import com.iwantrun.admin.utils.CookieUtils;
+import com.iwantrun.admin.utils.JSONUtils;
 
 @RestController
 public class ProductionInfoController {
@@ -42,5 +45,23 @@ public class ProductionInfoController {
 		String token = CookieUtils.getLoginToken(request);
 		message.setAccessToken(token);
 		return service.add(message);
+	}
+	
+	@RequestMapping("/productionInfo/edit")
+	@ResponseBody
+	public String edit(@RequestBody Message message, HttpServletRequest request) {
+		String token = CookieUtils.getLoginToken(request);
+		message.setAccessToken(token);
+		return service.edit(message);
+	}
+	
+	@RequestMapping("/productionInfo/unShift")
+	@ResponseBody
+	public String unShift(@RequestBody ProductionInfo info, HttpServletRequest request) {
+		Message message = new Message();
+		String token = CookieUtils.getLoginToken(request);
+		message.setAccessToken(token);
+		message.setMessageBody(JSONUtils.objToJSON(info));
+		return service.unShift(message);
 	}
 }

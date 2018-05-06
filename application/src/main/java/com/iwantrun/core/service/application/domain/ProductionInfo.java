@@ -10,9 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
+
 @Entity
 @Table(name = "biz_productions")
-public class ProductionInfo {
+public class ProductionInfo extends JpaRepositoriesAutoConfiguration{
 
 	@Id
 	@Column(name = "id")

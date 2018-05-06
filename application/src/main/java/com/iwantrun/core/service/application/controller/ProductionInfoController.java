@@ -44,10 +44,6 @@ public class ProductionInfoController {
 	@Autowired
 	ProductionInfoService productionInfoService;
 
-	public void setProductionInfoService(ProductionInfoService productionInfoService) {
-		this.productionInfoService = productionInfoService;
-	}
-
 	/**
 	 * 按照指定的字段筛选、查找产品，如活动类型、天数、人数、参考价格等 按照指定的字段对产品列表进行排序，如访问热度、上架时间、参考价格等
 	 */
@@ -67,7 +63,9 @@ public class ProductionInfoController {
 		String sortFlag = body.getAsString("sortFlag");
 
 		ProductionInfo param = new ProductionInfo();
-
+		
+		param.setStatus(0);
+		
 		if (null != activityTypeCode) {
 			param.setActivityTypeCode(activityTypeCode.intValue());
 		}
@@ -89,7 +87,7 @@ public class ProductionInfoController {
 		if (pageSize == null || pageSize.intValue() < 0) {
 			pageSize = 10;
 		}
-
+		
 		Pageable page;
 		if (StringUtils.isEmpty(sortFlag)) {
 			page = PageRequest.of(pageNum.intValue(), pageSize.intValue());
@@ -177,6 +175,69 @@ public class ProductionInfoController {
 			ioe.printStackTrace();
 		}
 		response.setMessageBody("failed");
+		return response;
+	}
+	
+	/**
+	 * 添加产品 保存产品信息
+	 */
+	@RequestMapping("/application/productionInfo/edit")
+	@NeedTokenVerify
+	public Message edit(@RequestBody Message message, HttpServletRequest request) {
+		Message response = new Message();
+		response.setAccessToken(message.getAccessToken());
+		response.setRequestMethod(message.getRequestMethod());
+
+		ProductionInfoRequest infoRequest = JSONUtils.jsonToObj(message.getMessageBody(), ProductionInfoRequest.class);
+		
+		try {
+			if (infoRequest.getInfo() != null) {
+				ProductionInfo info = infoRequest.getInfo();
+				//数据校验
+				boolean validated=productionInfoService.validateData(info);
+				if(validated) {
+					String imageLarge=info.getMainImageLarge();
+					if(!StringUtils.isEmpty(imageLarge)) {
+						ProductionInfo saved = productionInfoService.findById(info.getId());
+						if(!imageLarge.equals(saved.getMainImageLarge())) {
+							// 生成主图缩略图
+							String iconPath = productionInfoService.thumbnailator(info.getMainImageLarge(), request);
+							info.setMainImageIcon(iconPath);
+						}
+					}
+					
+					boolean updateResult = productionInfoService.edit(info, infoRequest.getAttachments());
+					
+					if (updateResult) {
+						response.setMessageBody(String.valueOf(info.getId()));
+						return response;
+					}
+				}
+			}
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		
+		response.setMessageBody("failed");
+		return response;
+	}
+	
+	/**
+	 * 添加产品 保存产品信息
+	 */
+	@RequestMapping("/application/productionInfo/unShift")
+	@NeedTokenVerify
+	public Message unShift(@RequestBody Message message, HttpServletRequest request) {
+		Message response = new Message();
+		response.setAccessToken(message.getAccessToken());
+		response.setRequestMethod(message.getRequestMethod());
+		
+		ProductionInfo info = JSONUtils.jsonToObj(message.getMessageBody(), ProductionInfo.class);
+		if(info != null && info.getId() != null) {
+			int num = productionInfoService.unShift(info);
+			response.setMessageBody(String.valueOf(num));
+		}
+		
 		return response;
 	}
 }

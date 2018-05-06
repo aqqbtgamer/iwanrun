@@ -1,7 +1,4 @@
 $(document).ready(function(){
-	$.post('',{},function(data){
-		console.log(data);
-	});
 	loadListData(null, fillPagesData);// 加载列表数据
 	wrapCustomerItems();
 });
@@ -12,14 +9,7 @@ function loadListData(urlparamstr, loadback){
 		url += ("&"+ urlparamstr);
 	}
 	
-	$.ajax({
-	        type: 'GET',
-	        url: url,
-	        data:null,
-	        contentType: "application/json;charset=utf-8",
-	        dataType: "json",
-	        success: loadback
-	 });
+	postJSON(url, null, 'GET', loadback);
 }
 
 function fillPagesData(data){
@@ -56,7 +46,7 @@ function fillPagesData(data){
 					+"<td>"+groupNumberCode+"</td>"
 					+"<td>"+orderSimulatePriceCode+"</td>"
 					+"<td>"+orderGroupPriceCode+"</td>"
-					+"<td> <a href='editProductionInfo.html?id="+id+"'>修改</a> / <a>删除</a></td>"
+					+"<td> <a href='editProductionInfo.html?id="+id+"'>修改</a> / <a onclick='unShift("+id+")'>删除</a></td>"
 					// 将要展示的信息写入页面
 					rowTr.innerHTML = child;
 					// 将信息追加
@@ -83,4 +73,28 @@ function wrapCustomerButtons() {
 			window.location.href = $(element).attr('to');
 		});
 	})
+}
+function unShift(id) {
+	postJSON('./productionInfo/unShift', "{\"id\":"+id+"}", null, function(data) {
+		var num = parseInt(data);
+		if(num>0){
+			window.location='productionInfoList.html';
+		}
+		console.log("下架：" + num);
+	});
+}
+
+function postJSON(url, data, requestMethod, callback){
+	if(!requestMethod){
+		requestMethod = 'POST';
+	}
+	$.ajax({
+		url:url,
+		data:data,
+		type:requestMethod,
+		dataType:'json',
+		contentType:'application/json;charset=utf-8',
+		success:callback,
+		error:callback
+	});
 }
