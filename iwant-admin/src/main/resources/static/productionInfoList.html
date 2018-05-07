@@ -75,13 +75,13 @@
                                 <option value="orderSimulatePriceCode">人均参考价格</option>
                             </select>
                             <input type="text" name="keyword" id="searchText"/>
-                            <button onclick="search()">查找</button>
+                            <button onclick="search('research')">查找</button>
 
                     </caption>
                     <thead>
                     <tr>
                     	<!-- 产品缩略图、产品名称、活动类型、活动天数、人数上限、参考报价 -->
-                        <th><input type="checkbox">选择全部</th>
+                        <th><input type="checkbox" onclick="selectAll(this)"/>选择全部</th>
                         <th>产品缩略图</th>
                         <th>产品名称</th>
                         <th>活动类型</th>

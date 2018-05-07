@@ -8,6 +8,7 @@ var submitUrl = '/iwant_admin/productionInfo/add';
 $(document).ready(
     function(){
         //initUE();
+    	showSidebar('产品管理');
         bindUploadFile('mainImageUpload',uploadServer,'mainImageLarge',singleDisplay);
         bindDataSubmitJSON('submitForm',
             new Array("name",
@@ -31,7 +32,16 @@ $(document).ready(
         bindDeleteSelected("deleteAll");
     }
 );
-
+function showSidebar(title){
+	var liLabels = $("#sidebar").find("li");
+	$(liLabels).each(function(){
+		if($(this).text() == title){
+			$(this).attr('class', 'current');
+			$(this).parent().removeAttr('class');
+			$(this).parent().removeAttr('style');
+		}
+	});
+}
 function returnListPage(result){
 	if(result == "failed"){
 		alert("后台处理数据失败")

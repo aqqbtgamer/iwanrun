@@ -14,17 +14,17 @@ import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfig
 
 @Entity
 @Table(name = "biz_productions")
-public class ProductionInfo extends JpaRepositoriesAutoConfiguration{
+public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "id", unique = true)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id; // 系统主键
 
-	@Column(name = "activity_type_code",nullable=false)
+	@Column(name = "activity_type_code", nullable = false)
 	private Integer activityTypeCode; // 活动类型
 
-	@Column(name = "during", nullable=false)
+	@Column(name = "during", nullable = false)
 	private Integer during; // 活动天数
 
 	@Column(name = "during_code")
@@ -39,7 +39,7 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration{
 	@Column(name = "priority")
 	private Integer priority; // 优先权重
 
-	@Column(name = "status",nullable=false)
+	@Column(name = "status", nullable = false)
 	private Integer status; // 状态 0-正常 1-下架'
 
 	@Column(name = "order_simulate_price_code")
@@ -57,13 +57,13 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration{
 	@Column(name = "activity_dist_code")
 	private Integer activityDistCode; // 产品区编码
 
-	@Column(name = "shift_time",nullable=false)
+	@Column(name = "shift_time", nullable = false)
 	private Date shiftTime; // 上架时间
 
-	@Column(name = "create_time",nullable=false)
+	@Column(name = "create_time", nullable = false)
 	private Date createTime; // 创建时间
 
-	@Column(name = "name", nullable=false)
+	@Column(name = "name", nullable = false)
 	private String name; // 缩略名称
 
 	@Column(name = "main_image_large")
@@ -72,7 +72,7 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration{
 	@Column(name = "main_image_icon")
 	private String mainImageIcon; // 产品主宣传缩略图放位置
 
-	@Column(name = "descirbe_text1", nullable=true)
+	@Column(name = "descirbe_text1", nullable = true)
 	private String descirbeText1; /// 详情描述1
 
 	@Column(name = "descirbe_text2")
@@ -86,10 +86,10 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration{
 
 	@Column(name = "qrcode")
 	private String qrcode; // 二维码信息地址
-	
+
 	@Transient
 	private Locations locations;
-	
+
 	public Locations getLocations() {
 		return locations;
 	}

@@ -88,7 +88,8 @@ function goPage(pageNum, goFlagParam){
 	$(currentEle).attr('class', 'number');
 	//currPage是页数索引值，页面显示页数要加1
 	$("#page" + (currPage + 1)).attr('class', 'number current');
-	loadListData();
+	//loadListData();
+	search();
 }
 function goRecede(){
 	if(currPage + 1 >= totalPages){

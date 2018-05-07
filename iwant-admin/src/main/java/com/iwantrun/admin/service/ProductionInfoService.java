@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,38 +20,27 @@ import net.minidev.json.JSONObject;
 
 @Service
 public class ProductionInfoService {
-	@Autowired  
-    private Environment env;  
+	@Autowired
+	private Environment env;
 	@Autowired
 	private RestTemplate template;
 
+	@Value("${application.serverbase}")
+	private String baseUrl;
+
 	public String add(HttpServletRequest request) {
 		String token = CookieUtils.getLoginToken(request);
-		List<String> paramList = FormDataUtils.stringArray2List(new String[] {
-				"name",
-				"activity_type_code",
-				"during",
-				"during_code",
-				"location",
-				"order_group_price_code",
-				"order_simulate_price_code",
-				"group_number",
-				"group_number_code",
-				"priority",
-				"activity_province_code",
-				"activity_city_code",
-				"activity_dist_code",
-				"mainImage",
-				"_ue"
-		});
-		String json = FormDataUtils.formData2Json(request,paramList);
+		List<String> paramList = FormDataUtils.stringArray2List(new String[] { "name", "activity_type_code", "during",
+				"during_code", "location", "order_group_price_code", "order_simulate_price_code", "group_number",
+				"group_number_code", "priority", "activity_province_code", "activity_city_code", "activity_dist_code",
+				"mainImage", "_ue" });
+		String json = FormDataUtils.formData2Json(request, paramList);
 		String postUrl = env.getProperty("application.productionInfo.add");
-		String baseUrl = env.getProperty("application.serverbase");
 		Message message = new Message();
 		message.setAccessToken(token);
 		message.setMessageBody(json);
-		message.setRequestMethod(baseUrl+postUrl);
-		ResponseEntity<Message> response = template.postForEntity(baseUrl+postUrl, message, Message.class);		
+		message.setRequestMethod(baseUrl + postUrl);
+		ResponseEntity<Message> response = template.postForEntity(baseUrl + postUrl, message, Message.class);
 		return response == null ? null : response.getBody().getMessageBody();
 	}
 
@@ -63,9 +53,9 @@ public class ProductionInfoService {
 		String pageNum = request.getParameter("pageNum");
 		String pageSize = request.getParameter("pageSize");
 		String sortFlag = request.getParameter("sortFlag");
-		
+
 		JSONObject param = new JSONObject();
-		
+
 		param.put("activityTypeCode", activityTypeCode);
 		param.put("during", during);
 		param.put("groupNumber", groupNumber);
@@ -74,37 +64,34 @@ public class ProductionInfoService {
 		param.put("pageNum", pageNum);
 		param.put("pageSize", pageSize);
 		param.put("sortFlag", sortFlag);
-		
+
 		Message message = new Message();
 		message.setMessageBody(param.toJSONString());
-		
-		System.err.println("请求====="+param.toJSONString());
-		
-		String baseUrl = env.getProperty("application.serverbase");
-		String postUrl = env.getProperty("application.productionInfo.find");
-		JSONObject obj = template.postForEntity(baseUrl+postUrl, message, JSONObject.class).getBody();
 
-		System.err.println("响应====="+obj.toJSONString());
-		
+		System.err.println("请求=====" + param.toJSONString());
+
+		String postUrl = env.getProperty("application.productionInfo.find");
+		JSONObject obj = template.postForEntity(baseUrl + postUrl, message, JSONObject.class).getBody();
+
+		System.err.println("响应=====" + obj.toJSONString());
+
 		return obj.toJSONString();
 	}
 
 	public String add(Message message) {
 		String postUrl = env.getProperty("application.productionInfo.add");
-		String baseUrl = env.getProperty("application.serverbase");
-		message.setRequestMethod(baseUrl+postUrl);
-		ResponseEntity<Message> response = template.postForEntity(baseUrl+postUrl, message, Message.class);		
+		message.setRequestMethod(baseUrl + postUrl);
+		ResponseEntity<Message> response = template.postForEntity(baseUrl + postUrl, message, Message.class);
 		return response == null ? null : response.getBody().getMessageBody();
 	}
 
 	public String detail(HttpServletRequest request) {
-		String id=request.getParameter("id");
-		if(!StringUtils.isEmpty(id)) {
+		String id = request.getParameter("id");
+		if (!StringUtils.isEmpty(id)) {
 			Message message = new Message();
-			message.setMessageBody("{\"id\":"+id+"}");
-			String baseUrl = env.getProperty("application.serverbase");
+			message.setMessageBody("{\"id\":" + id + "}");
 			String postUrl = env.getProperty("application.productionInfo.detail");
-			JSONObject obj = template.postForEntity(baseUrl+postUrl, message, JSONObject.class).getBody();
+			JSONObject obj = template.postForEntity(baseUrl + postUrl, message, JSONObject.class).getBody();
 			return obj.toJSONString();
 		}
 		return null;
@@ -112,17 +99,15 @@ public class ProductionInfoService {
 
 	public String edit(Message message) {
 		String postUrl = env.getProperty("application.productionInfo.edit");
-		String baseUrl = env.getProperty("application.serverbase");
-		message.setRequestMethod(baseUrl+postUrl);
-		ResponseEntity<Message> response = template.postForEntity(baseUrl+postUrl, message, Message.class);		
+		message.setRequestMethod(baseUrl + postUrl);
+		ResponseEntity<Message> response = template.postForEntity(baseUrl + postUrl, message, Message.class);
 		return response == null ? null : response.getBody().getMessageBody();
 	}
 
 	public String unShift(Message message) {
 		String postUrl = env.getProperty("application.productionInfo.unShift");
-		String baseUrl = env.getProperty("application.serverbase");
-		message.setRequestMethod(baseUrl+postUrl);
-		ResponseEntity<Message> response = template.postForEntity(baseUrl+postUrl, message, Message.class);		
+		message.setRequestMethod(baseUrl + postUrl);
+		ResponseEntity<Message> response = template.postForEntity(baseUrl + postUrl, message, Message.class);
 		return response == null ? null : response.getBody().getMessageBody();
 	}
 }
