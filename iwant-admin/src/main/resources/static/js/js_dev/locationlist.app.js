@@ -25,6 +25,7 @@ function wrapCustomerItems(){
     pageDataInit("locationTable","pagination",dataInitUrl,deleteUrl,columns);
     bindClickQuery("queryCondtion","queryField","fieldInput","locationTable","pagination",dataQueryUrl,deleteUrl,columns);
     bindSelectAll("selectAll","locationTable");
+    bindDeleteAll("deleteAll",deleteUrl,"locationTable",0,dataInitUrl,columns,null);
 }
 
 function wrapCustomerButtons(){

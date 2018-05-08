@@ -406,18 +406,58 @@ function fileUpload(contentId,url,callback) {
     }
     
     
+    function deleteAll(deleteUrl,tableId,pageId,dataUrl,columns,data){
+    	var requestData = new Object();
+    	var deleteArray = new Array();
+    	$("#"+tableId).find("tbody input[type='checkbox']:checked").each(
+    			function(){
+    				deleteArray.push($(this).prop("id"));
+    			}
+    	)
+    	requestData.id = deleteArray ;
+    	var isDelete = confirm("确认删除吗?");
+    	if(isDelete){
+    		$.ajax(
+        			{
+        				url:deleteUrl,
+        				cache:false,
+        				data:requestData,
+                        dataType:"text",
+                        type:"POST",
+                        success:function(result){
+                        	console.log("提交到"+deleteUrl+"成功："+result);
+                        	pageDataInit(tableId,pageId,dataUrl,deleteUrl,columns,0,data);
+                        },
+    	    			error:function(XMLHttpRequest ,error,exception){
+    	                    console.log("提交到"+deleteUrl+"失败,原因是: "+ exception.toString());
+    	                }
+        			}
+        	);
+    	}    	
+    }
+    
+    
     function selectAll(tableId){
-    	var selector = $("#"+tableId).find("thead checkbox");
+    	var selector = $("#"+tableId).find("thead input[type='checkbox'");
     	if(selector.prop("checked")){
-    		$("#"+tableId).find("tbody checkbox :not(:checked)").prop("checked",null);
+    		$("#"+tableId).find("tbody input[type='checkbox'] ").prop("checked",true);
     	}else{
-    		$("#"+tableId).find("tbody checkbox :not(:checked)").prop("checked","checked");
+    		$("#"+tableId).find("tbody input[type='checkbox'] ").prop("checked",false);
     	}    	
     }
     
     function bindSelectAll(bindId,tableId){
     	$("#"+bindId).click(function(){
     		selectAll(tableId);
+    	})
+    }
+    
+    function bindDeleteAll(bindId,deleteUrl,tableId,pageId,dataUrl,columns,data){
+    	$("#"+bindId).click(function(){
+    		var confirmDelete = confirm("是否确认删除全部");
+    		if(confirmDelete){
+    			deleteAll(deleteUrl,tableId,pageId,dataUrl,columns,data);
+    		}
     	})
     }
     
