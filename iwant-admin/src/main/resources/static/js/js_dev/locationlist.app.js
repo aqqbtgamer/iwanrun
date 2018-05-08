@@ -3,7 +3,8 @@
  */
 const dataInitUrl = '/iwant_admin/location/findAll';
 const dataQueryUrl = '/iwant_admin/location/queryAll';
-const deleteUrl = '/iwant_admin/location/delete'
+const deleteUrl = '/iwant_admin/location/delete';
+const modifyUrl = '/iwant_admin/createLocation.html?isModify=true&id=';
 const columns = new Array(
     "name",
     "activityCityCode",
@@ -22,8 +23,8 @@ $(document).ready(
 function wrapCustomerItems(){
     console.log("开始处理自定义组件功能");
     wrapCustomerButtons();
-    pageDataInit("locationTable","pagination",dataInitUrl,deleteUrl,columns);
-    bindClickQuery("queryCondtion","queryField","fieldInput","locationTable","pagination",dataQueryUrl,deleteUrl,columns);
+    pageDataInit("locationTable","pagination",dataInitUrl,deleteUrl,modifyUrl,columns);
+    bindClickQuery("queryCondtion","queryField","fieldInput","locationTable","pagination",dataQueryUrl,modifyUrl,columns);
     bindSelectAll("selectAll","locationTable");
     bindDeleteAll("deleteAll",deleteUrl,"locationTable",0,dataInitUrl,columns,null);
 }
