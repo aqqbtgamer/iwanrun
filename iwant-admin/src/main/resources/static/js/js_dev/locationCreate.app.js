@@ -4,7 +4,8 @@
 
 const uploadServer = '/iwant_admin/remote/fileupload';
 const submitUrl = '/iwant_admin/location/add';
-const dataGetUrl = '/iwant_admin/location/get'
+const dataGetUrl = '/iwant_admin/location/get';
+const dataModifyUrl = '/iwant_admin/location/modify'
 var isModify = getUrlParam('isModify');
 var locationId = getUrlParam('id');
 const fields = new Array('name',
@@ -58,8 +59,8 @@ function adjustModifyField(){
 function mappingData(result){
 	var data = $.parseJSON(result);
 	var locationData = $.parseJSON(data.location);
-	var specialTags = $.parseJSON(data.listAttch);
-	var imgs = $.parseJSON(data.listTag);
+	var specialTags = $.parseJSON(data.listTag);
+	var imgs = $.parseJSON(data.listAttch);
 	if(locationData != null){
 		mappingTextItem("name",locationData.name);
 		mappingSelectItem("location_type_code",locationData.locationTypeCode);
@@ -70,8 +71,23 @@ function mappingData(result){
 		mappingSelectItem("activity_dist_code",locationData.activityDistCode);
 		mappingTextItem("location",locationData.location);
 		mappingTextItem("priority",locationData.priority);
-		ue.setContent(locationData.descirbeText1);
-	}	
+		$("#mainImage").prop("src",locationData.descirbeText2);
+		ue.ready(function() {
+			ue.setContent(locationData.descirbeText1);
+		});
+	}
+	if(specialTags != null && specialTags.length > 0){
+		var tagsArray = new Array();
+		for(var i = 0 ; i< specialTags.length ; i++){
+			tagsArray.push(specialTags[i].tagsCode);
+		}
+		mappingCheckItem("special_tags",tagsArray);
+	}
+	if(imgs != null && imgs.length > 0){
+		for(var i = 0; i<imgs.length ; i++){
+			mutipleDisplay('imgManage',imgs[i].filePath);
+		}		
+	}
 }
 
 
