@@ -21,6 +21,12 @@ public class LocationController {
 		return locationService.addLocation(request);
 	}
 	
+	@RequestMapping("/location/get")
+	@ResponseBody
+	public String getLocation(HttpServletRequest request) {
+		return locationService.getLocation(request);
+	}
+	
 	@RequestMapping("/location/findAll")
 	@ResponseBody
 	public String findAll(HttpServletRequest request) {

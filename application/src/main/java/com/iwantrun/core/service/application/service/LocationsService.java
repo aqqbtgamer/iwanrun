@@ -2,6 +2,7 @@ package com.iwantrun.core.service.application.service;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,6 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +25,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.iwantrun.core.service.application.dao.LocationAttachmentsDao;
+import com.iwantrun.core.service.application.dao.LocationTagsDao;
 import com.iwantrun.core.service.application.dao.LocationsDao;
 import com.iwantrun.core.service.application.domain.LocationAttachments;
+import com.iwantrun.core.service.application.domain.LocationTags;
 import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.intercepter.ControllInvokerIntercepter;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
@@ -43,17 +49,28 @@ public class LocationsService {
 	@Autowired
 	private LocationAttachmentsDao attachmentsDao ;
 	
+	@Autowired
+	private LocationTagsDao tagsDao;
+	
 	@Autowired  
     private Environment env;
 	
 	@Transactional
-	public boolean createLocations(Locations location,List<LocationAttachments> attachments) {
+	public boolean createLocations(Locations location,List<LocationAttachments> attachments,List<LocationTags> tags) {
 		boolean executeResult = false ;
 		locationDao.saveAndFlush(location);
-		for(LocationAttachments attach: attachments) {
-			attach.setLocation_id(location.getId());
-		}
-		attachmentsDao.saveAll(attachments);
+		if(attachments != null) {
+			for(LocationAttachments attach: attachments) {
+				attach.setLocation_id(location.getId());
+			}
+			attachmentsDao.saveAll(attachments);
+		}		
+		if(tags != null) {
+			for(LocationTags tag : tags) {
+				tag.setLocationId(location.getId());
+			}
+			tagsDao.saveAll(tags);
+		}	
 		executeResult = true ;
 		return executeResult;
 	}
@@ -117,6 +134,33 @@ public class LocationsService {
 			logger.error("Id want to be deleted is not in good format",e);
 		}		
 		return JSONValue.toJSONString(simple);
+	}
+
+	public String get(Integer id) {
+		String response = "";
+		Optional<Locations> locationOP= locationDao.findById(id);
+		if(locationOP.isPresent()) {
+			Locations location = locationOP.get();
+			LocationAttachments attachExample = new LocationAttachments();
+			attachExample.setLocation_id(location.getId());
+			ExampleMatcher matcher1 = ExampleMatcher.matching()
+					.withMatcher("location_id", GenericPropertyMatchers.exact())
+					.withIgnorePaths("id","fileName","pagePath","fileSnapShot","filePath");			
+			List<LocationAttachments> listAttch = attachmentsDao.findAll(Example.of(attachExample,matcher1));
+			LocationTags tagsExample = new LocationTags();
+			tagsExample.setLocationId(location.getId());
+			ExampleMatcher matcher2 = ExampleMatcher.matching()
+					.withMatcher("locationId", GenericPropertyMatchers.exact())
+					.withIgnorePaths("id","tagsType","tagsCode");
+			
+			List<LocationTags> listTag = tagsDao.findAll(Example.of(tagsExample,matcher2));
+			JSONObject json = new JSONObject();
+			json.put("location", JSONValue.toJSONString(location));
+			json.put("listAttch", JSONValue.toJSONString(listAttch));
+			json.put("listTag", JSONValue.toJSONString(listTag));
+			response = json.toJSONString();
+		}
+		return response;
 	}
 	
 	

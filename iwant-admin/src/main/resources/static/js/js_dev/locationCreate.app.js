@@ -9,26 +9,18 @@ var isModify = getUrlParam('isModify');
 var locationId = getUrlParam('id');
 const fields = new Array('name',
         'location_type_code',
+        'activity_type_code',
         'special_tags',
         'group_number_limit_code',
         'activity_province_code',
         'activity_city_code',
         'activity_dist_code',
         'location',
+        'priority',
         'mainImage',
         'imgManage'
     );
-
-const mapping = new Array('name',
-		"locationTypeCode",
-		"specialTagsCode",
-		"groupNumberLimitCode",
-		"activityProvinceCode",
-		"activityDistCode",
-		"location",
-		"mainImage",
-		"imgManage"
-);
+const modifyTitle = "修改场地";
 
 
 $(document).ready(
@@ -40,6 +32,10 @@ $(document).ready(
         bindDeleteSelected("deleteAll");
         if(isModify == "true"){
         	console.log("修改页面 加载server数据");
+        	adjustModifyField(); 
+        	var requestObj = new Object();
+        	requestObj.id = locationId ;
+        	commonLoadForModify(requestObj,dataGetUrl,mappingData);
         }else{
         	 bindDataSubmit('submitForm',fields,submitUrl,returnListPage);
         }
@@ -53,6 +49,29 @@ function returnListPage(result){
 	}else{
 		window.location.href="locationlist.html";
 	}
+}
+
+function adjustModifyField(){
+	$("div#content h2.jquery_tab_title").html(modifyTitle);
+}
+
+function mappingData(result){
+	var data = $.parseJSON(result);
+	var locationData = $.parseJSON(data.location);
+	var specialTags = $.parseJSON(data.listAttch);
+	var imgs = $.parseJSON(data.listTag);
+	if(locationData != null){
+		mappingTextItem("name",locationData.name);
+		mappingSelectItem("location_type_code",locationData.locationTypeCode);
+		mappingSelectItem("activity_type_code",locationData.activeTypeCode);
+		mappingSelectItem("group_number_limit_code",locationData.groupNumberLimitCode);
+		mappingSelectItem("activity_province_code",locationData.activityProvinceCode);
+		mappingSelectItem("activity_city_code",locationData.activityCityCode);
+		mappingSelectItem("activity_dist_code",locationData.activityDistCode);
+		mappingTextItem("location",locationData.location);
+		mappingTextItem("priority",locationData.priority);
+		ue.setContent(locationData.descirbeText1);
+	}	
 }
 
 

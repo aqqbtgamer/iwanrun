@@ -471,9 +471,55 @@ function fileUpload(contentId,url,callback) {
         if (r != null) return unescape(r[2]); return null; //返回参数值
     }
     
-    function commonLoadForModify(fields,loadUrl,mapping){
-    	
+    function commonLoadForModify(request,loadUrl,mapping){
+    	$.ajax(
+    			{
+    				url:loadUrl,
+    				cache:false,
+    				data:request,
+                    dataType:"text",
+                    type:"POST",
+                    success:function(result){
+                    	console.log("提交到"+loadUrl+"成功："+result);
+                    	mapping(result);
+                    },
+	    			error:function(XMLHttpRequest ,error,exception){
+	                    console.log("提交到"+loadUrl+"失败,原因是: "+ exception.toString());
+	                }
+    			}
+    	);
+    }
+    
+    function mappingTextItem(id,value){
+    	$("#"+id).val(value);
+    }
+    
+    function mappingSelectItem(id,value){
+    	$("#"+id+" option").each(
+    		function(){
+    			if($(this).val() == value){
+    				$(this).prop("selected",true)
+    			}
+    		}	
+    	);
+    }
+    
+    function mappingCheckItem(name,array){
+    	$("input[name='"+name+"']").each(
+    			function(){
+    				for(var i = 0 ; i<array.length ; i++){
+    					if($(this).val() == array[i]){
+    						$(this).prop("checked",true);
+    						break;
+    					}
+    				}
+    			}
+    	);
     }
     
     
-    
+    function mappingRadioItem(id,value){
+    	if($("#"+id).val()== value){
+    		$("#"+id).prop("checked",true);
+    	}
+    }

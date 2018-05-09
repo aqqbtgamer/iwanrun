@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
 import com.iwantrun.core.service.application.domain.LocationAttachments;
+import com.iwantrun.core.service.application.domain.LocationTags;
 import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.service.LocationsService;
 import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.application.transfer.PageDomianRequest;
+import com.iwantrun.core.service.utils.CommonParams;
 import com.iwantrun.core.service.utils.EntityBeanUtils;
 import com.iwantrun.core.service.utils.JPADBUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
@@ -54,13 +57,16 @@ public class LocationsController {
 		Map<String,String> mappingRelation = 
 				MappingGenerateUtils.generateMappingRelation(new String[] {
 						"name =>name",
-						"activeTypeCode =>location_type_code",
+						"activeTypeCode=>activity_type_code",
+						"locationTypeCode=>location_type_code",
 						"groupNumberLimitCode=>group_number_limit_code",
 						"activityProvinceCode=>activity_province_code",
 						"activityCityCode=>activity_city_code",
 						"activityDistCode=>activity_dist_code",
 						"location=>location",
+						"priority=>priority",
 						"descirbeText1=>_ue",
+						"descirbeText2=>mainImage"
 				});
 		EntityBeanUtils.beanCreateFromJson(location, mappingRelation, object);
 		List<LocationAttachments> locationAttachments = new ArrayList<LocationAttachments>();
@@ -68,7 +74,7 @@ public class LocationsController {
 				MappingGenerateUtils.generateMappingRelation(new String[] {
 						"filePath=>bean"
 				});
-		JSONArray array = (JSONArray) object.get("imgManage[]");
+		JSONArray array = (JSONArray) object.get("imgManage[]");		
 		EntityBeanUtils.listBeanCreateFromJson(locationAttachments, mappingRelation0, array, LocationAttachments.class);
 		Function<String,String> fun = s -> {
 			int index = s.lastIndexOf("/");
@@ -90,7 +96,22 @@ public class LocationsController {
 						biFun
 				} 
 		);
-		boolean updateResult =locationService.createLocations(location, locationAttachments);
+		JSONArray tags = (JSONArray) object.get("special_tags[]");
+		Map<String,String> mappingRelation1 = 
+				MappingGenerateUtils.generateMappingRelation(new String[] {
+						"tagsCode=>bean"
+				});
+		List<LocationTags> tagsList = new ArrayList<LocationTags>();
+		EntityBeanUtils.listBeanCreateFromJson(tagsList, mappingRelation1, tags, LocationTags.class);
+		Supplier<Integer> tagsTypeSupplier = () ->{
+			return CommonParams.LOCATION_TAGS_TYPE;
+		};
+		ListUpdateUtils.updateListPropertyWithSupplier(tagsList, new String[]{
+				"tagsType"
+		}, new Supplier[] {
+			tagsTypeSupplier
+		});
+		boolean updateResult =locationService.createLocations(location, locationAttachments,tagsList);
 		if(updateResult) {			
 			response.setMessageBody(String.valueOf(location.getId()));
 		}else {
@@ -140,6 +161,16 @@ public class LocationsController {
 		String result = locationService.delete(id);
 		message.setMessageBody(String.valueOf(result));
 		return message ;
+	}
+	
+	@RequestMapping("/application/location/get")
+	public Message get(@RequestBody Message message) {
+		String jsonId = message.getMessageBody();
+		JSONObject objectId = (JSONObject) JSONValue.parse(jsonId);
+		Integer id = Integer.parseInt(objectId.getAsString("id"));
+		String result = locationService.get(id);
+		message.setMessageBody(result);
+		return message;
 	}
 	
 

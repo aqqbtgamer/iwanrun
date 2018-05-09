@@ -37,7 +37,7 @@ public class LocationsServiceTest {
 		attach.setFileName("测试");
 		attach.setPagePath("啊哈哈哈哈");
 		list.add(attach);
-		boolean result = service.createLocations(location, list);
+		boolean result = service.createLocations(location, list,null);
 		assertEquals(true, result);
 	}
 	
