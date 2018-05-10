@@ -37,6 +37,7 @@ $(document).ready(
         	var requestObj = new Object();
         	requestObj.id = locationId ;
         	commonLoadForModify(requestObj,dataGetUrl,mappingData);
+        	bindDataModifySubmit('submitForm',locationId,fields,dataModifyUrl,returnLisPageModify);
         }else{
         	 bindDataSubmit('submitForm',fields,submitUrl,returnListPage);
         }
@@ -46,9 +47,18 @@ $(document).ready(
 
 function returnListPage(result){
 	if(result == "failed"){
-		alert("后台处理数据失败")
+		alert("后台新增数据失败")
 	}else{
 		window.location.href="locationlist.html";
+	}
+}
+
+function returnLisPageModify(result){
+	var ret = $.parseJSON(result);
+	if(ret.successful){
+		window.location.href="locationlist.html";
+	}else{
+		alert("后台更新数据失败");
 	}
 }
 

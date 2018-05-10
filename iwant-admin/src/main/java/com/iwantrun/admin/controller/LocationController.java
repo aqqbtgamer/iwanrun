@@ -44,5 +44,11 @@ public class LocationController {
 	public String delete(HttpServletRequest request) {
 		return locationService.delete(request);
 	}
+	
+	@RequestMapping("/location/modify")
+	@ResponseBody
+	public String modifyLocation(HttpServletRequest request) {
+		return locationService.modifyLocation(request);
+	}
 
 }

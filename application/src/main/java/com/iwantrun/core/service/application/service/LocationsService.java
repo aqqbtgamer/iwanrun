@@ -4,19 +4,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -141,19 +134,8 @@ public class LocationsService {
 		Optional<Locations> locationOP= locationDao.findById(id);
 		if(locationOP.isPresent()) {
 			Locations location = locationOP.get();
-			LocationAttachments attachExample = new LocationAttachments();
-			attachExample.setLocation_id(location.getId());
-			ExampleMatcher matcher1 = ExampleMatcher.matching()
-					.withMatcher("location_id", GenericPropertyMatchers.exact())
-					.withIgnorePaths("id","fileName","pagePath","fileSnapShot","filePath");			
-			List<LocationAttachments> listAttch = attachmentsDao.findAll(Example.of(attachExample,matcher1));
-			LocationTags tagsExample = new LocationTags();
-			tagsExample.setLocationId(location.getId());
-			ExampleMatcher matcher2 = ExampleMatcher.matching()
-					.withMatcher("locationId", GenericPropertyMatchers.exact())
-					.withIgnorePaths("id","tagsType","tagsCode");
-			
-			List<LocationTags> listTag = tagsDao.findAll(Example.of(tagsExample,matcher2));
+			List<LocationAttachments> listAttch  = attachmentsDao.findByLocationId(location.getId());
+			List<LocationTags> listTag = tagsDao.findByLocationId(location.getId());
 			JSONObject json = new JSONObject();
 			json.put("location", JSONValue.toJSONString(location));
 			json.put("listAttch", JSONValue.toJSONString(listAttch));
@@ -161,6 +143,36 @@ public class LocationsService {
 			response = json.toJSONString();
 		}
 		return response;
+	}
+
+	/**
+	 * 1.delete all related componaunts  2.add new  attached componaunts
+	 * @param location
+	 * @param locationAttachments
+	 * @param tagsList
+	 * @return
+	 */
+	@Transactional
+	public SimpleMessageBody modifyLocations(Locations location, List<LocationAttachments> locationAttachments,
+			List<LocationTags> tagsList) {
+		SimpleMessageBody body = new SimpleMessageBody();
+		body.setSuccessful(false);
+		int locationId = location.getId();
+		locationDao.save(location);	
+		List<LocationAttachments> dbLocationAttachments = attachmentsDao.findByLocationId(locationId);
+		List<LocationTags> dbLocationTags = tagsDao.findByLocationId(locationId);
+		attachmentsDao.deleteAll(dbLocationAttachments);
+		tagsDao.deleteAll(dbLocationTags);
+		for(LocationAttachments attach : locationAttachments) {
+			attach.setLocation_id(locationId);
+		}
+		attachmentsDao.saveAll(locationAttachments);
+		for(LocationTags tags : tagsList) {
+			tags.setLocationId(locationId);
+		}
+		tagsDao.saveAll(tagsList);
+		body.setSuccessful(true);
+		return body;
 	}
 	
 	
