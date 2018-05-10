@@ -4,8 +4,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +62,23 @@ public class ListUpdateUtils {
 			}
 		}
 		return tList;
+	}
+	
+	public static <T> List<T> updateListPropertyWithSupplier(List<T> tList , String[] propertyNames, Supplier<Object>[] supliers){
+		if(tList == null || propertyNames == null || supliers == null || propertyNames.length != supliers.length) {
+			
+		}else {
+			for(T t : tList) {
+				for(int i = 0; i< propertyNames.length ; i++) {
+					try {
+						PropertyUtils.setSimpleProperty(t, propertyNames[i], supliers[i].get());
+					} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+						logger.error("copy property的时候出错  具体参考statck ",e );
+					}
+				}
+			}
+		}
+		return tList ;
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

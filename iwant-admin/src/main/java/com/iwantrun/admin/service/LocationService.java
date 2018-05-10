@@ -27,24 +27,19 @@ public class LocationService {
     private RestTemplate restTemplate;
 	
 	
-	public String addLocation(HttpServletRequest request) {
-		//1.解析传过来的参数
-		//'activity_province_code',
-        //'activity_city_code',
-        //'activity_dist_code',
-        //'location',
-        //'mainImage',
-        //'imgManage'
+	public String addLocation(HttpServletRequest request) {		
 		String token = CookieUtils.getLoginToken(request);
 		List<String> paramList = FormDataUtils.stringArray2List(new String[] {
 				"name",
 				"location_type_code",
+				"activity_type_code",
 				"special_tags[]",
 				"group_number_limit_code",
 				"activity_province_code",
 				"activity_city_code",
 				"activity_dist_code",
 				"location",
+				"priority",
 				"mainImage",
 				"imgManage[]",
 				"_ue"
@@ -113,6 +108,53 @@ public class LocationService {
 		String baseUrl = env.getProperty("application.serverbase");
 		message.setRequestMethod(baseUrl+postUrl);
 		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);	
+		return response == null ? null : response.getBody().getMessageBody();
+	}
+
+
+	public String getLocation(HttpServletRequest request) {
+		String token = CookieUtils.getLoginToken(request);
+		List<String> paramList = FormDataUtils.stringArray2List(new String[] {
+				"id"
+		});
+		JSONObject json = FormDataUtils.formData2JsonObj(request,paramList);
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(json.toJSONString());
+		String postUrl = env.getProperty("application.location.get");
+		String baseUrl = env.getProperty("application.serverbase");
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);	
+		return response == null ? null : response.getBody().getMessageBody();
+	}
+
+
+	public String modifyLocation(HttpServletRequest request) {
+		String token = CookieUtils.getLoginToken(request);
+		List<String> paramList = FormDataUtils.stringArray2List(new String[] {
+				"id",
+				"name",
+				"location_type_code",
+				"activity_type_code",
+				"special_tags[]",
+				"group_number_limit_code",
+				"activity_province_code",
+				"activity_city_code",
+				"activity_dist_code",
+				"location",
+				"priority",
+				"mainImage",
+				"imgManage[]",
+				"_ue"
+		});
+		String json = FormDataUtils.formData2Json(request,paramList);
+		String postUrl = env.getProperty("application.location.modify");
+		String baseUrl = env.getProperty("application.serverbase");
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(json);
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);		
 		return response == null ? null : response.getBody().getMessageBody();
 	}
 

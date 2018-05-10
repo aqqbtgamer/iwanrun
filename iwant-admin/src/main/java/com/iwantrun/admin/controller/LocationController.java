@@ -21,6 +21,12 @@ public class LocationController {
 		return locationService.addLocation(request);
 	}
 	
+	@RequestMapping("/location/get")
+	@ResponseBody
+	public String getLocation(HttpServletRequest request) {
+		return locationService.getLocation(request);
+	}
+	
 	@RequestMapping("/location/findAll")
 	@ResponseBody
 	public String findAll(HttpServletRequest request) {
@@ -37,6 +43,12 @@ public class LocationController {
 	@ResponseBody
 	public String delete(HttpServletRequest request) {
 		return locationService.delete(request);
+	}
+	
+	@RequestMapping("/location/modify")
+	@ResponseBody
+	public String modifyLocation(HttpServletRequest request) {
+		return locationService.modifyLocation(request);
 	}
 
 }

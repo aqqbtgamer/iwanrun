@@ -70,6 +70,7 @@ function fileUpload(contentId,url,callback) {
             		callback(displayId,param);
             	}
                fileUpload(id,url,call);
+               $("#"+id).attr("uploaded",true);
             }
         );
     }
@@ -90,12 +91,39 @@ function fileUpload(contentId,url,callback) {
                     },
                     error:function(XMLHttpRequest ,error,exception){
                         console.log("提交到"+url+"失败,原因是: "+ error.toString());
-                        alert("上传失败 服务端无法连接")
+                        alert("添加失败 服务端无法连接")
                     }
                 }
             )
         });
     }
+    
+    
+    function bindDataModifySubmit(bindId,id,fieldArray,url,callback){
+    	$("#"+bindId).bind("click",function(){
+    		var formData = collectFormDatas(fieldArray);
+    		formData.id = id ;
+    		 $.ajax(
+    	                {
+    	                    url:url,
+    	                    cahce:false,
+    	                    data:formData,
+    	                    dataType:"text",
+    	                    type:"POST",
+    	                    success:function(result){
+    	                        console.log("提交到"+url+"成功");
+    	                        if(callback != null){
+    	                        	 callback(result);
+    	                        }    	                       
+    	                    },
+    	                    error:function(XMLHttpRequest ,error,exception){
+    	                        console.log("提交到"+url+"失败,原因是: "+ error.toString());
+    	                        alert("更新失败 服务端无法连接")
+    	                    }
+    	                }
+    	            )
+    	});
+    }    
 
     function singleDisplay(displayId,param){
     	 $("#"+displayId).prop("src",param);  
@@ -471,9 +499,55 @@ function fileUpload(contentId,url,callback) {
         if (r != null) return unescape(r[2]); return null; //返回参数值
     }
     
-    function commonLoadForModify(fields,loadUrl,mapping){
-    	
+    function commonLoadForModify(request,loadUrl,mapping){
+    	$.ajax(
+    			{
+    				url:loadUrl,
+    				cache:false,
+    				data:request,
+                    dataType:"text",
+                    type:"POST",
+                    success:function(result){
+                    	console.log("提交到"+loadUrl+"成功："+result);
+                    	mapping(result);
+                    },
+	    			error:function(XMLHttpRequest ,error,exception){
+	                    console.log("提交到"+loadUrl+"失败,原因是: "+ exception.toString());
+	                }
+    			}
+    	);
+    }
+    
+    function mappingTextItem(id,value){
+    	$("#"+id).val(value);
+    }
+    
+    function mappingSelectItem(id,value){
+    	$("#"+id+" option").each(
+    		function(){
+    			if($(this).val() == value){
+    				$(this).prop("selected",true)
+    			}
+    		}	
+    	);
+    }
+    
+    function mappingCheckItem(name,array){
+    	$("input[name='"+name+"']").each(
+    			function(){
+    				for(var i = 0 ; i<array.length ; i++){
+    					if($(this).val() == array[i]){
+    						$(this).prop("checked",true);
+    						break;
+    					}
+    				}
+    			}
+    	);
     }
     
     
-    
+    function mappingRadioItem(id,value){
+    	if($("#"+id).val()== value){
+    		$("#"+id).prop("checked",true);
+    	}
+    }
