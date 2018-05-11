@@ -1,29 +1,39 @@
 package com.iwantrun.core.service.utils;
 
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+
 public interface DictionaryConfigParams {
 	
-	//场地数据字典类型
-	int LOCATION_TAGS_TYPE = 1 ;
+	//数据字典大类型
+	String LOCATION_DICTIONARY_NAME = "location";
 	
-	String LOCATION_TAGS_DESC = "特色关键字";
+	String COMMON_DICTIONARY_NAME = "common";
+	
+	//场地数据字典类型
+	int LOCATION_TAGS_TYPE = 1 ;	
 	
 	int LOCATION_TYPE = 2 ;
 	
-	String LOCATION_DESC = "场地类型";
-	
 	int LOCATION_GROUP_NUMBER_LIMIT_TYPE = 3;
-	
-	String LOCATION_GROUP_NUMBER_LIMIT_DESC = "可容纳人数";
 	
 	int LOCATION_PRICE_TYPE = 4 ;
 	
-	String LOCATION_PRICE_DESC = "参考报价区间";
-	
 	int LOCATION_USAGE_TYPE = 5 ;
 	
-	String LOCATION_USAGE_DESC = "场地用途";
+	//场地数据字典描述
 	
-	String LOCATION_DICTIONARY_NAME = "location";
+	String LOCATION_TAGS_DESC = "特色关键字";
+	
+	String LOCATION_DESC = "场地类型";
+		
+	String LOCATION_GROUP_NUMBER_LIMIT_DESC = "可容纳人数";	
+	
+	String LOCATION_PRICE_DESC = "参考报价区间";	
+	
+	String LOCATION_USAGE_DESC = "场地用途";	
+	
+	//场地数据数据集合
 	
 	int[] LOCATION_DICTIONARY_TYPE_ARRAY = new int[] {
 			LOCATION_TAGS_TYPE,
@@ -52,7 +62,6 @@ public interface DictionaryConfigParams {
 	
 	int COMMON_ACTIVITY_PURPOSE_TYPE = 10 ;
 	
-	String COMMON_DICTIONARY_NAME = "common";
 	
 	int[] COMMON_DICTIONARY_TYPE_ARRAY = new int[] {
 			COMMON_PROVINCE_TYPE,
@@ -76,6 +85,18 @@ public interface DictionaryConfigParams {
 			}
 			return -1 ;
 		}
+	}
+	
+	default String getLocationDictinaryJson() {
+		JSONArray locationArray = new JSONArray();
+		int index = 0;
+		for(int tmp : LOCATION_DICTIONARY_TYPE_ARRAY) {
+			JSONObject dictionaryObj = new JSONObject();
+			dictionaryObj.put("id", tmp);
+			dictionaryObj.put("name",LOCATION_DICTIONARY_DESC_ARRAY[index++]);
+			locationArray.add(dictionaryObj);
+		}
+		return locationArray.toJSONString();
 	}
 
 }
