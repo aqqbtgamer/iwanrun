@@ -8,5 +8,9 @@ public class DictionaryPageConfigTest {
 	public void testGetPageConfigJson() {
 		System.out.println(DictionaryPageConfig.getPageConfigJson());
 	}
-
+	
+	@Test
+	public void testGetPageTages() {
+		System.out.println(DictionaryPageConfig.getPageTages("common"));
+	}
 }

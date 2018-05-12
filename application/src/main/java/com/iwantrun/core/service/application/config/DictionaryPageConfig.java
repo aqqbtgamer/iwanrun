@@ -88,6 +88,19 @@ public class DictionaryPageConfig {
 		return array.toJSONString();
 	}
 	
+	public static String getPageTages(String pageName) {
+		if(pageName == null) {
+			return null;
+		}else {
+			for(DictionnaryPageItemConfig pageItem : pageItems){
+				if(pageName.equals(pageItem.getName())) {
+					return pageItem.getDictionaryJson();
+				}
+			}
+			return null;
+		}
+	}
+	
 	
 	
 }
