@@ -24,7 +24,7 @@ import com.iwantrun.core.service.application.service.LocationsService;
 import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.application.transfer.PageDomianRequest;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
-import com.iwantrun.core.service.utils.CommonParams;
+import com.iwantrun.core.service.utils.DictionaryConfigParams;
 import com.iwantrun.core.service.utils.EntityBeanUtils;
 import com.iwantrun.core.service.utils.JPADBUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
@@ -105,7 +105,7 @@ public class LocationsController {
 		List<LocationTags> tagsList = new ArrayList<LocationTags>();
 		EntityBeanUtils.listBeanCreateFromJson(tagsList, mappingRelation1, tags, LocationTags.class);
 		Supplier<Integer> tagsTypeSupplier = () ->{
-			return CommonParams.LOCATION_TAGS_TYPE;
+			return DictionaryConfigParams.LOCATION_TAGS_TYPE;
 		};
 		ListUpdateUtils.updateListPropertyWithSupplier(tagsList, new String[]{
 				"tagsType"
@@ -181,7 +181,7 @@ public class LocationsController {
 		List<LocationTags> tagsList = new ArrayList<LocationTags>();
 		EntityBeanUtils.listBeanCreateFromJson(tagsList, mappingRelation1, tags, LocationTags.class);
 		Supplier<Integer> tagsTypeSupplier = () ->{
-			return CommonParams.LOCATION_TAGS_TYPE;
+			return DictionaryConfigParams.LOCATION_TAGS_TYPE;
 		};
 		ListUpdateUtils.updateListPropertyWithSupplier(tagsList, new String[]{
 				"tagsType"
