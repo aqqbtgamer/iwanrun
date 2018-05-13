@@ -1,6 +1,10 @@
+
 img{
     width: 100%;
 }
+input:focus{outline: none;}
+.container{height: 100vh;}
+.t_c{text-align: center;}
 .accountBody{
     width: 94vw;
     margin-left: auto;
@@ -98,7 +102,7 @@ img{
     margin-left: auto;
     margin-right: auto;
     margin-top: -1px;
-    height: 55.83vw;
+    min-height: 75vw;
     background-color: white;
     border-top: 1px solid white;
     border-right: 1px solid #979797;
@@ -106,12 +110,13 @@ img{
     border-bottom: 1px solid #979797;
     border-bottom-left-radius: 0.417vw;
     border-bottom-right-radius: 0.417vw;
+    
 }
 
 
 .center-big{
     line-height: 4.167vw;
-    color: #414141;
+    color: #fff;
     font-weight: bold;
     font-size: 2vw;
 }
@@ -122,19 +127,19 @@ img{
 
 .account-box-line{
     width: 67.71vw;
-    height:12.97vw ;
     margin-left:2.84vw;
-    border-bottom: 1px solid #979797;
 }
 
 .account-box-line2{
     width: 67.71vw;
     height:12.97vw ;
     margin-left:2.84vw;
+    text-align: center;
 }
 
 .account-box-first{
     margin-top: 2.08vw;
+    height: 12vw;
 }
 
 .account-box-img{
@@ -153,9 +158,9 @@ img{
 }
 
 .font-40px-black{
-    font-size: 2.08vw;
+    font-size: 1.6vw;
     color: #414141;
-    font-weight: bold;
+    font-weight:300;
 }
 
 .font-30-black1{
@@ -164,40 +169,14 @@ img{
     color: #414141
 }
 
-.btn-black{
-    width:7.81vw;
-    height:2.6vw;
-    background: #414141;
-    border-radius: 0.21vw;
-    outline: none;
-    text-align: center;
-    vertical-align: middle;
-    border: 1px solid #414141;
-    color:#FFFFFF;
-    font-family:PingFangSC-Regular, sans-serif;
-    font-size: 1.25vw;
-    margin-top: 1.35vw;
-}
 
-.btn-black:hover{
-    background-color: #818181;
-}
+.order-message{background: none;line-height: 2.4vw;border:1px solid #ddd;border-radius: 0.4vw;padding:0 1vw;font-size: 1.2vw;color: #414141;}
 
-.account-box-left{
-    float: left;
-    margin-top: 3.15vw;
-    margin-left: 1.8vw;
-}
 
-.account-button-right{
-    float: right;
-    margin-top: 4.82vw;
-    margin-right: 3.7vw;
-}
 
 .btn-primary{
-    width:6.77vw;
-    height:2.6vw;
+    width:7vw;
+    height:2vw;
     background: #FF7E00;
     border-radius: 0.21vw;
     outline: none;
@@ -206,7 +185,7 @@ img{
     border: 1px solid #FF7E00;
     color:#FFFFFF;
     font-family:PingFangSC-Regular, sans-serif;
-    font-size: 1.25vw;
+    font-size: 1vw;
 }
 
 .btn-primary:hover{
@@ -219,3 +198,65 @@ img{
 .activity-nonmil {
     background-color: white;
 }
+
+.account-box-line .table-head div,.account-box-line .table-body div{display: inline-block;}
+.account-box-line .sect-one{width: 18vw;}
+.account-box-line .sect-two{width: 20vw;}
+.account-box-line .sect-three{width: 8vw;}
+.account-box-line .sect-four{width: 12vw;}
+.account-box-line .sect-five{width: 7vw;}
+.table-head{border-bottom:1px solid #979797;padding-bottom: 1vw;margin-top: 2vw;}
+.detail-line{border-bottom: 1px solid #979797;}
+.account-box-line .table-body div{font-size: 1.2vw;color: #414141;line-height: 3vw;padding:1vw 0}
+.pagenation-bar{text-align: center;margin-top: 3vw;}
+ul.pagenation{display: inline-block;}
+ul.pagenation li{
+    float: left;
+    padding:0.42vw 0.84vw;
+    border: 1px solid #979797;
+    border-left: none;
+}
+ul.pagenation li:first-child{
+	border-left: 1px solid #979797;
+}
+ul.pagenation li a{
+    width: 100%;
+    font-size: 1.25vw;
+    color: #414141;
+    text-decoration: none;
+}
+
+
+ul.pagenation li.active{
+    background-color: #FF7E00;
+}
+
+ul.pagenation li:hover:not(.active){
+    background-color:#ffc114;
+}
+
+ul.pagenation li.active a{
+    color:white;
+}
+.pagenation-bar span{display:inline-block;line-height: 2vw;padding-left: 2vw;}
+.pagenation-bar span input{width: 4vw;height: 2.2vw;display: inline-block;font-size: 1.2vw;text-align: center;}
+.pagenation-bar .btn-primary{width: 5vw;height: 2.3vw;margin-left: 1vw;}
+
+
+.right-back{
+	float: right;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	padding: 0.5vw 1vw;
+	margin: 0.7vw;
+	color: #FFFFFF;
+	cursor: pointer;
+}
+.margin-right{
+	 margin-right: 3vw;
+}
+.right-back:hover{
+	background: #fff;
+	color: #FF7E00;
+}
+

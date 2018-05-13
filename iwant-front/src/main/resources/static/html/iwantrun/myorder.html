@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no">
+    <link rel="icon" href="../../img/icon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../css/globalReset.css">
+    <link rel="stylesheet" href=" ../../css/common.css">
+    <link rel="stylesheet" href="../../css/iconfont.css">
+    <link rel="stylesheet" href="../../css/myorder.css">
+    <title>个人中心</title>
+</head>
+
+<body>
+    <form action="">
+        <div id="container" class="container">
+            <div id="common-header" class="common-head">
+                <div id="icon" class="icon-flow">
+                    <img src="../../img/logo.png" alt="logo.png" width="100%">
+                </div>
+                <div id="location-selector" class="location-selector">
+                    <select class="location-selector-item">
+                        <option>上海 </option>
+                    </select>
+                </div>
+                <div id="url-nav" class="class-nav">
+                    <nav class="navbar">
+                        <ul>
+                            <li class="tail-li-left">
+                                <a href="../../index.html">首页</a>
+                            </li>
+                            <li class="tail-li-left">
+                                <a href="./listproduction.html">找产品</a>
+                            </li>
+                            <li class="tail-li-left">
+                                <a href="./listlocation.html">看场地</a>
+                            </li>
+                            <li class="tail-li-left">
+                                <a href="./listcase.html">看案例</a>
+                            </li>
+                            <li class="tail-li-left">
+                                <a href="./myAccount.html" class="active-link">个人中心</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div id="url-login" class="class-login-nav">
+                    <nav class="navbar">
+                        <ul>
+                            <li class="li-right">
+                                <a href="#" @click="showLogin('咨询师登录')">咨询师登录</a>
+                            </li>
+                            <li class="li-right">
+                                <a href="#" @click="showLogin('用户登录')">用户登录</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div id="accountBody" class="accountBody">
+                <div class="leftAccount">
+                    <div class="account-image">
+                        <img src="../../img/accountImage.png" alt="">
+                    </div>
+                    <div class="name-desc">
+                        <span class="name-desc-font">用户001, 您好</span>
+                    </div>
+                    <div class="select-cell-first-child ">
+                        <p class="center-item active-item">我的订单</p>
+                    </div>
+                    <div class="select-cell">
+                        <p class="center-item ">我的收藏</p>
+                    </div>
+                    <div class="select-cell">
+                        <p class="center-item">站内消息</p>
+                    </div>
+                    <div class="select-cell">
+                        <p class="center-item ">个人信息</p>
+                    </div>
+                    <div class="select-cell">
+                        <p class="center-item">收藏场地</p>
+                    </div>
+                </div>
+                <div class="accountMain">
+                    <div class="accountTitle">
+                        <span class="center-big margin-left">我的订单</span>
+                        <span class="right-back margin-right">返回</span>
+                    </div>
+                    <div class="account-box-body">
+                        <div class="account-box-line account-box-first">
+                            <div class="account-box-content">
+                                <p class="font-40px-black" style="margin-bottom: 2vw;">基本信息</p>
+                                <input type="button" class="order-message" value="订单编号：40020180111">
+                                <input type="button" class="order-message" value="创建日期：2018年01月10日">
+                                <input type="button" class="order-message" value="订单未完成">
+                                <input type="button" class="order-message" value="咨询师">
+                            </div>
+                        </div>
+                        <div class="account-box-line">
+                            <a href="">
+                                <div class="account-box-left">
+                                    <img src="../../img/myOrder_ico1.jpg" />
+                                    <div class="account-box-left-txt">
+                                        <p>初步方案.pdf</p>
+                                        <span>点击可下载附件</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="account-button-right">
+                                <input type="button" value="联系咨询师" class="btn-primary">
+                                <p class="right-button-txt">更新与3天12小时前</p>
+                            </div>
+                        </div>
+                        <div class="account-box-line">
+                            <a href="">
+                                <div class="account-box-left">
+                                    <img src="../../img/myOrder_ico2.jpg" />
+                                    <div class="account-box-left-txt">
+                                        <p>合作意向书.pdf</p>
+                                        <span>点击可下载附件</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="account-button-right">
+                                <input type="button" value="下载原意向书" class="btn-primary">
+                                <input type="button" value="重新上传" class="btn-primary">
+                                <p class="right-button-txt">等待审核</p>
+                            </div>
+                        </div>
+                        <div class="account-box-line">
+                            <a href="">
+                                <div class="account-box-left">
+                                    <img src="../../img/myOrder_ico3.jpg" />
+                                    <div class="account-box-left-txt">
+                                        <p>项目汇总(案例).pdf</p>
+                                        <span>点击可下载附件</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="account-button-right">
+                                <input type="button" value="同意结项" class="btn-primary">
+                                <input type="button" value="不同意结项" class="btn-primary">
+                                <p class="right-button-txt">更新与3天12小时前</p>
+                            </div>
+                        </div>
+                        <div class="account-box-line2">
+                            <h2>需求概要</h2>
+                            <div class="form-left">
+                                <p>
+                                    <label>活动类型</label>
+                                    <input type="text" value="户外拓展" placeholder="" readonly="readonly" />
+                                </p>
+                                <p>
+                                    <label>活动地区</label>
+                                    <input type="text" value="浙西大峡谷" placeholder="" readonly="readonly" />
+                                </p>
+                                <p>
+                                    <label>活动日期</label>
+                                    <input type="text" value="2018年4月10日" placeholder="" readonly="readonly"
+                                    />
+                                </p>
+                            </div>
+                            <div class="form-right">
+                                <p>
+                                    <input type="text" value="内部培训" placeholder="" style="width:30.8vw;margin-left: 0;" readonly="readonly"
+                                    />
+                                </p>
+                                <p>
+                                    <label>活动天数</label>
+                                    <input type="text" value="2天" placeholder="" readonly="readonly" />
+                                </p>
+                                <p>
+                                    <label>活动预算</label>
+                                    <input type="text" value="800元/人" placeholder="" readonly="readonly" />
+                                </p>
+                            </div>
+
+                            <div class="form-bottom">
+                                <p>
+                                    <label>其他需求</label>
+                                    <textarea placeholder="暂无"></textarea>
+                                </p>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+                </div>
+                <div class="clear"></div>
+                <div class="common-tail-bg">
+                    <div id="common-tail" class="common-tail">
+                        <div id="tail-nav" class="tail-nav">
+                            <nav>
+                                <ul>
+                                    <li class="tail-li-left">
+                                        <a href="#">关于我们</a>
+                                    </li>
+                                    <li class="tail-li-left">
+                                        <a href="#">加入我们</a>
+                                    </li>
+                                    <li class="tail-li-left">
+                                        <a href="#">联系我们</a>
+                                    </li>
+                                    <li class="tail-li-left">
+                                        <a href="#">条款</a>
+                                    </li>
+                                    <li class="tail-li-left " style="margin-right: 0">
+                                        <a href="#">网站导航</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div id="icon-connect" class="icon-connect">
+                            <p>
+                                <i class="iconfont icon-facebookfacebook52 clickIcon" style="font-size: 2vw"></i>
+                                <i class="iconfont icon-twitter3 clickIcon" style="font-size: 2vw"></i>
+                                <i class="iconfont icon-weixin-copy clickIcon" style="font-size: 2vw"></i>
+                                <i class="iconfont icon-weibo clickIcon" style="font-size: 2vw"></i>
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</body>
+
+</html>
