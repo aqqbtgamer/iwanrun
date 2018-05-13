@@ -6,6 +6,8 @@ console.log("common.app.js加载")
 const permittedUploadTypes = new Array("JPG","JPEG","PNG","BMP","BMP");
 //分页栏除了当前页面之外最多展示位数  必须是奇数
 const displayPagenationlLimit = 7 ;
+//数据字典主页面
+const dictionaryPageUrl ="./dictionarylist.html";
 
 
 
@@ -549,5 +551,39 @@ function fileUpload(contentId,url,callback) {
     function mappingRadioItem(id,value){
     	if($("#"+id).val()== value){
     		$("#"+id).prop("checked",true);
+    	}
+    }
+    
+    function getDictionaryPages(url,callback){
+    	var request = new Object();
+    	$.ajax(
+    			{
+    				url:url,
+    				cache:false,
+    				data:request,
+                    dataType:"text",
+                    type:"POST",
+                    success:function(result){
+                    	console.log("提交到"+url+"成功："+result);
+                    	if(callback != null){
+                    		callback(result);
+                    	}
+                    },
+	    			error:function(XMLHttpRequest ,error,exception){
+	                    console.log("提交到"+url+"失败,原因是: "+ exception.toString());
+	                }
+    			}
+    	);
+    }
+    
+    function initDictionaryPage(id,result){
+    	var ret = $.parseJSON(result);
+    	var ul = $("#"+id);
+    	for(var i = 0 ; i< ret.length ; i++){
+    		var li = $("<li></li>");
+    		var link = $("<a></a>").html(ret[i].desc).attr("name",ret[i].name);
+    		li.append(link);
+    		link.prop("href",dictionaryPageUrl+"?name="+ret[i].name);
+    		ul.append(li);
     	}
     }

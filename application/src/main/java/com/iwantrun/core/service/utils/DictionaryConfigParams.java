@@ -22,6 +22,7 @@ public interface DictionaryConfigParams {
 	String PRODUCTION_DICTIONARY_DESC = "产品数据字典";
 	
 	String CASE_DICTIONARY_DESC = "案例数据字典";
+
 	
 	//场地数据字典类型
 	int LOCATION_TAGS_TYPE = 1 ;	
@@ -75,6 +76,10 @@ public interface DictionaryConfigParams {
 	
 	int COMMON_ACTIVITY_PURPOSE_TYPE = 10 ;
 	
+	int COMMON_ACTIVITY_PERSON_NUMBER_TYPE = 22;
+	
+	int COMMON_ACTIVITY_PERIOD_TYPE = 23;
+	
 	//通用字段字典描述
 	
 	String COMMON_PROVINCE_DESC = "省" ;
@@ -87,12 +92,18 @@ public interface DictionaryConfigParams {
 	
 	String COMMON_ACTIVITY_PURPOSE_DESC = "团建目的";
 	
+	String COMMON_ACTIVITY_PERSON_NUMBER_DESC = "活动人数";
+	
+	String COMMON_ACTIVITY_PERIOD_DESC = "活动天数" ;
+	
 	int[] COMMON_DICTIONARY_TYPE_ARRAY = new int[] {
 			COMMON_PROVINCE_TYPE,
 			COMMON_CITY_TYPE,
 			COMMON_DIST_TYPE,
 			COMMON_ACTIVITY_TYPE,
-			COMMON_ACTIVITY_PURPOSE_TYPE		
+			COMMON_ACTIVITY_PURPOSE_TYPE,
+			COMMON_ACTIVITY_PERSON_NUMBER_TYPE,
+			COMMON_ACTIVITY_PERIOD_TYPE
 	};
 	
 	
@@ -101,7 +112,9 @@ public interface DictionaryConfigParams {
 			COMMON_CITY_DESC,
 			COMMON_DIST_DESC,
 			COMMON_ACTIVITY_DESC,
-			COMMON_ACTIVITY_PURPOSE_DESC
+			COMMON_ACTIVITY_PURPOSE_DESC,
+			COMMON_ACTIVITY_PERSON_NUMBER_DESC,
+			COMMON_ACTIVITY_PERIOD_DESC
 	};
 	
 	//产品数据字典类型
@@ -151,6 +164,8 @@ public interface DictionaryConfigParams {
 	
 	int CSAE_RESTURANT_TYPE = 20 ;
 	
+	int CASE_COMPANY_TYPE = 21 ;
+	
 	String CASE_PLOT_PERIOD_DESC = "策划周期";
 	
 	String CASE_IMPL_PERIOD_DESC = "实施周期";
@@ -163,13 +178,16 @@ public interface DictionaryConfigParams {
 	
 	String CSAE_RESTURANT_DESC = "住宿信息";
 	
+	String CASE_COMPANY_DESC = "企业类型";
+	
 	int[] CASE_DICTIONARY_TYPE_ARRAY = new int[] {
 			CASE_PLOT_PERIOD_TYPE,
 			CASE_IMPL_PERIOD_TYPE,
 			CASE_TAGS_TYPE,
 			CSAE_TRAFFIC_TYPE,
 			CSAE_FOOD_TYPE,
-			CSAE_RESTURANT_TYPE
+			CSAE_RESTURANT_TYPE,
+			CASE_COMPANY_TYPE
 	};
 	
 	String[] CASE_DICTIONARY_DESC_ARRAY = new String[] {
@@ -178,7 +196,8 @@ public interface DictionaryConfigParams {
 			CASE_TAGS_DESC,
 			CSAE_TRAFFIC_DESC,
 			CSAE_FOOD_DESC,
-			CSAE_RESTURANT_DESC
+			CSAE_RESTURANT_DESC,
+			CASE_COMPANY_DESC
 	};
 	
     static int getLocationIdByDesc(String desc){
