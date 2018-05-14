@@ -77,7 +77,7 @@ function fillPagesData(data){
 		// 将要展示的信息写入页面
 		rowTr.innerHTML = child;
 		// 将信息追加
-		($(".node")[0]).append(rowTr)
+		($(".node").eq(0)).append(rowTr)
 	});
 }
 function search(flag){

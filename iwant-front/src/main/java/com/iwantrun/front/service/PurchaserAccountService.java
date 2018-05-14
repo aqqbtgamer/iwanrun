@@ -14,10 +14,7 @@ import com.iwantrun.front.utils.JSONUtils;
 public class PurchaserAccountService {
 	@Autowired
 	private Environment environment;
-	@Autowired
 	private RestTemplate template;
-
-	private String baseUrl = environment.getProperty("app.server");
 
 	/**
 	 * 采购用户注册
@@ -27,6 +24,8 @@ public class PurchaserAccountService {
 	 */
 	public Message register(PurchaserAccountRequest purchaser) {
 		String register = environment.getProperty("application.purchaserAccount.register");
+		String baseUrl = environment.getProperty("app.server");
+		
 		String url = baseUrl + register;
 
 		Message message = new Message();
@@ -42,6 +41,7 @@ public class PurchaserAccountService {
 	 */
 	public Message login(PurchaserAccount account) {
 		String login = environment.getProperty("application.purchaserAccount.login");
+		String baseUrl = environment.getProperty("app.server");
 		String url = baseUrl + login;
 
 		Message message = new Message();
