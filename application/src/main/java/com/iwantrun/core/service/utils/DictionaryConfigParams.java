@@ -205,7 +205,7 @@ public interface DictionaryConfigParams {
 	}
 	
     static String getLocationDictinaryJson() {
-		return getDictionaryJson(COMMON_DICTIONARY_TYPE_ARRAY,COMMON_DICTIONARY_DESC_ARRAY);
+		return getDictionaryJson(LOCATION_DICTIONARY_TYPE_ARRAY,LOCATION_DICTIONARY_DESC_ARRAY);
 	}
     
     static int getCommonIdByDesc(String desc) {

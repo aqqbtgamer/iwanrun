@@ -5,6 +5,7 @@ const dataInitUrl = '/iwant_admin/cases/findAll';
 const dataQueryUrl = '/iwant_admin/cases/queryAll';
 const deleteUrl = '/iwant_admin/cases/delete';
 const modifyUrl = '/iwant_admin/createCase.html?isModify=true&id=';
+const dictionaryUrl = "/iwant_admin/dictionary/getPages";
 const columns = new Array(
     "name",
     "trafficInfo",
@@ -18,6 +19,7 @@ const columns = new Array(
 $(document).ready(
     function(){
         wrapCustomerItems();
+        getDictionaryPages(dictionaryUrl,dicionaryCallBack);
     }
 );
 
@@ -43,6 +45,10 @@ function wrapCustomerButtons(){
             );
         }
     )
+}
+
+function dicionaryCallBack(result){
+	initDictionaryPage("dictionarys",result);
 }
 
 

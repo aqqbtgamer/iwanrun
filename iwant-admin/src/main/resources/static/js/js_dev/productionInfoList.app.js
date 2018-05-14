@@ -1,6 +1,9 @@
+const dictionaryUrl = "/iwant_admin/dictionary/getPages";
+
 $(document).ready(function() {
 	loadListData(null, fillPagesData);// 加载列表数据
 	wrapCustomerItems();
+	getDictionaryPages(dictionaryUrl,dicionaryCallBack);
 });
 function loadListData(urlparamstr, loadback) {
 	var url = "./productionInfo/find?pageNum=" + currPage + "&pageSize="
@@ -134,4 +137,8 @@ function postJSON(url, data, requestMethod, callback){
 
 function selectAll(ele) {
 	$('tbody').find('input[type=checkbox]').attr('checked', ele.checked);
+}
+
+function dicionaryCallBack(result){
+	initDictionaryPage("dictionarys",result);
 }

@@ -27,5 +27,23 @@ public class DictionaryController {
 		return dictionaryService.getTabs(request);
 	}
 	
+	@RequestMapping(value="/dictionary/findByCode")
+	@ResponseBody
+	public String findByCode(HttpServletRequest request) {
+		return dictionaryService.findByCode(request);
+	}
+	
+	
+	@RequestMapping(value="/dictionary/add")
+	@ResponseBody
+	public String add(HttpServletRequest request) {
+		return dictionaryService.add(request);
+	}
+	
+	@RequestMapping(value="/dictionary/delete")
+	@ResponseBody
+	public String delete(HttpServletRequest request) {
+		return dictionaryService.delete(request);
+	}
 
 }

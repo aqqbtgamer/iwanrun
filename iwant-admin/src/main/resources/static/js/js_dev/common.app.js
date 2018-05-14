@@ -587,3 +587,50 @@ function fileUpload(contentId,url,callback) {
     		ul.append(li);
     	}
     }
+    
+    function getDictinaryPageTabs(pageName,url,callback){
+    	var request = new Object();
+    	request.name = pageName;
+    	$.ajax(
+    			{
+    				url:url,
+    				cache:false,
+    				data:request,
+                    dataType:"text",
+                    type:"POST",
+                    success:function(result){
+                    	console.log("提交到"+url+"成功："+result);
+                    	if(callback != null){
+                    		callback(result);
+                    	}
+                    },
+	    			error:function(XMLHttpRequest ,error,exception){
+	                    console.log("提交到"+url+"失败,原因是: "+ exception.toString());
+	                }
+    			}
+    	);
+    }
+    
+    function findDictionaryCode(url,dbId,name,callback){
+    	var request = new Object();
+    	request.name = name ;
+    	request.used_field = dbId;
+    	$.ajax(
+    			{
+    				url:url,
+    				cache:false,
+    				data:request,
+                    dataType:"text",
+                    type:"POST",
+                    success:function(result){
+                    	console.log("提交到"+url+"成功："+result);
+                    	if(callback != null){
+                    		callback(dbId,result);
+                    	}
+                    },
+	    			error:function(XMLHttpRequest ,error,exception){
+	                    console.log("提交到"+url+"失败,原因是: "+ exception.toString());
+	                }
+    			}
+    	);
+    }
