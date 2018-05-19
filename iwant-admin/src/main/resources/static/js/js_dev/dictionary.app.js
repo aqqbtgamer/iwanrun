@@ -36,11 +36,11 @@ function itemInit(result,item,used_type,used_field,used_name,used_item){
 			var id = used_type+"_"+used_field+"_"+i
 			if(used_item == "input"){
 				var label = $("<label>").attr("for",id).text(ret[i].value);
-				var input = $("<input>").attr("type",used_type).attr("id",id).attr("name",used_name).val(ret[i].id);
+				var input = $("<input>").attr("type",used_type).attr("id",id).attr("name",used_name).val(ret[i].code);
 				item.append(label);
 				item.append(input);
 			}else if(used_item == "select"){
-				var option = $("<option>").attr("name",used_name).val(ret[i].id).text(ret[i].value);
+				var option = $("<option>").attr("name",used_name).val(ret[i].code).text(ret[i].value);
 				item.append(option);
 			}			
 		}

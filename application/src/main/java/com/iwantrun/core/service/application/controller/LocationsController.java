@@ -144,7 +144,8 @@ public class LocationsController {
 						"location=>location",
 						"priority=>priority",
 						"descirbeText1=>_ue",
-						"descirbeText2=>mainImage"
+						"descirbeText2=>mainImage",
+						"simulatePriceCode=>simulatePriceCode"
 				});
 		EntityBeanUtils.beanCreateFromJson(location, mappingRelation, object);
 		List<LocationAttachments> locationAttachments = new ArrayList<LocationAttachments>();
