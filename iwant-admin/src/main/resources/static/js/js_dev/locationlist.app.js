@@ -6,6 +6,7 @@ const dataQueryUrl = '/iwant_admin/location/queryAll';
 const deleteUrl = '/iwant_admin/location/delete';
 const dictionaryUrl = "/iwant_admin/dictionary/getPages";
 const modifyUrl = '/iwant_admin/createLocation.html?isModify=true&id=';
+const dictionaryName = 'location';
 const columns = new Array(
     "name",
     "activityCityCode",

@@ -150,7 +150,7 @@ function fileUpload(contentId,url,callback) {
         var formdData = new Object();
         for(var i = 0; i<fieldArray.length ; i++){
             var name = fieldArray[i];
-            var collect = $("[name='"+name+"']");
+            var collect = $("[name='"+name+"']").not("a");
             if(collect.length == 1){
                 formdData[name] = fufilItem(collect);
             }else if(collect.length >1){
@@ -625,7 +625,11 @@ function fileUpload(contentId,url,callback) {
                     success:function(result){
                     	console.log("提交到"+url+"成功："+result);
                     	if(callback != null){
-                    		callback(dbId,result);
+                    		if(typeof callback == "function"){
+                    			callback(dbId,result);
+                    		}else{
+                    			callback.callback(dbId,result);
+                    		}                    		
                     	}
                     },
 	    			error:function(XMLHttpRequest ,error,exception){
