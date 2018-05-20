@@ -11,9 +11,7 @@ const columns = new Array(
     "trafficInfo",
     "foodInfo",
     "hotelInfo",
-    "designDuring",
-    "executeDuring",
-    "shiftTime"
+    "designDuringCode"
 );
 
 $(document).ready(

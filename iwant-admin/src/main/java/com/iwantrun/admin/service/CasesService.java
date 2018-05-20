@@ -27,25 +27,35 @@ public class CasesService {
     private RestTemplate restTemplate;
 	
 	
-	public String addLocation(HttpServletRequest request) {		
+	public String addCase(HttpServletRequest request) {		
 		String token = CookieUtils.getLoginToken(request);
 		List<String> paramList = FormDataUtils.stringArray2List(new String[] {
+				"id=>id",
 				"name",
-				"location_type_code",
-				"activity_type_code",
-				"special_tags[]",
-				"group_number_limit_code",
-				"activity_province_code",
-				"activity_city_code",
-				"activity_dist_code",
+				"activityProvinceCode",
+				"activityCityCode",
+				"activityDistCode",
 				"location",
-				"priority",
-				"mainImage",
-				"imgManage[]",
-				"_ue"
+				"activityTypeCode",
+				"companyTypeCode",
+				"groupNumber",
+				"during",
+				"specialKeyWord",
+				"designDuringCode",
+			    "executeDuringCode",
+			    "trafficInfo",
+			    "foodInfo",
+			    "hotelInfo",
+			    "priority",
+			    "simulatePriceCode",
+			    "orderId",
+		        "mainImage",
+		        "imgManage[]",
+		        "_ue"
+				
 		});
 		String json = FormDataUtils.formData2Json(request,paramList);
-		String postUrl = env.getProperty("application.location.add");
+		String postUrl = env.getProperty("application.cases.add");
 		String baseUrl = env.getProperty("application.serverbase");
 		Message message = new Message();
 		message.setAccessToken(token);
@@ -86,7 +96,7 @@ public class CasesService {
 		Message message = new Message();
 		message.setAccessToken(token);
 		message.setMessageBody(json.toJSONString());
-		String postUrl = env.getProperty("application.location.queryAll");
+		String postUrl = env.getProperty("application.cases.queryAll");
 		String baseUrl = env.getProperty("application.serverbase");
 		message.setRequestMethod(baseUrl+postUrl);
 		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);	
@@ -104,7 +114,7 @@ public class CasesService {
 		Message message = new Message();
 		message.setAccessToken(token);
 		message.setMessageBody(json.toJSONString());
-		String postUrl = env.getProperty("application.location.delete");
+		String postUrl = env.getProperty("application.cases.delete");
 		String baseUrl = env.getProperty("application.serverbase");
 		message.setRequestMethod(baseUrl+postUrl);
 		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);	
@@ -112,7 +122,7 @@ public class CasesService {
 	}
 
 
-	public String getLocation(HttpServletRequest request) {
+	public String getCase(HttpServletRequest request) {
 		String token = CookieUtils.getLoginToken(request);
 		List<String> paramList = FormDataUtils.stringArray2List(new String[] {
 				"id"
@@ -121,7 +131,7 @@ public class CasesService {
 		Message message = new Message();
 		message.setAccessToken(token);
 		message.setMessageBody(json.toJSONString());
-		String postUrl = env.getProperty("application.location.get");
+		String postUrl = env.getProperty("application.cases.get");
 		String baseUrl = env.getProperty("application.serverbase");
 		message.setRequestMethod(baseUrl+postUrl);
 		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);	
@@ -129,26 +139,34 @@ public class CasesService {
 	}
 
 
-	public String modifyLocation(HttpServletRequest request) {
+	public String modifyCase(HttpServletRequest request) {
 		String token = CookieUtils.getLoginToken(request);
 		List<String> paramList = FormDataUtils.stringArray2List(new String[] {
 				"id",
 				"name",
-				"location_type_code",
-				"activity_type_code",
-				"special_tags[]",
-				"group_number_limit_code",
-				"activity_province_code",
-				"activity_city_code",
-				"activity_dist_code",
+				"activityProvinceCode",
+				"activityCityCode",
+				"activityDistCode",
 				"location",
-				"priority",
-				"mainImage",
-				"imgManage[]",
-				"_ue"
+				"activityTypeCode",
+				"companyTypeCode",
+				"groupNumber",
+				"during",
+				"specialKeyWord",
+				"designDuringCode",
+			    "executeDuringCode",
+			    "trafficInfo",
+			    "foodInfo",
+			    "hotelInfo",
+			    "priority",
+			    "simulatePriceCode",
+			    "orderId",
+		        "mainImage",
+		        "imgManage[]",
+		        "_ue"
 		});
 		String json = FormDataUtils.formData2Json(request,paramList);
-		String postUrl = env.getProperty("application.location.modify");
+		String postUrl = env.getProperty("application.cases.modify");
 		String baseUrl = env.getProperty("application.serverbase");
 		Message message = new Message();
 		message.setAccessToken(token);
