@@ -17,12 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
+import com.iwantrun.core.service.application.domain.CaseAttachments;
+import com.iwantrun.core.service.application.domain.CaseTags;
 import com.iwantrun.core.service.application.domain.Cases;
-import com.iwantrun.core.service.application.domain.LocationAttachments;
-import com.iwantrun.core.service.application.domain.LocationTags;
-import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.service.CasesService;
-import com.iwantrun.core.service.application.service.LocationsService;
 import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.application.transfer.PageDomianRequest;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
@@ -47,45 +45,54 @@ public class CaseController {
 	private CasesService casesService;
 	
 
-/*	@SuppressWarnings("unchecked")
-	@RequestMapping("/application/location/add")
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/application/cases/add")
 	@NeedTokenVerify
-	public Message addLocation(@RequestBody Message message) {
+	public Message addCase(@RequestBody Message message) {
 		Message response = new Message();
 		response.setAccessToken(message.getAccessToken());
 		response.setRequestMethod(message.getRequestMethod());
-		Locations location = new Locations();
+		Cases Case = new Cases();
 		String dataJson = message.getMessageBody();
 		JSONObject object = (JSONObject) JSONValue.parse(dataJson);
 		Map<String,String> mappingRelation = 
 				MappingGenerateUtils.generateMappingRelation(new String[] {
-						"name =>name",
-						"activeTypeCode=>activity_type_code",
-						"locationTypeCode=>location_type_code",
-						"groupNumberLimitCode=>group_number_limit_code",
-						"activityProvinceCode=>activity_province_code",
-						"activityCityCode=>activity_city_code",
-						"activityDistCode=>activity_dist_code",
+						"name=>name",
+						"activityProvinceCode=>activityProvinceCode",
+						"activityCityCode=>activityCityCode",
+						"activityDistCode=>activityDistCode",
 						"location=>location",
-						"priority=>priority",
+						"activityTypeCode=>activityTypeCode",
+						"companyTypeCode=>companyTypeCode",
+						"groupNumber=>groupNumber",
+						"during=>during",
+						"specialKeyWord=>specialKeyWord",
+						"designDuringCode=>designDuringCode",
+					    "executeDuringCode=>executeDuringCode",
+					    "trafficInfo=>trafficInfo",
+					    "foodInfo=>foodInfo",
+					    "hotelInfo=>hotelInfo",
+					    "priority=>priority",
+					    "simulatePriceCode=>simulatePriceCode",
+					    "orderId=>orderId",
 						"descirbeText1=>_ue",
 						"descirbeText2=>mainImage"
 				});
-		EntityBeanUtils.beanCreateFromJson(location, mappingRelation, object);
-		List<LocationAttachments> locationAttachments = new ArrayList<LocationAttachments>();
+		EntityBeanUtils.beanCreateFromJson(Case, mappingRelation, object);
+		List<CaseAttachments> caseAttachments = new ArrayList<CaseAttachments>();
 		Map<String,String> mappingRelation0 = 
 				MappingGenerateUtils.generateMappingRelation(new String[] {
 						"filePath=>bean"
 				});
 		JSONArray array = (JSONArray) object.get("imgManage[]");		
-		EntityBeanUtils.listBeanCreateFromJson(locationAttachments, mappingRelation0, array, LocationAttachments.class);
+		EntityBeanUtils.listBeanCreateFromJson(caseAttachments, mappingRelation0, array, CaseAttachments.class);
 		Function<String,String> fun = s -> {
 			int index = s.lastIndexOf("/");
 			return s.substring(index+1);
 		} ;
 		
 		BiFunction<String,Integer,String> biFun = (value,index) -> value+"-"+index ;
-		ListUpdateUtils.updateListProperty(locationAttachments, 
+		ListUpdateUtils.updateListProperty(caseAttachments, 
 				new String[] {
 						"filePath=>fileName"
 				}, 
@@ -104,8 +111,8 @@ public class CaseController {
 				MappingGenerateUtils.generateMappingRelation(new String[] {
 						"tagsCode=>bean"
 				});
-		List<LocationTags> tagsList = new ArrayList<LocationTags>();
-		EntityBeanUtils.listBeanCreateFromJson(tagsList, mappingRelation1, tags, LocationTags.class);
+		List<CaseTags> tagsList = new ArrayList<CaseTags>();
+		EntityBeanUtils.listBeanCreateFromJson(tagsList, mappingRelation1, tags, CaseTags.class);
 		Supplier<Integer> tagsTypeSupplier = () ->{
 			return DictionaryConfigParams.LOCATION_TAGS_TYPE;
 		};
@@ -114,9 +121,9 @@ public class CaseController {
 		}, new Supplier[] {
 			tagsTypeSupplier
 		});
-		boolean updateResult =locationService.createLocations(location, locationAttachments,tagsList);
+		boolean updateResult =casesService.createCase(Case, caseAttachments,tagsList);
 		if(updateResult) {			
-			response.setMessageBody(String.valueOf(location.getId()));
+			response.setMessageBody(String.valueOf(Case.getId()));
 		}else {
 			response.setMessageBody("failed");
 		}
@@ -125,43 +132,52 @@ public class CaseController {
 	
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping("/application/location/modify")
+	@RequestMapping("/application/cases/modify")
 	@NeedTokenVerify
-	public Message modifyLocation(@RequestBody Message message) {
+	public Message modifyCase(@RequestBody Message message) {
 		String dataJson = message.getMessageBody();
 		logger.info("received json:"+dataJson);
-		Locations location = new Locations();
+		Cases casevo = new Cases();
 		JSONObject object = (JSONObject) JSONValue.parse(dataJson);
 		Map<String,String> mappingRelation = 
 				MappingGenerateUtils.generateMappingRelation(new String[] {
 						"id=>id",
-						"name =>name",
-						"activeTypeCode=>activity_type_code",
-						"locationTypeCode=>location_type_code",
-						"groupNumberLimitCode=>group_number_limit_code",
-						"activityProvinceCode=>activity_province_code",
-						"activityCityCode=>activity_city_code",
-						"activityDistCode=>activity_dist_code",
+						"name=>name",
+						"activityProvinceCode=>activityProvinceCode",
+						"activityCityCode=>activityCityCode",
+						"activityDistCode=>activityDistCode",
 						"location=>location",
-						"priority=>priority",
+						"activityTypeCode=>activityTypeCode",
+						"companyTypeCode=>companyTypeCode",
+						"groupNumber=>groupNumber",
+						"during=>during",
+						"specialKeyWord=>specialKeyWord",
+						"designDuringCode=>designDuringCode",
+					    "executeDuringCode=>executeDuringCode",
+					    "trafficInfo=>trafficInfo",
+					    "foodInfo=>foodInfo",
+					    "hotelInfo=>hotelInfo",
+					    "priority=>priority",
+					    "simulatePriceCode=>simulatePriceCode",
+					    "orderId=>orderId",
 						"descirbeText1=>_ue",
 						"descirbeText2=>mainImage"
 				});
-		EntityBeanUtils.beanCreateFromJson(location, mappingRelation, object);
-		List<LocationAttachments> locationAttachments = new ArrayList<LocationAttachments>();
+		EntityBeanUtils.beanCreateFromJson(casevo, mappingRelation, object);
+		List<CaseAttachments> caseAttachments = new ArrayList<CaseAttachments>();
 		Map<String,String> mappingRelation0 = 
 				MappingGenerateUtils.generateMappingRelation(new String[] {
 						"filePath=>bean"
 				});
 		JSONArray array = (JSONArray) object.get("imgManage[]");		
-		EntityBeanUtils.listBeanCreateFromJson(locationAttachments, mappingRelation0, array, LocationAttachments.class);
+		EntityBeanUtils.listBeanCreateFromJson(caseAttachments, mappingRelation0, array, CaseAttachments.class);
 		Function<String,String> fun = s -> {
 			int index = s.lastIndexOf("/");
 			return s.substring(index+1);
 		} ;
 		
 		BiFunction<String,Integer,String> biFun = (value,index) -> value+"-"+index ;
-		ListUpdateUtils.updateListProperty(locationAttachments, 
+		ListUpdateUtils.updateListProperty(caseAttachments, 
 				new String[] {
 						"filePath=>fileName"
 				}, 
@@ -180,8 +196,8 @@ public class CaseController {
 				MappingGenerateUtils.generateMappingRelation(new String[] {
 						"tagsCode=>bean"
 				});
-		List<LocationTags> tagsList = new ArrayList<LocationTags>();
-		EntityBeanUtils.listBeanCreateFromJson(tagsList, mappingRelation1, tags, LocationTags.class);
+		List<CaseTags> tagsList = new ArrayList<CaseTags>();
+		EntityBeanUtils.listBeanCreateFromJson(tagsList, mappingRelation1, tags, CaseTags.class);
 		Supplier<Integer> tagsTypeSupplier = () ->{
 			return DictionaryConfigParams.LOCATION_TAGS_TYPE;
 		};
@@ -190,10 +206,10 @@ public class CaseController {
 		}, new Supplier[] {
 			tagsTypeSupplier
 		});
-		SimpleMessageBody updateResult =casesService.modifyLocations(location, locationAttachments,tagsList);
+		SimpleMessageBody updateResult =casesService.modifyCase(casevo, caseAttachments,tagsList);
 		message.setMessageBody(JSONValue.toJSONString(updateResult));
 		return message;
-	}*/
+	}
 	
 	@RequestMapping("/application/cases/findAll")
 	public Message findAll(@RequestBody Message message) {
@@ -205,48 +221,48 @@ public class CaseController {
 		return message;		
 	}
 	
-	/*@RequestMapping("/application/location/findByExample")
+	@RequestMapping("/application/cases/findByExample")
 	public Message findByExample(@RequestBody Message message) {
 		String dataJson = message.getMessageBody();
 		PageDomianRequest example = JSONUtils.jsonToObj(dataJson, PageDomianRequest.class);
-		Page<Locations> resultPage = null ;
+		Page<Cases> resultPage = null ;
 		if(!example.getObj().containsKey("*")) {
-			resultPage =locationService.queryLocationByConditionPageable(example.getPageIndex(), example.getObjAsType(Locations.class));
+			resultPage =casesService.queryCaseByConditionPageable(example.getPageIndex(), example.getObjAsType(Cases.class));
 		}else {
 			String value = (String) example.getObj().get("*");
-			Locations defaultLocation = new Locations();
+			Cases defaultLocation = new Cases();
 			defaultLocation.setName(value);
 			defaultLocation.setLocation(value);
 			String[] defaultSpecification = new String[] {
 					"like,name,or",
 					"like,location,or",
 			};
-			Specification<Locations> specification = JPADBUtils.generateSpecificationFromExample(defaultLocation, defaultSpecification);
-			resultPage = locationService.queryLocationBySpecificationPageable(example.getPageIndex(), specification);
+			Specification<Cases> specification = JPADBUtils.generateSpecificationFromExample(defaultLocation, defaultSpecification);
+			resultPage = casesService.queryCaseBySpecificationPageable(example.getPageIndex(), specification);
 		}
 		
 		message.setMessageBody(PageDataWrapUtils.page2Json(resultPage));
 		return message;		
 	}
 	
-	@RequestMapping("/application/location/delete")
+	@RequestMapping("/application/cases/delete")
 	@NeedTokenVerify
 	public Message delete(@RequestBody Message message) {
 		String id = message.getMessageBody();
-		String result = locationService.delete(id);
+		String result = casesService.delete(id);
 		message.setMessageBody(String.valueOf(result));
 		return message ;
 	}
 	
-	@RequestMapping("/application/location/get")
+	@RequestMapping("/application/cases/get")
 	public Message get(@RequestBody Message message) {
 		String jsonId = message.getMessageBody();
 		JSONObject objectId = (JSONObject) JSONValue.parse(jsonId);
 		Integer id = Integer.parseInt(objectId.getAsString("id"));
-		String result = locationService.get(id);
+		String result = casesService.get(id);
 		message.setMessageBody(result);
 		return message;
-	}*/
+	}
 	
 
 }

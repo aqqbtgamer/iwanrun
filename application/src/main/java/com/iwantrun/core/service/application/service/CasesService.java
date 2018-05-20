@@ -17,14 +17,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.iwantrun.core.service.application.dao.CaseAttachmentsDao;
+import com.iwantrun.core.service.application.dao.CaseTagsDao;
 import com.iwantrun.core.service.application.dao.CasesDao;
-import com.iwantrun.core.service.application.dao.LocationAttachmentsDao;
-import com.iwantrun.core.service.application.dao.LocationTagsDao;
-import com.iwantrun.core.service.application.dao.LocationsDao;
+import com.iwantrun.core.service.application.domain.CaseAttachments;
+import com.iwantrun.core.service.application.domain.CaseTags;
 import com.iwantrun.core.service.application.domain.Cases;
-import com.iwantrun.core.service.application.domain.LocationAttachments;
-import com.iwantrun.core.service.application.domain.LocationTags;
-import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.intercepter.ControllInvokerIntercepter;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import com.iwantrun.core.service.utils.JPADBUtils;
@@ -40,62 +38,68 @@ public class CasesService {
 	
 	@Autowired
 	private CasesDao casesDao;
+	@Autowired
+	private CaseTagsDao caseTagsDao;
+	@Autowired
+	private CaseAttachmentsDao caseAttachmentsDao;
+	
+	
+	
 	
 	@Autowired  
     private Environment env;
 	
-//	@Transactional
-//	public boolean createLocations(Locations location,List<LocationAttachments> attachments,List<LocationTags> tags) {
-//		boolean executeResult = false ;
-//		locationDao.saveAndFlush(location);
-//		if(attachments != null) {
-//			for(LocationAttachments attach: attachments) {
-//				attach.setLocation_id(location.getId());
-//			}
-//			attachmentsDao.saveAll(attachments);
-//		}		
-//		if(tags != null) {
-//			for(LocationTags tag : tags) {
-//				tag.setLocationId(location.getId());
-//			}
-//			tagsDao.saveAll(tags);
-//		}	
-//		executeResult = true ;
-//		return executeResult;
-//	}
-//	
+	@Transactional
+	public boolean createCase(Cases caseVo,List<CaseAttachments> attachments,List<CaseTags> tags) {
+		boolean executeResult = false ;
+		casesDao.saveAndFlush(caseVo);
+		if(attachments != null) {
+			for(CaseAttachments attach: attachments) {
+				attach.setCaseId(caseVo.getId());
+			}
+			caseAttachmentsDao.saveAll(attachments);
+		}		
+		if(tags != null) {
+			for(CaseTags tag : tags) {
+				tag.setCaseId(caseVo.getId());
+			}
+			caseTagsDao.saveAll(tags);
+		}	
+		executeResult = true ;
+		return executeResult;
+	}
+	
 	public Page<Cases> findAllCasesPageable(int pageIndex){
 		Integer pageSize = Integer.parseInt(env.getProperty("common.pageSize"));
 		Pageable page =  PageRequest.of(pageIndex, pageSize, Sort.Direction.ASC, "id") ;
 		return casesDao.findAll(page);
 	}
 	
-	/*public Page<Locations> queryLocationByConditionPageable(int pageIndex,Locations example){		
+	public Page<Cases> queryCaseByConditionPageable(int pageIndex,Cases example){		
 		Integer pageSize = Integer.parseInt(env.getProperty("common.pageSize"));
 		Pageable page =  PageRequest.of(pageIndex, pageSize, Sort.Direction.ASC, "id") ;
-		return locationDao.findAll(JPADBUtils.generateSpecificationFromExample(example, new String[]{
+		return casesDao.findAll(JPADBUtils.generateSpecificationFromExample(example, new String[]{
 				"=,id,and",
 				"like,name,and",
-				"=,activeTypeCode,and",
-				"=,groupNumberLimit,and",
-				"=,groupNumberLimitCode,and",
-				"=,activityProvinceCode,and",
-				"=,activityCityCode,and",
-				"=,activityDistCode,and",
-				"like,location,and",
-				"=,priority,and",
-				"=,status,and",
-				"=,simulatePriceCode,and"
+				"like,trafficInfo,and",
+				"like,foodInfo,and",
+				"like,hotelInfo,and",
+				"=,designDuringCode,and",
 		}),page);
 	}
 	
 	
-	public Page<Locations> queryLocationBySpecificationPageable(int pageIndex,Specification<Locations> example){		
+	public Page<Cases> queryCaseBySpecificationPageable(int pageIndex,Specification<Cases> example){		
 		Integer pageSize = Integer.parseInt(env.getProperty("common.pageSize"));
 		Pageable page =  PageRequest.of(pageIndex, pageSize, Sort.Direction.ASC, "id") ;
-		return locationDao.findAll(example,page);
+		return casesDao.findAll(example,page);
 	}
 
+	/**
+	 * 根据ID删除数据
+	 * @param id
+	 * @return
+	 */
 	@Transactional
 	public String delete(String id) {
 		SimpleMessageBody simple = new SimpleMessageBody();
@@ -104,7 +108,7 @@ public class CasesService {
 			if(jsonId != null) {
 				if(jsonId.getAsString("id")!= null) {
 					Integer deleteId = Integer.parseInt(jsonId.getAsString("id"));
-					this.locationDao.deleteById(deleteId);
+					this.casesDao.deleteById(deleteId);
 				}
 				if(jsonId.get("id[]") != null) {
 					JSONArray jsonIdArray = (JSONArray) jsonId.get("id[]");
@@ -112,7 +116,7 @@ public class CasesService {
 					while(it.hasNext()) {
 						Object idDelete = it.next();
 						Integer deleteId = Integer.parseInt(idDelete.toString());
-						this.locationDao.deleteById(deleteId);
+						this.casesDao.deleteById(deleteId);
 					}
 				}
 			}		
@@ -127,13 +131,13 @@ public class CasesService {
 
 	public String get(Integer id) {
 		String response = "";
-		Optional<Locations> locationOP= locationDao.findById(id);
-		if(locationOP.isPresent()) {
-			Locations location = locationOP.get();
-			List<LocationAttachments> listAttch  = attachmentsDao.findByLocationId(location.getId());
-			List<LocationTags> listTag = tagsDao.findByLocationId(location.getId());
+		Optional<Cases> caseOP= casesDao.findById(id);
+		if(caseOP.isPresent()) {
+			Cases caseVo = caseOP.get();
+			List<CaseAttachments> listAttch  = caseAttachmentsDao.findByCaseId(caseVo.getId());
+			List<CaseTags> listTag = caseTagsDao.findByCaseId(caseVo.getId());
 			JSONObject json = new JSONObject();
-			json.put("location", JSONValue.toJSONString(location));
+			json.put("caseVo", JSONValue.toJSONString(caseVo));
 			json.put("listAttch", JSONValue.toJSONString(listAttch));
 			json.put("listTag", JSONValue.toJSONString(listTag));
 			response = json.toJSONString();
@@ -141,35 +145,35 @@ public class CasesService {
 		return response;
 	}
 
-	*//**
+	/**
 	 * 1.delete all related componaunts  2.add new  attached componaunts
 	 * @param location
 	 * @param locationAttachments
 	 * @param tagsList
 	 * @return
-	 *//*
+	 */
 	@Transactional
-	public SimpleMessageBody modifyLocations(Locations location, List<LocationAttachments> locationAttachments,
-			List<LocationTags> tagsList) {
+	public SimpleMessageBody modifyCase(Cases casevo, List<CaseAttachments> caseAttachments,
+			List<CaseTags> tagsList) {
 		SimpleMessageBody body = new SimpleMessageBody();
 		body.setSuccessful(false);
-		int locationId = location.getId();
-		locationDao.save(location);	
-		List<LocationAttachments> dbLocationAttachments = attachmentsDao.findByLocationId(locationId);
-		List<LocationTags> dbLocationTags = tagsDao.findByLocationId(locationId);
-		attachmentsDao.deleteAll(dbLocationAttachments);
-		tagsDao.deleteAll(dbLocationTags);
-		for(LocationAttachments attach : locationAttachments) {
-			attach.setLocation_id(locationId);
+		int caseId = casevo.getId();
+		casesDao.save(casevo);	
+		List<CaseAttachments> dbLocationAttachments = caseAttachmentsDao.findByCaseId(caseId);
+		List<CaseTags> dbLocationTags = caseTagsDao.findByCaseId(caseId);
+		caseAttachmentsDao.deleteAll(dbLocationAttachments);
+		caseTagsDao.deleteAll(dbLocationTags);
+		for(CaseAttachments attach : caseAttachments) {
+			attach.setCaseId(caseId);
 		}
-		attachmentsDao.saveAll(locationAttachments);
-		for(LocationTags tags : tagsList) {
-			tags.setLocationId(locationId);
+		caseAttachmentsDao.saveAll(caseAttachments);
+		for(CaseTags tags : tagsList) {
+			tags.setCaseId(caseId);
 		}
-		tagsDao.saveAll(tagsList);
+		caseTagsDao.saveAll(tagsList);
 		body.setSuccessful(true);
 		return body;
-	}*/
+	}
 	
 	
 }

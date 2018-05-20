@@ -149,10 +149,21 @@ public class Cases {
 	@Column(name="company_type_code")
 	private String companyTypeCode ;
 	/**
+	 * 活动天数
+	 */
+	@Column(name="during")
+	private int during ;
+	/**
 	 * 案例特色关键词
 	 */
 	@Column(name="special_key_word")
 	private String specialKeyWord;
+	/**
+	 *  
+	 *人均参考报价范围
+	 */
+	@Column(name="simulate_price_code")
+	private int simulatePriceCode;
 	public int getId() {
 		return id;
 	}
@@ -320,6 +331,18 @@ public class Cases {
 	}
 	public void setSpecialKeyWord(String specialKeyWord) {
 		this.specialKeyWord = specialKeyWord;
+	}
+	public int getSimulatePriceCode() {
+		return simulatePriceCode;
+	}
+	public void setSimulatePriceCode(int simulatePriceCode) {
+		this.simulatePriceCode = simulatePriceCode;
+	}
+	public int getDuring() {
+		return during;
+	}
+	public void setDuring(int during) {
+		this.during = during;
 	}
 	
 	
