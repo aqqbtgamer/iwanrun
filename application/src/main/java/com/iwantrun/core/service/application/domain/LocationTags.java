@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.iwantrun.core.service.application.annotation.DictionaryField;
+import com.iwantrun.core.service.utils.DictionaryConfigParams;
+
 @Entity
 @Table(name="biz_location_tags")
 public class LocationTags {
@@ -18,10 +21,11 @@ public class LocationTags {
 	@Column(name="location_id",nullable=false)
 	private int locationId ;
 	
-	@Column(name="tags_type")
+	@Column(name="tags_type")	
 	private int tagsType ;
 	
 	@Column(name="tags_code")
+	@DictionaryField(name=DictionaryConfigParams.LOCATION_DICTIONARY_NAME ,usedField=DictionaryConfigParams.LOCATION_TAGS_TYPE)
 	private int tagsCode ;
 
 	public int getId() {

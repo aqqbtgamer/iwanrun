@@ -32,7 +32,10 @@ public class Dictionary {
 	
 	@Column(name="value")
 	private String value;
-
+	
+	@Column(name="assign_to")
+	private String assignTo;
+	
 	public int getId() {
 		return id;
 	}
@@ -89,6 +92,13 @@ public class Dictionary {
 		this.value = value;
 	}
 	
-	
+	public String getAssignTo() {
+		return assignTo;
+	}
+
+	public void setAssignTo(String assignTo) {
+		this.assignTo = assignTo;
+	}
+
 
 }

@@ -44,7 +44,7 @@ public class DictionaryService {
 		ExampleMatcher matcher = ExampleMatcher.matchingAll()
 				.withMatcher("used_field", GenericPropertyMatchers.exact())
 				.withMatcher("name", GenericPropertyMatchers.exact())
-				.withIgnorePaths("id","display_code","display_value","code","value");
+				.withIgnorePaths("id","display_code","display_value","code","value","assignTo");
 				;
 		return dictionaryDao.findAll(Example.of(example,matcher));
 	}
@@ -58,7 +58,7 @@ public class DictionaryService {
 				.withMatcher("used_field", GenericPropertyMatchers.exact())
 				.withMatcher("name", GenericPropertyMatchers.exact())
 				.withMatcher("code", GenericPropertyMatchers.exact())
-				.withIgnorePaths("id","display_code","display_value","value");
+				.withIgnorePaths("id","display_code","display_value","value","assignTo");
 		 Optional<Dictionary> op = dictionaryDao.findOne(Example.of(example,matcher));
 		 if(op.isPresent()) {
 			 return op.get();
@@ -97,7 +97,7 @@ public class DictionaryService {
 				ExampleMatcher matcher = ExampleMatcher.matchingAll()
 						.withMatcher("used_field", GenericPropertyMatchers.exact())
 						.withMatcher("name", GenericPropertyMatchers.exact())
-						.withIgnorePaths("id","display_code","display_value","value","code");
+						.withIgnorePaths("id","display_code","display_value","value","code","assignTo");
 				List<Dictionary> codeValueList  = dictionaryDao.findAll(Example.of(example,matcher));
 				for(Dictionary dic : codeValueList) {
 					codeValueMap.put(dic.getCode(), dic.getValue());

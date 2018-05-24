@@ -43,6 +43,7 @@ public class Locations {
 	private String activityCityCode ;
 	
 	@Column(name="activity_dist_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_DIST_TYPE)
 	private String activityDistCode ;
 	
 	@Column(name="location")
@@ -61,6 +62,7 @@ public class Locations {
 	private Date createTime;
 	
 	@Column(name="simulate_price_code")
+	@DictionaryField(name=DictionaryConfigParams.LOCATION_DICTIONARY_NAME ,usedField=DictionaryConfigParams.LOCATION_PRICE_TYPE)
 	private String simulatePriceCode ;
 	
 	@Column(name="group_price_code")

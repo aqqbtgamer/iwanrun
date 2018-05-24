@@ -17,15 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
+import com.iwantrun.core.service.application.domain.Dictionary;
 import com.iwantrun.core.service.application.domain.LocationAttachments;
 import com.iwantrun.core.service.application.domain.LocationTags;
 import com.iwantrun.core.service.application.domain.Locations;
+import com.iwantrun.core.service.application.service.DictionaryService;
 import com.iwantrun.core.service.application.service.LocationsService;
 import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.application.transfer.PageDomianRequest;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import com.iwantrun.core.service.utils.DictionaryConfigParams;
 import com.iwantrun.core.service.utils.EntityBeanUtils;
+import com.iwantrun.core.service.utils.EntityDictionaryConfigUtils;
 import com.iwantrun.core.service.utils.JPADBUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.ListUpdateUtils;
@@ -43,6 +46,9 @@ public class LocationsController {
 	
 	@Autowired
 	private LocationsService locationService;
+	
+	@Autowired
+	private DictionaryService dictionaryService;
 	
 
 	@SuppressWarnings("unchecked")
@@ -201,6 +207,8 @@ public class LocationsController {
 		JSONObject object = (JSONObject) JSONValue.parse(dataJson);
 		String pageIndex = object.getAsString("pageIndex");
 		Page<Locations> resultPage =locationService.findAllLocationsPageable(Integer.parseInt(pageIndex));
+		Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new Locations());
+		dictionaryService.dictionaryFilter(resultPage.getContent(), dictionnaryMap);
 		message.setMessageBody(PageDataWrapUtils.page2Json(resultPage));
 		return message;		
 	}
@@ -224,7 +232,8 @@ public class LocationsController {
 			Specification<Locations> specification = JPADBUtils.generateSpecificationFromExample(defaultLocation, defaultSpecification);
 			resultPage = locationService.queryLocationBySpecificationPageable(example.getPageIndex(), specification);
 		}
-		
+		Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new Locations());
+		dictionaryService.dictionaryFilter(resultPage.getContent(), dictionnaryMap);
 		message.setMessageBody(PageDataWrapUtils.page2Json(resultPage));
 		return message;		
 	}

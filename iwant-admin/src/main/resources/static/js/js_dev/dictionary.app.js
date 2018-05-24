@@ -1,7 +1,7 @@
 /**
 *查询数据字典专用js
 */
-
+console.log("字典js加载");
 function dictionaryItemsInit(dictionaryName,dictionaryUrl){
 	var allDicElements = $("[used_field]");
 	for(var i = 0 ; i<allDicElements.length ; i++){
@@ -28,6 +28,36 @@ function dictionaryItemsInit(dictionaryName,dictionaryUrl){
 		
 	}
 }
+
+
+function dictionaryItemFilter(filterSelect,filterInput,type,dictionaryUrl){
+	var select = $("#"+filterSelect);
+	select.bind("change",function(){
+		var item = select.find("option:selected");
+		var dictionaryName = item.attr("dicName");
+		var dicField = item.attr("dicField");
+		var callback = function(dbId,result){
+			 $("#"+filterInput).remove();
+			if(type == "select"){				
+				var addedSelected = $("<select>").attr("id",filterInput).attr("name",filterInput);
+				select.after(addedSelected);
+				var ret = $.parseJSON(result);				
+				for(var i = 0 ; i< ret.length ; i++){					
+					var option = $("<option>").val(ret[i].code).text(ret[i].value);
+					addedSelected.append(option);
+				}		
+			}				
+		}
+		if(dicField != null && dictionaryName != null){
+			findDictionaryCode(dictionaryUrl,dicField,dictionaryName,callback);
+		}else{
+			$("#"+filterInput).remove();
+			var addedInput = $("<input>").attr("type","text").attr("id",filterInput).attr("name",filterInput);	
+			select.after(addedInput);
+		}
+	})
+}
+
 
 function itemInit(result,item,used_type,used_field,used_name,used_item){
 	var ret = $.parseJSON(result);

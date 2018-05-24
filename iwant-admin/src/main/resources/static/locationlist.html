@@ -34,6 +34,7 @@
     <script type='text/javascript' src='js/custom.js'></script>
     <script type="text/javascript" src="js/js_dev/common.app.js"></script>
     <script type="text/javascript" src="js/js_dev/locationlist.app.js"></script>
+    <script type="text/javascript" src="js/js_dev/dictionary.app.js"></script>
     <style type="text/css">
 
 
@@ -82,13 +83,13 @@
                     <caption>
 
                             <button method="href" to="createLocation.html">新增</button>
-                            <select name="" id="queryField">
+                            <select name="queryField" id="queryField">
                                 <option value="">筛选</option>
                                 <option value="name">场地名称</option>
-                                <option value="activeTypeCode">活动类型</option>
-                                <option value="groupNumberLimitCode">最大活动人数</option>
+                                <option value="activeTypeCode" dicName="common" dicField="9">活动类型</option>
+                                <option value="groupNumberLimitCode" dicName="location" dicField="3">最大活动人数</option>
                                 <option value="location">地址</option>
-                                <option value="simulatePriceCode">参考报价</option>
+                                <option value="simulatePriceCode" dicName="location" dicField="4">参考报价</option>
                             </select>
                             <input type="text" name="keyword" id="fieldInput"/>
                             <button id="queryCondtion">查找</button>
