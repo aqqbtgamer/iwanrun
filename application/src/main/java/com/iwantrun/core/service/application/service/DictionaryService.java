@@ -1,8 +1,13 @@
 package com.iwantrun.core.service.application.service;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +82,43 @@ public class DictionaryService {
 	@Transactional
 	public void delete(int id) {
 		dictionaryDao.deleteById(id);
+	}
+	
+	public <T> List<T> dictionaryFilter(List<T> filterList,Map<String,Dictionary> filterMap){
+		if(filterMap == null || filterList == null) {
+			return filterList ;
+		}else {
+			Set<String> properties = filterMap.keySet();
+			Map<String,Map<Integer,String>> propertyCodeValueMap = new HashMap<String,Map<Integer,String>>();
+			//准备code value 映射 在进行fiterList迭代的时候进行匹配
+			for(String property : properties) {
+				Map<Integer,String> codeValueMap = new HashMap<Integer,String>();
+				Dictionary example = filterMap.get(property);
+				ExampleMatcher matcher = ExampleMatcher.matchingAll()
+						.withMatcher("used_field", GenericPropertyMatchers.exact())
+						.withMatcher("name", GenericPropertyMatchers.exact())
+						.withIgnorePaths("id","display_code","display_value","value","code");
+				List<Dictionary> codeValueList  = dictionaryDao.findAll(Example.of(example,matcher));
+				for(Dictionary dic : codeValueList) {
+					codeValueMap.put(dic.getCode(), dic.getValue());
+				}
+				propertyCodeValueMap.put(property, codeValueMap);
+			}
+			for(T item : filterList) {
+				for(String property : properties) {
+					try {
+						String code = (String) PropertyUtils.getSimpleProperty(item, property);
+						Integer codeInt = Integer.parseInt(code);
+						Map<Integer,String> codeValueMap = propertyCodeValueMap.get(property);
+						String value = codeValueMap.get(codeInt);
+						PropertyUtils.setProperty(item, property, value);
+					} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+						logger.error("数据字典数据转化的时候发生错误",e);
+					}
+				}
+			}
+			return filterList;
+		}
 	}
 	
 

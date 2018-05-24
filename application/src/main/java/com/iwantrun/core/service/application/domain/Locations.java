@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.iwantrun.core.service.application.annotation.DictionaryField;
+import com.iwantrun.core.service.utils.DictionaryConfigParams;
+
 @Entity
 @Table(name="biz_locations")
 public class Locations {
@@ -21,18 +24,22 @@ public class Locations {
 	private String name ;
 	
 	@Column(name="activity_type_code",nullable=false)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_TYPE)
 	private String activeTypeCode ;
 	
-	@Column(name="group_number_limit")
+	@Column(name="group_number_limit")	
 	private String groupNumberLimit ;
 	
 	@Column(name="group_number_limit_code")
+	@DictionaryField(name=DictionaryConfigParams.LOCATION_DICTIONARY_NAME ,usedField=DictionaryConfigParams.LOCATION_GROUP_NUMBER_LIMIT_TYPE)
 	private String groupNumberLimitCode ;
 	
 	@Column(name="activity_province_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_PROVINCE_TYPE)
 	private String activityProvinceCode ;
 	
 	@Column(name="activity_city_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_CITY_TYPE)
 	private String activityCityCode ;
 	
 	@Column(name="activity_dist_code")
