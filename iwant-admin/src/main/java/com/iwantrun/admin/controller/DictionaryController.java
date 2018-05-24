@@ -45,5 +45,11 @@ public class DictionaryController {
 	public String delete(HttpServletRequest request) {
 		return dictionaryService.delete(request);
 	}
+	
+	@RequestMapping(value="/dictionary/findByAssign")
+	@ResponseBody
+	public String findByAssign(HttpServletRequest request) {
+		return dictionaryService.findByAssign(request);
+	}
 
 }

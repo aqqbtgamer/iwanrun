@@ -1,6 +1,8 @@
 /**
 *查询数据字典专用js
 */
+const dictionaryAssign = "/iwant_admin/dictionary/findByAssign";
+
 console.log("字典js加载");
 function dictionaryItemsInit(dictionaryName,dictionaryUrl){
 	var allDicElements = $("[used_field]");
@@ -66,14 +68,42 @@ function itemInit(result,item,used_type,used_field,used_name,used_item){
 			var id = used_type+"_"+used_field+"_"+i
 			if(used_item == "input"){
 				var label = $("<label>").attr("for",id).text(ret[i].value);
-				var input = $("<input>").attr("type",used_type).attr("id",id).attr("name",used_name).val(ret[i].code);
+				var input = $("<input>").attr("type",used_type).attr("id",id).attr("name",used_name).attr("dbId",ret[i].id).val(ret[i].code);
 				item.append(label);
 				item.append(input);
 			}else if(used_item == "select"){
-				var option = $("<option>").attr("name",used_name).val(ret[i].code).text(ret[i].value);
+				var option = $("<option>").attr("name",used_name).val(ret[i].code).attr("dbId",ret[i].id).text(ret[i].value);
 				item.append(option);
 			}			
 		}
 	}
+}
+
+function bindAssignToDictionary(bindId,assignId){
+	$("#"+assignId).bind("change",function(event){
+		var request = new Object();
+		request.assignTo = $(event.target).find("option:selected").attr("dbId");
+		$.ajax(
+    			{
+    				url:dictionaryAssign,
+    				cache:false,
+    				data:request,
+                    dataType:"text",
+                    type:"POST",
+                    success:function(result){
+                    	console.log("提交到"+dictionaryAssign+"成功："+result);
+                    	$("#"+bindId).empty();
+                    	var ret = $.parseJSON(result);
+                    	for(var i = 0; i< ret.length ; i++){
+                    		var option = $("<option>").val(ret[i].code).attr("dbId",ret[i].id).text(ret[i].value);
+                    		$("#"+bindId).append(option);
+                    	}
+                    },
+	    			error:function(XMLHttpRequest ,error,exception){
+	                    console.log("提交到"+dictionaryAssign+"失败,原因是: "+ exception.toString());
+	                }
+    			}
+    	);
+	})
 }
 

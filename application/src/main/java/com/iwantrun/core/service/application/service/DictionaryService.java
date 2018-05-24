@@ -120,6 +120,14 @@ public class DictionaryService {
 			return filterList;
 		}
 	}
+
+	public List<Dictionary> findByAssign(String assignTo) {
+		Dictionary example = new Dictionary();
+		example.setAssignTo(assignTo);
+		ExampleMatcher matcher = ExampleMatcher.matchingAll().withMatcher("assignTo", GenericPropertyMatchers.exact())
+				.withIgnorePaths("id","display_code","display_value","code","value","used_field","name");
+		return dictionaryDao.findAll(Example.of(example,matcher));
+	}
 	
 
 }

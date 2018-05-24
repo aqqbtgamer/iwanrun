@@ -36,6 +36,8 @@ $(document).ready(
         bindUploadFile('uploadedLocationImages',uploadServer,'imgManage',mutipleDisplay);
         bindSeclectAll("checkAll");
         bindDeleteSelected("deleteAll");
+        bindAssignToDictionary("activity_city_code","activity_province_code");
+        bindAssignToDictionary("activity_dist_code","activity_city_code");
         if(isModify == "true"){
         	console.log("修改页面 加载server数据");
         	adjustModifyField(); 

@@ -74,7 +74,8 @@ public class DictionaryService {
 				"name",
 				"used_field",
 				"code",
-				"value"
+				"value",
+				"assignTo"
 		});
 		String json = FormDataUtils.formData2Json(request,paramList);
 		String postUrl = env.getProperty("application.dictionary.add");
@@ -95,6 +96,22 @@ public class DictionaryService {
 		message.setMessageBody(id);
 		String postUrl = env.getProperty("application.dictionary.delete");
 		String baseUrl = env.getProperty("application.serverbase");
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);		
+		return response == null ? null : response.getBody().getMessageBody();
+	}
+
+	public String findByAssign(HttpServletRequest request){
+		String token = CookieUtils.getLoginToken(request);
+		List<String> paramList = FormDataUtils.stringArray2List(new String[] {
+				"assignTo"
+		});
+		String json = FormDataUtils.formData2Json(request,paramList);
+		String postUrl = env.getProperty("application.dictionary.findByAssign");
+		String baseUrl = env.getProperty("application.serverbase");
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(json);
 		message.setRequestMethod(baseUrl+postUrl);
 		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);		
 		return response == null ? null : response.getBody().getMessageBody();
