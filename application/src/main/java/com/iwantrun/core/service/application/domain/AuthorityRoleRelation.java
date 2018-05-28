@@ -20,4 +20,30 @@ public class AuthorityRoleRelation {
 	
 	@Column(name="authority_id")
 	private Integer authorityId;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+
+	public Integer getAuthorityId() {
+		return authorityId;
+	}
+
+	public void setAuthorityId(Integer authorityId) {
+		this.authorityId = authorityId;
+	}
+	
+	
 }
