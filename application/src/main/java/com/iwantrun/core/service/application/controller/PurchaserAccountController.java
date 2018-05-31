@@ -15,6 +15,7 @@ import com.iwantrun.core.service.application.transfer.PurchaserAccountRequest;
 import com.iwantrun.core.service.utils.JSONUtils;
 
 import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 
 @Controller
 @RequestMapping("purchaserAccount")
@@ -79,5 +80,14 @@ public class PurchaserAccountController {
 		responseJSON.put("errorMsg", errorMsg);
 		response.setMessageBody(responseJSON.toJSONString());
 		return response;
+	}
+	
+	@RequestMapping("find")
+	@ResponseBody
+	public Message findByParams(@RequestBody Message message) {
+		String requestJSON = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJSON);
+		message.setMessageBody(service.findPurchaseUserPaged(requestObj));;
+		return message;
 	}
 }

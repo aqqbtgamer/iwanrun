@@ -1,14 +1,25 @@
 package com.iwantrun.core.service.application.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
 import com.iwantrun.core.service.application.dao.PurchaserAccountDao;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
+import com.iwantrun.core.service.application.transfer.MixedUserResponse;
 import com.iwantrun.core.service.application.transfer.PurchaserAccountRequest;
+import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.Md5Utils;
+
+import net.minidev.json.JSONObject;
 
 @Service
 public class PurchaserAccountService {
@@ -16,6 +27,8 @@ public class PurchaserAccountService {
 	private Environment environment;
 	@Autowired
 	private PurchaserAccountDao dao;
+	@Autowired
+	private JPQLEnableRepository jpqlExecute;
 
 	public String register(PurchaserAccount account) {
 		String md5Password=Md5Utils.generate(account.getPassword());
@@ -65,5 +78,19 @@ public class PurchaserAccountService {
 			return "账号密码不匹配";
 		}
 		return null;
+	}
+	
+	public String findPurchaseUserPaged(JSONObject obj) {
+		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
+		int pageIndex = Integer.parseInt(obj.getAsString("pageIndex"));
+		Integer loginId = obj.getAsNumber("loginId").intValue();
+		String name = obj.getAsString("name");
+		String mobileNumber = obj.getAsString("mobileNumber");
+		Integer role = obj.getAsNumber("role").intValue();
+		Pageable page =  PageRequest.of(pageIndex, pageSize, Sort.Direction.ASC, "id");
+		Integer totalNum = dao.countByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute);
+		List<MixedUserResponse> content = dao.findByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute, pageSize, pageIndex);
+		PageImpl<MixedUserResponse> result = new PageImpl<MixedUserResponse>(content, page, totalNum);
+		return JSONUtils.objToJSON(result);
 	}
 }

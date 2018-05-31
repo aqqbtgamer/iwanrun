@@ -36,6 +36,11 @@ public class JPQLEnableRepository {
 		return resultList;
 	}
 	
+	public <T> T findOneJPQL(String jpql,Class<T> clazz){
+		TypedQuery<T> query = this.entityManager.createQuery(jpql, clazz);
+		return query.getSingleResult();
+	}
+	
 	@SuppressWarnings("rawtypes")
 	public List findByNativeSqlAll(String nativeSql){
 		Query query = this.entityManager.createNativeQuery(nativeSql);
