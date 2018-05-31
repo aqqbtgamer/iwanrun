@@ -17,18 +17,18 @@ import org.springframework.stereotype.Repository;
  * @param <T>
  */
 @Repository
-public class JPQLEnableRepository<T> {
+public class JPQLEnableRepository {
 	
 	@PersistenceContext 
     private EntityManager entityManager;
 
-	public List<T> findByJPQLAll(String jpql,Class<T> clazz){
+	public <T> List<T> findByJPQLAll(String jpql,Class<T> clazz){
 		TypedQuery<T> query = this.entityManager.createQuery(jpql, clazz);
 		List<T> resultList = query.getResultList();	
 		return resultList;
 	}
 	
-	public List<T> findByJPQLPage(String jpql,Class<T> clazz,int page, int pageSize){
+	public <T> List<T> findByJPQLPage(String jpql,Class<T> clazz,int page, int pageSize){
 		TypedQuery<T> query = this.entityManager.createQuery(jpql, clazz);
 		query.setFirstResult((page-1)*pageSize);
 		query.setMaxResults(pageSize);
@@ -44,7 +44,7 @@ public class JPQLEnableRepository<T> {
 	
 
 	@SuppressWarnings("unchecked")
-	public List<T> findByNativeSqlAll(String nativeSql,Class<T> clazz){
+	public <T> List<T> findByNativeSqlAll(String nativeSql,Class<T> clazz){
 		Query query = this.entityManager.createNativeQuery(nativeSql,clazz);
 		return (List<T>)query.getResultList();
 	}
@@ -58,7 +58,7 @@ public class JPQLEnableRepository<T> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<T> findByNativeSqlPage(String nativeSql,int page, int pageSize,Class<T> clazz){
+	public <T> List<T> findByNativeSqlPage(String nativeSql,int page, int pageSize,Class<T> clazz){
 		Query query = this.entityManager.createNativeQuery(nativeSql);
 		query.setFirstResult((page-1)*pageSize);
 		query.setMaxResults(pageSize);
