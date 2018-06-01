@@ -16,11 +16,11 @@ public interface PurchaserAccountDao extends JpaRepository<PurchaserAccount, Int
 	PurchaserAccount findByLoginIdAndPassword(String loginId, String password);
 	
 	String QUERY_PURCHASE_USER_JPQL = "select new com.iwantrun.core.service.application.transfer.MixedUserResponse(login,info,role) from"
-			+ "PurchaserAccount login left join UserInfo info on login.id = info.loginInfoId left join UserRole role on login.sysRoleId = role.id where 1=1 " ;
+			+ " PurchaserAccount login left join UserInfo info on login.id = info.loginInfoId left join UserRole role on login.sysRoleId = role.id where 1=1 " ;
 	
 	
 	String COUNT_PURCHASE_USER_JPQL = "select count(login.id) from"
-			+ "PurchaserAccount login left join UserInfo info on login.id = info.loginInfoId left join UserRole role on login.sysRoleId = role.id where 1=1 " ;
+			+ " PurchaserAccount login left join UserInfo info on login.id = info.loginInfoId left join UserRole role on login.sysRoleId = role.id where 1=1 " ;
 	
 	String SORE_BY = "order by login.id asc ";
 	
@@ -34,17 +34,17 @@ public interface PurchaserAccountDao extends JpaRepository<PurchaserAccount, Int
 			queryJPQL = queryJPQL.concat(" and login.sysRoleId ="+role.toString()+"");
 		}
 		if(!StringUtils.isNullOrEmpty(mobileNumber)) {
-			queryJPQL = queryJPQL.concat(" and login.mobileNumber like %"+mobileNumber+"%");
+			queryJPQL = queryJPQL.concat(" and login.mobileNumber like '%"+mobileNumber+"%'");
 		}
 		if(!StringUtils.isNullOrEmpty(name)) {
-			queryJPQL = queryJPQL.concat(" and info.name like %"+name+"%");
+			queryJPQL = queryJPQL.concat(" and info.name like '%"+name+"%'");
 		}
 		queryJPQL = queryJPQL.concat(SORE_BY);
 		resultList = repository.findByJPQLPage(queryJPQL, MixedUserResponse.class, pageIndex, pageSize);
 		return resultList;
 	}
 	
-	default Integer countByMutipleParams(Integer loginId ,String name,Integer role,String mobileNumber,JPQLEnableRepository repository) {
+	default Long countByMutipleParams(Integer loginId ,String name,Integer role,String mobileNumber,JPQLEnableRepository repository) {
 		String queryJPQL = COUNT_PURCHASE_USER_JPQL ;
 		if(loginId != null ) {
 			queryJPQL = queryJPQL.concat(" and login.loginId ="+loginId.toString()+"");
@@ -53,11 +53,11 @@ public interface PurchaserAccountDao extends JpaRepository<PurchaserAccount, Int
 			queryJPQL = queryJPQL.concat(" and login.sysRoleId ="+role.toString()+"");
 		}
 		if(!StringUtils.isNullOrEmpty(mobileNumber)) {
-			queryJPQL = queryJPQL.concat(" and login.mobileNumber like %"+mobileNumber+"%");
+			queryJPQL = queryJPQL.concat(" and login.mobileNumber like '%"+mobileNumber+"%'");
 		}
 		if(!StringUtils.isNullOrEmpty(name)) {
-			queryJPQL = queryJPQL.concat(" and info.name like %"+name+"%");
+			queryJPQL = queryJPQL.concat(" and info.name like '%"+name+"%'");
 		}
-		return repository.findOneJPQL(queryJPQL, Integer.class);
+		return repository.findOneJPQL(queryJPQL, Long.class);
 	}
 }

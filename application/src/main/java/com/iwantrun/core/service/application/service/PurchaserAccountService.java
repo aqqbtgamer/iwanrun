@@ -83,12 +83,12 @@ public class PurchaserAccountService {
 	public String findPurchaseUserPaged(JSONObject obj) {
 		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
 		int pageIndex = Integer.parseInt(obj.getAsString("pageIndex"));
-		Integer loginId = obj.getAsNumber("loginId").intValue();
+		Integer loginId = obj.getAsNumber("loginId") == null ?null :obj.getAsNumber("loginId").intValue();
 		String name = obj.getAsString("name");
 		String mobileNumber = obj.getAsString("mobileNumber");
-		Integer role = obj.getAsNumber("role").intValue();
-		Pageable page =  PageRequest.of(pageIndex, pageSize, Sort.Direction.ASC, "id");
-		Integer totalNum = dao.countByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute);
+		Integer role = obj.getAsNumber("role") == null ?null : obj.getAsNumber("role").intValue();
+		Pageable page =  PageRequest.of(pageIndex-1, pageSize, Sort.Direction.ASC, "id");
+		Long totalNum = dao.countByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute);
 		List<MixedUserResponse> content = dao.findByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute, pageSize, pageIndex);
 		PageImpl<MixedUserResponse> result = new PageImpl<MixedUserResponse>(content, page, totalNum);
 		return JSONUtils.objToJSON(result);
