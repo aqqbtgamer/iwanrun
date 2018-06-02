@@ -34,7 +34,10 @@ public enum MessageType {
 		return null;
 	}
 	
-	public static MessageType matchById(int id) {
+	public static MessageType matchById(Integer id) {
+		if(id == null) {
+			return null;
+		}
 		for(MessageType messageType : MessageType.values()) {
 			if(messageType.getId() == id) {
 				return messageType;

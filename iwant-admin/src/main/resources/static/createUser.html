@@ -36,7 +36,6 @@
     <script type='text/javascript' src='js/custom.js'></script>
     <script type="text/javascript" src="js/js_dev/common.app.js"></script>
 	<script type="text/javascript" src="js/js_dev/dictionary.app.js"></script>
-
 </head>
 
 <body>
@@ -75,148 +74,101 @@
 
         <div id="main">
             <div id="content">
-                <h2 class="jquery_tab_title">新增案例</h2>
-                <table class="form_h">
+                <h2 class="jquery_tab_title">新增用户</h2>
+                <table class="form_h" id="submitForm">
+                 <tr>
+                        <th><label for="role">选择用户类型</label></th>
+                        <td>
+                            <select name="role" id="role">
+				                		<option value="1">采购方用户</option>
+				                		<option value="2">咨询师用户</option>
+                			</select>
+                        </td>
+                    </tr>
                     <tr>
-                        <th><label for="name">名称</label></th>
+                	  			<th><label>手机号码<span class="requierd">*</span></label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="mobileNumber" id="mobileNumber" verify="phone"/>
+                	  			</td>
+                	 </tr>
+                	  <tr>
+                	  			<th><label>登录用户名(系统创建)</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="loginId" id="loginId" readonly="readonly" />
+                	  			</td>
+                	 </tr>
+                    <tr>
+                        <th><label for="name">姓名<span  class="requierd">*</span></label></th>
                         <td>
                             <input class="input-small" type="text"  name="name" id="name" />
                         </td>
                     </tr>
-                    <tr>
-                        <th> <label >场地地址</label></th>
-                        <td>
-                            <label for="activity_province_code">省份：</label>
-                            <select name="activityProvinceCode" id="activityProvinceCode" >
-                                <option value="1">上海</option>
-                            </select>
-                            <label for="activity_city_code">市：</label>
-                            <select name="activityCityCode" id="activityCityCode" >
-                                <option value="1">上海</option>
-                            </select>
-                            <label for="activity_dist_code">区：</label>
-                            <select name="activityDistCode" id="activityDistCode" >
-                                <option value="1">上海</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="location">具体地址</label></th>
-                        <td>
-                            <input class="input-big" type="text"  name="location" id="location" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> <label for="activityTypeCode">活动类型</label></th>
-                        <td>
-                            <select name="activityTypeCode"  id="activityTypeCode">
-                                <option value="1">跑步</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> <label for="companyTypeCode">企业类型</label></th>
-                        <td>
-                            <select name="companyTypeCode" id="companyTypeCode" >
-                            	<option value="1">500人以下</option>
-                                <option value="1">500人</option>
-                                <option value="1">1000人</option>
-                                <option value="1">1000人以上</option>
-                            </select>
-                        </td>
-                    </tr>
-                      <tr>
-                        <th> <label for="groupNumber">活动人数</label></th>
-                        <td>
-                            <select name="groupNumber" id="groupNumber" >
-                            	<option value="1">500人以下</option>
-                                <option value="2">500人</option>
-                                <option value="3">1000人</option>
-                                <option value="4">1000人以上</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> <label for="during">活动天数</label></th>
-                        <td>
-                            <select name="during" id="during" >
-                            	<option value="1">1天</option>
-                                <option value="2">2天</option>
-                                <option value="3">3天</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> <label >特色关键字</label></th>
-                        <td>
-                            <label for="specialKeyWord">环境优美</label>
-                            <input type="checkbox" name="specialKeyWord" id="specialKeyWord1" value="1">
-                            <label for="special_tags1">设备先进</label>
-                            <input type="checkbox" name="specialKeyWord" id="specialKeyWord2" value="2">
-                        </td>
-                    </tr>
-                   <tr>
-                        <th><label for="name">策划周期</label></th>
-                        <td>
-                            <select name="designDuringCode" id="designDuringCode" >
-                                <option value="1">5天</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="name">实施周期</label></th>
-                        <td>
-                            <select name="executeDuringCode" id="executeDuringCode" >
-                                <option value="1">5天</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="priority">优先级</label></th>
-                        <td>
-                            <input  type="number"  name="priority" id="priority" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="simulatePriceCode">人均参考报价范围</label></th>
-                        <td>
-                            <input  type="number"  name="simulatePriceCode" id="simulatePriceCode" />
-                        </td>
-                    </tr>
                      <tr>
-                        <th><label for="trafficInfo">交通信息</label></th>
-                        <td>
-                            <input  type="text"  name="trafficInfo" id="trafficInfo" />
-                        </td>
-                    </tr>
-                     <tr>
-                        <th><label for="foodInfo">餐饮信息</label></th>
-                        <td>
-                            <input  type="text"  name="foodInfo" id="foodInfo" />
-                        </td>
-                    </tr>
-                     <tr>
-                        <th><label for="hotelInfo">住宿信息</label></th>
-                        <td>
-                            <input  type="text"  name="hotelInfo" id="hotelInfo" />
-                        </td>
-                    </tr>
-                     <tr>
-                        <th><label for="orderId">关联订单号</label></th>
-                        <td>
-                            <input  type="number"  name="orderId" id="orderId" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>场地主图</th>
-                        <td><input type="file" id="mainImageUpload"/></td>
-                    </tr>
-                    <tr>
-                        <th>主图效果</th>
-                        <td width="600"><img width="100%" src="images/1210000.jpg" alt="images/1210000.jpg" id="mainImage" name="mainImage"/></td>
-                    </tr>
-                    <tr>
-                        <th class="vat">场地轮播图</th>
+                	  			<th><label>账号密码<span class="requierd">*</span></label></th>
+                	  			<td>
+                	  				<input class="input-small" type="password"  name="password" id="password" verify="password" />
+                	  				<span>8-16位英文数字符号组合</span>
+                	  			</td>
+                	 </tr>                	 
+                	  <tr>
+                	  			<th><label>微信账号</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="wec" id="wec"/>
+                	  			</td>
+                	 </tr>                	 
+                	  <tr>
+                	  			<th><label>支付宝账号</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="aliPayId" id="aliPayId"/>
+                	  			</td>
+                	 </tr>
+                	  <tr>
+                	  			<th><label>邮箱地址<span  class="requierd">*</span></label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="email" id="email" verify="email"/>
+                	  			</td>
+                	 </tr>
+                	  <tr>
+                	  			<th><label>联系电话</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="contractMobile" id="contractMobile"/>
+                	  			</td>
+                	 </tr>  
+                	 
+                	     
+                	 <tr>
+                	  			<th><label>绑定第三方账号1</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="thirdPartyId1" id="thirdPartyId1"/>
+                	  			</td>
+                	 </tr>
+                	  <tr>
+                	  			<th><label>绑定第三方账号2</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="thirdPartyId2" id="thirdPartyId2"/>
+                	  			</td>
+                	 </tr>
+                	 <tr>
+                	  			<th><label>绑定第三方账号3</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="thirdPartyId3" id="thirdPartyId3"/>
+                	  			</td>
+                	 </tr>
+                	  <tr role="1">
+                	  			<th><label>公司类型</label></th>
+                	  			<td>
+                	  				<select name="companySizeId" id="companySizeId"  used_field="24" used_type="option" used_name="company_type_option" used_item="select"></select>
+                	  			</td>
+                	 </tr>   
+                	  <tr role="1">
+                	  			<th><label>公司名称<span  class="requierd">*</span></label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="companyName" id="companyName"/>
+                	  			</td>
+                	 </tr>
+                   
+                    <tr role="1">
+                        <th class="vat">公司经营文件扫图</th>
                         <td class="imgUploadManager">
                             <input type="file" name="uploadedLocationImages" id="uploadedLocationImages"/>
                             <label><input type="checkbox" class="checkAll" id="checkAll"/>全选</label>
@@ -226,20 +178,11 @@
                             </ul>
                         </td>
                     </tr>
-                    <tr>
-                        <th><label>案例介绍</label></th>
-                        <td>
-
-                            <script id="container" name="ueditor" type="text/plain" >
-                                    案例详情编辑
-                            </script>
-
-                        </td>
-                    </tr>
+                
                     <tr>
                         <th></th>
                         <td>
-                            <input class="button" id="submitForm" type="button" value="提交"/>
+                            <input class="button" id="submitButton" type="button" value="提交"/>
                         </td>
                     </tr>
                     <tr>
@@ -266,10 +209,8 @@
                     </ul>
                 </li>
                 <li><a class="headitem item2" href="#">系统配置</a>
-                    <ul>
-                        <li><a href="#">日志设置</a></li>
-                        <li><a href="#">用户设置</a></li>
-                        <li><a href="#">找不到结果构建</a></li>
+                    <ul id="dictionarys">
+                       
                     </ul>
                 </li>
                 <li><a class="headitem item4" href="#">编辑</a>
@@ -314,10 +255,6 @@
 </div><!-- end top -->
 
 </body>
-<script type="text/javascript">
-     var ue = UE.getEditor('container',{
-    	serverUrl:"/iwant_admin/ueEditor/server"
-    }); 
-</script>
-<script type="text/javascript" src="js/js_dev/caseCreate.app.js"></script>
+
+<script type="text/javascript" src="js/js_dev/createUser.app.js"></script>
 </html>

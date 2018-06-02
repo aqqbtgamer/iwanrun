@@ -34,7 +34,10 @@ public enum Gender {
 		return null;
 	}
 	
-	public static Gender matchById(int id) {
+	public static Gender matchById(Integer id) {
+		if(id == null) {
+			return null ;
+		}
 		for(Gender gender : Gender.values()) {
 			if(gender.getId() == id) {
 				return gender;

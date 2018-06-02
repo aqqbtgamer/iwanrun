@@ -7,19 +7,31 @@ const dataInitUrl = '/iwant_admin/purchaseAccount/findPurchaseUser';
 const dataQueryUrl = '/iwant_admin/purchaseAccount/queryPurchaseUser';
 const dataModifyUrl= null ;
 const dataDeleteUrl = null;
+var isModify = getUrlParam('isModify');
 const columns = new Array(
 	    "userInfo.name",
 	    "userRole.roleName",
 	    "loginInfo.loginId",
 	    "loginInfo.mobileNumber",
 	    "loginInfo.wec",
-	    "userInfo.verified"
+	    "userInfo.verifiedString"
 	);
 const queryField = new Array(
 		"name",
 		"role",
 		"loginId",
-		"mobileNumber"
+		"mobileNumber",
+		"password",
+		"wec",
+		"aliPayId",
+		"email",
+		"contractMobile",
+		"thirdPartyId1",
+		"thirdPartyId2",
+		"thirdPartyId3",
+		"companySizeId",
+		"companyName",
+		"imgManage"
 );
 
 $(document).ready(
