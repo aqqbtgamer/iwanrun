@@ -3,6 +3,7 @@ package com.iwantrun.core.service.utils;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,6 +37,21 @@ public class PageDataWrapUtils {
 		return obj.toJSONString();
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static <T>String page2JsonNoCopy(Page<T> page) {
+		Map obj = new HashMap();
+		Map pageInfo = new HashMap();
+		pageInfo.put("pageSize", page.getSize());
+		pageInfo.put("currentPage", page.getNumber());
+		pageInfo.put("currentSize", page.getNumberOfElements());
+		pageInfo.put("total", page.getTotalElements());
+		pageInfo.put("totalpage", page.getTotalPages());
+		obj.put("pageInfo", pageInfo);
+		List<T> contentList = page.getContent();
+		obj.put("content", contentList);
+		return JSONUtils.objToJSON(obj);
+	}
+	
 	public static JSONObject simpleBeanCopy(Object bean) {
 		if(bean == null) {
 			return null;
@@ -51,6 +67,8 @@ public class PageDataWrapUtils {
 						Date date = new Date();
 						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						obj.put(property, format.format(date));
+					}else if(value instanceof String || value instanceof Integer || value instanceof Long){
+						obj.put(property, value);
 					}else {
 						obj.put(property, value.toString());
 					}

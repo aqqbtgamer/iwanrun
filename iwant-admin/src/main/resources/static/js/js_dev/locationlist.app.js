@@ -28,7 +28,7 @@ function wrapCustomerItems(){
     console.log("开始处理自定义组件功能");
     wrapCustomerButtons();
     pageDataInit("locationTable","pagination",dataInitUrl,deleteUrl,modifyUrl,columns);
-    bindClickQuery("queryCondtion","queryField","fieldInput","locationTable","pagination",dataQueryUrl,modifyUrl,columns);
+    bindClickQuery("queryCondtion","queryField","fieldInput","locationTable","pagination",dataQueryUrl,modifyUrl,deleteUrl,columns);
     bindSelectAll("selectAll","locationTable");
     bindDeleteAll("deleteAll",deleteUrl,"locationTable",0,dataInitUrl,columns,null);
     dictionaryItemFilter("queryField","fieldInput","select",dictionaryCodeUrl);

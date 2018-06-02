@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iwantrun.admin.service.PurChaseAccountService;
 
 @RestController
+@RequestMapping("purchaseAccount")
 public class PurchaseAccountController {
 	
 	@Autowired
@@ -19,6 +20,12 @@ public class PurchaseAccountController {
 	@ResponseBody
 	public String findPurchaseUser(HttpServletRequest request) {
 		return accountService.findPurchaseUser(request);
+	}
+	
+	@RequestMapping("queryPurchaseUser")
+	@ResponseBody
+	public String queryPurchaseUser(HttpServletRequest request) {
+		return accountService.queryPurchaseUser(request);
 	}
 	
 

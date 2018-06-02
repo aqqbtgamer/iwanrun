@@ -223,7 +223,7 @@ function fileUpload(contentId,url,callback) {
     	})
     }
     
-    function bindClickQuery(bindId,filedId,inputId,tableId,pageId,dataUrl,deleteUrl,columns){
+    function bindClickQuery(bindId,filedId,inputId,tableId,pageId,dataUrl,modifyUrl,deleteUrl,columns){
     	$("#"+bindId).click(
     	    function (){
     	        var requestObj = new Object();
@@ -240,6 +240,21 @@ function fileUpload(contentId,url,callback) {
                 pageDataInit(tableId,pageId,dataUrl,deleteUrl,modifyUrl,columns,requestObj.pageIndex,JSON.stringify(requestObj.obj));
             }
         )
+    }
+    
+    function bindClickFieldQuery(bindId,filedArray,tableId,pageId,dataUrl,modifyUrl,deleteUrl,columns){
+    	$("#"+bindId).click(
+        	    function (){
+        	        var requestObj = new Object();
+        	        requestObj.pageIndex = 0 ;
+        	        var obj = new Object();
+                    for(var i =0 ; i<filedArray.length ; i++){
+                    	obj[$("#"+filedArray[i]).attr("name")] = $("#"+filedArray[i]).val();
+                    }
+                    requestObj.obj = obj ;
+                    pageDataInit(tableId,pageId,dataUrl,deleteUrl,modifyUrl,columns,requestObj.pageIndex,JSON.stringify(requestObj.obj));
+                }
+            )
     }
     
   
@@ -278,41 +293,49 @@ function fileUpload(contentId,url,callback) {
         var tableData = ret.content;
         var table = $("#"+tableId).find("tbody");
         table.empty();
-        for(var i=0; i<tableData.length ; i++ ){
-            var column = tableData[i] ;
-            var tr = $("<tr></tr>");
-            if(i%2 == 0){
-            	tr.addClass("odd");
-            }else{
-            	tr.addClass("even");
+        if(tableData != null){
+        	for(var i=0; i<tableData.length ; i++ ){
+                var column = tableData[i] ;
+                var tr = $("<tr></tr>");
+                if(i%2 == 0){
+                	tr.addClass("odd");
+                }else{
+                	tr.addClass("even");
+                }
+                var tdCheck = $("<th></th>");
+                var checkBox = $("<input>").prop("type","checkbox").attr("id",column.id);
+                tdCheck.append(checkBox);
+                tr.append(tdCheck);
+                for(var j=0 ; j<columns.length ; j++){
+                    var td = $("<td></td>");
+                    var columnName = columns[j];
+                    var propertyNames = columnName.split(".");
+                    var property = column ;
+                    for(var k=0 ; k<propertyNames.length ; k++){
+                    	property = property[propertyNames[k]];
+                    }
+                    td.text(property);
+                    tr.append(td);
+                }
+                var tdOpration = $("<td></td>");
+                var linkModify = $("<a></a>").text("修改");
+                linkModify.attr("dbid",column.id)
+                linkModify.bind("click",function(event){
+                	var linkUrl = modifyUrl+$(event.target).attr("dbid");
+                	window.location.href = linkUrl;
+                });
+                var linkDelete = $("<a></a>").text("删除");          
+                linkDelete.attr("dbid",column.id);
+                linkDelete.bind("click",function(event){            	
+                	deleteSingle($(event.target).attr("dbid"),deleteUrl,tableId,pageId,dataUrl,columns,data);
+                });
+                tdOpration.append(linkModify);
+                tdOpration.append("/");
+                tdOpration.append(linkDelete);
+                tr.append(tdOpration);
+                table.append(tr);
             }
-            var tdCheck = $("<th></th>");
-            var checkBox = $("<input>").prop("type","checkbox").attr("id",column.id);
-            tdCheck.append(checkBox);
-            tr.append(tdCheck);
-            for(var j=0 ; j<columns.length ; j++){
-                var td = $("<td></td>");
-                td.text(column[columns[j]]);
-                tr.append(td);
-            }
-            var tdOpration = $("<td></td>");
-            var linkModify = $("<a></a>").text("修改");
-            linkModify.attr("dbid",column.id)
-            linkModify.bind("click",function(event){
-            	var linkUrl = modifyUrl+$(event.target).attr("dbid");
-            	window.location.href = linkUrl;
-            });
-            var linkDelete = $("<a></a>").text("删除");          
-            linkDelete.attr("dbid",column.id);
-            linkDelete.bind("click",function(event){            	
-            	deleteSingle($(event.target).attr("dbid"),deleteUrl,tableId,pageId,dataUrl,columns,data);
-            });
-            tdOpration.append(linkModify);
-            tdOpration.append("/");
-            tdOpration.append(linkDelete);
-            tr.append(tdOpration);
-            table.append(tr);
-        }
+        }        
         var pagedata = ret.pageInfo;
         //最多显示前三和后三 多了添加一个省略号
         var totalPage = pagedata.totalpage ;

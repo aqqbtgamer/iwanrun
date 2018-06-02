@@ -1,5 +1,7 @@
 package com.iwantrun.core.service.application.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -11,6 +13,7 @@ import com.iwantrun.core.service.application.domain.PurchaserAccount;
 import com.iwantrun.core.service.application.service.LoginTokenService;
 import com.iwantrun.core.service.application.service.PurchaserAccountService;
 import com.iwantrun.core.service.application.transfer.Message;
+import com.iwantrun.core.service.application.transfer.PageDomianRequest;
 import com.iwantrun.core.service.application.transfer.PurchaserAccountRequest;
 import com.iwantrun.core.service.utils.JSONUtils;
 
@@ -18,7 +21,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
 @Controller
-@RequestMapping("purchaserAccount")
+@RequestMapping("application/purchaserAccount")
 public class PurchaserAccountController {
 	@Autowired
 	PurchaserAccountService service;
@@ -87,7 +90,25 @@ public class PurchaserAccountController {
 	public Message findByParams(@RequestBody Message message) {
 		String requestJSON = message.getMessageBody();
 		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJSON);
-		message.setMessageBody(service.findPurchaseUserPaged(requestObj));;
+		message.setMessageBody(service.findPurchaseUserPaged(requestObj));
 		return message;
 	}
+	
+	@RequestMapping("findByExample")
+	@ResponseBody
+	public Message findByExample(@RequestBody Message message){
+		String dataJson = message.getMessageBody();
+		PageDomianRequest example = JSONUtils.jsonToObj(dataJson, PageDomianRequest.class);
+		JSONObject requestObj = new JSONObject();
+		requestObj.put("pageIndex", String.valueOf(example.getPageIndex()+1));
+		Map<String,Object> wrap = example.getObj();
+		requestObj.put("loginId", wrap.get("loginId"));
+		requestObj.put("name", wrap.get("name"));
+		requestObj.put("mobileNumber", wrap.get("mobileNumber"));
+		requestObj.put("role", wrap.get("role"));
+		message.setMessageBody(service.findPurchaseUserPaged(requestObj));
+		return message;
+	}
+	
+	
 }

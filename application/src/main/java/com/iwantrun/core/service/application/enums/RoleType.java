@@ -1,6 +1,8 @@
 package com.iwantrun.core.service.application.enums;
 
 public enum RoleType {
+	Purchase(1,"采购方用户"),
+	Advisor(2,"咨询师用户"),
 	;
 	private int id ;
 	

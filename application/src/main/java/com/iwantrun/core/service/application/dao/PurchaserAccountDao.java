@@ -24,11 +24,11 @@ public interface PurchaserAccountDao extends JpaRepository<PurchaserAccount, Int
 	
 	String SORE_BY = "order by login.id asc ";
 	
-	default List<MixedUserResponse> findByMutipleParams(Integer loginId ,String name,Integer role,String mobileNumber,JPQLEnableRepository repository,int pageSize,int pageIndex ) {
+	default List<MixedUserResponse> findByMutipleParams(String loginId ,String name,Integer role,String mobileNumber,JPQLEnableRepository repository,int pageSize,int pageIndex ) {
 		List<MixedUserResponse> resultList = new ArrayList<MixedUserResponse>();
 		String queryJPQL = QUERY_PURCHASE_USER_JPQL ;
-		if(loginId != null ) {
-			queryJPQL = queryJPQL.concat(" and login.loginId ="+loginId.toString()+"");
+		if(!StringUtils.isNullOrEmpty(loginId)) {
+			queryJPQL = queryJPQL.concat(" and login.loginId = '"+loginId.toString()+"'");
 		}
 		if(role != null) {
 			queryJPQL = queryJPQL.concat(" and login.sysRoleId ="+role.toString()+"");
@@ -44,10 +44,10 @@ public interface PurchaserAccountDao extends JpaRepository<PurchaserAccount, Int
 		return resultList;
 	}
 	
-	default Long countByMutipleParams(Integer loginId ,String name,Integer role,String mobileNumber,JPQLEnableRepository repository) {
+	default Long countByMutipleParams(String loginId ,String name,Integer role,String mobileNumber,JPQLEnableRepository repository) {
 		String queryJPQL = COUNT_PURCHASE_USER_JPQL ;
-		if(loginId != null ) {
-			queryJPQL = queryJPQL.concat(" and login.loginId ="+loginId.toString()+"");
+		if(!StringUtils.isNullOrEmpty(loginId)) {
+			queryJPQL = queryJPQL.concat(" and login.loginId = '"+loginId.toString()+"'");
 		}
 		if(role != null) {
 			queryJPQL = queryJPQL.concat(" and login.sysRoleId ="+role.toString()+"");
