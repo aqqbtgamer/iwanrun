@@ -14,6 +14,7 @@ import com.iwantrun.front.utils.JSONUtils;
 public class PurchaserAccountService {
 	@Autowired
 	private Environment environment;
+	@Autowired
 	private RestTemplate template;
 
 	/**
