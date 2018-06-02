@@ -30,7 +30,10 @@ public enum RoleType {
 		return null;
 	}
 	
-	public static RoleType matchById(int id) {
+	public static RoleType matchById(Integer id) {
+		if(id == null) {
+			return null;
+		}
 		for(RoleType roleType : RoleType.values()) {
 			if(roleType.getId() == id) {
 				return roleType;

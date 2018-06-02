@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.iwantrun.core.service.application.enums.VerifyStatus;
+
 @Entity
 @Table(name="sys_user_info")
 public class UserInfo {
@@ -132,6 +134,15 @@ public class UserInfo {
 
 	public void setVerified(Integer verified) {
 		this.verified = verified;
+	}
+	
+	public String getVerifiedString() {
+		VerifyStatus verify = VerifyStatus.matchById(this.verified);
+		if(verify != null) {
+			return verify.getName();
+		}else {
+			return null;
+		}
 	}
 	
 }

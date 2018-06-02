@@ -8,8 +8,9 @@ const permittedUploadTypes = new Array("JPG","JPEG","PNG","BMP","BMP");
 const displayPagenationlLimit = 7 ;
 //数据字典主页面
 const dictionaryPageUrl ="./dictionarylist.html";
-
-
+const emailReg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+const mobileReg = /^1[3|4|5|8][0-9]\d{4,8}$/;
+const passwordReg = /^([a-zA-Z]+[0-9]+[!@#$%^&*]+)|([a-zA-Z]+[!@#$%^&*]+[0-9]+)|([0-9]+[!@#$%^&*]+[a-zA-Z]+)|([0-9]+[a-zA-Z]+[!@#$%^&*]+)|([!@#$%^&*]+[a-zA-Z]+[0-9]+)|([!@#$%^&*]+[0-9]+[a-zA-Z]+)$/
 
 function fileUpload(contentId,url,callback) {
     var formData = new FormData();
@@ -100,6 +101,31 @@ function fileUpload(contentId,url,callback) {
         });
     }
     
+    function bindDataVerifySubmit(id,formId,fieldArray,url,callback){
+        $("#"+id).bind('click',function(){
+        	if(verifyRequired(formId)){
+        		 var formData = collectFormDatas(fieldArray);
+                 $.ajax(
+                     {
+                         url:url,
+                         cahce:false,
+                         data:formData,
+                         dataType:"text",
+                         type:"POST",
+                         success:function(result){
+                             console.log("提交到"+url+"成功");
+                             callback();
+                         },
+                         error:function(XMLHttpRequest ,error,exception){
+                             console.log("提交到"+url+"失败,原因是: "+ error.toString());
+                             alert("添加失败 服务端无法连接")
+                         }
+                     }
+                 )
+        	}           
+        });
+    }
+    
     
     function bindDataModifySubmit(bindId,id,fieldArray,url,callback){
     	$("#"+bindId).bind("click",function(){
@@ -163,7 +189,9 @@ function fileUpload(contentId,url,callback) {
                 formdData[name] = itemArray ;
             }
         }
-        formdData['_ue']= ue.getContent();
+        if( typeof ue != "undefined"){
+        	 formdData['_ue']= ue.getContent();
+        }       
         return formdData;
     }
     
@@ -661,3 +689,81 @@ function fileUpload(contentId,url,callback) {
     			}
     	);
     }
+    
+    function bindSelectRole(bindId,formId){
+    	$("#"+bindId).bind("change",function(){
+    		var roleId = $("#"+bindId).val();
+    		$("#"+formId).find("tr").each(
+    				function(){
+    					var roleAttr = $(this).attr("role");
+    					if(roleAttr != null){
+    						if(roleAttr == roleId){
+    							$(this).show();
+    						}else{
+    							$(this).hide();
+    						}
+    					}
+    				}
+    		);
+    	})	
+    }
+    
+    function verifyRequired(formId){
+    	var result = true ;
+    	$("#"+formId).find("tr:visible").each(
+    		function(){
+    			var id = $(this).find("td").children().attr("id");
+    			if(id != null){
+    				if($(this).find("th label span.requierd").length > 0){
+    					if($("#"+id).val() == null || $("#"+id).val() == ""){
+    						$("#"+id).addClass("verifyFailed");
+    						result = false;
+    					}else{
+    						$("#"+id).removeClass("verifyFailed");
+    					}        				
+        			}
+    				if($("#"+id).attr("verify") != null){
+    					var val = $("#"+id).val() ;
+    					if(val != null && val != ""){
+    						if(!verifyFormat(val,$("#"+id).attr("verify"))){
+    							$("#"+id).addClass("verifyFailed");
+    							result = false;
+    						}else{
+    							$("#"+id).removeClass("verifyFailed");
+    						}
+    					}
+    				}
+				}    			
+    		}	
+    	);
+    	return result ;
+    }
+    
+    function verifyFormat(val,format){
+    	if(format == "email"){
+    		return verifyEmail(val);
+    	}else if(format == "phone"){
+    		return verifyPhone(val);
+    	}else if(format == "password"){
+    		return verifyPassword(val);
+    	}
+    }
+    
+    function verifyEmail(val){
+    	return emailReg.test(val);
+    }
+    
+    function verifyPhone(val){
+    	return mobileReg.test(val);
+    }
+    
+    function verifyPassword(val){
+    	if(val.length >= 8 && val.length <= 16 ){
+    		return passwordReg.test(val);
+    	}else{
+    		return false;
+    	}
+    	
+    }
+    
+    

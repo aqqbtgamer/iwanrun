@@ -32,7 +32,10 @@ public enum AccessType {
 		return null;
 	}
 	
-	public static AccessType matchById(int id) {
+	public static AccessType matchById(Integer id) {
+		if(id == null) {
+			return null ;
+		}
 		for(AccessType acessType : AccessType.values()) {
 			if(acessType.getId() == id) {
 				return acessType;

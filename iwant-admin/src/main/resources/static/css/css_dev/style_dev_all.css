@@ -1,3 +1,11 @@
 td > a {
     cursor: pointer;
 }
+
+.requierd{
+	color:red;
+}
+
+.verifyFailed{
+	border:1px solid red ;
+}

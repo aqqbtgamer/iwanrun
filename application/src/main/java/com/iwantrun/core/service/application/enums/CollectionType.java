@@ -30,7 +30,10 @@ public enum CollectionType {
 		return null;
 	}
 	
-	public static CollectionType matchById(int id) {
+	public static CollectionType matchById(Integer id) {
+		if(id == null) {
+			return null;
+		}
 		for(CollectionType colletionType : CollectionType.values()) {
 			if(colletionType.getId() == id) {
 				return colletionType;
