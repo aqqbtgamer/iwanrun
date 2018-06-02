@@ -1,6 +1,9 @@
 package com.iwantrun.core.service.application.service;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -94,5 +97,11 @@ public class PurchaserAccountService {
 		List<MixedUserResponse> content = dao.findByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute, pageSize, pageIndex);
 		PageImpl<MixedUserResponse> result = new PageImpl<MixedUserResponse>(content, page, totalNum);
 		return PageDataWrapUtils.page2JsonNoCopy(result);
+	}
+	
+	@Transactional
+	public String addPurchaseUserAndRelated(Map<String, Object> paramsMap) {
+		String mobileNumber = (String) paramsMap.get("mobileNumber");		
+		return null;
 	}
 }

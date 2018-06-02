@@ -28,5 +28,11 @@ public class PurchaseAccountController {
 		return accountService.queryPurchaseUser(request);
 	}
 	
+	@RequestMapping("add")
+	@ResponseBody
+	public String addPurchaseUser(HttpServletRequest request) {
+		return accountService.addPurchaseUser(request);
+	}
+	
 
 }

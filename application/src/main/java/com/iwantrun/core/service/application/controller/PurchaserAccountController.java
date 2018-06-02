@@ -110,5 +110,16 @@ public class PurchaserAccountController {
 		return message;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("add")
+	@ResponseBody
+	public Message add(@RequestBody Message message){
+		String dataJson = message.getMessageBody();
+		Map<String,Object> paramsMap = JSONUtils.jsonToObj(dataJson, Map.class);
+		String result = service.addPurchaseUserAndRelated(paramsMap);
+		message.setMessageBody(result);
+		return message;
+	}
+	
 	
 }
