@@ -34,6 +34,10 @@ public class PurchaserAccount {
 	private String thirdPartyId2; // '待扩展字段 第三方绑定号'
 	@Column(name = "third_party_id_3")
 	private String thirdPartyId3; // '待扩展字段 第三方绑定号'
+	@Column(name = "sys_role_id")
+	private Integer sysRoleId; 
+	@Column(name = "status")
+	private Integer status;
 	
 	public Integer getId() {
 		return id;
@@ -88,6 +92,18 @@ public class PurchaserAccount {
 	}
 	public void setThirdPartyId3(String thirdPartyId3) {
 		this.thirdPartyId3 = thirdPartyId3;
+	}
+	public Integer getSysRoleId() {
+		return sysRoleId;
+	}
+	public void setSysRoleId(Integer sysRoleId) {
+		this.sysRoleId = sysRoleId;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	
 }

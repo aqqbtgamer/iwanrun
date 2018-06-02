@@ -1,7 +1,5 @@
 package com.iwantrun.core.service.application;
 
-import static org.junit.Assert.*;
-
 import java.net.URI;
 import java.net.URL;
 

@@ -1,12 +1,6 @@
 package com.iwantrun.core.service.application.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -19,21 +13,14 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
 import com.iwantrun.core.service.application.domain.ProductionInfo;
-import com.iwantrun.core.service.application.domain.ProductionInfoAttachments;
 import com.iwantrun.core.service.application.service.ProductionInfoService;
 import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.application.transfer.ProductionInfoRequest;
-import com.iwantrun.core.service.utils.EntityBeanUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
-import com.iwantrun.core.service.utils.ListUpdateUtils;
-import com.iwantrun.core.service.utils.MappingGenerateUtils;
-
-import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 

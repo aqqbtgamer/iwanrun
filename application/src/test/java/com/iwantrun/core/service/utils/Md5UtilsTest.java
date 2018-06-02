@@ -8,7 +8,7 @@ public class Md5UtilsTest {
 
 	@Test
 	public void testGenerate() {
-		String password = "admin1876" ;
+		String password = "testPassword" ;
 		String md5Salt = Md5Utils.generate(password);
 		assertNotNull(md5Salt);
 		System.out.println(md5Salt);

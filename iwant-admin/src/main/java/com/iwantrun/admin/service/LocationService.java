@@ -42,6 +42,7 @@ public class LocationService {
 				"priority",
 				"mainImage",
 				"imgManage[]",
+				"simulatePriceCode",
 				"_ue"
 		});
 		String json = FormDataUtils.formData2Json(request,paramList);
@@ -145,6 +146,7 @@ public class LocationService {
 				"priority",
 				"mainImage",
 				"imgManage[]",
+				"simulatePriceCode",
 				"_ue"
 		});
 		String json = FormDataUtils.formData2Json(request,paramList);

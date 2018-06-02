@@ -35,7 +35,7 @@
     <script type="text/javascript" src="ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.all.js"></script>
     <script type='text/javascript' src='js/custom.js'></script>
     <script type="text/javascript" src="js/js_dev/common.app.js"></script>
-
+	<script type="text/javascript" src="js/js_dev/dictionary.app.js"></script>
 </head>
 
 <body>
@@ -86,33 +86,32 @@
                     <tr>
                         <th> <label for="location_type_code">场地类型</label></th>
                         <td>
-                            <select name="location_type_code"  id="location_type_code">
-                                <option value="1">体育馆</option>
+                            <select name="location_type_code"  id="location_type_code" used_field="2" used_type="option" used_name="location_type_option" used_item="select" >
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th> <label >特色关键字</label></th>
-                        <td>
-                            <label for="special_tags1">环境优美</label>
+                        <td used_field="1" used_type="checkbox" used_name="special_tags" used_item="input">
+                           <!--  <label for="special_tags1">环境优美</label>
                             <input type="checkbox" name="special_tags" id="special_tags1" value="1">
                             <label for="special_tags1">设备先进</label>
-                            <input type="checkbox" name="special_tags" id="special_tags2" value="2">
+                            <input type="checkbox" name="special_tags" id="special_tags2" value="2"> -->
                         </td>
                     </tr>
                     <tr>
                         <th> <label for="activity_type_code">活动类型</label></th>
                         <td>
-                            <select name="activity_type_code"  id="activity_type_code">
-                                <option value="1">跑步</option>
+                            <select name="activity_type_code"  id="activity_type_code" dictionary_name="common" used_field="9" used_type="option" used_name="activity_type_option" used_item="select">
+                                
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th> <label for="group_number_limit_code">最大活动人数</label></th>
                         <td>
-                            <select name="group_number_limit_code" id="group_number_limit_code" >
-                                <option value="1">1000人</option>
+                            <select name="group_number_limit_code" id="group_number_limit_code" dictionary_name="common" used_field="22" used_type="option" used_name="group_number_limit_code_option" used_item="select">
+                               
                             </select>
                         </td>
                     </tr>
@@ -120,8 +119,8 @@
                         <th> <label >场地地址</label></th>
                         <td>
                             <label for="activity_province_code">省份：</label>
-                            <select name="activity_province_code" id="activity_province_code" >
-                                <option value="1">上海</option>
+                            <select name="activity_province_code" id="activity_province_code" dictionary_name="common" used_field="6" used_type="option" used_name="group_number_limit_code_option" used_item="select">
+
                             </select>
                             <label for="activity_city_code">市：</label>
                             <select name="activity_city_code" id="activity_city_code" >
@@ -144,6 +143,14 @@
                         <td>
                             <input  type="number"  name="priority" id="priority" />
                         </td>
+                    </tr>
+                    <tr>
+                    	<th>参考报价</th>
+                    	<td>
+                    		<select id="simulatePriceCode" name="simulatePriceCode"  used_field="4" used_type="option" used_name="activity_type_option" used_item="select">
+                    		
+                    		</select>
+                    	</td>
                     </tr>
                     <tr>
                         <th>场地主图</th>
@@ -199,15 +206,13 @@
                         <li><a href="./locationlist.html">场地管理</a></li>
                         <li><a href="./productionInfoList.html">产品管理</a></li>
                         <li><a href="home.html">案例管理</a></li>
-                        <li><a href="#">用户管理</a></li>
+                        <li><a href="./userlist.html">用户管理</a></li>
                         <li><a href="#">交易管理</a></li>
                     </ul>
                 </li>
                 <li><a class="headitem item2" href="#">系统配置</a>
-                    <ul>
-                        <li><a href="#">日志设置</a></li>
-                        <li><a href="#">用户设置</a></li>
-                        <li><a href="#">找不到结果构建</a></li>
+                    <ul id="dictionarys">
+                       
                     </ul>
                 </li>
                 <li><a class="headitem item4" href="#">编辑</a>

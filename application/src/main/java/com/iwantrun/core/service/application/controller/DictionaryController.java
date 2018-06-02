@@ -48,6 +48,16 @@ public class DictionaryController {
 		return message;
 	}
 	
+	@RequestMapping("/application/dictionary/findByAssign")
+	public Message findByAssign(@RequestBody Message message) {
+		String json = message.getMessageBody();
+		JSONObject obj = (JSONObject) JSONValue.parse(json);
+		String assignTo = obj.getAsString("assignTo");
+		List<Dictionary> resultList = dictionaryService.findByAssign(assignTo);
+		message.setMessageBody(JSONValue.toJSONString(resultList));
+		return message;
+	}
+	
 	@RequestMapping("/application/dictionary/add")
 	@NeedTokenVerify
 	public Message add(@RequestBody Message message) {

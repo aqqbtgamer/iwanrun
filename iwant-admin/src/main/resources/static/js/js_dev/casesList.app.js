@@ -11,9 +11,7 @@ const columns = new Array(
     "trafficInfo",
     "foodInfo",
     "hotelInfo",
-    "designDuring",
-    "executeDuring",
-    "shiftTime"
+    "designDuringCode"
 );
 
 $(document).ready(
@@ -28,7 +26,7 @@ function wrapCustomerItems(){
     console.log("开始处理自定义组件功能");
     wrapCustomerButtons();
     pageDataInit("casesTable","pagination",dataInitUrl,deleteUrl,modifyUrl,columns);
-    bindClickQuery("queryCondtion","queryField","fieldInput","casesTable","pagination",dataQueryUrl,modifyUrl,columns);
+    bindClickQuery("queryCondtion","queryField","fieldInput","casesTable","pagination",dataQueryUrl,modifyUrl,deleteUrl,columns);
     bindSelectAll("selectAll","casesTable");
     bindDeleteAll("deleteAll",deleteUrl,"casesTable",0,dataInitUrl,columns,null);
 }

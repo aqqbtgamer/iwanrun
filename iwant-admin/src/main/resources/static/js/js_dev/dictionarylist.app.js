@@ -7,6 +7,14 @@ const dictionaryTabsUrl = "/iwant_admin/dictionary/getTabs";
 const queryDictionaryDataUrl = "/iwant_admin/dictionary/findByCode";
 const addDictionaryUrl = "/iwant_admin/dictionary/add";
 const deletDictionaryUrl = "/iwant_admin/dictionary/delete";
+const assignArray = new Array(
+		"7",
+		"8"
+);
+const assignToArray = new Array(
+		"6",
+		"7"
+);
 var dictionaryName = getUrlParam('name');
 
 $(document).ready(
@@ -69,13 +77,32 @@ function dictionaryTabCallBack(result){
 		var code = $("<input>").prop("type","number").prop("name","code").addClass("input-small");
 		var label = $("<span></span>").text("序列号：");
 		var labe2 = $("<span></span>").text("显示值：");
-		var value = $("<input>").prop("type","text").prop("name","value").addClass("input-small");
+		var value = $("<input>").prop("type","text").prop("name","value").addClass("input-small");		
 		p.append(label);
 	    p.append(code);
 	    p.append("&nbsp;&nbsp;&nbsp;&nbsp;");
 	    p.append(labe2);
 	    p.append(value);
 	    p.append("&nbsp;&nbsp;&nbsp;&nbsp;");
+	    var index = $.inArray(dbId,assignArray)
+		if(index >= 0){
+			 p.append("&nbsp;&nbsp;&nbsp;&nbsp;");
+			 var label3 = $("<span></span>").text("关联值：");
+			 var select = $("<select>");
+			 var assignToDbId = assignToArray[index];
+			 var callObj = new Object();
+			 callObj.obj = select;
+			 callObj.callback = function(dbId,result){
+				 var ret = $.parseJSON(result);
+				 for(var i =0 ; i< ret.length ; i++){
+					var option = $("<option>").val(ret[i].id).text(ret[i].value);
+					this.obj.append(option);
+				 }				 
+			 } 
+			 findDictionaryCode(queryDictionaryDataUrl,assignToDbId,dictionaryName,callObj);
+			 p.append(label3);
+			 p.append(select); 
+		}
 	    var submit = $("<button></button>").attr("dbId",dbId).text("保存");
 	    submit.bind("click",function(event){
 	    	var requestData = new Object();
@@ -83,6 +110,9 @@ function dictionaryTabCallBack(result){
 	    	requestData.value = value.val();
 	    	requestData.used_field = dbId ;
 	    	requestData.name = dictionaryName ;
+	    	if(select != null){
+	    		requestData.assignTo=select.val();
+	    	}
 	    	submitDictionaryCode(addDictionaryUrl,requestData,findDictionaryCode);
 	    })
 		p.append(submit);

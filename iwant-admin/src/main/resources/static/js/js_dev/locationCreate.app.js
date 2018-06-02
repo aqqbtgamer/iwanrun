@@ -5,6 +5,9 @@
 const uploadServer = '/iwant_admin/remote/fileupload';
 const submitUrl = '/iwant_admin/location/add';
 const dataGetUrl = '/iwant_admin/location/get';
+const dictionaryUrl = "/iwant_admin/dictionary/getPages";
+const dictionaryCodeUrl = "/iwant_admin/dictionary/findByCode";
+const dictionaryName ="location";
 const dataModifyUrl = '/iwant_admin/location/modify'
 var isModify = getUrlParam('isModify');
 var locationId = getUrlParam('id');
@@ -19,7 +22,8 @@ const fields = new Array('name',
         'location',
         'priority',
         'mainImage',
-        'imgManage'
+        'imgManage',
+        'simulatePriceCode'
     );
 const modifyTitle = "修改场地";
 
@@ -27,10 +31,13 @@ const modifyTitle = "修改场地";
 $(document).ready(
     function(){    	
     	initUE();
+    	dictionaryItemsInit(dictionaryName,dictionaryCodeUrl);
         bindUploadFile('mainImageUpload',uploadServer,'mainImage',singleDisplay);
         bindUploadFile('uploadedLocationImages',uploadServer,'imgManage',mutipleDisplay);
         bindSeclectAll("checkAll");
         bindDeleteSelected("deleteAll");
+        bindAssignToDictionary("activity_city_code","activity_province_code");
+        bindAssignToDictionary("activity_dist_code","activity_city_code");
         if(isModify == "true"){
         	console.log("修改页面 加载server数据");
         	adjustModifyField(); 
@@ -41,7 +48,7 @@ $(document).ready(
         }else{
         	 bindDataSubmit('submitForm',fields,submitUrl,returnListPage);
         }
-       
+        getDictionaryPages(dictionaryUrl,dicionaryCallBack);
     }
 );
 
@@ -81,6 +88,7 @@ function mappingData(result){
 		mappingSelectItem("activity_dist_code",locationData.activityDistCode);
 		mappingTextItem("location",locationData.location);
 		mappingTextItem("priority",locationData.priority);
+		mappingTextItem("simulatePriceCode",locationData.simulatePriceCode);
 		$("#mainImage").prop("src",locationData.descirbeText2);
 		ue.ready(function() {
 			ue.setContent(locationData.descirbeText1);
@@ -99,6 +107,11 @@ function mappingData(result){
 		}		
 	}
 }
+
+function dicionaryCallBack(result){
+	initDictionaryPage("dictionarys",result);
+}
+
 
 
 

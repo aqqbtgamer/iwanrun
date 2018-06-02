@@ -1,13 +1,9 @@
 package com.iwantrun.core.file;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.net.URL;
 
 import org.junit.Test;
-
-import com.iwantrun.core.service.utils.ThumbnailatorUtils;
 
 import net.coobird.thumbnailator.Thumbnails;
 
