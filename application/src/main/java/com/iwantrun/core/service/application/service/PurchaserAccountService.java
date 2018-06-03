@@ -19,7 +19,6 @@ import com.iwantrun.core.service.application.dao.PurchaserAccountDao;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
 import com.iwantrun.core.service.application.transfer.MixedUserResponse;
 import com.iwantrun.core.service.application.transfer.PurchaserAccountRequest;
-import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.Md5Utils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
@@ -35,7 +34,7 @@ public class PurchaserAccountService {
 	private JPQLEnableRepository jpqlExecute;
 
 	public String register(PurchaserAccount account) {
-		String md5Password=Md5Utils.generate(account.getPassword());
+		String md5Password = Md5Utils.generate(account.getPassword());
 		account.setPassword(md5Password);
 		PurchaserAccount saved = dao.save(account);
 		if (saved == null) {
@@ -65,43 +64,49 @@ public class PurchaserAccountService {
 	}
 
 	public String validateLoginParam(PurchaserAccount account) {
-		String loginId=account.getLoginId();
-		String password=account.getPassword();
-		if(StringUtils.isEmpty(loginId)) {
+		String loginId = account.getLoginId();
+		String password = account.getPassword();
+		if (StringUtils.isEmpty(loginId)) {
 			return "请输入账号";
 		}
-		if(StringUtils.isEmpty(password)) {
+		if (StringUtils.isEmpty(password)) {
 			return "请输入密码";
 		}
-		
-		String md5Passrword=Md5Utils.generate(password);
-		
-		PurchaserAccount find= dao.findByLoginIdAndPassword(loginId,md5Passrword);
-		
-		if(find==null) {
+
+		PurchaserAccount find = dao.findByLoginId(loginId);
+
+		if (find == null) {
+			return "用户不存在";
+		}
+
+		String dbPwd = find.getPassword();
+
+		boolean correct = Md5Utils.verify(password, dbPwd);
+		if (!correct) {
 			return "账号密码不匹配";
 		}
 		return null;
 	}
-	
+
 	public String findPurchaseUserPaged(JSONObject obj) {
 		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
 		String index = obj.getAsString("pageIndex");
-		int pageIndex =  index == null ? 1:Integer.parseInt(index) ;
+		int pageIndex = index == null ? 1 : Integer.parseInt(index);
 		String loginId = obj.getAsString("loginId");
 		String name = obj.getAsString("name");
 		String mobileNumber = obj.getAsString("mobileNumber");
-		Integer role = obj.getAsNumber("role") == null ?null : obj.getAsNumber("role").intValue();
-		Pageable page =  PageRequest.of(pageIndex-1, pageSize, Sort.Direction.ASC, "id");
+		Integer role = obj.getAsNumber("role") == null ? null : obj.getAsNumber("role").intValue();
+		Pageable page = PageRequest.of(pageIndex - 1, pageSize, Sort.Direction.ASC, "id");
 		Long totalNum = dao.countByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute);
-		List<MixedUserResponse> content = dao.findByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute, pageSize, pageIndex);
+		List<MixedUserResponse> content = dao.findByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute,
+				pageSize, pageIndex);
 		PageImpl<MixedUserResponse> result = new PageImpl<MixedUserResponse>(content, page, totalNum);
 		return PageDataWrapUtils.page2JsonNoCopy(result);
 	}
-	
+
 	@Transactional
 	public String addPurchaseUserAndRelated(Map<String, Object> paramsMap) {
-		String mobileNumber = (String) paramsMap.get("mobileNumber");		
+		String mobileNumber = (String) paramsMap.get("mobileNumber");
 		return null;
 	}
 }
