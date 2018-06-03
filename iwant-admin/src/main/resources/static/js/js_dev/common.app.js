@@ -90,7 +90,7 @@ function fileUpload(contentId,url,callback) {
                     type:"POST",
                     success:function(result){
                         console.log("提交到"+url+"成功");
-                        callback();
+                        callback(result);
                     },
                     error:function(XMLHttpRequest ,error,exception){
                         console.log("提交到"+url+"失败,原因是: "+ error.toString());
@@ -114,7 +114,7 @@ function fileUpload(contentId,url,callback) {
                          type:"POST",
                          success:function(result){
                              console.log("提交到"+url+"成功");
-                             callback();
+                             callback(result);
                          },
                          error:function(XMLHttpRequest ,error,exception){
                              console.log("提交到"+url+"失败,原因是: "+ error.toString());
@@ -183,7 +183,11 @@ function fileUpload(contentId,url,callback) {
                 var itemArray = new Array()
                 collect.each(
                     function(){
-                        itemArray.push(fufilItem($(this)));
+                    	var val = fufilItem($(this))
+                    	if( val!= null){
+                    		 itemArray.push(val);
+                    	}
+                       
                     }
                 )
                 formdData[name] = itemArray ;
@@ -198,11 +202,13 @@ function fileUpload(contentId,url,callback) {
 
     function fufilItem(collect){
         if(collect.prop('nodeName').toLowerCase() == 'input'){
-            if(collect.prop('type').toLowerCase() == 'text' || collect.prop('type').toLowerCase() == 'number' ){
+            if(collect.prop('type').toLowerCase() == 'text' || collect.prop('type').toLowerCase() == 'number'|| collect.prop('type').toLowerCase() == 'password' ){
                 return  collect.val();
             }else if(collect.prop('type').toLowerCase() == 'checkbox' || collect.prop('type').toLowerCase() == 'radio'){
                 if(collect.prop('checked')){
                    return collect.val();
+                }else{
+                	return null;
                 }
             }
         }else if(collect.prop("nodeName").toLowerCase() == "select"){
@@ -340,7 +346,9 @@ function fileUpload(contentId,url,callback) {
                     var propertyNames = columnName.split(".");
                     var property = column ;
                     for(var k=0 ; k<propertyNames.length ; k++){
-                    	property = property[propertyNames[k]];
+                    	if(property != null){
+                    		property = property[propertyNames[k]];
+                    	}                    	
                     }
                     td.text(property);
                     tr.append(td);

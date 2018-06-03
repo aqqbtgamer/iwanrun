@@ -103,6 +103,14 @@
                             <input class="input-small" type="text"  name="name" id="name" />
                         </td>
                     </tr>
+                    <tr>
+                        <th><label>性别</label></th>
+                        <td>
+                         	   <input  type="radio"  name="gender" id="gender1"  value="1" checked="checked"/>男
+                         	   <input  type="radio"  name="gender" id="gender2"  value="2"/>女
+                         	   <input  type="radio"  name="gender" id="gender2"  value="3"/>其他
+                        </td>
+                    </tr>
                      <tr>
                 	  			<th><label>账号密码<span class="requierd">*</span></label></th>
                 	  			<td>
@@ -157,9 +165,15 @@
                 	  <tr role="1">
                 	  			<th><label>公司类型</label></th>
                 	  			<td>
-                	  				<select name="companySizeId" id="companySizeId"  used_field="24" used_type="option" used_name="company_type_option" used_item="select"></select>
+                	  				<select name="companyTypeId" id="companyTypeId"  used_field="24" used_type="option" used_name="company_type_option" used_item="select"></select>
                 	  			</td>
-                	 </tr>   
+                	 </tr> 
+                	  <tr role="1">
+                	  			<th><label>公司规模</label></th>
+                	  			<td>
+                	  				<select name="companySizeId" id="companySizeId"  used_field="25" used_type="option" used_name="company_size_option" used_item="select"></select>
+                	  			</td>
+                	 </tr>     
                 	  <tr role="1">
                 	  			<th><label>公司名称<span  class="requierd">*</span></label></th>
                 	  			<td>

@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.application.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,11 +15,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.iwantrun.core.constant.AdminApplicationConstants;
 import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
 import com.iwantrun.core.service.application.dao.PurchaserAccountDao;
+import com.iwantrun.core.service.application.dao.UserInfoAttachmentsDao;
+import com.iwantrun.core.service.application.dao.UserInfoDao;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
+import com.iwantrun.core.service.application.domain.UserInfo;
+import com.iwantrun.core.service.application.domain.UserInfoAttachments;
 import com.iwantrun.core.service.application.transfer.MixedUserResponse;
 import com.iwantrun.core.service.application.transfer.PurchaserAccountRequest;
+import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
+import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.Md5Utils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
@@ -31,10 +39,14 @@ public class PurchaserAccountService {
 	@Autowired
 	private PurchaserAccountDao dao;
 	@Autowired
+	private UserInfoDao infoDao;
+	@Autowired
+	private UserInfoAttachmentsDao attachmentsDao;
+	@Autowired
 	private JPQLEnableRepository jpqlExecute;
 
 	public String register(PurchaserAccount account) {
-		String md5Password = Md5Utils.generate(account.getPassword());
+		String md5Password=Md5Utils.generate(account.getPassword());
 		account.setPassword(md5Password);
 		PurchaserAccount saved = dao.save(account);
 		if (saved == null) {
@@ -87,26 +99,105 @@ public class PurchaserAccountService {
 		}
 		return null;
 	}
-
+	
 	public String findPurchaseUserPaged(JSONObject obj) {
 		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
 		String index = obj.getAsString("pageIndex");
-		int pageIndex = index == null ? 1 : Integer.parseInt(index);
+		int pageIndex =  index == null ? 1:Integer.parseInt(index)+1 ;
 		String loginId = obj.getAsString("loginId");
 		String name = obj.getAsString("name");
 		String mobileNumber = obj.getAsString("mobileNumber");
-		Integer role = obj.getAsNumber("role") == null ? null : obj.getAsNumber("role").intValue();
-		Pageable page = PageRequest.of(pageIndex - 1, pageSize, Sort.Direction.ASC, "id");
+		Integer role = obj.getAsNumber("role") == null ?null : obj.getAsNumber("role").intValue();
+		Pageable page =  PageRequest.of(pageIndex-1, pageSize, Sort.Direction.ASC, "id");
 		Long totalNum = dao.countByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute);
-		List<MixedUserResponse> content = dao.findByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute,
-				pageSize, pageIndex);
+		List<MixedUserResponse> content = dao.findByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute, pageSize, pageIndex);
 		PageImpl<MixedUserResponse> result = new PageImpl<MixedUserResponse>(content, page, totalNum);
 		return PageDataWrapUtils.page2JsonNoCopy(result);
 	}
-
-	@Transactional
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(rollbackOn=Exception.class)
 	public String addPurchaseUserAndRelated(Map<String, Object> paramsMap) {
 		String mobileNumber = (String) paramsMap.get("mobileNumber");
-		return null;
+		List<PurchaserAccount> findList = dao.findByMobileNumber(mobileNumber);
+		// check mobile number not occupy
+		if (findList != null && findList.size() > 0) {
+			// mobileNumber already taken
+			SimpleMessageBody result = new SimpleMessageBody();
+			result.setSuccessful(false);
+			result.setDescription("手机号已被注册请选择其他手机号");
+			return JSONUtils.objToJSON(result);
+		} else {
+			// combine PurchaserAccount
+			PurchaserAccount account = new PurchaserAccount();
+			account.setMobileNumber(mobileNumber);
+			account.setLoginId(mobileNumber);
+			if (paramsMap.get("password") != null) {
+				String password = Md5Utils.generate(paramsMap.get("password").toString());
+				account.setPassword(password);
+			}
+			if (paramsMap.get("wec") != null) {
+				account.setWec((String) paramsMap.get("wec"));
+			}
+			if (paramsMap.get("aliPayId") != null) {
+				account.setAliPayId((String) paramsMap.get("aliPayId"));
+			}
+			if (paramsMap.get("role") != null) {
+				account.setSysRoleId(Integer.parseInt(paramsMap.get("role").toString()));
+			}
+			if (paramsMap.get("thirdPartyId1") != null) {
+				account.setThirdPartyId1(paramsMap.get("thirdPartyId1").toString());
+			}
+			if (paramsMap.get("thirdPartyId2") != null) {
+				account.setThirdPartyId2(paramsMap.get("thirdPartyId2").toString());
+			}
+			if (paramsMap.get("thirdPartyId3") != null) {
+				account.setThirdPartyId3(paramsMap.get("thirdPartyId3").toString());
+			}
+			account.setStatus(2);
+			dao.saveAndFlush(account);
+			int accountLoginId = account.getId();
+			// combine userinfo
+			UserInfo userInfo = new UserInfo();
+			userInfo.setLoginInfoId(accountLoginId);
+			userInfo.setName(paramsMap.get("name").toString());
+			List<String> genderList = (List<String>) paramsMap.get("gender[]");
+			if (genderList != null) {
+				userInfo.setGender(Integer.parseInt(genderList.get(0)));
+			}
+			if (paramsMap.get("contractMobile") != null) {
+				userInfo.setContractMobile(paramsMap.get("contractMobile").toString());
+			}
+			if (paramsMap.get("email") != null) {
+				userInfo.setEmail(paramsMap.get("email").toString());
+			}
+			if (paramsMap.get("companyTypeId") != null) {
+				userInfo.setCompanyTypeId(Integer.parseInt(paramsMap.get("companyTypeId").toString()));
+			}
+			if (paramsMap.get("companySizeId") != null) {
+				userInfo.setCompanySizeId(Integer.parseInt(paramsMap.get("companySizeId").toString()));
+			}
+			userInfo.setVerified(2);
+			infoDao.saveAndFlush(userInfo);
+			// save attachments
+			if (paramsMap.get("imgManage[]") != null) {
+				List<String> attchPaths = (List<String>) paramsMap.get("imgManage[]");
+				List<UserInfoAttachments> attchList = new ArrayList<UserInfoAttachments>();
+				for (String path : attchPaths) {
+					UserInfoAttachments attach = new UserInfoAttachments();
+					int fileNameIndex = path.lastIndexOf("/");
+					attach.setFileName(path.substring(fileNameIndex + 1));
+					attach.setFilePath(path);
+					attach.setPagePath(AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
+					attach.setUserInfoId(userInfo.getId());
+					attchList.add(attach);
+				}
+				attachmentsDao.saveAll(attchList);
+			}
+		}
+		SimpleMessageBody result = new SimpleMessageBody();
+		result.setSuccessful(true);
+		result.setDescription("添加成功");
+		return JSONUtils.objToJSON(result);
 	}
 }
