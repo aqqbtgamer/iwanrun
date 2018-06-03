@@ -15,8 +15,6 @@ public interface PurchaserAccountDao extends JpaRepository<PurchaserAccount, Int
 
 	PurchaserAccount findByLoginIdAndPassword(String loginId, String password);
 	
-	PurchaserAccount findByLoginId(String loginId);
-	
 	List<PurchaserAccount> findByMobileNumber(String mobileNumber);
 	
 	String QUERY_PURCHASE_USER_JPQL = "select new com.iwantrun.core.service.application.transfer.MixedUserResponse(login,info,role) from"
@@ -64,4 +62,6 @@ public interface PurchaserAccountDao extends JpaRepository<PurchaserAccount, Int
 		}
 		return repository.findOneJPQL(queryJPQL, Long.class);
 	}
+
+	PurchaserAccount findByLoginId(String loginId);
 }
