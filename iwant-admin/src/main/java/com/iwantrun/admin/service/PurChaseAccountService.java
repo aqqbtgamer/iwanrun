@@ -32,7 +32,8 @@ public class PurChaseAccountService {
 				"role",
 				"mobileNumber",
 				"name",
-				"loginId"
+				"loginId",
+				"pageIndex"
 		});
 		String json = FormDataUtils.formData2Json(request,paramList);
 		String postUrl = env.getProperty("application.purchaseUser.find");
@@ -80,12 +81,14 @@ public class PurChaseAccountService {
 				"thirdPartyId1",
 				"thirdPartyId2",
 				"thirdPartyId3",
+				"companyTypeId",
 				"companySizeId",
 				"companyName",
-				"imgManage[]"
+				"imgManage[]",
+				"gender[]"
 		});
 		String json = FormDataUtils.formData2Json(request,paramList);
-		String postUrl = env.getProperty("application.location.add");
+		String postUrl = env.getProperty("application.purchaseUser.add");
 		String baseUrl = env.getProperty("application.serverbase");
 		Message message = new Message();
 		message.setAccessToken(token);

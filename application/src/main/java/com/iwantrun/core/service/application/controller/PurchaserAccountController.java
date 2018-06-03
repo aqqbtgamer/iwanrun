@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
 import com.iwantrun.core.service.application.service.LoginTokenService;
 import com.iwantrun.core.service.application.service.PurchaserAccountService;
@@ -100,7 +101,7 @@ public class PurchaserAccountController {
 		String dataJson = message.getMessageBody();
 		PageDomianRequest example = JSONUtils.jsonToObj(dataJson, PageDomianRequest.class);
 		JSONObject requestObj = new JSONObject();
-		requestObj.put("pageIndex", String.valueOf(example.getPageIndex()+1));
+		requestObj.put("pageIndex", String.valueOf(example.getPageIndex()));
 		Map<String,Object> wrap = example.getObj();
 		requestObj.put("loginId", wrap.get("loginId"));
 		requestObj.put("name", wrap.get("name"));
@@ -113,7 +114,8 @@ public class PurchaserAccountController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping("add")
 	@ResponseBody
-	public Message add(@RequestBody Message message){
+	@NeedTokenVerify
+	public Message addPurchaseUserAndRelated(@RequestBody Message message){
 		String dataJson = message.getMessageBody();
 		Map<String,Object> paramsMap = JSONUtils.jsonToObj(dataJson, Map.class);
 		String result = service.addPurchaseUserAndRelated(paramsMap);

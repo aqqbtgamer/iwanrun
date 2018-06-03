@@ -14,6 +14,7 @@ const fields = new Array(
 		"loginId",
 		"mobileNumber",
 		"password",
+		"gender",
 		"wec",
 		"aliPayId",
 		"email",
@@ -21,6 +22,7 @@ const fields = new Array(
 		"thirdPartyId1",
 		"thirdPartyId2",
 		"thirdPartyId3",
+		"companyTypeId",
 		"companySizeId",
 		"companyName",
 		"imgManage"
@@ -46,8 +48,9 @@ function dicionaryCallBack(result){
 }
 
 function returnListPage(result){
-	if(result == "failed"){
-		alert("后台新增数据失败");
+	var ret = $.parseJSON(result);
+	if(!ret.successful){
+		alert("后台新增数据失败:"+ret.description+ret.extraInfo);
 	}else{
 		window.location.href="userlist.html";
 	}
