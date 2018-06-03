@@ -62,4 +62,6 @@ public interface PurchaserAccountDao extends JpaRepository<PurchaserAccount, Int
 		}
 		return repository.findOneJPQL(queryJPQL, Long.class);
 	}
+
+	PurchaserAccount findByLoginId(String loginId);
 }

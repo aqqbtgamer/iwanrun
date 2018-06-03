@@ -1,16 +1,14 @@
 package com.iwantrun.core.service.application.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.iwantrun.core.service.application.transfer.SMSCodeRequest;
 import com.iwantrun.core.service.application.transfer.SMSCodeResponse;
 import com.iwantrun.core.service.utils.SMSCodeUtils;
-
-import net.minidev.json.JSONObject;
 
 /**
  * @author user 短信验证码获取和校验
@@ -18,20 +16,31 @@ import net.minidev.json.JSONObject;
 @Controller
 @RequestMapping("application/smsCode")
 public class SMSCodeController {
+
+	/**
+	 * 配置文件里面的属性完成设值后的SMSCodeRequest对象
+	 */
 	@Autowired
-	Environment environment;
-	@Autowired
-	RestTemplate template;
+	SMSCodeRequest request;
 
 	@RequestMapping("/getSMSCode")
-	public SMSCodeResponse getSMSCode(@RequestBody JSONObject paramObj) {
+	@ResponseBody
+	public SMSCodeResponse getSMSCode(@RequestBody SMSCodeRequest param) {
+
+		// 校验参数
+		String validate = SMSCodeUtils.validate(param);
+
+		// 这个接口相应对象
 		SMSCodeResponse response = new SMSCodeResponse();
-		String validate = SMSCodeUtils.validate(paramObj);
 		if (validate != null) {
-			response.setMsg(validate);
+			response.setMessage(validate);
 		} else {
-			String mobile = paramObj.getAsString("mobile");
-			response = SMSCodeUtils.getSMSCode(mobile, environment, template);
+
+			String mobile = param.getMobile();
+			request.setMobile(mobile);
+
+			// 发送短信后的响应对象
+			response = SMSCodeUtils.getSMSCode(request);
 		}
 		return response;
 	}
