@@ -79,20 +79,25 @@ public class PurchaserAccountService {
 	}
 
 	public String validateLoginParam(PurchaserAccount account) {
-		String loginId=account.getLoginId();
-		String password=account.getPassword();
-		if(StringUtils.isEmpty(loginId)) {
+		String loginId = account.getLoginId();
+		String password = account.getPassword();
+		if (StringUtils.isEmpty(loginId)) {
 			return "请输入账号";
 		}
-		if(StringUtils.isEmpty(password)) {
+		if (StringUtils.isEmpty(password)) {
 			return "请输入密码";
 		}
-		
-		String md5Passrword=Md5Utils.generate(password);
-		
-		PurchaserAccount find= dao.findByLoginIdAndPassword(loginId,md5Passrword);
-		
-		if(find==null) {
+
+		PurchaserAccount find = dao.findByLoginId(loginId);
+
+		if (find == null) {
+			return "用户不存在";
+		}
+
+		String dbPwd = find.getPassword();
+
+		boolean correct = Md5Utils.verify(password, dbPwd);
+		if (!correct) {
 			return "账号密码不匹配";
 		}
 		return null;
