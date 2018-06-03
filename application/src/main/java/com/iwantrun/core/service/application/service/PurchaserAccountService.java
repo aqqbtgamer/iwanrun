@@ -3,6 +3,7 @@ package com.iwantrun.core.service.application.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -30,7 +31,9 @@ import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.Md5Utils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 
 @Service
 public class PurchaserAccountService {
@@ -172,6 +175,9 @@ public class PurchaserAccountService {
 			if (paramsMap.get("companySizeId") != null) {
 				userInfo.setCompanySizeId(Integer.parseInt(paramsMap.get("companySizeId").toString()));
 			}
+			if(paramsMap.get("companyName") != null) {
+				userInfo.setCompanyName(paramsMap.get("companyName").toString());
+			}
 			userInfo.setVerified(2);
 			infoDao.saveAndFlush(userInfo);
 			// save attachments
@@ -194,5 +200,143 @@ public class PurchaserAccountService {
 		result.setSuccessful(true);
 		result.setDescription("添加成功");
 		return JSONUtils.objToJSON(result);
+	}
+
+	public String get(Integer id) {
+		Optional<PurchaserAccount> accountOp = dao.findById(id);
+		if(accountOp.get() != null) {
+			PurchaserAccount account = accountOp.get();
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("purchaseAccount", JSONValue.toJSONString(account));
+			List<UserInfo> userInfoList = infoDao.findByLoginInfoId(id);
+			if(userInfoList != null && userInfoList.size() > 0) {
+				UserInfo userInfo = userInfoList.get(0);
+				returnObj.put("userInfo", JSONValue.toJSONString(userInfo));
+				Integer userInfoId = userInfo.getId();
+				List<UserInfoAttachments> userAttachList = attachmentsDao.findByUserInfoIdAndPagePath(userInfoId, AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
+				returnObj.put("attachList", JSONValue.toJSONString(userAttachList));
+			}
+			return returnObj.toJSONString();
+		}else {
+			return null;
+		}		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(rollbackOn=Exception.class)
+	public String modify(String idStr, Map<String, Object> paramsMap) {
+		Integer id = Integer.parseInt(idStr);
+		Optional<PurchaserAccount> accountOp = dao.findById(id);
+		if(accountOp.get() == null) {
+			SimpleMessageBody result = new SimpleMessageBody();
+			result.setSuccessful(false);
+			result.setDescription("要修改的id在数据库中找不到对应的值");
+			return JSONUtils.objToJSON(result);
+		}else {
+			PurchaserAccount account = accountOp.get();
+			if (paramsMap.get("password") != null) {
+				String password = Md5Utils.generate(paramsMap.get("password").toString());
+				account.setPassword(password);
+			}
+			if (paramsMap.get("wec") != null) {
+				account.setWec((String) paramsMap.get("wec"));
+			}
+			if (paramsMap.get("aliPayId") != null) {
+				account.setAliPayId((String) paramsMap.get("aliPayId"));
+			}
+			if (paramsMap.get("thirdPartyId1") != null) {
+				account.setThirdPartyId1(paramsMap.get("thirdPartyId1").toString());
+			}
+			if (paramsMap.get("thirdPartyId2") != null) {
+				account.setThirdPartyId2(paramsMap.get("thirdPartyId2").toString());
+			}
+			if (paramsMap.get("thirdPartyId3") != null) {
+				account.setThirdPartyId3(paramsMap.get("thirdPartyId3").toString());
+			}
+			dao.save(account);
+			List<UserInfo> infoList = infoDao.findByLoginInfoId(id);
+			if(infoList != null && infoList.size() > 0) {
+				UserInfo userInfo = infoList.get(0);
+				userInfo.setName(paramsMap.get("name").toString());
+				List<String> genderList = (List<String>) paramsMap.get("gender[]");
+				if (genderList != null) {
+					userInfo.setGender(Integer.parseInt(genderList.get(0)));
+				}
+				if (paramsMap.get("contractMobile") != null) {
+					userInfo.setContractMobile(paramsMap.get("contractMobile").toString());
+				}
+				if (paramsMap.get("email") != null) {
+					userInfo.setEmail(paramsMap.get("email").toString());
+				}
+				if (paramsMap.get("companyTypeId") != null) {
+					userInfo.setCompanyTypeId(Integer.parseInt(paramsMap.get("companyTypeId").toString()));
+				}
+				if (paramsMap.get("companySizeId") != null) {
+					userInfo.setCompanySizeId(Integer.parseInt(paramsMap.get("companySizeId").toString()));
+				}
+				if(paramsMap.get("companyName") != null) {
+					userInfo.setCompanyName(paramsMap.get("companyName").toString());
+				}
+				infoDao.save(userInfo);
+				List<UserInfoAttachments> userAttachList = attachmentsDao.findByUserInfoIdAndPagePath(userInfo.getId(), AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
+				attachmentsDao.deleteAll(userAttachList);
+				// save new attachments
+				if (paramsMap.get("imgManage[]") != null) {
+					List<String> attchPaths = (List<String>) paramsMap.get("imgManage[]");
+					List<UserInfoAttachments> attchList = new ArrayList<UserInfoAttachments>();
+					for (String path : attchPaths) {
+						UserInfoAttachments attach = new UserInfoAttachments();
+						int fileNameIndex = path.lastIndexOf("/");
+						attach.setFileName(path.substring(fileNameIndex + 1));
+						attach.setFilePath(path);
+						attach.setPagePath(AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
+						attach.setUserInfoId(userInfo.getId());
+						attchList.add(attach);
+					}
+					attachmentsDao.saveAll(attchList);
+				}
+			}
+		}
+		SimpleMessageBody result = new SimpleMessageBody();
+		result.setSuccessful(true);
+		result.setDescription("修改成功");
+		return JSONUtils.objToJSON(result);
+	}
+
+	@Transactional(rollbackOn=Exception.class)
+	public String delete(JSONObject requestObj) {
+		if(requestObj != null) {
+			if(requestObj.getAsString("id") != null) {
+				deleteSingle(requestObj.getAsString("id"));
+			}
+			if(requestObj.get("id[]")!=null) {
+				JSONArray idList = (JSONArray) requestObj.get("id[]");
+			    for(int i = 0 ; i<idList.size() ; i++) {
+			    	String id = idList.get(i).toString();
+			    	deleteSingle(id);
+			    }
+			}
+		}
+		SimpleMessageBody result = new SimpleMessageBody();
+		result.setSuccessful(true);
+		result.setDescription("删除成功");
+		return JSONUtils.objToJSON(result);
+	}
+	
+	public void deleteSingle(String idStr) {
+		Integer id = Integer.parseInt(idStr);
+		Optional<PurchaserAccount> accountOp = dao.findById(id);
+		if (accountOp.get() != null) {
+			List<UserInfo> infoList = infoDao.findByLoginInfoId(id);
+			if (infoList != null && infoList.size() > 0) {
+				UserInfo userInfo = infoList.get(0);
+				List<UserInfoAttachments> userAttachList = attachmentsDao.findByUserInfoIdAndPagePath(userInfo.getId(),
+						AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
+				attachmentsDao.deleteAll(userAttachList);
+				infoDao.delete(userInfo);
+			}
+			dao.deleteById(id);
+		}
+
 	}
 }

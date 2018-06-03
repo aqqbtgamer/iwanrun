@@ -607,10 +607,14 @@ function fileUpload(contentId,url,callback) {
     }
     
     
-    function mappingRadioItem(id,value){
-    	if($("#"+id).val()== value){
-    		$("#"+id).prop("checked",true);
-    	}
+    function mappingRadioItem(name,value){
+    	$("input[name='"+name+"']").each(
+    			function(){    			
+    				if($(this).val() == value){
+    					$(this).prop("checked",true);
+    				}    			
+    			}
+    	);
     }
     
     function getDictionaryPages(url,callback){

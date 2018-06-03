@@ -123,5 +123,44 @@ public class PurchaserAccountController {
 		return message;
 	}
 	
+	@RequestMapping("get")
+	@ResponseBody
+	public Message get(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(dataJson);
+		String idStr = requestObj.getAsString("id");
+		if(idStr != null) {
+			Integer id = Integer.parseInt(idStr);
+			String result = service.get(id);
+			message.setMessageBody(result);
+		}
+		return message;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("modify")
+	@ResponseBody
+	@NeedTokenVerify
+	public Message modify(@RequestBody Message message) {
+		String dataJson =  message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(dataJson);
+		String id = requestObj.getAsString("id");
+		Map<String,Object> paramsMap = JSONUtils.jsonToObj(requestObj.getAsString("json"),Map.class);
+		String result = service.modify(id,paramsMap);
+		message.setMessageBody(result);
+		return message ;
+	}
+	
+	@RequestMapping("delete")
+	@ResponseBody
+	@NeedTokenVerify
+	public Message delete(@RequestBody Message message) {
+		String dataJson =  message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(dataJson);
+		String result = service.delete(requestObj);
+		message.setMessageBody(result);
+		return message;
+	}
+	
 	
 }

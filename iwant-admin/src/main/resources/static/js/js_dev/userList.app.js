@@ -5,7 +5,7 @@
 const dictionaryUrl = "/iwant_admin/dictionary/getPages";
 const dataInitUrl = '/iwant_admin/purchaseAccount/findPurchaseUser';
 const dataQueryUrl = '/iwant_admin/purchaseAccount/queryPurchaseUser';
-const dataModifyUrl= null ;
+const dataModifyUrl= '/iwant_admin/createUser.html?isModify=true&id='; ;
 const dataDeleteUrl = null;
 var isModify = getUrlParam('isModify');
 const columns = new Array(
@@ -38,6 +38,7 @@ $(document).ready(
     function(){
         getDictionaryPages(dictionaryUrl,dicionaryCallBack);
         pageDataInit("userTable","pagination",dataInitUrl,dataDeleteUrl,dataModifyUrl,columns);
+        bindSelectAll("selectAll","userTable");
         wrapCustomerButtons();
         bindClickFieldQuery("queryCondtion",queryField,"userTable","pagination",dataQueryUrl,dataModifyUrl,dataDeleteUrl,columns);
     }

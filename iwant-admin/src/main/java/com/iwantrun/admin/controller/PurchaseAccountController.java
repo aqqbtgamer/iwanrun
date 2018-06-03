@@ -34,5 +34,29 @@ public class PurchaseAccountController {
 		return accountService.addPurchaseUser(request);
 	}
 	
+	@RequestMapping("get")
+	@ResponseBody
+	public String getById(HttpServletRequest request) {
+		return accountService.getById(request);
+	}
+	
+	@RequestMapping("modify")
+	@ResponseBody
+	public String modify(HttpServletRequest request) {
+		return accountService.modify(request);
+	}
+	
+	@RequestMapping("apply")
+	@ResponseBody
+	public String apply(HttpServletRequest request) {
+		return accountService.apply(request);
+	}
+	
+	@RequestMapping("delete")
+	@ResponseBody
+	public String delete(HttpServletRequest request) {
+		return accountService.delete(request);
+	}
+	
 
 }
