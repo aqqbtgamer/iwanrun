@@ -64,7 +64,7 @@ public class JSONUtils {
 		return null;
 	}
 
-	// 转化为List
+	// 转化为Map
 	public static <K, V> Map<K, V> toMap(String text, Class<V> valueClass) {
 		try {
 			TypeFactory factory = TypeFactory.defaultInstance();

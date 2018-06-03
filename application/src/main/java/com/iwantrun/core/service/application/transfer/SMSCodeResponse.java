@@ -8,17 +8,26 @@ import com.iwantrun.core.service.utils.JSONUtils;
  */
 public class SMSCodeResponse {
 	/**
+	 * 是否成功：
+	 * 	Success-成功  
+	 * 	Faild-失败
+	 */
+	private String returnstatus;
+	
+	/**
 	 * 手机号码
 	 */
 	private String mobile;
+	
 	/**
 	 * 短信验证码
 	 */
 	private String smsCode;
+	
 	/**
 	 * 短信验证码响应信息
 	 */
-	private String msg;
+	private String message;
 	
 	public String getMobile() {
 		return mobile;
@@ -32,13 +41,19 @@ public class SMSCodeResponse {
 	public void setSmsCode(String smsCode) {
 		this.smsCode = smsCode;
 	}
-	public String getMsg() {
-		return msg;
-	}
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
 	
+	public String getReturnstatus() {
+		return returnstatus;
+	}
+	public void setReturnstatus(String returnstatus) {
+		this.returnstatus = returnstatus;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	@Override
 	public String toString() {
 		return JSONUtils.objToJSON(this);
