@@ -68,7 +68,7 @@ $(document).ready(
 				var requestObj = new Object();
 	        	requestObj.id = userId ;
 				commonLoadForModify(requestObj,dataGetUrl,mappingData);
-				bindDataModifySubmit('submitButton',userId,fields,dataModifyUrl,returnLisPageModify);
+				bindDataModifySubmit('submitButton',userId,modifyFields,dataModifyUrl,returnLisPageModify);
 			}else{
 				bindDataVerifySubmit("submitButton","submitForm",fields,submitUrl,returnListPage)
 			}
@@ -169,7 +169,28 @@ function mappingData(result){
 	var button = $("<input>").attr("type","button").attr("value","审核通过").attr("disabled",true);
 	if(purchaseAccount != null && userInfo != null && attachList != null && attachList.length > 0){
 		if(purchaseAccount.sysRoleId == 1 && userInfo.companyName != null && userInfo.companyName !=""){
-			button.attr("disabled",false).addClass("button");						
+			button.attr("disabled",false).addClass("button");
+			button.bind("click",function(){
+				var request = new Object();
+				request.id = userId ;
+				$.ajax(
+						{
+	        				url:dataApplyUrl,
+	        				cache:false,
+	        				data:request,
+	                        dataType:"text",
+	                        type:"POST",
+	                        success:function(result){
+	                        	console.log("提交到"+dataApplyUrl+"成功："+result);
+	                        	returnLisPageModify(result);
+	                        },
+	    	    			error:function(XMLHttpRequest ,error,exception){
+	    	                    console.log("提交到"+dataApplyUrl+"失败,原因是: "+ exception.toString());
+	    	                }
+	        			}
+				
+				);
+			})
 		}
 	}
 	var span = $("<span>").attr("style","width:10px");
