@@ -24,6 +24,8 @@ import com.iwantrun.core.service.application.dao.UserInfoDao;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
 import com.iwantrun.core.service.application.domain.UserInfo;
 import com.iwantrun.core.service.application.domain.UserInfoAttachments;
+import com.iwantrun.core.service.application.enums.RoleType;
+import com.iwantrun.core.service.application.enums.VerifyStatus;
 import com.iwantrun.core.service.application.transfer.MixedUserResponse;
 import com.iwantrun.core.service.application.transfer.PurchaserAccountRequest;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
@@ -157,7 +159,14 @@ public class PurchaserAccountService {
 			if (paramsMap.get("thirdPartyId3") != null) {
 				account.setThirdPartyId3(paramsMap.get("thirdPartyId3").toString());
 			}
-			account.setStatus(2);
+			if(paramsMap.get("role") != null ) {
+				String role = paramsMap.get("role").toString();
+				Integer roleId = Integer.parseInt(role);
+				if(RoleType.Advisor.equals(RoleType.matchById(roleId))) {
+					account.setStatus(VerifyStatus.Verifed.getId());
+				}
+			}
+			account.setStatus(VerifyStatus.Not_Verified.getId());
 			dao.saveAndFlush(account);
 			int accountLoginId = account.getId();
 			// combine userinfo
@@ -260,8 +269,13 @@ public class PurchaserAccountService {
 			}
 			dao.save(account);
 			List<UserInfo> infoList = infoDao.findByLoginInfoId(id);
+			UserInfo userInfo = null;
 			if(infoList != null && infoList.size() > 0) {
-				UserInfo userInfo = infoList.get(0);
+				userInfo = infoList.get(0);				
+			}else if(paramsMap.get("name") != null) {
+				userInfo = new UserInfo();
+			}
+			if(userInfo != null) {
 				userInfo.setName(paramsMap.get("name").toString());
 				List<String> genderList = (List<String>) paramsMap.get("gender[]");
 				if (genderList != null) {
@@ -282,7 +296,7 @@ public class PurchaserAccountService {
 				if(paramsMap.get("companyName") != null) {
 					userInfo.setCompanyName(paramsMap.get("companyName").toString());
 				}
-				infoDao.save(userInfo);
+				infoDao.saveAndFlush(userInfo);
 				List<UserInfoAttachments> userAttachList = attachmentsDao.findByUserInfoIdAndPagePath(userInfo.getId(), AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
 				attachmentsDao.deleteAll(userAttachList);
 				// save new attachments

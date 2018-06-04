@@ -33,6 +33,27 @@ const fields = new Array(
 		"companyName",
 		"imgManage"
 );
+
+const modifyFields = new Array(
+		"name",
+		"role",
+		"loginId",
+		"mobileNumber",
+		"gender",
+		"wec",
+		"aliPayId",
+		"email",
+		"contractMobile",
+		"thirdPartyId1",
+		"thirdPartyId2",
+		"thirdPartyId3",
+		"companyTypeId",
+		"companySizeId",
+		"companyName",
+		"imgManage"
+);
+
+
 $(document).ready(
 		function(){
 			bindUploadFile('uploadedLocationImages',uploadServer,'imgManage',mutipleDisplay);
@@ -47,6 +68,7 @@ $(document).ready(
 				var requestObj = new Object();
 	        	requestObj.id = userId ;
 				commonLoadForModify(requestObj,dataGetUrl,mappingData);
+				bindDataModifySubmit('submitButton',userId,fields,dataModifyUrl,returnLisPageModify);
 			}else{
 				bindDataVerifySubmit("submitButton","submitForm",fields,submitUrl,returnListPage)
 			}
@@ -63,6 +85,15 @@ function returnListPage(result){
 		alert("后台新增数据失败:"+ret.description+ret.extraInfo);
 	}else{
 		window.location.href="userlist.html";
+	}
+}
+
+function returnLisPageModify(result){
+	var ret = $.parseJSON(result);
+	if(ret.successful){
+		window.location.href="userlist.html";
+	}else{
+		alert("后台更新数据失败");
 	}
 }
 	
@@ -89,6 +120,7 @@ function adjustModifyField(){
 	$("div#content h2.jquery_tab_title").html(modifyTitle);
 	$("#role").attr("disabled",true);
 	$("#mobileNumber").attr("readonly",true);
+	$("#password").attr("readonly",true);
 }
 
 function mappingData(result){
