@@ -162,5 +162,17 @@ public class PurchaserAccountController {
 		return message;
 	}
 	
+	@RequestMapping("apply")
+	@ResponseBody
+	@NeedTokenVerify
+	public Message apply(@RequestBody Message message) {
+		String dataJson =  message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(dataJson);
+		String id = requestObj.getAsString("id");
+		String result = service.apply(id);
+		message.setMessageBody(result);
+		return message;
+	}
+	
 	
 }

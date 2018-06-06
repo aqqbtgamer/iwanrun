@@ -6,8 +6,7 @@ const dictionaryUrl = "/iwant_admin/dictionary/getPages";
 const dataInitUrl = '/iwant_admin/purchaseAccount/findPurchaseUser';
 const dataQueryUrl = '/iwant_admin/purchaseAccount/queryPurchaseUser';
 const dataModifyUrl= '/iwant_admin/createUser.html?isModify=true&id='; ;
-const dataDeleteUrl = null;
-var isModify = getUrlParam('isModify');
+const dataDeleteUrl = '/iwant_admin/purchaseAccount/delete';
 const columns = new Array(
 	    "userInfo.name",
 	    "userRole.roleName",

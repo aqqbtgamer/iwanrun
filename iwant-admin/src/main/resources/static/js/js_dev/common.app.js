@@ -151,7 +151,35 @@ function fileUpload(contentId,url,callback) {
     	                }
     	            )
     	});
-    }    
+    }
+    
+    function bindDataModifyVeifySubmit(bindId,formId,id,fieldArray,url,callback){
+    	$("#"+bindId).bind("click",function(){
+    		if(verifyRequired(formId)){
+    			var formData = collectFormDatas(fieldArray);
+        		formData.id = id ;
+        		 $.ajax(
+        	                {
+        	                    url:url,
+        	                    cahce:false,
+        	                    data:formData,
+        	                    dataType:"text",
+        	                    type:"POST",
+        	                    success:function(result){
+        	                        console.log("提交到"+url+"成功");
+        	                        if(callback != null){
+        	                        	 callback(result);
+        	                        }    	                       
+        	                    },
+        	                    error:function(XMLHttpRequest ,error,exception){
+        	                        console.log("提交到"+url+"失败,原因是: "+ error.toString());
+        	                        alert("更新失败 服务端无法连接")
+        	                    }
+        	                }
+        	            )
+    		}    		
+    	});
+    }
 
     function singleDisplay(displayId,param){
     	 $("#"+displayId).prop("src",param);  
@@ -363,7 +391,7 @@ function fileUpload(contentId,url,callback) {
                 var linkDelete = $("<a></a>").text("删除");          
                 linkDelete.attr("dbid",column.id);
                 linkDelete.bind("click",function(event){            	
-                	deleteSingle($(event.target).attr("dbid"),deleteUrl,tableId,pageId,dataUrl,columns,data);
+                	deleteSingle($(event.target).attr("dbid"),deleteUrl,modifyUrl,tableId,pageId,dataUrl,columns,data);
                 });
                 tdOpration.append(linkModify);
                 tdOpration.append("/");
@@ -473,7 +501,7 @@ function fileUpload(contentId,url,callback) {
         return pageLink;
     }
     
-    function deleteSingle(id,deleteUrl,tableId,pageId,dataUrl,columns,data){
+    function deleteSingle(id,deleteUrl,modifyUrl,tableId,pageId,dataUrl,columns,data){
     	var requestData = new Object();
     	requestData.id = id ;
     	var isDelete = confirm("确认删除吗?");

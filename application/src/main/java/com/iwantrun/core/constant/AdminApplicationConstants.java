@@ -7,5 +7,7 @@ public interface AdminApplicationConstants {
 	int HTTP_CONNECT_TIME_OUT = 20000;
 	
 	String USER_COMPANY_CREDENTIAL = "company_credential";
+	
+	int ADMIN_ROLE_TYPE = 1;
 
 }

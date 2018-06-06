@@ -159,14 +159,6 @@ public class PurchaserAccountService {
 			if (paramsMap.get("thirdPartyId3") != null) {
 				account.setThirdPartyId3(paramsMap.get("thirdPartyId3").toString());
 			}
-			if(paramsMap.get("role") != null ) {
-				String role = paramsMap.get("role").toString();
-				Integer roleId = Integer.parseInt(role);
-				if(RoleType.Advisor.equals(RoleType.matchById(roleId))) {
-					account.setStatus(VerifyStatus.Verifed.getId());
-				}
-			}
-			account.setStatus(VerifyStatus.Not_Verified.getId());
 			dao.saveAndFlush(account);
 			int accountLoginId = account.getId();
 			// combine userinfo
@@ -192,7 +184,17 @@ public class PurchaserAccountService {
 			if(paramsMap.get("companyName") != null) {
 				userInfo.setCompanyName(paramsMap.get("companyName").toString());
 			}
-			userInfo.setVerified(2);
+			if(paramsMap.get("role") != null ) {
+				String role = paramsMap.get("role").toString();
+				Integer roleId = Integer.parseInt(role);
+				if(RoleType.Advisor.equals(RoleType.matchById(roleId))) {
+					userInfo.setVerified(VerifyStatus.Verifed.getId());
+				}else {
+					userInfo.setVerified(VerifyStatus.Not_Verified.getId());
+				}
+			}else {
+				userInfo.setVerified(VerifyStatus.Not_Verified.getId());
+			}
 			infoDao.saveAndFlush(userInfo);
 			// save attachments
 			if (paramsMap.get("imgManage[]") != null) {
@@ -357,6 +359,24 @@ public class PurchaserAccountService {
 			dao.deleteById(id);
 		}
 
+	}
+
+	@Transactional(rollbackOn=Exception.class)
+	public String apply(String idStr) {
+		Integer id = Integer.parseInt(idStr);
+		Optional<PurchaserAccount> accountOp = dao.findById(id);
+		if (accountOp.get() != null) {
+			List<UserInfo> infoList = infoDao.findByLoginInfoId(id);
+			if (infoList != null && infoList.size() > 0) {
+				UserInfo userInfo = infoList.get(0);
+				userInfo.setVerified(VerifyStatus.Verifed.getId());
+				infoDao.save(userInfo);
+			}
+		}
+		SimpleMessageBody result = new SimpleMessageBody();
+		result.setSuccessful(true);
+		result.setDescription("审批成功");
+		return JSONUtils.objToJSON(result);
 	}
 
 }

@@ -2,7 +2,9 @@ package com.iwantrun.core.service.application.service;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.iwantrun.core.service.application.domain.UserAccount;
+import com.iwantrun.core.service.application.transfer.PageDomianRequest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestPropertySource(locations = {"classpath:application.properties"})
@@ -49,6 +52,25 @@ public class UserAccountServiceTest {
 			assertNotNull(resultList1);
 			assertEquals(0, resultList1.size());
 		}
+	}
+	
+	@Test
+	public void testFindByExample() {
+		PageDomianRequest request = new PageDomianRequest();
+		request.setPageIndex(0);
+		Map<String,Object> map = new HashMap<String,Object>();
+		request.setObj(map);
+		map.put("username", "admin");
+		String result = userService.findByExamplePaged(request);
+		System.out.println(result);
+	}
+	
+	@Test
+	public void testFindAllPaged() {
+		PageDomianRequest request = new PageDomianRequest();
+		request.setPageIndex(0);
+		String result = userService.findAllPaged(request);
+		System.out.println(result);
 	}
 
 }
