@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,6 +9,8 @@
     <link rel="stylesheet" href=" ../../css/common.css">
     <link rel="stylesheet" href="../../css/iconfont.css">
     <link rel="stylesheet" href="../../css/myorder.css">
+    <script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="application/javascript" src="../../script/vue.min.js"></script>
     <title>个人中心</title>
 </head>
 
@@ -92,10 +94,10 @@
                         <div class="account-box-line account-box-first">
                             <div class="account-box-content">
                                 <p class="font-40px-black" style="margin-bottom: 2vw;">基本信息</p>
-                                <input type="button" class="order-message" value="订单编号：40020180111">
-                                <input type="button" class="order-message" value="创建日期：2018年01月10日">
-                                <input type="button" class="order-message" value="订单未完成">
-                                <input type="button" class="order-message" value="咨询师">
+                                <input type="button" class="order-message" :value="'订单编号：'+order.orderid">
+                                <input type="button" class="order-message" :value="'创建日期：'+order.createdate">
+                                <input type="button" class="order-message" :value="order.status">
+                                <input type="button" class="order-message" :value="'咨询师'+order.counselor">
                             </div>
                         </div>
                         <div class="account-box-line">
@@ -158,14 +160,12 @@
                                 </p>
                                 <p>
                                     <label>活动日期</label>
-                                    <input type="text" value="2018年4月10日" placeholder="" readonly="readonly"
-                                    />
+                                    <input type="text" value="2018年4月10日" placeholder="" readonly="readonly" />
                                 </p>
                             </div>
                             <div class="form-right">
                                 <p>
-                                    <input type="text" value="内部培训" placeholder="" style="width:30.8vw;margin-left: 0;" readonly="readonly"
-                                    />
+                                    <input type="text" value="内部培训" placeholder="" style="width:30.8vw;margin-left: 0;" readonly="readonly" />
                                 </p>
                                 <p>
                                     <label>活动天数</label>
@@ -184,14 +184,7 @@
                                 </p>
                             </div>
                         </div>
-
-
-
-
-
                     </div>
-
-
                 </div>
                 <div class="clear"></div>
                 <div class="common-tail-bg">
@@ -229,9 +222,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </form>
+    <script type="application/javascript" src="../../script-dev/myorder.js"></script>
 </body>
-
 </html>

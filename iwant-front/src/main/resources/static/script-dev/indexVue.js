@@ -9,7 +9,39 @@ var appIndex = new Vue(
             mask:false,
             loginWindow:false,
             autoLogin:false,
-            loginTitle:'用户登录'
+            loginTitle:'用户登录',
+            bannerList:['img/banner/banner1.png'],
+            loginId:'18018336171',
+            loginToken:'uuixooppasyytvdbftrraskm',
+            loginRole:{id:1,role:'采购方'},
+            productIndexList:[
+            	{	
+            		id:1,
+            		img:'img/normalpd1.png',
+            		text:'长沙南区10公里员工慢跑',
+            		price:'288/人'
+            	},
+            	{
+            		id:2,
+            		img:'img/normalpd2.png',
+            		text:'南湖水上龙舟游',
+            		price:'388/人'
+            	}
+            ],
+            locationIndexList:[
+            	{
+            		id:1,
+            		img:'img/location1.png',
+            		text:'夏日清凉专场 | 水上球类运动',
+            		long_text:'You may of heard fast growing companies require motivated and healthy employees that communicate efficiently. Clearly it’s easier than ever to speak to one another online but we’ve found that doesn’t create meaningful relationships.'
+            	}
+            ],
+            caseIndexList:[
+            	{
+            		id:1,
+            		img:'img/case1.png'
+            	}
+            ]
         },
         methods:{
             showLogin:function(message){

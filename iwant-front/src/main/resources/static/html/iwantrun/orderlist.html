@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,6 +9,8 @@
     <link rel="stylesheet" href=" ../../css/common.css">
     <link rel="stylesheet" href="../../css/iconfont.css">
     <link rel="stylesheet" href="../../css/orderlist.css">
+    <script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="application/javascript" src="../../script/vue.min.js"></script>
     <title>个人中心</title>
 </head>
 
@@ -86,7 +88,6 @@
                 <div class="accountMain">
                     <div class="accountTitle">
                         <span class="center-big margin-left">我的订单</span>
-                        <span class="right-back margin-right">返回</span>
                     </div>
                     <div class="account-box-body">
                         <div class="account-box-line">
@@ -98,74 +99,11 @@
                                 <div class="sect-five"></div>
                             </div>
                             <div class="table-body">
-                                <div class="detail-line">
-                                    <div class="sect-one">订单编号：40020171014 </div>
-                                    <div class="sect-two"> 创建日期：2017年10月12日</div>
-                                    <div class="sect-three"> 已完成</div>
-                                    <div class="sect-four">咨询师001</div>
-                                    <div class="sect-five">
-                                        <input type="button" value="查看详情" class="btn-primary" />
-                                    </div>
-                                </div>
-                                <div class="detail-line">
-                                    <div class="sect-one">订单编号：40020171014 </div>
-                                    <div class="sect-two"> 创建日期：2017年10月12日</div>
-                                    <div class="sect-three"> 未完成</div>
-                                    <div class="sect-four">咨询师001</div>
-                                    <div class="sect-five">
-                                        <input type="button" value="查看详情" class="btn-primary" />
-                                    </div>
-                                </div>
-                                <div class="detail-line">
-                                    <div class="sect-one">订单编号：40020171014 </div>
-                                    <div class="sect-two"> 创建日期：2017年10月12日</div>
-                                    <div class="sect-three"> 已完成</div>
-                                    <div class="sect-four">咨询师001</div>
-                                    <div class="sect-five">
-                                        <input type="button" value="查看详情" class="btn-primary" />
-                                    </div>
-                                </div>
-                                <div class="detail-line">
-                                    <div class="sect-one">订单编号：40020171014 </div>
-                                    <div class="sect-two"> 创建日期：2017年10月12日</div>
-                                    <div class="sect-three"> 未完成</div>
-                                    <div class="sect-four">咨询师001</div>
-                                    <div class="sect-five">
-                                        <input type="button" value="查看详情" class="btn-primary" />
-                                    </div>
-                                </div>
-                                <div class="detail-line">
-                                    <div class="sect-one">订单编号：40020171014 </div>
-                                    <div class="sect-two"> 创建日期：2017年10月12日</div>
-                                    <div class="sect-three"> 已完成</div>
-                                    <div class="sect-four">咨询师001</div>
-                                    <div class="sect-five">
-                                        <input type="button" value="查看详情" class="btn-primary" />
-                                    </div>
-                                </div>
-                                <div class="detail-line">
-                                    <div class="sect-one">订单编号：40020171014 </div>
-                                    <div class="sect-two"> 创建日期：2017年10月12日</div>
-                                    <div class="sect-three"> 未完成</div>
-                                    <div class="sect-four">咨询师001</div>
-                                    <div class="sect-five">
-                                        <input type="button" value="查看详情" class="btn-primary" />
-                                    </div>
-                                </div>
-                                <div class="detail-line">
-                                    <div class="sect-one">订单编号：40020171014 </div>
-                                    <div class="sect-two"> 创建日期：2017年10月12日</div>
-                                    <div class="sect-three"> 已完成</div>
-                                    <div class="sect-four">咨询师001</div>
-                                    <div class="sect-five">
-                                        <input type="button" value="查看详情" class="btn-primary" />
-                                    </div>
-                                </div>
-                                <div class="detail-line">
-                                    <div class="sect-one">订单编号：40020171014 </div>
-                                    <div class="sect-two"> 创建日期：2017年10月12日</div>
-                                    <div class="sect-three"> 已完成</div>
-                                    <div class="sect-four">咨询师001</div>
+                                <div class="detail-line" v-for="item in list">
+                                    <div class="sect-one">订单编号：{{item.orderid}} </div>
+                                    <div class="sect-two"> 创建日期：{{item.createdate}}</div>
+                                    <div class="sect-three"> {{item.status}}</div>
+                                    <div class="sect-four">{{item.counselor}}</div>
                                     <div class="sect-five">
                                         <input type="button" value="查看详情" class="btn-primary" />
                                     </div>
@@ -182,8 +120,10 @@
                                 <li>5</li>
                                 <li>6</li>
                                 <li>></li>
-                                <span>到&nbsp;&nbsp;
-                                    <input type="text" value="" />&nbsp;&nbsp;页</span>
+                                <span>
+                                    到&nbsp;&nbsp;
+                                    <input type="text" value="" />&nbsp;&nbsp;页
+                                </span>
                                 <input type="button" value="确定" class="btn-primary" />
                             </ul>
                         </div>
@@ -225,9 +165,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </form>
+    <script type="application/javascript" src="../../script-dev/orderlist.js"></script>
 </body>
-
 </html>
