@@ -10,9 +10,12 @@ import static com.iwantrun.core.constant.SMSCodeConstants.REQ_URI_VARIABLE_USER_
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import com.iwantrun.core.service.application.controller.SMSCodeController;
 import com.iwantrun.core.service.application.transfer.SMSCodeRequest;
 import com.iwantrun.core.service.application.transfer.SMSCodeResponse;
 
@@ -20,6 +23,8 @@ import com.iwantrun.core.service.application.transfer.SMSCodeResponse;
  * @author user 短信相关工具类
  */
 public class SMSCodeUtils {
+
+	private static final Logger logger = LoggerFactory.getLogger(SMSCodeController.class);
 
 	/**
 	 * 移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
@@ -36,6 +41,7 @@ public class SMSCodeUtils {
 	 * @return
 	 */
 	public static String validate(SMSCodeRequest smsCodeRequest) {
+
 		if (smsCodeRequest == null) {
 			return "参数有误";
 		}
@@ -82,6 +88,9 @@ public class SMSCodeUtils {
 	 * @return
 	 */
 	public static SMSCodeResponse getSMSCode(SMSCodeRequest request) {
+
+		logger.info("开始发送短信验证码，参数：{}", request);
+
 		RestTemplate template = new RestTemplate();
 		
 		// 生成短信验证码
@@ -91,14 +100,20 @@ public class SMSCodeUtils {
 		// 获取URI后面的短信参数
 		Map<String, String> uriVariables = getUriVariables(request);
 
+		logger.info("调接口发送短信验证码，url：{}，参数：{}", request.getUrl(), JSONUtils.objToJSON(uriVariables));
+
 		// 发送短信
 		String sendResult = template.getForEntity(request.getUrl(), String.class, uriVariables).getBody();
 		
+		logger.info("调接口发送短信验证码，结果：{}", sendResult);
+
 		// 解析结果
 		Map<String, String> parsed = XMLParseUtils.parseText(sendResult);
 		
 		String sendResultJson = JSONUtils.objToJSON(parsed);
 		
+		logger.info("调接口发送短信验证码，解析XML并转换为JSON结果：{}", sendResultJson);
+
 		SMSCodeResponse response = JSONUtils.jsonToObj(sendResultJson, SMSCodeResponse.class);
 		
 		response.setMobile(request.getMobile());

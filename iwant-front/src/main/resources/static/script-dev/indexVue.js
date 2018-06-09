@@ -9,11 +9,24 @@ var appIndex = new Vue(
             mask:false,
             loginWindow:false,
             autoLogin:false,
-            loginTitle:'用户登录',
             bannerList:['img/banner/banner1.png'],
             loginId:'18018336171',
             loginToken:'uuixooppasyytvdbftrraskm',
             loginRole:{id:1,role:'采购方'},
+            
+            user:{
+            	loginId:'',
+            	loginTitle:'用户登录',
+            	loginIdErrMsg : "手机号码格式不正确",
+            	pwdErrMsg : "密码格式不正确，请重新输入",
+            	smsErrMsg : "",//smsErrMsg : "验证码不正确，请重新输入",
+            	smscodeDivShow : false,
+            	autoLoginDivShow : true,
+            	pwdChangDivShow : true,
+            	btnName : '登录'
+            },
+            
+            
             productIndexList:[
             	{	
             		id:1,
@@ -44,6 +57,39 @@ var appIndex = new Vue(
             ]
         },
         methods:{
+        	userSmsCodeGet:function(){
+        		var mobile = this.user.loginId;
+        		//先校验手机号
+        		//validateMobile(mobile);
+        		var url = 'http://localhost:8088/iwantrun/smsCode/getSMSCode';
+        		var data = {'mobile' : mobile};
+        		data = JSON.stringify(data);
+        		
+        		console.log('短信验证码获取，参数：' + data);
+        		
+        		$http.post(url, data, getSMSCodeBack);
+//        		$.post(url, data, getSMSCodeBack);
+        	},
+        	userRegisterEnter:function(){
+        		var vm = this;
+        		vm.user.loginTitle = '用户注册';
+        		vm.user.btnName = '注册';
+        		vm.user.smscodeDivShow = true;
+        		vm.user.autoLoginDivShow = false;
+        		vm.user.pwdChangDivShow = false;
+        	},
+        	userFocus:function(flag){
+        		var vm = this;
+        		if('loginId' == flag){
+        			vm.user.loginIdErrMsg="";
+        		} 
+        		if('pwd' == flag){
+        			vm.user.pwdErrMsg="";
+        		}
+        		if('sms' == flag){
+        			vm.user.smsErrMsg="";
+        		}
+        	},
             showLogin:function(message){
                 console.log("v-on  click method :showLogin");
                 var vm = this
@@ -68,4 +114,31 @@ var appIndex = new Vue(
         }
     }
 );
+
+function getSMSCodeBack(data){
+	var vm = appIndex;
+	
+	if(data){
+		console.log('短信验证码获取结束，结果' + data);
+		
+		var returnstatus = data.returnstatus;
+		var message = data.message;
+		
+		if(returnstatus == 'Success'){
+			vm.user.smsErrMsg = '短信已发送';
+		}else if(returnstatus == 'Faild'){
+			console.log(message);
+			vm.user.smsErrMsg = '短信获取失败，请联系管理员';
+		}else{
+			if(message){
+				vm.user.smsErrMsg = message;
+			}else{
+				vm.user.smsErrMsg = '短信获取失败，请重新获取';
+			}
+		}
+	}else{
+		vm.user.smsErrMsg = '短信获取失败，请重新获取';
+	}
+}
+
 console.log("Vue 脚本绑定渲染完成..............");

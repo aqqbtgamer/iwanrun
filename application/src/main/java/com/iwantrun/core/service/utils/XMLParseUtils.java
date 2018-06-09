@@ -7,7 +7,11 @@ import java.util.Map;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
+
+import com.iwantrun.core.service.application.controller.SMSCodeController;
 
 /**
  * 
@@ -15,6 +19,8 @@ import org.springframework.util.StringUtils;
  *
  */
 public class XMLParseUtils {
+
+	private static final Logger logger = LoggerFactory.getLogger(SMSCodeController.class);
 
 	/**
 	 * xml字符串解析
@@ -24,6 +30,9 @@ public class XMLParseUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static Map<String, String> parseText(String xml) {
+
+		logger.info("开始对XML数据进行解析，XML：{}", xml);
+
 		Map<String, String> result = new HashMap<>();
 		try {
 			if (!StringUtils.isEmpty(xml)) {
@@ -35,7 +44,7 @@ public class XMLParseUtils {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("开始对XML数据进行解析，异常：{}", e);
 		}
 		return result;
 	}

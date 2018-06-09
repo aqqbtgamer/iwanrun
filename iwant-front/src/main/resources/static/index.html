@@ -283,28 +283,52 @@
                 <i class="iconfont-user1 icon-close" @click="closeLogin"></i>
             </div>
             <div id="login-head"  class="login-head">
-                <h2>{{loginTitle}}</h2>
+                <h2>{{user.loginTitle}}</h2>
+                <!-- <h2>用户注册</h2> -->
             </div>
             <div id="username-input" class="username-input">
                 <div id="user-icon" class="user-icon">
                     <i class="iconfont-user2 icon-yonghu" ></i>
                 </div>
                 <div id="user-input" class="user-input">
-                    <input type="text" class="inputText" placeholder="请输入手机号">
+                    <input @focus="userFocus('loginId')" v-model="user.loginId" type="text" class="inputText" placeholder="请输入手机号">
+                </div>
+            </div>
+            <div id="pwd-err" class="extra-message" style="margin-top: 0.2vw;">
+            	<div class="exttra-message-right" style="color: red; float: right;">
+                    <p>{{user.loginIdErrMsg}}</p>
                 </div>
             </div>
             <div id="password-input" class="userpwd-input">
                 <div id="pwd-icon" class="user-icon">
                     <i class="iconfont-user2 icon-mima"></i>
                 </div>
-                <div id="pwd-input" class="user-pwd">
-                    <input type="password" class="inputText" placeholder="请输入验证码">
-                </div>
-                <div id="pwd-button" class="user-button">
-                    <input type="button" value="短信验证" class="sms-send-button">
+                <div id="pwd-input" class="user-pwd" style="width: 0">
+                    <input type="password" @focus="userFocus('pwd')" class="inputText" placeholder="请输入密码">
                 </div>
             </div>
-            <div id="extra-message" class="extra-message">
+            <div id="pwd-err" class="extra-message" style="margin-top: 0.2vw;">
+            	<div class="exttra-message-right" style="color: red; float: right;">
+                    <p>{{user.pwdErrMsg}}</p>
+                </div>
+            </div>
+            <div v-if="user.smscodeDivShow" id="smscode-input" class="userpwd-input">
+                <div id="pwd-icon" class="user-icon">
+                    <i class="iconfont-user2 icon-mima"></i>
+                </div>
+                <div id="sms-input" class="user-pwd">
+                    <input @focus="userFocus('sms')" type="password" class="inputText" placeholder="请输入验证码">
+                </div>
+                <div id="sms-button" class="user-button">
+                    <input @click="userSmsCodeGet" type="button" value="短信验证" class="sms-send-button">
+                </div>
+            </div>
+            <div id="smscode-err" class="extra-message" style="margin-top: 0.2vw;">
+            	<div class="exttra-message-right" style="color: red; float:inherit;">
+                    <p>{{user.smsErrMsg}}</p>
+                </div>
+            </div>
+            <div v-if="user.autoLoginDivShow" id="extra-message" class="extra-message">
                 <div id="icon-selected" class="exttra-message-left" >
                     <i class="iconfont-user3 icon-gouxuan "  @click="changeAutoLogin" v-if="autoLogin"></i>
                     <i class="iconfont-user3 icon-gouxuan1"  @click="changeAutoLogin" v-else></i>
@@ -313,8 +337,13 @@
                     <p>自动登陆</p>
                 </div>
             </div>
+            <div v-if="user.pwdChangDivShow" id="password-change" style="width: 31.25vw; margin-left: auto; margin-right: auto;">
+            	<div class="exttra-message-right" style="float: right;">
+                    <p><span>找回密码</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span>修改密码</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span @click="userRegisterEnter">注册</span></p>
+                </div>
+            </div>
              <div id="login-button" class="login-button">
-                 <input type="button" value="登 录" class="sms-login-button">
+                 <input type="button" :value="user.btnName" class="sms-login-button">
              </div>
             <div id="join-account-login"class="join-account-login">
                 <div id="join-account-left" class="join-account-left">
@@ -342,4 +371,5 @@
 </body>
 <script type="application/javascript" src="script-dev/indexJquery.js"></script>
 <script type="application/javascript" src="script-dev/indexVue.js"></script>
+<script type="application/javascript" src="script-dev/common.app.js"></script>
 </html>
