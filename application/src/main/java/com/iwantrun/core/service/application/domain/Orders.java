@@ -23,6 +23,9 @@ public class Orders {
 	@Column(name="create_time")
 	private Date createTime; 
 	
+	@Column(name="modify_time")
+	private Date modifyTime;
+	
 	@Column(name="order_status_code",length=2,nullable=false)
 	private Integer orderStatusCode;
 	

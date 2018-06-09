@@ -21,7 +21,7 @@ const queryField = new Array(
 $(document).ready(
 		function(){
 			getDictionaryPages(dictionaryUrl,dicionaryCallBack);
-			pageDataInit("userTable","pagination",dataInitUrl,dataDeleteUrl,dataModifyUrl,columns);
+			 pageDataInit("userTable","pagination",dataInitUrl,dataDeleteUrl,dataModifyUrl,columns);
 			 bindSelectAll("selectAll","userTable");
 		     wrapCustomerButtons();
 		     bindClickFieldQuery("queryCondtion",queryField,"userTable","pagination",dataQueryUrl,dataModifyUrl,dataDeleteUrl,columns);

@@ -349,6 +349,182 @@ function fileUpload(contentId,url,callback) {
         )
     }
     
+    /**
+     * 方法雷同于pageDataInit 不过最后一栏可以自定义
+     * @param tableId
+     * @param pageId
+     * @param dataUrl
+     * @returns
+     */
+    function customerPageDataInit(tableId,dataUrl,pageIndex,callObj){
+    	var table = $("#"+tableId);
+    	var requestData = new Object();
+    	if(pageIndex == null){
+    		requestData.pageIndex = 0 ;
+    	}else{
+    		requestData.pageIndex = pageIndex ;
+    	}
+    	if(callObj.data != null){
+    		requestData.obj = data;
+    	}
+    	$.ajax(
+                {
+                    url:dataUrl,
+                    cache:false,
+                    data:requestData,
+                    dataType:"text",
+                    type:"POST",
+                    success:function(result){
+                        console.log("提交到"+dataUrl+"成功");
+                        if(callObj != null){
+                        	 if(typeof callObj == "function" ){
+                             	callObj(result);                        	
+                             }else{
+                            	 insertTableDataOrig(result,tableId,callObj.columns,callObj);
+                            	 var ret = $.parseJSON(result);
+                            	 pagenationOrig(ret,callObj.pageId,callObj);
+                             }
+                        }                       
+                    },
+                    error:function(XMLHttpRequest ,error,exception){
+                        console.log("提交到"+dataUrl+"失败,原因是: "+ exception.toString());
+                    }
+                }
+            )
+    }
+    
+    /**
+     * 原 insert table data 夹杂了分页 自定义操作项目之类的东西 这个方法则更为纯粹
+     * @param result
+     * @param tableId
+     * @param columns
+     * @param customerCallObj
+     * @returns
+     */
+    function insertTableDataOrig(result,tableId,columns,callObj){
+    	 var ret = $.parseJSON(result);
+         var tableData = ret.content;
+         var table = $("#"+tableId).find("tbody");
+         table.empty();
+         if(tableData != null){
+         	for(var i=0; i<tableData.length ; i++ ){
+                 var column = tableData[i] ;
+                 var tr = $("<tr></tr>");
+                 if(i%2 == 0){
+                 	tr.addClass("odd");
+                 }else{
+                 	tr.addClass("even");
+                 }
+                 var tdCheck = $("<th></th>");
+                 var checkBox = $("<input>").prop("type","checkbox").attr("id",column.id);
+                 tdCheck.append(checkBox);
+                 tr.append(tdCheck);
+                 for(var j=0 ; j<columns.length ; j++){
+                     var td = $("<td></td>");
+                     var columnName = columns[j];
+                     var propertyNames = columnName.split(".");
+                     var property = column ;
+                     for(var k=0 ; k<propertyNames.length ; k++){
+                     	if(property != null){
+                     		property = property[propertyNames[k]];
+                     	}                    	
+                     }
+                     td.text(property);
+                     tr.append(td);
+                     if(callObj != null){
+                    	 callObj.call(tr);
+                     }
+                 }
+                 table.append(tr);
+         	}
+         }   
+    }
+    
+    /**
+     * 更加纯粹的分页计算逻辑  之中联动使用了更加少依赖的link生成方法customerPageLink()
+     * @param result
+     * @param tableId
+     * @param columns
+     * @param customerCallObj
+     * @returns
+     */
+    function pagenationOrig(ret,pageId,callObj){
+    	var pagedata = ret.pageInfo;
+        //最多显示前三和后三 多了添加一个省略号
+        var totalPage = pagedata.totalpage ;
+        var pageDiv = $("#"+pageId);
+        pageDiv.empty();
+       //首页
+       //....未完待续
+        var tableId = callObj.tableId ;
+        var dataUrl = callObj.dataUrl ;
+        var first = customerPageLink(tableId,dataUrl,0,"« 首页",false,callObj);
+        var previous = customerPageLink(tableId,dataUrl,Math.max(0,pagedata.currentPage-1),"« 前一页",false,callObj);
+        pageDiv.append(first);
+        pageDiv.append(previous);
+        if(totalPage > displayPagenationlLimit){
+        	//大于等于限制页数 显示
+        	//1.计算cuurent page 到两端的距离 
+        	var begin =  0 ;
+        	var max = pagedata.totalpage-1 ;
+        	var current = pagedata.currentPage ;
+        	var leftMargin = current - begin ;
+        	var righrMargin = max - current ;
+        	if(leftMargin <= (displayPagenationlLimit-1)/2 && righrMargin > (displayPagenationlLimit-1)/2){
+        		//省略号位于右半边
+        		for(var i = 0 ; i< leftMargin ; i++){
+        			var pageLink = customerPageLink(tableId,dataUrl,i,null,false,callObj);
+        			pageDiv.append(pageLink);
+        		}
+        		var currentLink = customerPageLink(tableId,dataUrl,current,null,false,callObj);
+        		pageDiv.append(currentLink);
+        		var blankPageLink = customerPageLink(tableId,dataUrl,"#","...",true,callObj);
+        		pageDiv.append(blankPageLink);
+        	}else if(leftMargin > (displayPagenationlLimit-1)/2 && righrMargin <= (displayPagenationlLimit-1)/2){
+        		var blankPageLink = customerPageLink(tableId,dataUrl,"#","...",true,callObj);
+        		pageDiv.append(blankPageLink);
+        		var leftStart = current - (displayPagenationlLimit-1)/2;
+        		for(var i = leftStart; i < leftMargin ; i++){
+        			var pageLink = customerPageLink(tableId,dataUrl,i,null,false,callObj);
+        			pageDiv.append(pageLink);
+        		}
+        		var currentLink = customerPageLink(tableId,dataUrl,current,null,false,callObj);
+        		for(var i=current+1 ; i < max+1 ; i++){
+        			var pageLink = customerPageLink(tableId,dataUrl,i,null,false,callObj);
+        			pageDiv.append(pageLink);
+        		}
+        	}else{
+        		var blankPageLink = customerPageLink(tableId,dataUrl,"#","...",true,callObj);
+        		pageDiv.append(blankPageLink);
+        		var leftStart = current - (displayPagenationlLimit-1)/2;
+        		for(var i = leftStart; i < leftMargin ; i++){
+        			var pageLink = customerPageLink(tableId,dataUrl,i,null,false,callObj);
+        			pageDiv.append(pageLink);
+        		}
+        		var currentLink = customerPageLink(tableId,dataUrl,current,null,false,callObj);
+        		pageDiv.append(currentLink);
+        		var rightEnd = current + (displayPagenationlLimit-1)/2;
+        		for(var i = current+1; i < rightEnd +1; i++){
+        			var pageLink = customerPageLink(tableId,dataUrl,i,null,false,callObj);
+        			pageDiv.append(pageLink);
+        		}
+        		var blankPageLink = customerPageLink(tableId,dataUrl,"#","...",true,callObj);
+        		pageDiv.append(blankPageLink);
+        	}
+        }else{
+        	 for(var i = 0 ; i<totalPage ; i++){
+                 var pageLink = customerPageLink(tableId,dataUrl,i,null,false,callObj);
+                 if(i == pagedata.currentPage){
+                 	pageLink.addClass("current");                	
+                 }
+                 pageDiv.append(pageLink);
+             }
+        }
+        var next = customerPageLink(tableId,dataUrl,Math.min(pagedata.totalpage-1,pagedata.currentPage+1),"后一页  »",false,callObj);
+        var end = generatePageLink(tableId,dataUrl,pagedata.totalpage-1,"尾页  »",false,callObj);
+        pageDiv.append(next);
+        pageDiv.append(end);
+    }
 
     function insertTableData(result,tableId,pageId,columns,dataUrl,deleteUrl,modifyUrl,data){
         var ret = $.parseJSON(result);
@@ -499,6 +675,21 @@ function fileUpload(contentId,url,callback) {
             });
     	}        
         return pageLink;
+    }
+    
+    
+    function customerPageLink(tableId,dataUrl,pageIndex,content,blank,callObj){
+    	var pageLink = $("<a></a>").attr("page",pageIndex);
+    	if(content == null){
+    		pageLink.addClass("number").text(pageIndex+1);
+    	}else{
+    		pageLink.text(content);
+    	}
+    	if(!blank){
+    		pageLink.bind("click",function(){
+    			customerPageDataInit(tableId,dataUrl,pageIndex,callObj);
+            });
+    	}        
     }
     
     function deleteSingle(id,deleteUrl,modifyUrl,tableId,pageId,dataUrl,columns,data){
@@ -804,6 +995,16 @@ function fileUpload(contentId,url,callback) {
     		return false;
     	}
     	
+    }
+    
+    function initDataPicker(fieldArray,options){
+    	for(var i = 0 ; i< fieldArray.length ; i++){
+    		if(options != null){
+    			$("#"+fieldArray[i]).datepicker(options);
+    		}else{
+    			$("#"+fieldArray[i]).datepicker();
+    		}
+    	}
     }
     
     

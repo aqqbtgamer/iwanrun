@@ -9,17 +9,32 @@
     <title>我要跑-后台管理首页</title>
     <link rel="stylesheet" href="css/style_all.css" type="text/css" media="screen" />
 
+
+
     <!-- to choose another color scheme uncomment one of the foloowing stylesheets and wrap styl1.css into a comment -->
     <link rel="stylesheet" href="css/style8.css" type="text/css" media="screen" />
+
     <link rel="stylesheet" href="css/jquery-ui.css" type="text/css" media="screen" />
+
+
+
     <link rel="stylesheet" href="css/css_dev/style_dev_all.css">
 
-	<script type='text/javascript' src='js/jquery.js'></script>
+    <!--Internet Explorer Trancparency fix-->
+    <!--[if IE 6]>
+    <script src="js/ie6pngfix.js"></script>
+    <script>
+        DD_belatedPNG.fix('#head, a, a span, img, .message p, .click_to_close, .ie6fix');
+    </script>
+    <![endif]-->
 
-	<script type='text/javascript' src='js/custom.js'></script>
-	<script type="text/javascript" src="js/js_dev/common.app.js"></script>
-	<script type="text/javascript" src="js/js_dev/common.pagination.js"></script>
-    <script type="text/javascript" src="js/js_dev/productionInfoList.app.js"></script>
+   <script type='text/javascript' src='js/all-ck.js'></script>
+   <!-- <script type='text/javascript' src='ueditor1_2_2_0-utf8-php/editor_config.js'></script>-->
+
+    <script type='text/javascript' src='js/custom.js'></script>
+    <script type="text/javascript" src="js/js_dev/common.app.js"></script>
+    <script type="text/javascript" src="js/js_dev/dictionary.app.js"></script>
+    <script type="text/javascript" src="js/js_dev/orderList.app.js"></script>
     <style type="text/css">
 
 
@@ -63,54 +78,87 @@
 
         <div id="main">
             <div id="content">
-                <h2 class="jquery_tab_title">产品信息列表</h2>
-                <table class="table_liquid datalist" cellspacing="0">
-                    <caption>
-
-                            <button method="href" to="createProductionInfo.html">新增</button>
-                            <select name="" id="searchSelect"><!-- 活动类型、天数、人数、参考价格 -->
-                                <option>筛选</option>
-                                <option value="activityTypeCode">活动类型</option>
-                                <option value="during">天数</option>
-                                <option value="groupNumber">人数</option>
-                                <option value="orderSimulatePriceCode">人均参考价格</option>
-                            </select>
-                            <input type="text" name="keyword" id="searchText"/>
-                            <button onclick="search('research')">查找</button>
-
-                    </caption>
+                <h2 class="jquery_tab_title">交易管理</h2>
+                <div id="formDiv">
+                	  <table class="form_h">
+                	  		<tr>
+                	  			<th><label>订单号(精确匹配)</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="orderNO" id=""orderNO"" />
+                	  			</td>
+                	  		</tr>
+                	  		<tr>
+                	  			<th><label>采购方用户手机(模糊查询)</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="mobile1" id="mobile1" />
+                	  			</td>
+                	  		</tr>
+                	  		<tr>
+                	  			<th><label>咨询师用户手机(模糊查询)</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="mobile2" id="mobile2" />
+                	  			</td>
+                	  		</tr>
+                	  		<tr>
+                	  			<th><label>订单创建时间</label></th>
+                	  			<td>
+                	  			<input class="input-small" type="text"  name="createTimeFrom" id="createTimeFrom" />
+                	  			-
+                	  			<input class="input-small" type="text"  name="createTimeFrom" id="createTimeTo" />
+                	  			</td>
+                	  		</tr>
+                	  		<tr>
+                	  			<th><label>订单更新时间</label></th>
+                	  			<td>
+                	  			<input class="input-small" type="text"  name="modifyTimeFrom" id="modifyTimeFrom" />
+                	  			-
+                	  			<input class="input-small" type="text"  name="modifyTimeTo" id="modifyTimeTo" />
+                	  			</td>
+                	  		</tr>
+                	  		<tr>
+                	  			<th><label>订单状态</label></th>
+                	  			<td>
+	                	  			<select name="orderStatus" id="orderStatus">
+	                	  				<option value="-1">已关闭</option>
+	                	  				<option value="0">已提交</option>
+	                	  				<option value="1">定制中</option>
+	                	  				<option value="2">实施中</option>
+	                	  				<option value="3">已完成</option>
+	                	  			</select>
+                	  			</td>
+                	  		</tr>
+                	  		<tr>
+                	  			<td>
+                	  				<button  class="button" id="queryCondtion">查询</button>
+                	  			</td>
+                	  			<td>
+                	  				<button  class="button" id="detail">查看订单详情</button>
+                	  			</td>
+                	  		</tr>
+                	  </table>
+                	
+                	
+                </div>
+                <table class="table_liquid datalist" cellspacing="0" id="orderTable">
+                   
                     <thead>
                     <tr>
-                    	<!-- 产品缩略图、产品名称、活动类型、活动天数、人数上限、参考报价 -->
-                        <th><input type="checkbox" onclick="selectAll(this)"/>选择全部</th>
-                        <th>产品缩略图</th>
-                        <th>产品名称</th>
-                        <th>活动类型</th>
-                        <th>活动天数</th>
-                        <th>人数上限</th>
-                        <th>人均参考报价范围 </th>
-                        <th>团体参考报价 范围</th>
-                        <th>操作</th>
+                         <th><input type="checkbox" id="selectAll">选择全部</th>
+                        <th>采购方姓名</th>
+                        <th>手机号码</th>
+                        <th>订单号</th>
+                        <th>创建时间</th>
+                        <th>订单状态</th>
                     </tr>
                     </thead>
-                    <tbody class="node">
-                    
-                    <!-- <tr>
-                        <th><input type="checkbox"></th>
-                        <th><img src="" alt="" /></th>
-                        <td>产品名称</td>
-                        <td>活动类型</td>
-                        <td>活动天数</td>
-                        <td>人数上限</td>
-                        <td>参考报价</td>
-                        <td> <a>修改</a> / <a>删除</a></td>
-                    </tr> -->
+                    <tbody>
+
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colspan="9">
+                        <td colspan="6">
                             <div class="pagination" id="pagination">
-                                
+
                             </div>
                         </td>
                     </tr>
@@ -127,15 +175,14 @@
                     <ul><!-- ul items without this class get hiddden by jquery-->
                         <li><a href="./locationlist.html">场地管理</a></li>
                         <li><a href="./productionInfoList.html">产品管理</a></li>
-                        <li><a href="./casesList.html">案例管理</a></li>
-                        <li><a href="./userlist.html">用户管理</a></li>
+                         <li><a href="./casesList.html">案例管理</a></li>
+                        <li><a href="./userList.html">用户管理</a></li>
                         <li><a href="./adminlist.html">管理员管理</a></li>
                         <li><a href="./orderList.html">交易管理</a></li>
                     </ul>
                 </li>
                 <li><a class="headitem item2" href="#">系统配置</a>
                     <ul id="dictionarys">
-                      
                     </ul>
                 </li>
                 <li><a class="headitem item4" href="#">编辑</a>
