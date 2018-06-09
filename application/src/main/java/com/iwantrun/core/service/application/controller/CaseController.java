@@ -66,7 +66,6 @@ public class CaseController {
 						"companyTypeCode=>companyTypeCode",
 						"groupNumber=>groupNumber",
 						"during=>during",
-						"specialKeyWord=>specialKeyWord",
 						"designDuringCode=>designDuringCode",
 					    "executeDuringCode=>executeDuringCode",
 					    "trafficInfo=>trafficInfo",
@@ -106,7 +105,7 @@ public class CaseController {
 						biFun
 				} 
 		);
-		JSONArray tags = (JSONArray) object.get("special_tags[]");
+		JSONArray tags = (JSONArray) object.get("specialKeyWord[]");
 		Map<String,String> mappingRelation1 = 
 				MappingGenerateUtils.generateMappingRelation(new String[] {
 						"tagsCode=>bean"
@@ -151,7 +150,6 @@ public class CaseController {
 						"companyTypeCode=>companyTypeCode",
 						"groupNumber=>groupNumber",
 						"during=>during",
-						"specialKeyWord=>specialKeyWord",
 						"designDuringCode=>designDuringCode",
 					    "executeDuringCode=>executeDuringCode",
 					    "trafficInfo=>trafficInfo",
@@ -191,7 +189,7 @@ public class CaseController {
 						biFun
 				} 
 		);
-		JSONArray tags = (JSONArray) object.get("special_tags[]");
+		JSONArray tags = (JSONArray) object.get("specialKeyWord[]");
 		Map<String,String> mappingRelation1 = 
 				MappingGenerateUtils.generateMappingRelation(new String[] {
 						"tagsCode=>bean"
@@ -199,7 +197,7 @@ public class CaseController {
 		List<CaseTags> tagsList = new ArrayList<CaseTags>();
 		EntityBeanUtils.listBeanCreateFromJson(tagsList, mappingRelation1, tags, CaseTags.class);
 		Supplier<Integer> tagsTypeSupplier = () ->{
-			return DictionaryConfigParams.LOCATION_TAGS_TYPE;
+			return DictionaryConfigParams.CASE_TAGS_TYPE;
 		};
 		ListUpdateUtils.updateListPropertyWithSupplier(tagsList, new String[]{
 				"tagsType"

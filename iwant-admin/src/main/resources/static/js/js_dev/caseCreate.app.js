@@ -8,6 +8,9 @@ const dataGetUrl = '/iwant_admin/cases/get';
 const dataModifyUrl = '/iwant_admin/cases/modify'
 var isModify = getUrlParam('isModify');
 var caseId = getUrlParam('id');
+const dictionaryUrl = "/iwant_admin/dictionary/getPages";
+const dictionaryCodeUrl = "/iwant_admin/dictionary/findByCode";
+const dictionaryName ="case";
 const fields = new Array(
 		'name',
 		'activityProvinceCode',
@@ -38,10 +41,13 @@ const modifyTitle = "修改案例";
 $(document).ready(
     function(){    	
     	initUE();
+    	dictionaryItemsInit(dictionaryName,dictionaryCodeUrl);
         bindUploadFile('mainImageUpload',uploadServer,'mainImage',singleDisplay);
         bindUploadFile('uploadedLocationImages',uploadServer,'imgManage',mutipleDisplay);
         bindSeclectAll("checkAll");
         bindDeleteSelected("deleteAll");
+        bindAssignToDictionary("activityCityCode","activityProvinceCode");
+        bindAssignToDictionary("activityDistCode","activityCityCode");
         if(isModify == "true"){
         	console.log("修改页面 加载server数据");
         	adjustModifyField(); 
@@ -52,10 +58,12 @@ $(document).ready(
         }else{
         	 bindDataSubmit('submitForm',fields,submitUrl,returnListPage);
         }
-       
+        getDictionaryPages(dictionaryUrl,dicionaryCallBack);
     }
 );
-
+function dicionaryCallBack(result){
+	initDictionaryPage("dictionarys",result);
+}
 function returnListPage(result){
 	if(result == "failed"){
 		alert("后台新增数据失败")
@@ -80,7 +88,7 @@ function adjustModifyField(){
 function mappingData(result){
 	var data = $.parseJSON(result);
 	var caseData = $.parseJSON(data.caseVo);
-	var specialTags = $.parseJSON(data.listTag);
+	var specialKeyWord = $.parseJSON(data.listTag);
 	var imgs = $.parseJSON(data.listAttch);
 	if(caseData != null){
 		mappingTextItem("name",caseData.name);
@@ -93,7 +101,7 @@ function mappingData(result){
 		
 		mappingSelectItem("groupNumber",caseData.groupNumber);
 		mappingSelectItem("during",caseData.during);
-		mappingSelectItem("specialKeyWord",caseData.specialKeyWord);
+//		mappingSelectItem("specialKeyWord",caseData.specialKeyWord);
 		mappingSelectItem("designDuringCode",caseData.designDuringCode);
 		mappingSelectItem("executeDuringCode",caseData.executeDuringCode);
 		mappingTextItem("trafficInfo",caseData.trafficInfo);
@@ -109,13 +117,13 @@ function mappingData(result){
 			ue.setContent(caseData.descirbeText1);
 		});
 	}
-	/*if(specialTags != null && specialTags.length > 0){
+	if(specialKeyWord != null && specialKeyWord.length > 0){
 		var tagsArray = new Array();
-		for(var i = 0 ; i< specialTags.length ; i++){
-			tagsArray.push(specialTags[i].tagsCode);
+		for(var i = 0 ; i< specialKeyWord.length ; i++){
+			tagsArray.push(specialKeyWord[i].tagsCode);
 		}
-		mappingCheckItem("special_tags",tagsArray);
-	}*/
+		mappingCheckItem("specialKeyWord",tagsArray);
+	}
 	if(imgs != null && imgs.length > 0){
 		for(var i = 0; i<imgs.length ; i++){
 			mutipleDisplay('imgManage',imgs[i].filePath);

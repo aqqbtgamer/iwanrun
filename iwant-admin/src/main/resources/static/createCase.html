@@ -75,7 +75,7 @@
 
         <div id="main">
             <div id="content">
-                <h2 class="jquery_tab_title">新增用户</h2>
+                <h2 class="jquery_tab_title">新增案例</h2>
                 <table class="form_h">
                     <tr>
                         <th><label for="name">名称</label></th>
@@ -86,17 +86,18 @@
                     <tr>
                         <th> <label >场地地址</label></th>
                         <td>
-                            <label for="activity_province_code">省份：</label>
-                            <select name="activityProvinceCode" id="activityProvinceCode" >
-                                <option value="1">上海</option>
+                            <label for="activityProvinceCode">省份：</label>
+                             <select name="activityProvinceCode" id="activityProvinceCode" dictionary_name="common" used_field="6" used_type="option" used_name="activityProvinceCode_option" used_item="select">
+<!--                             <select name="activityProvinceCode" id="activityProvinceCode" > -->
+<!--                                 <option value="1">上海</option> -->
                             </select>
-                            <label for="activity_city_code">市：</label>
+                            <label for="activityCityCode">市：</label>
                             <select name="activityCityCode" id="activityCityCode" >
-                                <option value="1">上海</option>
+                                
                             </select>
-                            <label for="activity_dist_code">区：</label>
+                            <label for="activityDistCode">区：</label>
                             <select name="activityDistCode" id="activityDistCode" >
-                                <option value="1">上海</option>
+                               
                             </select>
                         </td>
                     </tr>
@@ -109,65 +110,49 @@
                     <tr>
                         <th> <label for="activityTypeCode">活动类型</label></th>
                         <td>
-                            <select name="activityTypeCode"  id="activityTypeCode">
-                                <option value="1">跑步</option>
+                        	<select name="activityTypeCode" id="activityTypeCode" dictionary_name="common" used_field="9" used_type="option" used_name="activityTypeCode_option" used_item="select">
+                               
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th> <label for="companyTypeCode">企业类型</label></th>
                         <td>
-                            <select name="companyTypeCode" id="companyTypeCode" >
-                            	<option value="1">500人以下</option>
-                                <option value="1">500人</option>
-                                <option value="1">1000人</option>
-                                <option value="1">1000人以上</option>
+                            <select name="companyTypeCode" id="companyTypeCode" dictionary_name="common" used_field="24" used_type="option" used_name="companyTypeCode_option" used_item="select">
+                            	
                             </select>
                         </td>
                     </tr>
                       <tr>
                         <th> <label for="groupNumber">活动人数</label></th>
                         <td>
-                            <select name="groupNumber" id="groupNumber" >
-                            	<option value="1">500人以下</option>
-                                <option value="2">500人</option>
-                                <option value="3">1000人</option>
-                                <option value="4">1000人以上</option>
+                            <select name="groupNumber" id="groupNumber" dictionary_name="common" used_field="22" used_type="option" used_name="groupNumber_option" used_item="select">
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th> <label for="during">活动天数</label></th>
                         <td>
-                            <select name="during" id="during" >
-                            	<option value="1">1天</option>
-                                <option value="2">2天</option>
-                                <option value="3">3天</option>
+                            <select name="during" id="during" dictionary_name="common" used_field="23" used_type="option" used_name="during_option" used_item="select">
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th> <label >特色关键字</label></th>
-                        <td>
-                            <label for="specialKeyWord">环境优美</label>
-                            <input type="checkbox" name="specialKeyWord" id="specialKeyWord1" value="1">
-                            <label for="special_tags1">设备先进</label>
-                            <input type="checkbox" name="specialKeyWord" id="specialKeyWord2" value="2">
+                        <td used_field="17" used_type="checkbox" used_name="specialKeyWord" used_item="input">
                         </td>
                     </tr>
                    <tr>
                         <th><label for="name">策划周期</label></th>
                         <td>
-                            <select name="designDuringCode" id="designDuringCode" >
-                                <option value="1">5天</option>
+                            <select name="designDuringCode" id="designDuringCode"  used_field="15" used_type="option" used_name="designDuringCode_option" used_item="select">
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th><label for="name">实施周期</label></th>
                         <td>
-                            <select name="executeDuringCode" id="executeDuringCode" >
-                                <option value="1">5天</option>
+                        	<select name="executeDuringCode" id="executeDuringCode"  used_field="16" used_type="option" used_name="executeDuringCode_option" used_item="select">
                             </select>
                         </td>
                     </tr>
@@ -186,19 +171,22 @@
                      <tr>
                         <th><label for="trafficInfo">交通信息</label></th>
                         <td>
-                            <input  type="text"  name="trafficInfo" id="trafficInfo" />
+                            <select name="trafficInfo" id="trafficInfo"  used_field="18" used_type="option" used_name="trafficInfo_option" used_item="select">
+                            </select>
                         </td>
                     </tr>
                      <tr>
                         <th><label for="foodInfo">餐饮信息</label></th>
                         <td>
-                            <input  type="text"  name="foodInfo" id="foodInfo" />
+                             <select name="foodInfo" id="foodInfo"  used_field="19" used_type="option" used_name="foodInfo_option" used_item="select">
+                            </select>
                         </td>
                     </tr>
                      <tr>
                         <th><label for="hotelInfo">住宿信息</label></th>
                         <td>
-                            <input  type="text"  name="hotelInfo" id="hotelInfo" />
+                            <select name="hotelInfo" id="hotelInfo"  used_field="20" used_type="option" used_name="hotelInfo_option" used_item="select">
+                            </select>
                         </td>
                     </tr>
                      <tr>
@@ -256,21 +244,19 @@
 
         <div id="sidebar">
             <ul class="nav">
-                <li><a class="headitem item1" href="#">基础管理</a>
+                 <li><a class="headitem item1" href="#">基础管理</a>
                     <ul><!-- ul items without this class get hiddden by jquery-->
                         <li><a href="./locationlist.html">场地管理</a></li>
                         <li><a href="./productionInfoList.html">产品管理</a></li>
                         <li><a href="./casesList.html">案例管理</a></li>
                         <li><a href="./userlist.html">用户管理</a></li>
-                         <li><a href="./adminlist.html">管理员管理</a></li>
+                        <li><a href="./adminlist.html">管理员管理</a></li>
                         <li><a href="#">交易管理</a></li>
                     </ul>
                 </li>
                 <li><a class="headitem item2" href="#">系统配置</a>
-                    <ul>
-                        <li><a href="#">日志设置</a></li>
-                        <li><a href="#">用户设置</a></li>
-                        <li><a href="#">找不到结果构建</a></li>
+                    <ul id="dictionarys">
+                      
                     </ul>
                 </li>
                 <li><a class="headitem item4" href="#">编辑</a>
