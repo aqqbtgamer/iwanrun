@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageImpl;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.iwantrun.core.constant.AdminApplicationConstants;
+import com.iwantrun.core.service.application.controller.PurchaserAccountController;
 import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
 import com.iwantrun.core.service.application.dao.PurchaserAccountDao;
 import com.iwantrun.core.service.application.dao.UserInfoAttachmentsDao;
@@ -39,6 +42,7 @@ import net.minidev.json.JSONValue;
 
 @Service
 public class PurchaserAccountService {
+	
 	@Autowired
 	private Environment environment;
 	@Autowired
@@ -51,8 +55,15 @@ public class PurchaserAccountService {
 	private JPQLEnableRepository jpqlExecute;
 
 	public String register(PurchaserAccount account) {
+		String loginId = account.getLoginId();
+		PurchaserAccount dbAccount = dao.findByLoginId(loginId);
+		if(dbAccount != null) {
+			return "账号：" + loginId + "，已存在";
+		}
+		
 		String md5Password=Md5Utils.generate(account.getPassword());
 		account.setPassword(md5Password);
+		
 		PurchaserAccount saved = dao.save(account);
 		if (saved == null) {
 			return "数据保存失败，请重试";
@@ -61,6 +72,7 @@ public class PurchaserAccountService {
 	}
 
 	public String validateRegisterParam(PurchaserAccountRequest accountRequest) {
+		
 		if (accountRequest == null || accountRequest.getAccount() == null) {
 			return "请输入相关数据";
 		}

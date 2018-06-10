@@ -1,6 +1,7 @@
 package com.iwantrun.front.transfer;
 
 import com.iwantrun.front.domain.PurchaserAccount;
+import com.iwantrun.front.utils.JSONUtils;
 
 public class PurchaserAccountRequest {
 	private String sessionId;
@@ -25,5 +26,8 @@ public class PurchaserAccountRequest {
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
 	}
-	
+	@Override
+	public String toString() {
+		return JSONUtils.objToJSON(this);
+	}
 }

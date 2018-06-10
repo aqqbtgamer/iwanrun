@@ -12,6 +12,7 @@ public class Md5UtilsTest {
 		String md5Salt = Md5Utils.generate(password);
 		assertNotNull(md5Salt);
 		System.out.println(md5Salt);
+		System.out.println(md5Salt.length());
 		assertTrue(Md5Utils.verify(password, md5Salt));
 	}
 

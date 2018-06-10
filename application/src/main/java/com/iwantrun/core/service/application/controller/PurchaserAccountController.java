@@ -2,6 +2,8 @@ package com.iwantrun.core.service.application.controller;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -24,6 +26,9 @@ import net.minidev.json.JSONValue;
 @Controller
 @RequestMapping("application/purchaserAccount")
 public class PurchaserAccountController {
+	
+	private final Logger logger = LoggerFactory.getLogger(PurchaserAccountController.class);
+	
 	@Autowired
 	PurchaserAccountService service;
 	@Autowired
@@ -41,22 +46,34 @@ public class PurchaserAccountController {
 		Message response=new Message();
 		JSONObject responseJSON=new JSONObject();
 		
-		String errorMsg;
+		String errorMsg="";
 		String param = message.getMessageBody();
-		if (!StringUtils.isEmpty(param)) {
-			PurchaserAccountRequest accountRequest = JSONUtils.jsonToObj(param, PurchaserAccountRequest.class);
-			errorMsg = service.validateRegisterParam(accountRequest);
-			if(errorMsg==null) {
-				errorMsg= service.register(accountRequest.getAccount());
+		
+		logger.error("用户注册，请求参数：{}", param);
+		
+		try {
+			if (!StringUtils.isEmpty(param)) {
+				PurchaserAccountRequest accountRequest = JSONUtils.jsonToObj(param, PurchaserAccountRequest.class);
+				errorMsg = service.validateRegisterParam(accountRequest);
 				if(errorMsg==null) {
-					String token=tokenService.tokenGenerate(accountRequest.getAccount().getMobileNumber(), accountRequest.getSessionId());
-					response.setAccessToken(token);
+					errorMsg= service.register(accountRequest.getAccount());
+					if(errorMsg==null) {
+						String token=tokenService.tokenGenerate(accountRequest.getAccount().getLoginId(), accountRequest.getSessionId());
+						response.setAccessToken(token);
+					}
 				}
+			}else {
+				errorMsg ="请输入相关数据";
 			}
-		}else {
-			errorMsg ="请输入相关数据";
+		} catch (Exception e) {
+			errorMsg = "未知异常";
+			logger.error("用户注册异常：{}", e);
 		}
+		
 		responseJSON.put("errorMsg", errorMsg);
+		
+		logger.error("用户注册，返回结果：{}", responseJSON.toJSONString());
+		
 		response.setMessageBody(responseJSON.toJSONString());
 		return response;
 	}
@@ -76,8 +93,14 @@ public class PurchaserAccountController {
 		String errorMsg;
 		String param = message.getMessageBody();
 		if (!StringUtils.isEmpty(param)) {
-			PurchaserAccount account=JSONUtils.jsonToObj(param, PurchaserAccount.class);
+			PurchaserAccountRequest accountRequest = JSONUtils.jsonToObj(param, PurchaserAccountRequest.class);
+			PurchaserAccount account=accountRequest.getAccount();
 			errorMsg = service.validateLoginParam(account);
+			
+			if(StringUtils.isEmpty(errorMsg)) {
+				String token=tokenService.tokenGenerate(accountRequest.getAccount().getLoginId(), accountRequest.getSessionId());
+				response.setAccessToken(token);
+			}
 		}else {
 			errorMsg ="请输入相关数据";
 		}

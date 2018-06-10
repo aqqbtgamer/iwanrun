@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iwantrun.front.domain.PurchaserAccount;
 import com.iwantrun.front.service.PurchaserAccountService;
@@ -28,9 +29,10 @@ public class PurchaserAccountController {
 	 * @return String
 	 */
 	@RequestMapping("/register")
-	public String register(@RequestBody PurchaserAccountRequest purchaser) {
+	@ResponseBody
+	public Message register(@RequestBody PurchaserAccountRequest purchaser) {
 		Message result = service.register(purchaser);
-		return JSONUtils.objToJSON(result);
+		return result;
 	}
 
 	/**
@@ -40,8 +42,9 @@ public class PurchaserAccountController {
 	 * @return
 	 */
 	@RequestMapping("/login")
-	public String login(@RequestBody PurchaserAccount account) {
-		Message result = service.login(account);
-		return JSONUtils.objToJSON(result);
+	@ResponseBody
+	public Message login(@RequestBody PurchaserAccountRequest purchaser) {
+		Message result = service.login(purchaser);
+		return result;
 	}
 }

@@ -37,16 +37,16 @@ public class PurchaserAccountService {
 	/**
 	 * 采购用户登录
 	 * 
-	 * @param account
+	 * @param purchaser
 	 * @return
 	 */
-	public Message login(PurchaserAccount account) {
+	public Message login(PurchaserAccountRequest purchaser) {
 		String login = environment.getProperty("application.purchaserAccount.login");
 		String baseUrl = environment.getProperty("app.server");
 		String url = baseUrl + login;
 
 		Message message = new Message();
-		message.setMessageBody(JSONUtils.objToJSON(account));
+		message.setMessageBody(JSONUtils.objToJSON(purchaser));
 		message.setRequestMethod(url);
 		return template.postForEntity(url, message, Message.class).getBody();
 	}
