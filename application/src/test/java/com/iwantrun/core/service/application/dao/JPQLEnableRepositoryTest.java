@@ -2,7 +2,11 @@ package com.iwantrun.core.service.application.dao;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.UserAccount;
 import com.iwantrun.core.service.application.transfer.MixedLocations;
+import com.iwantrun.core.service.utils.JSONUtils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestPropertySource(locations = {"classpath:application.properties"})
@@ -49,6 +54,23 @@ public class JPQLEnableRepositoryTest {
 		List<Locations> resultList = repository.findByJPQLAll(jpql, Locations.class);
 		System.out.println("---------------------------test result --------------------"+resultList.size());
 		assertEquals(2,resultList.size());
+	}
+	
+	@Test
+	public void testNativeSQl() {
+		String nativeSql = "select username,password from iwant_account ";
+		@SuppressWarnings("unchecked")
+		List<Object[]>resultList = (List<Object[]>)repository.findByNativeSqlPage(nativeSql);
+		Function<Object[],Map<String,Object>> mapper = 
+				objArray ->{
+					Map<String,Object> resultMap = new HashMap<String,Object>();	
+					resultMap.put("username", objArray[0].toString());
+					resultMap.put("password", objArray[1].toString());
+					return resultMap;
+				}
+				;
+		List<Map<String,Object>> result = resultList.stream().map(mapper).collect(Collectors.toList());
+		System.out.println(JSONUtils.objToJSON(result));
 	}
 	
 

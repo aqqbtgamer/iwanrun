@@ -57,8 +57,14 @@ public class JPQLEnableRepository {
 	@SuppressWarnings("rawtypes")
 	public List findByNativeSqlPage(String nativeSql,int page, int pageSize){
 		Query query = this.entityManager.createNativeQuery(nativeSql);
-		query.setFirstResult((page-1)*pageSize);
+		query.setFirstResult(page*pageSize);
 		query.setMaxResults(pageSize);
+		return query.getResultList();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public List findByNativeSqlPage(String nativeSql){
+		Query query = this.entityManager.createNativeQuery(nativeSql);
 		return query.getResultList();
 	}
 	
@@ -68,6 +74,6 @@ public class JPQLEnableRepository {
 		query.setFirstResult((page-1)*pageSize);
 		query.setMaxResults(pageSize);
 		return (List<T>)query.getResultList();
-	}
+	}	
 
 }

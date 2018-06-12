@@ -319,6 +319,8 @@ function fileUpload(contentId,url,callback) {
             )
     }
     
+    function bindCustomerClickFieldQuery(bindId,filedArray,tableId,pageId)
+    
   
     function pageDataInit(tableId,pageId,dataUrl,deleteUrl,modifyUrl,columns,pageIndex,data){
     	var table = $("#"+tableId);
@@ -430,10 +432,10 @@ function fileUpload(contentId,url,callback) {
                      	}                    	
                      }
                      td.text(property);
-                     tr.append(td);
-                     if(callObj != null){
-                    	 callObj.call(tr);
-                     }
+                     tr.append(td);                    
+                 }
+                 if(callObj != null){
+                	 callObj.call(tr);
                  }
                  table.append(tr);
          	}
@@ -521,7 +523,7 @@ function fileUpload(contentId,url,callback) {
              }
         }
         var next = customerPageLink(tableId,dataUrl,Math.min(pagedata.totalpage-1,pagedata.currentPage+1),"后一页  »",false,callObj);
-        var end = generatePageLink(tableId,dataUrl,pagedata.totalpage-1,"尾页  »",false,callObj);
+        var end = customerPageLink(tableId,dataUrl,pagedata.totalpage-1,"尾页  »",false,callObj);
         pageDiv.append(next);
         pageDiv.append(end);
     }
@@ -689,7 +691,8 @@ function fileUpload(contentId,url,callback) {
     		pageLink.bind("click",function(){
     			customerPageDataInit(tableId,dataUrl,pageIndex,callObj);
             });
-    	}        
+    	}
+    	return pageLink;
     }
     
     function deleteSingle(id,deleteUrl,modifyUrl,tableId,pageId,dataUrl,columns,data){
