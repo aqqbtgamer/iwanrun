@@ -157,7 +157,25 @@ var appListCase = new Vue(
                     vm.search.criteria[name].splice(index, 1);
                 }
                 console.log(vm.search.criteria[name]);
+            },
+            
+            queryDictionaryList:function(){
+            	var url="../../dictionary/findByName";
+            	var param = {
+            		name:"common"	
+            	};
+            	axios.post(url,param).then(
+            			function(response){
+            				console.log(response.data);
+            		
+            	})
+            	
             }
+            
+        },
+        created: function(){
+        	var vm = this;
+        	vm.queryDictionaryList();
         }
     }
 );

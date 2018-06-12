@@ -3,10 +3,13 @@ package com.iwantrun.front.utils;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
@@ -55,6 +58,24 @@ public class JSONUtils {
 
 			return mapper.readValue(text, factory.constructCollectionType(List.class, clazz));
 			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static Map jsonToMap(String json) {
+		
+		ObjectMapper mapper = new ObjectMapper(); //转换器  
+		Map map;
+		try {
+			map = mapper.readValue(json, Map.class);
+			return map;
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
