@@ -2,16 +2,23 @@ package com.iwantrun.core.service.application.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.mockito.internal.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
 import com.iwantrun.core.service.application.domain.Dictionary;
 import com.iwantrun.core.service.application.service.DictionaryService;
 import com.iwantrun.core.service.application.transfer.Message;
+import com.iwantrun.core.service.application.transfer.ResponseMessage;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
+import com.iwantrun.core.service.utils.IconstantsPool;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
@@ -79,5 +86,14 @@ public class DictionaryController {
 		message.setMessageBody(JSONValue.toJSONString(body));
 		return message;
 	}
-
+	@RequestMapping("/application/dictionary/findByName")
+	public Message findByName(@RequestBody Message message) {
+		String param = message.getMessageBody();
+		if(!StringUtils.isEmpty(param)) {
+			List<Dictionary> resultList = dictionaryService.findDictionaryByName(param);
+			message.setMessageBody(JSONValue.toJSONString(resultList));
+			return message;
+		}
+		return null;
+	}
 }

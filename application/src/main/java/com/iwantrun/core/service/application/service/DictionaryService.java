@@ -128,6 +128,14 @@ public class DictionaryService {
 				.withIgnorePaths("id","display_code","display_value","code","value","used_field","name");
 		return dictionaryDao.findAll(Example.of(example,matcher));
 	}
-	
+	public List<Dictionary> findDictionaryByName(String name) {
+		Dictionary example = new Dictionary();
+		example.setName(name);
+		ExampleMatcher matcher = ExampleMatcher.matchingAll()
+				.withMatcher("name", GenericPropertyMatchers.exact())
+				.withIgnorePaths("id","display_code","display_value","code","value","assignTo");
+				
+		return dictionaryDao.findAll(Example.of(example,matcher));
+	}
 
 }
