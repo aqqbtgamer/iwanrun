@@ -62,7 +62,7 @@
                             <span v-for="item in criteria.location" style="padding-right:3px;">
                                 <i class="iconfont-grey icon-checkbox-non" @click="checkchange"></i>
                                 <input type="checkbox" :value="item.id" name="location" class="checkbox-primary">
-                                <label for="check11">{{item.text}}</label>
+                                <label for="check11">{{item.value}}</label>
                             </span>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                             <span v-for="item in criteria.activitytype" style="padding-right:3px;">
                                 <i class="iconfont-grey icon-checkbox-non" @click="checkchange"></i>
                                 <input type="checkbox" :value="item.id" name="activitytype" class="checkbox-primary">
-                                <label for="check11">{{item.text}}</label>
+                                <label for="check11">{{item.value}}</label>
                             </span>
                         </div>
                         <div class="query-column-openmore">
@@ -97,7 +97,7 @@
                             <span v-for="item in criteria.companytype" style="padding-right:3px;">
                                 <i class="iconfont-grey icon-checkbox-non" @click="checkchange"></i>
                                 <input type="checkbox" :value="item.id" name="companytype" class="checkbox-primary">
-                                <label for="check11">{{item.text}}</label>
+                                <label for="check11">{{item.value}}</label>
                             </span>
                         </div>
                     </div>
@@ -113,7 +113,7 @@
                             <span v-for="item in criteria.personNum" style="padding-right:3px;">
                                 <i class="iconfont-grey icon-checkbox-non" @click="checkchange"></i>
                                 <input type="checkbox" :value="item.id" name="personNum" class="checkbox-primary">
-                                <label for="check11">{{item.text}}</label>
+                                <label for="check11">{{item.value}}</label>
                             </span>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                             <span v-for="item in criteria.duration" style="padding-right:3px;">
                                 <i class="iconfont-grey icon-checkbox-non" @click="checkchange"></i>
                                 <input type="checkbox" :value="item.id" name="duration" class="checkbox-primary">
-                                <label for="check11">{{item.text}}</label>
+                                <label for="check11">{{item.value}}</label>
                             </span>
                         </div>
                     </div>

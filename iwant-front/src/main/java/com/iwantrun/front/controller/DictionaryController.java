@@ -25,21 +25,5 @@ public class DictionaryController {
 	@Autowired
 	private DictionaryService dictionaryService;
 	
-	@SuppressWarnings("rawtypes")
-	@RequestMapping("/findByName")
-	@ResponseBody
-	public String findByName(@RequestBody String param) {
-
-		try {
-			Map map = JSONUtils.jsonToMap(param);
-			String name=(String) map.get("name");
-			Message result = dictionaryService.queryDictionaryList(name);
-			return JSONUtils.objToJSON(result);
-		} catch (Exception e) {
-			
-		}
-		return null;
-		
-	} 
 
 }

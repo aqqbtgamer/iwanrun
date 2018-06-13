@@ -14,45 +14,21 @@ var appListCase = new Vue(
             loginToken:'uuixooppasyytvdbftrraskm',
             loginRole:{id:1,role:'采购方'},
             criteria: {
-                location: [
-                    { id: 1, text: '上海市区',dbCode:1,code:1 },
-                    { id: 2, text: '周边城市',dbCode:1,code:2 },
-                    { id: 3, text: '境外城市',dbCode:1,code:3 }
+                location: [  
+                    { id: 1, value: '上海市区',dbCode:1,code:1 },
+                    { id: 2, value: '周边城市',dbCode:1,code:2 },
+                    { id: 3, value: '境外城市',dbCode:1,code:3 }
                 ],
-                activitytype: [
-                    { id: 4, text: '室内球类运动' ,dbCode:2,code:1 },
-                    { id: 5, text: '户外水上运动' ,dbCode:2,code:2},
-                    { id: 6, text: '户外拓展' ,dbCode:2,code:3},
-                    { id: 7, text: '室内趣味运动' ,dbCode:2,code:4},
-                    { id: 8, text: '户外体育场' ,dbCode:2,code:5},
-                    { id: 9, text: '拓展培训' ,dbCode:2,code:6}
-                ],
-                companytype: [
-                    { id: 10, text: '个体私营企业',dbCode:3,code:1 },
-                    { id: 11, text: '外资企业' ,dbCode:3,code:2},
-                    { id: 12, text: '国企' ,dbCode:3,code:3},
-                    { id: 13, text: '中外合资' ,dbCode:3,code:4 },
-                    { id: 14, text: '自由职业',dbCode:3,code:5 }
-                ],
-                personNum: [
-                    { id: 0, text: '20人以下' ,dbCode:4,code:1 },
-                    { id: 1, text: '20-40人',dbCode:4,code:2 },
-                    { id: 2, text: '40-60人' ,dbCode:4,code:3},
-                    { id: 3, text: '60人以上'  ,dbCode:4,code:4}
-                ],
-                duration: [
-                    { id: 0, text: '半天' ,dbCode:5,code:1},
-                    { id: 1, text: '1天' ,dbCode:5,code:2},
-                    { id: 2, text: '2天'  ,dbCode:5,code:3},
-                    { id: 3, text: '3天'  ,dbCode:5,code:4},
-                    { id: 4, text: '3天以上'  ,dbCode:5,code:5}
-                ],
+                activitytype: [],
+                companytype: [],
+                personNum: [],
+                duration: [],
                 price: [
-                    { id: 0, text: '200以下' ,dbCode:6,code:1 },
-                    { id: 1, text: '200-300' ,dbCode:6,code:2},
-                    { id: 2, text: '300-400' ,dbCode:6,code:3},
-                    { id: 3, text: '400-500' ,dbCode:6,code:4},
-                    { id: 4, text: '500以上' ,dbCode:6,code:5}
+                    { id: 0, value: '200以下' ,dbCode:6,code:1 },
+                    { id: 1, value: '200-300' ,dbCode:6,code:2},
+                    { id: 2, value: '300-400' ,dbCode:6,code:3},
+                    { id: 3, value: '400-500' ,dbCode:6,code:4},
+                    { id: 4, value: '500以上' ,dbCode:6,code:5}
                 ]
             },
             List: [
@@ -160,14 +136,22 @@ var appListCase = new Vue(
             },
             
             queryDictionaryList:function(){
-            	var url="../../dictionary/findByName";
+            	var vm = this;
+            	var url="../../case/caseSearchList";
             	var param = {
             		name:"common"	
             	};
             	axios.post(url,param).then(
             			function(response){
             				console.log(response.data);
-            		
+            				var list = response.data;
+            				if( list != ''){
+            					vm.criteria.activitytype=list.activitytype;
+            					vm.criteria.companytype=list.companytype;
+            					vm.criteria.personNum=list.personNum;
+            					vm.criteria.duration=list.duration;
+            				}
+            				
             	})
             	
             }
