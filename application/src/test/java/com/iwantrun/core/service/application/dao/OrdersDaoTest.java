@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.application.dao;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,8 @@ import com.iwantrun.core.service.application.domain.Orders;
 import com.iwantrun.core.service.application.enums.TradeStatus;
 import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.OrderNoGenerator;
+
+import net.minidev.json.JSONObject;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestPropertySource(locations = {"classpath:application.properties"})
@@ -47,6 +50,28 @@ public class OrdersDaoTest {
 	public void test3() {
 		Integer total = ordersDao.countAllWithPurchaseInfo(repository);
 		System.out.println(total);
+	}
+	
+	@Test
+	public void test4() {
+		JSONObject obj = new JSONObject();
+		obj.put("orderNO", "2018061039115261700028343495");
+		Integer total = ordersDao.countByExampleWithUserInfo(obj, repository);
+		System.out.println(total);
+	}
+	
+	@Test
+	public void test5() throws ParseException {
+		JSONObject obj = new JSONObject();
+		obj.put("orderNO", "2018061039115261700028343494");
+		obj.put("pageIndex", 0);
+		obj.put("pageSize", 10);
+		String modifyTimeFrom = "2018-06-13 12:00:00";
+		String modifyTimeTo = "2018-06-15 12:00:00";
+		obj.put("modifyTimeFrom", modifyTimeFrom);
+		obj.put("modifyTimeTo", modifyTimeTo);
+		List<Map<String, Object>> resultList = ordersDao.findByExampleWithUserInfoPaged(obj, repository);
+		System.out.println(JSONUtils.objToJSON(resultList));
 	}
 
 }

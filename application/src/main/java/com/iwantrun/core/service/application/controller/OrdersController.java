@@ -26,5 +26,14 @@ public class OrdersController {
 		message.setMessageBody(result);
 		return message;
 	}
+	
+	@RequestMapping("findByExample")
+	public Message findByExample(@RequestBody Message message) {
+		String requestJson = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJson);
+		String result = orderService.findByExample(requestObj);
+		message.setMessageBody(result);
+		return message;
+	}
 
 }

@@ -19,5 +19,10 @@ public class OrdersController {
 	public String findAll(HttpServletRequest request) {
 		return orderService.findAll(request);
 	}
+	
+	@RequestMapping("findByExample")
+	public String findByExample(HttpServletRequest request) {
+		return orderService.findByExample(request);
+	}
 
 }

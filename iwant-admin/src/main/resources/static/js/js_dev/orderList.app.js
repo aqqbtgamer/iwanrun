@@ -3,6 +3,7 @@
  */
 const dictionaryUrl = "/iwant_admin/dictionary/getPages";
 const dataInitUrl = '/iwant_admin/orders/findAll';
+const dataQueryUrl = '/iwant_admin/orders/findByExample';
 const dateFieldsArray = new Array(
 		"createTimeFrom",
 		"createTimeTo",
@@ -15,6 +16,17 @@ const columns = new Array(
 		"orderNo",
 		"createTime",
 		"orderStatusCodeString"
+);
+
+const queryField = new Array(
+		"orderNO",
+		"mobile1",
+		"mobile2",
+		"createTimeFrom",
+		"createTimeTo",
+		"modifyTimeFrom",
+		"modifyTimeTo",
+		"orderStatus"
 );
 
 var callObj = {
@@ -44,6 +56,10 @@ $(document).ready(
 				tr.append(td);
 			};
 			customerPageDataInit(callObj.tableId,callObj.dataInitUrl,0,callObj);
+			var clickObj = new Object();
+			$.extend(clickObj,callObj);
+			clickObj.dataUrl = dataQueryUrl;
+			bindCustomerClickFieldQuery("queryCondtion",queryField,clickObj.tableId,clickObj);
 		}
 		
 )

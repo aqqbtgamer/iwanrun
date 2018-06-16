@@ -1,5 +1,7 @@
 package com.iwantrun.admin.constant;
 
+import java.util.function.Function;
+
 public interface AdminApplicationConstants {
 	
 	int HTTP_READ_TIME_OUT = 10000;
@@ -28,6 +30,7 @@ public interface AdminApplicationConstants {
 	
 	String LOGIN_TOKEN = "login_token";
 	
-	String HTTP_RESULT_FAILED = "failed" ;
+	String HTTP_RESULT_FAILED = "failed" ;	
+	
 
 }

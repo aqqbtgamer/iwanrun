@@ -319,7 +319,21 @@ function fileUpload(contentId,url,callback) {
             )
     }
     
-    function bindCustomerClickFieldQuery(bindId,filedArray,tableId,pageId)
+    function bindCustomerClickFieldQuery(bindId,filedArray,tableId,callObj){
+    	$("#"+bindId).click(
+    			function(){
+    				var requestObj = new Object();
+        	        requestObj.pageIndex = 0 ;
+        	        var obj = new Object();
+        	        for(var i =0 ; i<filedArray.length ; i++){
+                    	obj[$("#"+filedArray[i]).attr("name")] = $("#"+filedArray[i]).val();
+                    }
+        	        callObj.data = JSON.stringify(obj);
+        			customerPageDataInit(tableId,callObj.dataUrl,requestObj.pageIndex,callObj);
+    			}
+    			
+    	);
+    }
     
   
     function pageDataInit(tableId,pageId,dataUrl,deleteUrl,modifyUrl,columns,pageIndex,data){
@@ -367,7 +381,7 @@ function fileUpload(contentId,url,callback) {
     		requestData.pageIndex = pageIndex ;
     	}
     	if(callObj.data != null){
-    		requestData.obj = data;
+    		requestData.obj = callObj.data;
     	}
     	$.ajax(
                 {
