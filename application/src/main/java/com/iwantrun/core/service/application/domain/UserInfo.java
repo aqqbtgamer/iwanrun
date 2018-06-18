@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.iwantrun.core.service.application.enums.Gender;
 import com.iwantrun.core.service.application.enums.VerifyStatus;
 
 @Entity
@@ -78,6 +79,15 @@ public class UserInfo {
 
 	public void setGender(Integer gender) {
 		this.gender = gender;
+	}
+	
+	public String getGenderString() {
+		Gender gender = Gender.matchById(this.gender);
+		if(gender != null) {
+			return gender.getDesc();
+		}else {
+			return null;
+		}
 	}
 
 	public String getContractMobile() {

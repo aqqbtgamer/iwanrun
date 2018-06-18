@@ -9,6 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.iwantrun.core.service.application.annotation.DictionaryField;
+import com.iwantrun.core.service.application.enums.TradeStatus;
+import com.iwantrun.core.service.utils.DictionaryConfigParams;
+
 @Entity
 @Table(name="biz_orders")
 public class Orders {
@@ -36,6 +40,7 @@ public class Orders {
 	private Integer orderOwnerId;
 	
 	@Column(name="company_type_id")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME, usedField = DictionaryConfigParams.COMMON_COMPANY_TYPE)
 	private String companyTypeId;
 	
 	@Column(name="contract")
@@ -45,12 +50,15 @@ public class Orders {
 	private String contractMobile;
 	
 	@Column(name="group_number_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_ACTIVITY_PERSON_NUMBER_TYPE)
 	private Integer groupNumberCode;
 	
 	@Column(name="activity_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_ACTIVITY_TYPE)
 	private Integer activity_code;
 	
 	@Column(name="activity_during_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_ACTIVITY_PERIOD_TYPE)
 	private Integer activityDuringCode;
 	
 	@Column(name="activity_start")
@@ -60,15 +68,19 @@ public class Orders {
 	private Date activityEnd;
 	
 	@Column(name="activity_province_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_PROVINCE_TYPE)
 	private Integer activityProvinceCode;
 	
 	@Column(name="activity_city_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_CITY_TYPE)
 	private Integer activityCityCode ;
 	
 	@Column(name="activity_dist_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_DIST_TYPE)
 	private Integer activityDistCode ;
 	
 	@Column(name="order_simulate_price_code")
+	@DictionaryField(name=DictionaryConfigParams.PRODUCTION_DICTIONARY_NAME,usedField=DictionaryConfigParams.PRODUCTION_SINGEL_PRICE_LIMIT_TYPE)
 	private Integer orderSimulatePriceCode ;
 	
 	@Column(name="order_group_price_code")
@@ -105,6 +117,16 @@ public class Orders {
 	public void setOrderStatusCode(Integer orderStatusCode) {
 		this.orderStatusCode = orderStatusCode;
 	}
+	
+	public String getOrderStatus() {
+		TradeStatus status = TradeStatus.matchById(this.orderStatusCode);
+		if(status != null) {
+			return status.getName();
+		}else {
+			return null;
+		}
+		
+	}
 
 	public Integer getOrderAdviserId() {
 		return orderAdviserId;
@@ -122,12 +144,12 @@ public class Orders {
 		this.orderOwnerId = orderOwnerId;
 	}
 
-	public String getCompanyTypeId() {
-		return companyTypeId;
-	}
-
 	public void setCompanyTypeId(String companyTypeId) {
 		this.companyTypeId = companyTypeId;
+	}
+	
+	public String getCompanyType() {
+		return null;
 	}
 
 	public String getContract() {

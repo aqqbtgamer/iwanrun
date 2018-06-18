@@ -35,5 +35,14 @@ public class OrdersController {
 		message.setMessageBody(result);
 		return message;
 	}
+	
+	@RequestMapping("get")
+	public Message get(@RequestBody Message message) {
+		String requestJson = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJson);
+		String result = orderService.get(requestObj);
+		message.setMessageBody(result);
+		return message;
+	}
 
 }

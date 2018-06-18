@@ -61,4 +61,20 @@ public class OrdersService {
 		return response == null ? null : response.getBody().getMessageBody();
 	}
 
+	public String get(HttpServletRequest request) {
+		String token = CookieUtils.getLoginToken(request);
+		String id = request.getParameter("id");
+		JSONObject requestObj = new JSONObject();
+		requestObj.put("id", id);
+		String json = requestObj.toJSONString();
+		String postUrl = env.getProperty("application.orders.get");
+		String baseUrl = env.getProperty("application.serverbase");
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(json);
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);		
+		return response == null ? null : response.getBody().getMessageBody();
+	}
+
 }

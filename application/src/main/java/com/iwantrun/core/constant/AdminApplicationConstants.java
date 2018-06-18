@@ -12,6 +12,12 @@ public interface AdminApplicationConstants {
 	
 	int ADMIN_ROLE_TYPE = 1;
 	
+	String CASE_DRAFT = "case_draft" ;
+	
+	String APPOINTMENT = "appointment";
+	
+	String PROJECT_CONCLUDE = "project_conclude";
+	
 	Function<Object,Integer> MAPPER_FOR_INTEGER =
 			objArray -> {
 				Integer total =  0;

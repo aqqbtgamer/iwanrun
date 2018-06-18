@@ -107,11 +107,15 @@ public class DictionaryService {
 			for(T item : filterList) {
 				for(String property : properties) {
 					try {
-						String code = (String) PropertyUtils.getSimpleProperty(item, property);
-						Integer codeInt = Integer.parseInt(code);
-						Map<Integer,String> codeValueMap = propertyCodeValueMap.get(property);
-						String value = codeValueMap.get(codeInt);
-						PropertyUtils.setProperty(item, property, value);
+						Object codeValue = PropertyUtils.getSimpleProperty(item, property);
+						if(codeValue != null) {
+							String code = codeValue.toString();
+							Integer codeInt = Integer.parseInt(code);
+							Map<Integer,String> codeValueMap = propertyCodeValueMap.get(property);
+							String value = codeValueMap.get(codeInt);
+							PropertyUtils.setProperty(item, property, value);
+						}
+						
 					} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 						logger.error("数据字典数据转化的时候发生错误",e);
 					}

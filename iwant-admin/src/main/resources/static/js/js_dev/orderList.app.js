@@ -4,6 +4,7 @@
 const dictionaryUrl = "/iwant_admin/dictionary/getPages";
 const dataInitUrl = '/iwant_admin/orders/findAll';
 const dataQueryUrl = '/iwant_admin/orders/findByExample';
+const orderDetailUrl = '/iwant_admin/orderDetails.html?id='
 const dateFieldsArray = new Array(
 		"createTimeFrom",
 		"createTimeTo",
@@ -48,6 +49,12 @@ $(document).ready(
 				var linkDetail = $("<a>").text("查看订单详情");
 				var linkAssign = $("<a>").text("订单指派");
 				var linkClose = $("<a>").text("关闭订单");
+				linkDetail.bind("click",function(event){
+					var self = $(event.target);
+					var parentTr = self.parent().parent();
+					var orderId = parentTr.find("th input").attr("id");
+					window.location.href = orderDetailUrl+orderId;
+				});
 				td.append(linkDetail);
 				td.append("/");
 				td.append(linkAssign);

@@ -24,5 +24,11 @@ public class OrdersController {
 	public String findByExample(HttpServletRequest request) {
 		return orderService.findByExample(request);
 	}
+	
+	
+	@RequestMapping("get")
+	public String get(HttpServletRequest request) {
+		return orderService.get(request);
+	}
 
 }
