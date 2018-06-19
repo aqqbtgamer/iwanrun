@@ -64,6 +64,8 @@ public class PurchaserAccountService {
 		String md5Password=Md5Utils.generate(account.getPassword());
 		account.setPassword(md5Password);
 		
+		account.setSysRoleId(RoleType.Purchase.getId());
+		account.setStatus(VerifyStatus.Not_Verified.getId());
 		PurchaserAccount saved = dao.save(account);
 		if (saved == null) {
 			return "数据保存失败，请重试";
