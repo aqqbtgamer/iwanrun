@@ -2,6 +2,8 @@ package com.iwantrun.core.service.application.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,7 @@ public class PurchaserAccountController {
 	 */
 	@RequestMapping("register")
 	@ResponseBody
-	public Message register(@RequestBody Message message) {
+	public Message register(HttpServletRequest servletRequest, @RequestBody Message message) {
 		Message response=new Message();
 		JSONObject responseJSON=new JSONObject();
 		
@@ -54,7 +56,7 @@ public class PurchaserAccountController {
 		try {
 			if (!StringUtils.isEmpty(param)) {
 				PurchaserAccountRequest accountRequest = JSONUtils.jsonToObj(param, PurchaserAccountRequest.class);
-				errorMsg = service.validateRegisterParam(accountRequest);
+				errorMsg = service.validateRegisterParam(accountRequest, servletRequest);
 				if(errorMsg==null) {
 					errorMsg= service.register(accountRequest.getAccount());
 					if(errorMsg==null) {
@@ -86,7 +88,7 @@ public class PurchaserAccountController {
 	 */
 	@RequestMapping("login")
 	@ResponseBody
-	public Message login(@RequestBody Message message) {
+	public Message login(HttpServletRequest servletRequest,@RequestBody Message message) {
 		Message response=new Message();
 		JSONObject responseJSON=new JSONObject();
 		
@@ -95,10 +97,11 @@ public class PurchaserAccountController {
 		if (!StringUtils.isEmpty(param)) {
 			PurchaserAccountRequest accountRequest = JSONUtils.jsonToObj(param, PurchaserAccountRequest.class);
 			PurchaserAccount account=accountRequest.getAccount();
-			errorMsg = service.validateLoginParam(account);
+
+			errorMsg = service.validateLoginParam(servletRequest, accountRequest);
 			
 			if(StringUtils.isEmpty(errorMsg)) {
-				String token=tokenService.tokenGenerate(accountRequest.getAccount().getLoginId(), accountRequest.getSessionId());
+				String token=tokenService.tokenGenerate(account.getLoginId(), accountRequest.getSessionId());
 				response.setAccessToken(token);
 			}
 		}else {

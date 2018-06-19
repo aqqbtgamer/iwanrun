@@ -13,6 +13,7 @@ public class PurchaserAccountRequest {
 	}
 	private String smsCode;
 	private PurchaserAccount account;
+	private boolean messageLogin;
 	
 	public String getSmsCode() {
 		return smsCode;
@@ -25,6 +26,14 @@ public class PurchaserAccountRequest {
 	}
 	public void setAccount(PurchaserAccount account) {
 		this.account = account;
+	}
+
+	public boolean isMessageLogin() {
+		return messageLogin;
+	}
+
+	public void setMessageLogin(boolean messageLogin) {
+		this.messageLogin = messageLogin;
 	}
 	
 }

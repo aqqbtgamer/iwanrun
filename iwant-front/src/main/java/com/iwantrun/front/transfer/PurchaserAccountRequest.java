@@ -6,6 +6,7 @@ import com.iwantrun.front.utils.JSONUtils;
 public class PurchaserAccountRequest {
 	private String sessionId;
 	private String smsCode;
+	private boolean messageLogin;
 	private PurchaserAccount account;
 	
 	public String getSmsCode() {
@@ -29,5 +30,13 @@ public class PurchaserAccountRequest {
 	@Override
 	public String toString() {
 		return JSONUtils.objToJSON(this);
+	}
+
+	public boolean isMessageLogin() {
+		return messageLogin;
+	}
+
+	public void setMessageLogin(boolean messageLogin) {
+		this.messageLogin = messageLogin;
 	}
 }

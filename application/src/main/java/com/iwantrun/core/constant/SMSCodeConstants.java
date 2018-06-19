@@ -17,4 +17,6 @@ public interface SMSCodeConstants {
 	String REQ_URI_VARIABLE_PASST_KEY = "password";
 	String REQ_URI_VARIABLE_USER_ID_KEY = "userid";
 	String REQ_URI_VARIABLE_MOBILE_KEY = "mobile";
+
+	String RES_RETURN_STATUS = "Success";
 }

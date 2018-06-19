@@ -135,17 +135,19 @@ var appIndex = new Vue(
         	login: function(){
         		var account = this.account;
         		var mobile = account.loginId;
-        		var password = account.password;
-        		
-        		var correct = validateAccount(mobile, password);
+        		var correct = false;
+        		if(this.messageLogin){
+        			var smsCode = account.smsCode;
+        			correct = validateAccount(mobile, null, null, smsCode);
+        		}else{
+	        		var password = account.password;
+	        		correct = validateAccount(mobile, password);
+        		}
         		
         		if(correct){
             		var data = {};
-            		
-            		data.account={};
-            		
-            		data.account.loginId = mobile;
-            		data.account.password = password;
+            		data.messageLogin=messageLogin;
+            		data.account=account;
             		
             		var url = baseUrl + "purchaserAccount/login";
             		$http.post(url, JSON.stringify(data), loginBack);
@@ -194,6 +196,7 @@ var appIndex = new Vue(
                 vm.registerWindow = false;
                 vm.loginWindow = true;
                 vm.loginTitle = (vm.counselor ? '咨询师' : '用户') + '登录';
+                showErrMsg();
             },
             closeLogin: function () {
                 console.log("v-on  click method :closeLogin");
@@ -216,6 +219,7 @@ var appIndex = new Vue(
                 vm.loginWindow = false;
                 vm.registerWindow = true;
                 vm.registerTitle = (vm.counselor ? '咨询师' : '用户') + '注册';
+                showErrMsg();
             },
             closeRegister: function () {
                 console.log("v-on  click method :closeRegister");

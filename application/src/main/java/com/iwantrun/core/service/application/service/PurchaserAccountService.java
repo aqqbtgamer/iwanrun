@@ -5,10 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageImpl;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.iwantrun.core.constant.AdminApplicationConstants;
-import com.iwantrun.core.service.application.controller.PurchaserAccountController;
 import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
 import com.iwantrun.core.service.application.dao.PurchaserAccountDao;
 import com.iwantrun.core.service.application.dao.UserInfoAttachmentsDao;
@@ -73,17 +71,27 @@ public class PurchaserAccountService {
 		return null;
 	}
 
-	public String validateRegisterParam(PurchaserAccountRequest accountRequest) {
+	public String validateRegisterParam(PurchaserAccountRequest accountRequest, HttpServletRequest servletRequest) {
 		
 		if (accountRequest == null || accountRequest.getAccount() == null) {
 			return "请输入相关数据";
+		}
+		String mobile = accountRequest.getAccount().getLoginId();
+		if (StringUtils.isEmpty(mobile)) {
+			return "请输入账号";
 		}
 		String smsCode = accountRequest.getSmsCode();
 		if (StringUtils.isEmpty(smsCode)) {
 			return "短信验证码不能为空";
 		}
+		Object serverSMSCodeObj = servletRequest.getSession().getAttribute(mobile);
+		if (serverSMSCodeObj == null) {
+			return "请重新获取短信验证码";
+		}
 		// 短信验证码校验
-		// String validated = validate(smsCode)
+		if (!smsCode.equals(serverSMSCodeObj)) {
+			return "短信验证码不正确";
+		}
 
 		String password = accountRequest.getAccount().getPassword();
 		boolean matchered = password.matches(environment.getProperty("purchaser.account.password.regex"));
@@ -393,6 +401,31 @@ public class PurchaserAccountService {
 		return JSONUtils.objToJSON(result);
 	}
 
+	public String validateLoginParam(HttpServletRequest servletRequest, PurchaserAccountRequest accountRequest) {
+		PurchaserAccount account = accountRequest.getAccount();
+		boolean messageLogin = accountRequest.isMessageLogin();
+		if (messageLogin) {
+			if (account == null || account.getLoginId() == null) {
+				return "请输入账号";
+			}
+			String loginId = account.getLoginId();
+			Object smsCodeServerObj = servletRequest.getSession().getAttribute(loginId);
+			if (smsCodeServerObj == null) {
+				return "请重新获取短信验证码";
+			} else {
+				String smsCode = accountRequest.getSmsCode();
+				if (smsCode == null) {
+					return "请输入短信验证码";
+				}
+				if (smsCode.equals(smsCodeServerObj)) {
+					return "短信验证码输入错误";
+				}
+			}
+			return null;
+		} else {
+			return validateLoginParam(account);
+		}
+	}
 }
 
 
