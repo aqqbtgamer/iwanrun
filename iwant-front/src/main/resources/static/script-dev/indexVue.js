@@ -10,10 +10,10 @@ var appIndex = new Vue(
         el: "#container",
         data: {
             mask: false,
-            loginWindow: false,
+            loginWindow: false, 
             autoLogin: false,
-            messageLogin: false,//是否短信登录
-            counselor: false,//是否咨询师
+            messageLogin: false,// 是否短信登录
+            counselor: false,// 是否咨询师
             loginTitle: '用户登录',
             registerTitle: '用户注册',
             registerWindow: false,
@@ -21,14 +21,16 @@ var appIndex = new Vue(
             loginId: '18018336171',
             loginToken: 'uuixooppasyytvdbftrraskm',
             loginRole: { id: 1, role: '采购方' },
-            
+            loginBtnUl: true,
+            loginIdUl: false,
             account: {
             	loginId:'',
             	smsCode:'',
             	password:'',
             	rePassword:'',
             	mobileNumber:'',
-            	errMsg:'密码格式不正确，请重新输入',
+            	// errMsg:'密码格式不正确，请重新输入',
+            	errMsg:''
             },
             
             productIndexList: [
@@ -169,8 +171,8 @@ var appIndex = new Vue(
         	},
         	accountSmsCodeGet:function(){
         		var mobile = this.account.loginId;
-        		//先校验手机号
-        		//validateMobile(mobile);
+        		// 先校验手机号
+        		// validateMobile(mobile);
         		var url = baseUrl + 'smsCode/getSMSCode';
         		var data = {'mobile' : mobile};
         		data = JSON.stringify(data);
@@ -178,7 +180,7 @@ var appIndex = new Vue(
         		console.log('短信验证码获取，参数：' + data);
         		
         		$http.post(url, data, getSMSCodeBack);
-//        		$.post(url, data, getSMSCodeBack);
+// $.post(url, data, getSMSCodeBack);
         	},
         	accountFocus:function(flag){
         		var vm = this;
@@ -245,20 +247,28 @@ function loginBack(data){
 	var accessToken = data.accessToken;
 	if(accessToken){
 		var $ = jQuery;
+		var loginId = appIndex.account.loginId;
 		$.cookie('accessToken', accessToken);
+		$.cookie('loginId', loginId);
+		appIndex.account = {};
+		appIndex.loginWindow = false;
+		appIndex.mask = false;
+		appIndex.loginId = loginId;
+		appIndex.loginIdUl = true;
+		appIndex.loginBtnUl = false;
 		showErrMsg('登录成功');
 	}
 }
 
 function validateAccount(mobile, password, rePassword, smsCode){
-	//先校验手机号
+	// 先校验手机号
 	var msg = isMobile(mobile);
 	if(msg){
 		showErrMsg(msg);
 		return false;
 	}
 	
-	//再校验密码
+	// 再校验密码
 	msg = validatePwd(password, rePassword);
 	if(msg){
 		showErrMsg(msg);
@@ -335,9 +345,16 @@ function registerBack(data){
 		}
 	}
 	var accessToken = data.accessToken;
-	if(accessToken){
+	if (accessToken) {
 		var $ = jQuery;
+		var loginId = appIndex.account.loginId;
 		$.cookie('accessToken', accessToken);
+		$.cookie('loginId', loginId);
+		appIndex.loginWindow = true;
+		appIndex.registerWindow = false;
+		appIndex.mask = false;
+		appIndex.account = {};
+		appIndex.loginId=loginId;
 		showErrMsg('注册成功，请登录');
 	}
 }
