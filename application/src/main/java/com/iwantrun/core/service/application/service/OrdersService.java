@@ -26,7 +26,6 @@ import com.iwantrun.core.service.application.domain.OrderMessage;
 import com.iwantrun.core.service.application.domain.Orders;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
 import com.iwantrun.core.service.application.domain.UserInfo;
-import com.iwantrun.core.service.application.enums.RoleType;
 import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
@@ -89,7 +88,7 @@ public class OrdersService {
 		return PageDataWrapUtils.page2JsonNoCopy(result);
 	}
 
-	public String get(JSONObject requestObj) {
+	public Map<String,Object> get(JSONObject requestObj) {
 		Number idNum = requestObj.getAsNumber("id");
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		if(idNum != null) {
@@ -133,7 +132,7 @@ public class OrdersService {
 				Pageable page =  PageRequest.of(0, pageSize, Sort.Direction.DESC, "createTime");
 				Page<OrderMessage> messages = orderMessageDao.findByOrderId(id, page);
 				resultMap.put("orderMessage", messages);
-				return JSONUtils.objToJSON(resultMap);				
+				return resultMap;				
 			}else {
 				return null;
 			}

@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.Transient;
+
 import com.iwantrun.core.service.application.annotation.DictionaryField;
 import com.iwantrun.core.service.application.enums.TradeStatus;
 import com.iwantrun.core.service.utils.DictionaryConfigParams;
@@ -50,16 +52,25 @@ public class Orders {
 	private String contractMobile;
 	
 	@Column(name="group_number_code")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_ACTIVITY_PERSON_NUMBER_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_ACTIVITY_PERSON_NUMBER_TYPE,aliasField="groupNumber")
 	private Integer groupNumberCode;
 	
+	@Transient
+	private String groupNumber;
+	
 	@Column(name="activity_code")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_ACTIVITY_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_ACTIVITY_TYPE,aliasField="activitysCode")
 	private Integer activity_code;
 	
+	@Transient
+	private String activitysCode;
+	
 	@Column(name="activity_during_code")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_ACTIVITY_PERIOD_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_ACTIVITY_PERIOD_TYPE,aliasField="activityDuring")
 	private Integer activityDuringCode;
+	
+	@Transient
+	private String activityDuring;
 	
 	@Column(name="activity_start")
 	private Date activityStart;
@@ -68,20 +79,34 @@ public class Orders {
 	private Date activityEnd;
 	
 	@Column(name="activity_province_code")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_PROVINCE_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_PROVINCE_TYPE,aliasField="activityProvince")
 	private Integer activityProvinceCode;
 	
+	@Transient
+	private String activityProvince;
+	
+	
 	@Column(name="activity_city_code")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_CITY_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_CITY_TYPE,aliasField="activityCity")
 	private Integer activityCityCode ;
 	
+	@Transient
+	private String activityCity;
+	
+	
 	@Column(name="activity_dist_code")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_DIST_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_DIST_TYPE,aliasField="activityDist")
 	private Integer activityDistCode ;
+	
+	@Transient
+	private String activityDist;
 	
 	@Column(name="order_simulate_price_code")
 	@DictionaryField(name=DictionaryConfigParams.PRODUCTION_DICTIONARY_NAME,usedField=DictionaryConfigParams.PRODUCTION_SINGEL_PRICE_LIMIT_TYPE)
 	private Integer orderSimulatePriceCode ;
+	
+	@Transient
+	private String orderSimulatePrice;
 	
 	@Column(name="order_group_price_code")
 	private Integer orderGroupPriceCode;
@@ -146,10 +171,18 @@ public class Orders {
 
 	public void setCompanyTypeId(String companyTypeId) {
 		this.companyTypeId = companyTypeId;
+	}	
+
+	public Date getModifyTime() {
+		return modifyTime;
 	}
-	
-	public String getCompanyType() {
-		return null;
+
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+
+	public String getCompanyTypeId() {
+		return companyTypeId;
 	}
 
 	public String getContract() {
@@ -247,6 +280,69 @@ public class Orders {
 	public void setOrderGroupPriceCode(Integer orderGroupPriceCode) {
 		this.orderGroupPriceCode = orderGroupPriceCode;
 	}
+
+	public String getActivitysCode() {
+		return activitysCode;
+	}
+
+	public void setActivitysCode(String activitysCode) {
+		this.activitysCode = activitysCode;
+	}
+
+	public String getGroupNumber() {
+		return groupNumber;
+	}
+
+	public void setGroupNumber(String groupNumber) {
+		this.groupNumber = groupNumber;
+	}
+
+	public String getActivityDuring() {
+		return activityDuring;
+	}
+
+	public void setActivityDuring(String activityDuring) {
+		this.activityDuring = activityDuring;
+	}
+
+	public String getActivityProvince() {
+		return activityProvince;
+	}
+
+	public void setActivityProvince(String activityProvince) {
+		this.activityProvince = activityProvince;
+	}
+
+	public String getActivityCity() {
+		return activityCity;
+	}
+
+	public void setActivityCity(String activityCity) {
+		this.activityCity = activityCity;
+	}
+
+	public String getActivityDist() {
+		return activityDist;
+	}
+
+	public void setActivityDist(String activityDist) {
+		this.activityDist = activityDist;
+	}
+
+	public String getOrderSimulatePrice() {
+		return orderSimulatePrice;
+	}
+
+	public void setOrderSimulatePrice(String orderSimulatePrice) {
+		this.orderSimulatePrice = orderSimulatePrice;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

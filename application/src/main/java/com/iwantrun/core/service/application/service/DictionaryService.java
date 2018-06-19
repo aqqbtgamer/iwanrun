@@ -17,9 +17,11 @@ import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.iwantrun.core.constant.AdminApplicationConstants;
 import com.iwantrun.core.service.application.config.DictionaryPageConfig;
 import com.iwantrun.core.service.application.dao.DictionaryDao;
 import com.iwantrun.core.service.application.domain.Dictionary;
+import com.mysql.jdbc.StringUtils;
 
 @Service
 public class DictionaryService {
@@ -90,6 +92,7 @@ public class DictionaryService {
 		}else {
 			Set<String> properties = filterMap.keySet();
 			Map<String,Map<Integer,String>> propertyCodeValueMap = new HashMap<String,Map<Integer,String>>();
+			Map<String,String> alaisMap = new HashMap<String,String>();
 			//准备code value 映射 在进行fiterList迭代的时候进行匹配
 			for(String property : properties) {
 				Map<Integer,String> codeValueMap = new HashMap<Integer,String>();
@@ -103,6 +106,7 @@ public class DictionaryService {
 					codeValueMap.put(dic.getCode(), dic.getValue());
 				}
 				propertyCodeValueMap.put(property, codeValueMap);
+				alaisMap.put(property.concat(AdminApplicationConstants.DICTIONARY_FIELD_ALAIS), example.getDisplay_value());
 			}
 			for(T item : filterList) {
 				for(String property : properties) {
@@ -113,7 +117,11 @@ public class DictionaryService {
 							Integer codeInt = Integer.parseInt(code);
 							Map<Integer,String> codeValueMap = propertyCodeValueMap.get(property);
 							String value = codeValueMap.get(codeInt);
-							PropertyUtils.setProperty(item, property, value);
+							if(StringUtils.isNullOrEmpty(alaisMap.get(property.concat(AdminApplicationConstants.DICTIONARY_FIELD_ALAIS)))) {
+								PropertyUtils.setProperty(item, alaisMap.get(property.concat(AdminApplicationConstants.DICTIONARY_FIELD_ALAIS)), value);
+							}else {
+								PropertyUtils.setProperty(item, property, value);
+							}
 						}
 						
 					} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -122,6 +130,52 @@ public class DictionaryService {
 				}
 			}
 			return filterList;
+		}
+	}
+	
+	public <T> T dictionaryFilter(T t ,Map<String,Dictionary> filterMap) {
+		if(filterMap == null || t == null) {
+			return t ;
+		}else {
+			Set<String> properties = filterMap.keySet();
+			Map<String,Map<Integer,String>> propertyCodeValueMap = new HashMap<String,Map<Integer,String>>();
+			Map<String,String> alaisMap = new HashMap<String,String>();
+			//准备code value 映射 在进行fiterList迭代的时候进行匹配
+			for(String property : properties) {
+				Map<Integer,String> codeValueMap = new HashMap<Integer,String>();
+				Dictionary example = filterMap.get(property);
+				ExampleMatcher matcher = ExampleMatcher.matchingAll()
+						.withMatcher("used_field", GenericPropertyMatchers.exact())
+						.withMatcher("name", GenericPropertyMatchers.exact())
+						.withIgnorePaths("id","display_code","display_value","value","code","assignTo");
+				List<Dictionary> codeValueList  = dictionaryDao.findAll(Example.of(example,matcher));
+				for(Dictionary dic : codeValueList) {
+					codeValueMap.put(dic.getCode(), dic.getValue());
+				}
+				propertyCodeValueMap.put(property, codeValueMap);
+				alaisMap.put(property.concat(AdminApplicationConstants.DICTIONARY_FIELD_ALAIS), example.getDisplay_value());
+			}
+			for(String property : properties) {
+				try {
+					Object codeValue = PropertyUtils.getSimpleProperty(t, property);
+					if(codeValue != null) {
+						String code = codeValue.toString();
+						Integer codeInt = Integer.parseInt(code);
+						Map<Integer,String> codeValueMap = propertyCodeValueMap.get(property);
+						String value = codeValueMap.get(codeInt);
+						if(!StringUtils.isNullOrEmpty(alaisMap.get(property.concat(AdminApplicationConstants.DICTIONARY_FIELD_ALAIS)))) {
+							PropertyUtils.setProperty(t, alaisMap.get(property.concat(AdminApplicationConstants.DICTIONARY_FIELD_ALAIS)), value);
+						}else {
+							PropertyUtils.setProperty(t, property, value);
+						}
+						
+					}
+					
+				} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+					logger.error("数据字典数据转化的时候发生错误",e);
+				}
+			}
+			return t;
 		}
 	}
 

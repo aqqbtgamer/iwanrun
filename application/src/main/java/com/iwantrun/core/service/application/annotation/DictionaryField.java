@@ -13,4 +13,6 @@ public @interface DictionaryField {
 	String name();
 	
 	int usedField();
+	
+	String aliasField() default "" ;
 }

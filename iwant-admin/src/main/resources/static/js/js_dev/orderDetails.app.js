@@ -39,6 +39,14 @@ function mappingData(result){
 		mappingTextItem("orderNO",orders.orderNo);
 		mappingTextItem("createTime",parseDateStr(orders.createTime));
 		mappingTextItem("orderStatus",orders.orderStatus);
+		mappingTextItem("companyTypeId",orders.companyTypeId);
+		mappingTextItem("contract",orders.contract);
+		mappingTextItem("groupNumberCode",orders.groupNumber);
+		mappingTextItem("contractMobile",orders.contractMobile);
+		mappingTextItem("activityTypeCode",orders.activitysCode);
+		mappingTextItem("activityDuringCode",orders.activityDuring);
+		mappingTextItem("activityDate",parseDateStr(orders.activityStart) + " - " + parseDateStr(orders.activityEnd));
+		mappingTextItem("orderSimulatePriceCode",orders.orderSimulatePrice);
 	}
 	if(ret.purchaserAccountInfo != null){
 		var userInfo = ret.purchaserAccountInfo

@@ -18,6 +18,8 @@ public interface AdminApplicationConstants {
 	
 	String PROJECT_CONCLUDE = "project_conclude";
 	
+	String DICTIONARY_FIELD_ALAIS = "@alais";
+	
 	Function<Object,Integer> MAPPER_FOR_INTEGER =
 			objArray -> {
 				Integer total =  0;

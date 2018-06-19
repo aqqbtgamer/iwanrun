@@ -20,6 +20,7 @@ public class EntityDictionaryConfigUtils {
 				Dictionary dictionary = new Dictionary();
 				dictionary.setName(name);
 				dictionary.setUsed_field(String.valueOf(usedField));
+				dictionary.setDisplay_value(dicField.aliasField());
 				resultMap.put(field.getName(), dictionary);
 			}
 		}
