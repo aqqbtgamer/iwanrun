@@ -215,7 +215,7 @@
                         <input v-model="account.smsCode" @focus="accountFocus()" type="password" class="inputText" placeholder="请输入验证码">
                     </div>
                     <div id="pwd-button" class="user-button">
-                        <input type="button" value="短信验证" class="sms-send-button">
+                        <input @click="accountSmsCodeGet" type="button" value="短信验证" class="sms-send-button">
                     </div>
                 </div>
                 <div class="userpwd-input" v-show="!messageLogin">

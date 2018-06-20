@@ -36,6 +36,7 @@ public class PurchaserAccountService {
 	}
 	/**
 	 * 采购用户登录
+	 * @param session 
 	 * 
 	 * @param purchaser
 	 * @return
