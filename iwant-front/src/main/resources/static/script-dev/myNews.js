@@ -17,20 +17,34 @@ var appMyAccount = new Vue(
                 headimg: '../../img/accountImage.png',
                 nickname: '用户001',
                 phone: '180****6171',
-                securityanswer: {
-                    question: '',
-                    answer: ''
-                },
-                company: {
-                    name: '',
-                    license: '../../img/accountImage.png',
-                    type: '',
-                    personNum: 100
-                }
+                securityanswer: ''
             },
-            setting: false,
-            settingTitle: '昵称',
-            settingFlag: 0 //0:nickname;1:phone;2:securityanswer
+            List: [
+                {
+                    time: '2017年10月12日',
+                    username: '理查德',
+                    content: '怎么说怎么说怎么说',
+                    status: true
+                },
+                {
+                    time: '2017年10月12日',
+                    username: '理查德',
+                    content: '怎么说怎么说怎么说',
+                    status: false
+                },
+                {
+                    time: '2017年10月12日',
+                    username: '理查德',
+                    content: '怎么说怎么说怎么说',
+                    status: true
+                },
+                {
+                    time: '2017年10月12日',
+                    username: '理查德',
+                    content: '怎么说怎么说怎么说',
+                    status: false
+                }
+            ]
         },
         methods: {
             showLogin: function (message) {
@@ -49,32 +63,6 @@ var appMyAccount = new Vue(
             changeAutoLogin: function () {
                 var vm = this;
                 vm.autoLogin = !vm.autoLogin;
-            },
-            uploadimg: function ($event) {
-                var vm = this, $file = $($event.target).siblings('input:file');
-                $file.trigger('click');
-            },
-            fileUpload: function ($event) {
-                var vm = this, files = $event.target.files;
-
-            },
-            showSetting: function (flag) {
-                flag = flag || 0;
-                var vm = this;
-                vm.setting = true;
-                vm.settingFlag = flag;
-                var title = {
-                    0: '昵称',
-                    1: '手机号',
-                    2: '安全问题',
-                    3: '公司信息',
-                    4: '营业执照'
-                };
-                vm.settingTitle = title[flag];
-            },
-            closeSetting: function () {
-                var vm = this;
-                vm.setting = false;
             }
 
         }

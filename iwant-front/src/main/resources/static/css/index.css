@@ -341,3 +341,88 @@
     display: inline-block;
     height: 310px;
 }
+
+
+
+.content-table-partner {
+    width: 100%;
+    display: block;
+    padding: 0;
+    vertical-align: top;
+}
+
+.normal-partner {
+    width: 90%;
+    margin-top: 1.56vw;
+    /*width:44.79vw;*/
+    display: block;
+    height: 210px;
+    overflow: hidden;
+    float: left;
+}
+
+.partner-btn-left {
+    width: 5%;
+    float: left;
+}
+
+.partner-btn-right {
+    width: 5%;
+    float: right;
+}
+
+    .partner-btn-left img,
+    .partner-btn-right img {
+        width: 2.5vw;
+        margin-top: 6vw;
+    }
+
+        .partner-btn-left img:hover,
+        .partner-btn-right img:hover {
+            opacity: .8;
+        }
+
+
+.normal-item-p {
+    float: left;
+    width: 25%;
+    padding: 5px 30px;
+    display: inline-block;
+    height: 210px;
+    border-left: 1px solid #dddddd;
+}
+
+    .normal-item-p:first-child {
+        border-left: none !important;
+    }
+
+.partner-time {
+    font-style: italic;
+    color: #818181;
+    font-size: 1.18vw;
+    padding-bottom: 1vw;
+}
+
+.partner-coontent {
+    color: #333333;
+    font-size: 1.48vw;
+}
+
+.partner-logo {
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    border: 1px solid #aaaaaa;
+    margin-top: 3.2vw;
+    border-radius: 1.2vw;
+}
+
+    .partner-logo a {
+        display: inline-block;
+        width: 22%;
+        margin: 0.8vw 1%;
+    }
+
+        .partner-logo a img {
+            width: 80%;
+        }

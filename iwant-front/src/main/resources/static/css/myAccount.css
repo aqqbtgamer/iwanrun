@@ -99,7 +99,7 @@ img {
     margin-left: auto;
     margin-right: auto;
     margin-top: -1px;
-    height: 55.83vw;
+    /*height: 55.83vw;*/
     background-color: white;
     border-top: 1px solid white;
     border-right: 1px solid #979797;
@@ -225,4 +225,12 @@ img {
 .leftAccount .select-cell-first-child .center-item a {
     text-decoration: none;
     color: black;
+}
+
+.username-input .user-input input {
+    height: 40px;
+}
+
+.username-input .user-input select {
+    height: 40px;
 }

@@ -507,3 +507,9 @@ nav a:hover {
     text-decoration: underline;
     cursor: pointer;
 }
+
+
+.leftAccount .select-cell .center-item a {
+    color: black;
+    text-decoration: none;
+}

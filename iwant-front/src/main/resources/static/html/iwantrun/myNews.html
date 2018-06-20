@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no">
@@ -8,12 +7,11 @@
     <link rel="stylesheet" href="../../css/globalReset.css">
     <link rel="stylesheet" href=" ../../css/common.css">
     <link rel="stylesheet" href="../../css/iconfont.css">
-    <link rel="stylesheet" href="../../css/myAccount.css">
+    <link rel="stylesheet" href="../../css/myNews.css">
     <script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
     <script type="application/javascript" src="../../script/vue.min.js"></script>
     <title>个人中心</title>
 </head>
-
 <body>
     <form action="">
         <div id="container" class="container">
@@ -50,15 +48,13 @@
             <div id="accountBody" class="accountBody">
                 <div class="leftAccount">
                     <div class="account-image">
-                        <img :src="account.headimg" alt="">
+                        <img src="../../img/accountImage.png" alt="">
                     </div>
                     <div class="name-desc">
-                        <span class="name-desc-font">{{account.nickname}}, 您好</span>
+                        <span class="name-desc-font">用户001, 您好</span>
                     </div>
                     <div class="select-cell-first-child">
-                        <p class="center-item">
-                            <a href="./orderlist.html">我的订单</a>
-                        </p>
+                        <p class="center-item">我的订单</p>
                     </div>
                     <div class="select-cell">
                         <p class="center-item">
@@ -66,12 +62,12 @@
                         </p>
                     </div>
                     <div class="select-cell">
-                        <p class="center-item">
+                        <p class="center-item active-item">
                             <a href="./myNews.html">站内消息</a>
                         </p>
                     </div>
                     <div class="select-cell">
-                        <p class="center-item active-item">个人信息</p>
+                        <p class="center-item ">个人信息</p>
                     </div>
                     <div class="select-cell">
                         <p class="center-item">收藏场地</p>
@@ -79,47 +75,44 @@
                 </div>
                 <div class="accountMain">
                     <div class="accountTitle">
-                        <span class="center-big margin-left">个人信息</span>
+                        <span class="center-big margin-left">站内消息</span>
                     </div>
                     <div class="account-box-body">
-                        <div class="account-box-line account-box-first">
-                            <div class="account-box-img">
-                                <img :src="account.headimg" alt="">
-                            </div>
-                            <div class="account-box-content">
-                                <p class="font-40px-black">修改头像</p>
-                                <input type="button" class="btn-black" value="上传头像">
-                            </div>
-                        </div>
+
+
+
                         <div class="account-box-line">
-                            <div class="account-box-left">
-                                <p class="font-40px-black">账户昵称</p>
-                                <p class="font-30-black1">未设置</p>
+                            <div class="table-head">
+                                <div class="sect-one">时间</div>
+                                <div class="sect-two">回复用户</div>
+                                <div class="sect-three">消息内容</div>
+                                <div class="sect-four">查看状态</div>
+                                <div class="sect-five"></div>
                             </div>
-                            <div class="account-button-right">
-                                <input type="button" value="设置" class="btn-primary">
-                            </div>
-                        </div>
-                        <div class="account-box-line">
-                            <div class="account-box-left">
-                                <p class="font-40px-black">手机验证</p>
-                                <p class="font-30-black1">您的验证手机号是{{account.phone}}</p>
-                            </div>
-                            <div class="account-button-right">
-                                <input type="button" value="修改" class="btn-primary">
-                            </div>
-                        </div>
-                        <div class="account-box-line2">
-                            <div class="account-box-left">
-                                <p class="font-40px-black">安全问题</p>
-                                <p class="font-30-black1">未设置安全问题</p>
-                            </div>
-                            <div class="account-button-right">
-                                <input type="button" value="设置" class="btn-primary">
+                            <div class="table-body">
+                                <div class="detail-line" v-for="item in List">
+                                    <div class="sect-one">{{item.time}}</div>
+                                    <div class="sect-two">{{item.username}}</div>
+                                    <div class="sect-three">{{item.content}}</div>
+                                    <div class="sect-four">{{item.status?'已查看':'未查看'}}</div>
+                                    <div class="sect-five"><input type="button" value="查看详情" class="btn-primary" /></div>
+                                </div>
                             </div>
                         </div>
 
-
+                        <div class="pagenation-bar">
+                            <ul class="pagenation">
+                                <li class="active">1</li>
+                                <li>2</li>
+                                <li>3</li>
+                                <li>4</li>
+                                <li>5</li>
+                                <li>6</li>
+                                <li>></li>
+                                <span>到&nbsp;&nbsp;<input type="text" value="" />&nbsp;&nbsp;页</span>
+                                <input type="button" value="确定" class="btn-primary" />
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -128,21 +121,11 @@
                         <div id="tail-nav" class="tail-nav">
                             <nav>
                                 <ul>
-                                    <li class="tail-li-left">
-                                        <a href="#">关于我们</a>
-                                    </li>
-                                    <li class="tail-li-left">
-                                        <a href="#">加入我们</a>
-                                    </li>
-                                    <li class="tail-li-left">
-                                        <a href="#">联系我们</a>
-                                    </li>
-                                    <li class="tail-li-left">
-                                        <a href="#">条款</a>
-                                    </li>
-                                    <li class="tail-li-left " style="margin-right: 0">
-                                        <a href="#">网站导航</a>
-                                    </li>
+                                    <li class="tail-li-left"><a href="#">关于我们</a></li>
+                                    <li class="tail-li-left"><a href="#">加入我们</a></li>
+                                    <li class="tail-li-left"><a href="#">联系我们</a></li>
+                                    <li class="tail-li-left"><a href="#">条款</a></li>
+                                    <li class="tail-li-left " style="margin-right: 0"><a href="#">网站导航</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -161,6 +144,6 @@
 
         </div>
     </form>
-    <script type="application/javascript" src="../../script-dev/myAccount.js"></script>
+    <script type="application/javascript" src="../../script-dev/myNews.js"></script>
 </body>
 </html>
