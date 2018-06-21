@@ -117,7 +117,7 @@ public class DictionaryService {
 							Integer codeInt = Integer.parseInt(code);
 							Map<Integer,String> codeValueMap = propertyCodeValueMap.get(property);
 							String value = codeValueMap.get(codeInt);
-							if(StringUtils.isNullOrEmpty(alaisMap.get(property.concat(AdminApplicationConstants.DICTIONARY_FIELD_ALAIS)))) {
+							if(!StringUtils.isNullOrEmpty(alaisMap.get(property.concat(AdminApplicationConstants.DICTIONARY_FIELD_ALAIS)))) {
 								PropertyUtils.setProperty(item, alaisMap.get(property.concat(AdminApplicationConstants.DICTIONARY_FIELD_ALAIS)), value);
 							}else {
 								PropertyUtils.setProperty(item, property, value);

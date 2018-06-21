@@ -40,7 +40,7 @@ public class CasesService {
 				"companyTypeCode",
 				"groupNumber",
 				"during",
-				"specialKeyWord",
+				"specialKeyWord[]",
 				"designDuringCode",
 			    "executeDuringCode",
 			    "trafficInfo",

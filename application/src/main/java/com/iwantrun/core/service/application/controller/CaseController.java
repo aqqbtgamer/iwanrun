@@ -20,12 +20,16 @@ import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
 import com.iwantrun.core.service.application.domain.CaseAttachments;
 import com.iwantrun.core.service.application.domain.CaseTags;
 import com.iwantrun.core.service.application.domain.Cases;
+import com.iwantrun.core.service.application.domain.Dictionary;
+import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.service.CasesService;
+import com.iwantrun.core.service.application.service.DictionaryService;
 import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.application.transfer.PageDomianRequest;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import com.iwantrun.core.service.utils.DictionaryConfigParams;
 import com.iwantrun.core.service.utils.EntityBeanUtils;
+import com.iwantrun.core.service.utils.EntityDictionaryConfigUtils;
 import com.iwantrun.core.service.utils.JPADBUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.ListUpdateUtils;
@@ -43,6 +47,8 @@ public class CaseController {
 	
 	@Autowired
 	private CasesService casesService;
+	@Autowired
+	private DictionaryService dictionaryService;
 	
 
 	@SuppressWarnings("unchecked")
@@ -113,7 +119,7 @@ public class CaseController {
 		List<CaseTags> tagsList = new ArrayList<CaseTags>();
 		EntityBeanUtils.listBeanCreateFromJson(tagsList, mappingRelation1, tags, CaseTags.class);
 		Supplier<Integer> tagsTypeSupplier = () ->{
-			return DictionaryConfigParams.LOCATION_TAGS_TYPE;
+			return DictionaryConfigParams.CASE_TAGS_TYPE;
 		};
 		ListUpdateUtils.updateListPropertyWithSupplier(tagsList, new String[]{
 				"tagsType"
@@ -215,6 +221,8 @@ public class CaseController {
 		JSONObject object = (JSONObject) JSONValue.parse(dataJson);
 		String pageIndex = object.getAsString("pageIndex");
 		Page<Cases> resultPage =casesService.findAllCasesPageable(Integer.parseInt(pageIndex));
+		Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new Cases());
+		dictionaryService.dictionaryFilter(resultPage.getContent(), dictionnaryMap);
 		message.setMessageBody(PageDataWrapUtils.page2Json(resultPage));
 		return message;		
 	}

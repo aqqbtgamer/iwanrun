@@ -141,19 +141,19 @@
                 <a href="#" class="content-header-link">价格从低到高</a>
             </div>
             <div class="list-case-item" v-for="item in List">
-                <div class="list-case-item-left">
+                <div id="list-case-image1" class="list-case-item-left">
                     <div class="wrapper">
-                        <img :src="item.img" alt="list-case1.png">
+                        <img :src="item.descirbeText2" alt="list-case1.png">
                     </div>
                 </div>
-                <div class="list-case-item-right">
+                <div id="list-case-right1" class="list-case-item-right">
                     <div class="list-case-item-line">
                         <div class="list-case-item-table-top">
                             <p class="case-title" style="width: 30.513vw">
-                              {{item.title}}
+                              {{item.name}}
                             </p>
                             <p style="margin-top: 0.84vw">
-                                <span class="case-tip" style="margin-right:5px;" v-for="tip in item.tips">{{tip}}</span>
+<!--                                 <span class="case-tip" style="margin-right:5px;" v-for="tip in item.tips">{{tip}}</span> -->
                             </p>
                         </div>
                     </div>
@@ -161,7 +161,7 @@
                         <div class="list-case-item-table-bottom">
                             <div class="case-details-content">
                                 <div class="case-details-up">
-                                    <p class="case-price-hint">参考价格: {{item.price}}</p>
+                                    <p class="case-price-hint">参考价格: {{item.simulatePriceCode}}</p>
                                 </div>
                                 <div class="case-detail-desc">
                                     <div class="case-detail-row">
@@ -169,15 +169,15 @@
                                             <p>地区：{{item.location}}  </p>
                                         </div>
                                         <div class="case-detail-col">
-                                            <p> 类型：{{item.activitytype}} </p>
+                                            <p> 类型：{{item.activityTypeCode}} </p>
                                         </div>
                                     </div>
                                     <div class="case-detail-row">
                                         <div class="case-detail-col">
-                                            <p>人数：{{item.personNum}}</p>
+                                            <p>人数：{{item.groupNumber}}</p>
                                         </div>
                                         <div class="case-detail-col">
-                                            <p>天数：{{item.duration}} </p>
+                                            <p>天数：{{item.during}} </p>
                                         </div>
                                     </div>
                                 </div>

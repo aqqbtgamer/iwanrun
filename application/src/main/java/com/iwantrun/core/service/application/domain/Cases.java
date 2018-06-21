@@ -9,6 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.Transient;
+
+import com.iwantrun.core.service.application.annotation.DictionaryField;
+import com.iwantrun.core.service.utils.DictionaryConfigParams;
+
 @Entity
 @Table(name="biz_cases")
 public class Cases {
@@ -27,7 +32,7 @@ public class Cases {
 	 * 案例关联订单号
 	 */
 	@Column(name="order_id",nullable=false)
-	private int orderId ;
+	private Integer orderId ;
 	/**
 	 * 案例状态 1-已关联订单 2-未关联 3-已下架 
 	 */
@@ -47,22 +52,30 @@ public class Cases {
 	 * 策划周期
 	 */
 	@Column(name="design_during")
-	private int designDuring ;
+	private Integer designDuring ;
 	/**
 	 * 实施周期
 	 */
 	@Column(name="execute_during")
-	private int executeDuring ;
+	private Integer executeDuring ;
 	/**
 	 * 策划周期code
 	 */
 	@Column(name="design_during_code")
-	private int designDuringCode ;
+	@DictionaryField(name=DictionaryConfigParams.CASE_DICTIONARY_NAME ,usedField=DictionaryConfigParams.CASE_PLOT_PERIOD_TYPE,aliasField="designDuringCo")
+	private Integer designDuringCode ;
+	
+	@Transient
+	private String designDuringCo;
 	/**
 	 * 实施周期code
 	 */
 	@Column(name="execute_during_code")
-	private int executeDuringCode;
+	@DictionaryField(name=DictionaryConfigParams.CASE_DICTIONARY_NAME ,usedField=DictionaryConfigParams.CASE_IMPL_PERIOD_TYPE,aliasField="executeDuringCo")
+	private Integer executeDuringCode;
+	
+	@Transient
+	private String executeDuringCo;
 	/**
 	 * 优先权重
 	 */
@@ -72,16 +85,19 @@ public class Cases {
 	 *交通信息
 	 */
 	@Column(name="traffic_info")
+	@DictionaryField(name=DictionaryConfigParams.CASE_DICTIONARY_NAME ,usedField=DictionaryConfigParams.CSAE_TRAFFIC_TYPE)
 	private String trafficInfo;
 	/**
 	 * 餐饮信息
 	 */
 	@Column(name="food_info")
+	@DictionaryField(name=DictionaryConfigParams.CASE_DICTIONARY_NAME ,usedField=DictionaryConfigParams.CSAE_FOOD_TYPE)
 	private String foodInfo;
 	/**
 	 * 住宿信息
 	 */
 	@Column(name="hotel_info")
+	@DictionaryField(name=DictionaryConfigParams.CASE_DICTIONARY_NAME ,usedField=DictionaryConfigParams.CSAE_RESTURANT_TYPE)
 	private String hotelInfo ;
 	/**
 	 * 上架时间
@@ -117,16 +133,19 @@ public class Cases {
 	 * 省编码
 	 */
 	@Column(name="activity_province_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_PROVINCE_TYPE)
 	private String activityProvinceCode ;
 	/**
 	 * 市编码
 	 */
 	@Column(name="activity_city_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_CITY_TYPE)
 	private String activityCityCode ;
 	/**
 	 * 区编码
 	 */
 	@Column(name="activity_dist_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_DIST_TYPE)
 	private String activityDistCode ;
 	/**
 	 * 详细地址
@@ -136,34 +155,43 @@ public class Cases {
 	/**
 	 * 活动类型
 	 */
-	@Column(name="activity_type_code")
+	@Column(name="activity_type_code",nullable=false)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_TYPE)
 	private String activityTypeCode ;   
 	/**
 	 * 活动人数
 	 */
 	@Column(name="group_number")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_PERSON_NUMBER_TYPE)
 	private String groupNumber ;
 	/**
 	 * 企业类型
 	 */
 	@Column(name="company_type_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_COMPANY_TYPE)
 	private String companyTypeCode ;
 	/**
 	 * 活动天数
 	 */
 	@Column(name="during")
-	private int during ;
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_PERIOD_TYPE,aliasField="dur")
+	private Integer during ;
+	
+	@Transient
+	private String dur;
+	
 	/**
 	 * 案例特色关键词
 	 */
 	@Column(name="special_key_word")
+	@DictionaryField(name=DictionaryConfigParams.CASE_DICTIONARY_NAME ,usedField=DictionaryConfigParams.CASE_TAGS_TYPE)
 	private String specialKeyWord;
 	/**
 	 *  
 	 *人均参考报价范围
 	 */
 	@Column(name="simulate_price_code")
-	private int simulatePriceCode;
+	private Integer simulatePriceCode;
 	public int getId() {
 		return id;
 	}
@@ -176,10 +204,10 @@ public class Cases {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getOrderId() {
+	public Integer getOrderId() {
 		return orderId;
 	}
-	public void setOrderId(int orderId) {
+	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
 	}
 	public int getStatus() {
@@ -200,28 +228,28 @@ public class Cases {
 	public void setMainImageIcon(String mainImageIcon) {
 		this.mainImageIcon = mainImageIcon;
 	}
-	public int getDesignDuring() {
+	public Integer getDesignDuring() {
 		return designDuring;
 	}
-	public void setDesignDuring(int designDuring) {
+	public void setDesignDuring(Integer designDuring) {
 		this.designDuring = designDuring;
 	}
-	public int getExecuteDuring() {
+	public Integer getExecuteDuring() {
 		return executeDuring;
 	}
-	public void setExecuteDuring(int executeDuring) {
+	public void setExecuteDuring(Integer executeDuring) {
 		this.executeDuring = executeDuring;
 	}
-	public int getDesignDuringCode() {
+	public Integer getDesignDuringCode() {
 		return designDuringCode;
 	}
-	public void setDesignDuringCode(int designDuringCode) {
+	public void setDesignDuringCode(Integer designDuringCode) {
 		this.designDuringCode = designDuringCode;
 	}
-	public int getExecuteDuringCode() {
+	public Integer getExecuteDuringCode() {
 		return executeDuringCode;
 	}
-	public void setExecuteDuringCode(int executeDuringCode) {
+	public void setExecuteDuringCode(Integer executeDuringCode) {
 		this.executeDuringCode = executeDuringCode;
 	}
 	public int getPriority() {
@@ -326,23 +354,41 @@ public class Cases {
 	public void setCompanyTypeCode(String companyTypeCode) {
 		this.companyTypeCode = companyTypeCode;
 	}
+	public Integer getDuring() {
+		return during;
+	}
+	public void setDuring(Integer during) {
+		this.during = during;
+	}
 	public String getSpecialKeyWord() {
 		return specialKeyWord;
 	}
 	public void setSpecialKeyWord(String specialKeyWord) {
 		this.specialKeyWord = specialKeyWord;
 	}
-	public int getSimulatePriceCode() {
+	public Integer getSimulatePriceCode() {
 		return simulatePriceCode;
 	}
-	public void setSimulatePriceCode(int simulatePriceCode) {
+	public void setSimulatePriceCode(Integer simulatePriceCode) {
 		this.simulatePriceCode = simulatePriceCode;
 	}
-	public int getDuring() {
-		return during;
+	public String getDesignDuringCo() {
+		return designDuringCo;
 	}
-	public void setDuring(int during) {
-		this.during = during;
+	public void setDesignDuringCo(String designDuringCo) {
+		this.designDuringCo = designDuringCo;
+	}
+	public String getExecuteDuringCo() {
+		return executeDuringCo;
+	}
+	public void setExecuteDuringCo(String executeDuringCo) {
+		this.executeDuringCo = executeDuringCo;
+	}
+	public String getDur() {
+		return dur;
+	}
+	public void setDur(String dur) {
+		this.dur = dur;
 	}
 	
 	

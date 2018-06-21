@@ -32,61 +32,7 @@ var appListCase = new Vue(
                 ]
             },
             List: [
-                {
-                    img: '../../img/list-case1.png',
-                    title: '上海卢湾体育场—— 大型综合体育项目场所',   
-                    tips: ['现代化体育馆', '体育配套设施', '专人维护'],
-                    price: '1000-1500元/人',
-                    location: '上海市',
-                    activitytype: '跑步运动',
-                    personNum: '50-150人',
-                    duration: '半天',
-                    saled: '已售122份'
-                },
-                {
-                    img: '../../img/list-case2.png',
-                    title: '探秘古道红枫，寻访仙谷奇缘——南黄古道+琼台仙谷3天2晚穿越之旅',
-                    tips: ['隋代古刹', '仙谷奇缘', '古道红枫', '五星级酒店'],
-                    price: '1000-1500元/人',
-                    location: '上海市',
-                    activitytype: '跑步运动',
-                    personNum: '50-150人',
-                    duration: '半天',
-                    saled: '已售122份'
-                },
-                {
-                    img: '../../img/list-product1.png',
-                    title: '探秘古道红枫，寻访仙谷奇缘——南黄古道+琼台仙谷3天2晚穿越之旅',
-                    tips: ['隋代古刹', '仙谷奇缘', '古道红枫', '五星级酒店'],
-                    price: '1000-1500元/人',
-                    location: '上海市',
-                    activitytype: '跑步运动',
-                    personNum: '50-150人',
-                    duration: '半天',
-                    saled: '已售122份'
-                },
-                {
-                    img: '../../img/list-location2.png',
-                    title: '探秘古道红枫，寻访仙谷奇缘——南黄古道+琼台仙谷3天2晚穿越之旅',
-                    tips: ['隋代古刹', '仙谷奇缘', '古道红枫', '五星级酒店'],
-                    price: '1000-1500元/人',
-                    location: '上海市',
-                    activitytype: '跑步运动',
-                    personNum: '50-150人',
-                    duration: '半天',
-                    saled: '已售122份'
-                },
-                {
-                    img: '../../img/list-product1.png',
-                    title: '探秘古道红枫，寻访仙谷奇缘——南黄古道+琼台仙谷3天2晚穿越之旅',
-                    tips: ['隋代古刹', '仙谷奇缘', '古道红枫', '五星级酒店'],
-                    price: '1000-1500元/人',
-                    location: '上海市',
-                    activitytype: '跑步运动',
-                    personNum: '50-150人',
-                    duration: '半天',
-                    saled: '已售122份'
-                }
+               
             ],
             pageInfo:{
             	currentIndex: 1,
@@ -154,12 +100,29 @@ var appListCase = new Vue(
             				
             	})
             	
+            },
+            queryCaseList:function(){
+            	var vm = this;
+            	var url="../../case/queryCaseList";
+            	var param = {
+            			pageIndex:"0"	
+            	};
+            	axios.post(url,param).then(
+            			function(response){
+            				var list = response.data;
+            				if( list != ''){
+            					vm.List=list.content;
+            				}
+            				
+            	})
+            	
             }
             
         },
         created: function(){
         	var vm = this;
         	vm.queryDictionaryList();
+        	vm.queryCaseList();
         }
     }
 );

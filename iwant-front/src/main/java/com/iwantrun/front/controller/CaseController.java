@@ -39,5 +39,19 @@ public class CaseController {
 		
 	} 
 	
+	@RequestMapping("/queryCaseList")
+	@ResponseBody
+	public String queryCaseList(@RequestBody String param) {
 
+		try {
+			Message result =caseService.queryCaseList(param); //筛选出 案例需要数据
+			if( result != null) {
+				return result.getMessageBody();
+			}
+		} catch (Exception e) {
+			
+		}
+		return null;
+		
+	} 
 }
