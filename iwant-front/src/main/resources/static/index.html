@@ -247,7 +247,7 @@
                         <p>短信快捷登陆</p>
                     </div>
                     <div class="exttra-message-right" style="padding-left:30px;">
-                        <a @click="showRegister" class="cursor-link">注册</a>|<a @click="forgetPassword" class="cursor-link">忘记密码</a>
+                        <a @click="showRegister" class="cursor-link">注册</a>|<a @click="showForget" class="cursor-link">忘记密码</a>
                     </div>
                 </div>
                 <div id="login-button" class="login-button">
@@ -312,7 +312,8 @@
 	                </div>
             	</div>
                 <div class="register-button">
-                    <input @click="register" type="button" value="注 册" class="sms-login-button">
+                    <input v-if="registerBtn" @click="register" type="button" value="注 册" class="sms-login-button">
+                    <input v-if="forgetBtn" @click="forget" type="button" value="确认修改" class="sms-login-button">
                 </div>
                 <div class="join-account-login">
                     <div class="join-account-left">

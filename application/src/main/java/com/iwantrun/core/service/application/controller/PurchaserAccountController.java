@@ -2,8 +2,6 @@ package com.iwantrun.core.service.application.controller;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +40,53 @@ public class PurchaserAccountController {
 	 * @param message
 	 * @return
 	 */
+	@RequestMapping("modifyPwd")
+	@ResponseBody
+	public Message modifyPwd(@RequestBody Message message) {
+		Message response=new Message();
+		JSONObject responseJSON=new JSONObject();
+		
+		String errorMsg="";
+		String param = message.getMessageBody();
+		
+		logger.error("用户修改密码，请求参数：{}", param);
+		
+		try {
+			if (!StringUtils.isEmpty(param)) {
+				PurchaserAccountRequest accountRequest = JSONUtils.jsonToObj(param, PurchaserAccountRequest.class);
+				errorMsg = service.validateRegisterParam(accountRequest);
+				if(errorMsg==null) {
+					errorMsg= service.modifyPwd(accountRequest.getAccount());
+					if(errorMsg==null) {
+						String token=tokenService.tokenGenerate(accountRequest.getAccount().getLoginId(), accountRequest.getSessionId());
+						response.setAccessToken(token);
+					}
+				}
+			}else {
+				errorMsg ="请输入相关数据";
+			}
+		} catch (Exception e) {
+			errorMsg = "未知异常";
+			logger.error("用户注册异常：{}", e);
+		}
+		
+		responseJSON.put("errorMsg", errorMsg);
+		
+		logger.error("用户注册，返回结果：{}", responseJSON.toJSONString());
+		
+		response.setMessageBody(responseJSON.toJSONString());
+		return response;
+	}
+	
+	/**
+	 * 采购用户注册
+	 * 
+	 * @param message
+	 * @return
+	 */
 	@RequestMapping("register")
 	@ResponseBody
-	public Message register(HttpServletRequest servletRequest, @RequestBody Message message) {
+	public Message register(@RequestBody Message message) {
 		Message response=new Message();
 		JSONObject responseJSON=new JSONObject();
 		
@@ -56,7 +98,7 @@ public class PurchaserAccountController {
 		try {
 			if (!StringUtils.isEmpty(param)) {
 				PurchaserAccountRequest accountRequest = JSONUtils.jsonToObj(param, PurchaserAccountRequest.class);
-				errorMsg = service.validateRegisterParam(accountRequest, servletRequest);
+				errorMsg = service.validateRegisterParam(accountRequest);
 				if(errorMsg==null) {
 					errorMsg= service.register(accountRequest.getAccount());
 					if(errorMsg==null) {
@@ -88,21 +130,26 @@ public class PurchaserAccountController {
 	 */
 	@RequestMapping("login")
 	@ResponseBody
-	public Message login(HttpServletRequest servletRequest,@RequestBody Message message) {
+	public Message login(@RequestBody Message message) {
 		Message response=new Message();
 		JSONObject responseJSON=new JSONObject();
 		
-		String errorMsg;
+		String errorMsg = null;
 		String param = message.getMessageBody();
 		if (!StringUtils.isEmpty(param)) {
 			PurchaserAccountRequest accountRequest = JSONUtils.jsonToObj(param, PurchaserAccountRequest.class);
 			PurchaserAccount account=accountRequest.getAccount();
-
-			errorMsg = service.validateLoginParam(servletRequest, accountRequest);
 			
-			if(StringUtils.isEmpty(errorMsg)) {
+			boolean isMessageLogin = accountRequest.isMessageLogin();
+			if(isMessageLogin) {
 				String token=tokenService.tokenGenerate(account.getLoginId(), accountRequest.getSessionId());
 				response.setAccessToken(token);
+			}else {
+				errorMsg = service.validateLoginParam(accountRequest);
+				if(StringUtils.isEmpty(errorMsg)) {
+					String token=tokenService.tokenGenerate(account.getLoginId(), accountRequest.getSessionId());
+					response.setAccessToken(token);
+				}
 			}
 		}else {
 			errorMsg ="请输入相关数据";

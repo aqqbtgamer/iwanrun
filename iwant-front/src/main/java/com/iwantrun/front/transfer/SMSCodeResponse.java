@@ -20,7 +20,10 @@ public class SMSCodeResponse {
 	 * 短信验证码
 	 */
 	private String smsCode;
-
+	/**
+	 * 加过密的短信验证码
+	 */
+	private String encryptedSMSCode;
 	/**
 	 * 短信验证码响应信息
 	 */
@@ -61,5 +64,13 @@ public class SMSCodeResponse {
 	@Override
 	public String toString() {
 		return JSONUtils.objToJSON(this);
+	}
+
+	public String getEncryptedSMSCode() {
+		return encryptedSMSCode;
+	}
+
+	public void setEncryptedSMSCode(String encryptedSMSCode) {
+		this.encryptedSMSCode = encryptedSMSCode;
 	}
 }

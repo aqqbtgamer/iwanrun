@@ -17,6 +17,8 @@ var appIndex = new Vue(
 				loginTitle : '用户登录',
 				registerTitle : '用户注册',
 				registerWindow : false,
+				registerBtn : true,
+				forgetBtn : false,
 				bannerList : [ 'img/banner/banner1.png' ],
 				loginId : '18018336171',
 				loginToken : 'uuixooppasyytvdbftrraskm',
@@ -123,12 +125,31 @@ var appIndex = new Vue(
 				} ]
 			},
 			methods : {
+				forget : function(){
+					var account = this.account;
+					var mobile = account.loginId;
+					var smsCode = account.smsCode;
+					var password = account.password;
+					var rePassword = account.rePassword;
+
+					var correct = validateAccountRegister(mobile, password,
+							rePassword, smsCode);
+
+					if (correct) {
+						account.mobileNumber = mobile;
+						var data = {};
+						data.smsCode = smsCode;
+						data.account = account;
+						var url = baseUrl + "purchaserAccount/modifyPwd";
+						$http.post(url, JSON.stringify(data), forgetBack);
+					}
+				},
 				login : function() {
 					var account = this.account;
 					var mobile = account.loginId;
 					var correct = false;
+					var smsCode = account.smsCode;
 					if (this.messageLogin) {
-						var smsCode = account.smsCode;
 						correct = validateAccountMessageLogin(mobile, smsCode);
 					} else {
 						var password = account.password;
@@ -136,9 +157,9 @@ var appIndex = new Vue(
 					}
 					if (correct) {
 						var data = {};
+						data.smsCode = smsCode;
 						data.messageLogin = this.messageLogin;
 						data.account = account;
-
 						var url = baseUrl + "purchaserAccount/login";
 						$http.post(url, JSON.stringify(data), loginBack);
 					}
@@ -214,7 +235,20 @@ var appIndex = new Vue(
 					vm.mask = true;
 					vm.loginWindow = false;
 					vm.registerWindow = true;
+					vm.forgetBtn = false;
+					vm.registerBtn = true;
 					vm.registerTitle = (vm.counselor ? '咨询师' : '用户') + '注册';
+					showErrMsg();
+				},
+				showForget : function() {
+					console.log("v-on  click method :showForget");
+					var vm = this
+					vm.mask = true;
+					vm.loginWindow = false;
+					vm.registerWindow = true;
+					vm.registerBtn = false;
+					vm.forgetBtn = true;
+					vm.registerTitle = '忘记密码';
 					showErrMsg();
 				},
 				closeRegister : function() {
@@ -226,9 +260,6 @@ var appIndex = new Vue(
 				changeMessageLogin : function() {
 					var vm = this;
 					vm.messageLogin = !vm.messageLogin;
-				},
-				forgetPassword : function() {
-
 				}
 			}
 		});
@@ -384,9 +415,34 @@ function registerBack(data) {
 	}
 }
 
+function forgetBack(data){
+	var messageBody = data.messageBody;
+	if (messageBody) {
+		var message = JSON.parse(messageBody);
+		var errorMsg = message.errorMsg;
+		if (errorMsg) {
+			showErrMsg(errorMsg);
+			return;
+		}
+	}
+	var accessToken = data.accessToken;
+	if (accessToken) {
+		var $ = jQuery;
+		var loginId = appIndex.account.loginId;
+		$.cookie('accessToken', accessToken);
+		$.cookie('loginId', loginId);
+		appIndex.loginWindow = true;
+		appIndex.registerWindow = false;
+		appIndex.mask = false;
+		appIndex.account = {};
+		appIndex.loginId = loginId;
+		showErrMsg('密码修改成功，请登录');
+	}
+}
+
 function getSMSCodeBack(data) {
 	var vm = appIndex;
-
+	var encryptedSMSCode = $.cookie('encryptedSMSCode');
 	if (data) {
 		console.log('短信验证码获取结束，结果' + data);
 
@@ -395,6 +451,7 @@ function getSMSCodeBack(data) {
 
 		if (returnstatus == 'Success') {
 			showErrMsg('短信已发送');
+			//$.cookie('encryptedSMSCode', data.encryptedSMSCode);
 		} else if (returnstatus == 'Faild') {
 			console.log(message);
 			showErrMsg('短信获取失败，请联系管理员');

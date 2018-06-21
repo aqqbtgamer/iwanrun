@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +51,22 @@ public class PurchaserAccountService {
 	@Autowired
 	private JPQLEnableRepository jpqlExecute;
 
+	public String modifyPwd(PurchaserAccount account) {
+		String loginId = account.getLoginId();
+		PurchaserAccount dbAccount = dao.findByLoginId(loginId);
+		if(dbAccount == null) {
+			return "账号：" + loginId + "，不存在";
+		}
+		
+		String md5Password=Md5Utils.generate(account.getPassword());
+		dbAccount.setPassword(md5Password);
+		PurchaserAccount saved = dao.save(dbAccount);
+		if (saved == null) {
+			return "数据保存失败，请重试";
+		}
+		return null;
+	}
+	
 	public String register(PurchaserAccount account) {
 		String loginId = account.getLoginId();
 		PurchaserAccount dbAccount = dao.findByLoginId(loginId);
@@ -71,7 +86,7 @@ public class PurchaserAccountService {
 		return null;
 	}
 
-	public String validateRegisterParam(PurchaserAccountRequest accountRequest, HttpServletRequest servletRequest) {
+	public String validateRegisterParam(PurchaserAccountRequest accountRequest) {
 		
 		if (accountRequest == null || accountRequest.getAccount() == null) {
 			return "请输入相关数据";
@@ -83,14 +98,6 @@ public class PurchaserAccountService {
 		String smsCode = accountRequest.getSmsCode();
 		if (StringUtils.isEmpty(smsCode)) {
 			return "短信验证码不能为空";
-		}
-		Object serverSMSCodeObj = servletRequest.getSession().getAttribute(mobile);
-		if (serverSMSCodeObj == null) {
-			return "请重新获取短信验证码";
-		}
-		// 短信验证码校验
-		if (!smsCode.equals(serverSMSCodeObj)) {
-			return "短信验证码不正确";
 		}
 
 		String password = accountRequest.getAccount().getPassword();
@@ -401,25 +408,16 @@ public class PurchaserAccountService {
 		return JSONUtils.objToJSON(result);
 	}
 
-	public String validateLoginParam(HttpServletRequest servletRequest, PurchaserAccountRequest accountRequest) {
+	public String validateLoginParam(PurchaserAccountRequest accountRequest) {
 		PurchaserAccount account = accountRequest.getAccount();
 		boolean messageLogin = accountRequest.isMessageLogin();
 		if (messageLogin) {
 			if (account == null || account.getLoginId() == null) {
 				return "请输入账号";
 			}
-			String loginId = account.getLoginId();
-			Object smsCodeServerObj = servletRequest.getSession().getAttribute(loginId);
-			if (smsCodeServerObj == null) {
-				return "请重新获取短信验证码";
-			} else {
-				String smsCode = accountRequest.getSmsCode();
-				if (smsCode == null) {
-					return "请输入短信验证码";
-				}
-				if (smsCode.equals(smsCodeServerObj)) {
-					return "短信验证码输入错误";
-				}
+			String smsCode = accountRequest.getSmsCode();
+			if (smsCode == null) {
+				return "请输入短信验证码";
 			}
 			return null;
 		} else {

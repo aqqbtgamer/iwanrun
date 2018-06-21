@@ -1,16 +1,16 @@
 package com.iwantrun.front.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.iwantrun.front.domain.PurchaserAccount;
 import com.iwantrun.front.service.PurchaserAccountService;
 import com.iwantrun.front.transfer.Message;
 import com.iwantrun.front.transfer.PurchaserAccountRequest;
-import com.iwantrun.front.utils.JSONUtils;
 
 /**
  * 
@@ -23,6 +23,23 @@ public class PurchaserAccountController {
 	private PurchaserAccountService service;
 
 	/**
+	 * 采购用户修改密码
+	 * 
+	 * @param purchaser
+	 * @return String
+	 */
+	@RequestMapping("/modifyPwd")
+	@ResponseBody
+	public Message modifyPwd(HttpServletRequest request, @RequestBody PurchaserAccountRequest purchaser) {
+		Message result = service.getVaidateSMSCodeResult(request, purchaser);
+		if (result != null) {
+			return result;
+		}
+		result = service.modifyPwd(purchaser);
+		return result;
+	}
+	
+	/**
 	 * 采购用户注册
 	 * 
 	 * @param purchaser
@@ -30,8 +47,12 @@ public class PurchaserAccountController {
 	 */
 	@RequestMapping("/register")
 	@ResponseBody
-	public Message register(@RequestBody PurchaserAccountRequest purchaser) {
-		Message result = service.register(purchaser);
+	public Message register(HttpServletRequest request, @RequestBody PurchaserAccountRequest purchaser) {
+		Message result = service.getVaidateSMSCodeResult(request, purchaser);
+		if (result != null) {
+			return result;
+		}
+		result = service.register(purchaser);
 		return result;
 	}
 
@@ -43,8 +64,16 @@ public class PurchaserAccountController {
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public Message login(@RequestBody PurchaserAccountRequest purchaser) {
-		Message result = service.login(purchaser);
+	public Message login(HttpServletRequest request, @RequestBody PurchaserAccountRequest purchaser) {
+		boolean isMessageLogin = purchaser.isMessageLogin();
+		Message result;
+		if (isMessageLogin) {
+			result = service.getVaidateSMSCodeResult(request, purchaser);
+			if (result != null) {
+				return result;
+			}
+		}
+		result = service.login(purchaser);
 		return result;
 	}
 }

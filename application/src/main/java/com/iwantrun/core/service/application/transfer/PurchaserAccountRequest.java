@@ -13,6 +13,9 @@ public class PurchaserAccountRequest {
 	}
 	private String smsCode;
 	private PurchaserAccount account;
+	/**
+	 * 是否是短信登录
+	 */
 	private boolean messageLogin;
 	
 	public String getSmsCode() {

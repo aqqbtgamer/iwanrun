@@ -1,7 +1,5 @@
 package com.iwantrun.core.service.application.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.iwantrun.core.constant.SMSCodeConstants;
 import com.iwantrun.core.service.application.transfer.SMSCodeRequest;
 import com.iwantrun.core.service.application.transfer.SMSCodeResponse;
+import com.iwantrun.core.service.utils.AESUtils;
 import com.iwantrun.core.service.utils.SMSCodeUtils;
 
 /**
@@ -32,7 +31,7 @@ public class SMSCodeController {
 
 	@RequestMapping("/getSMSCode")
 	@ResponseBody
-	public SMSCodeResponse getSMSCode(HttpServletRequest servletRequest, @RequestBody SMSCodeRequest param) {
+	public SMSCodeResponse getSMSCode(@RequestBody SMSCodeRequest param) {
 
 		logger.info("开始获取短信验证码，参数：{}", param);
 
@@ -55,7 +54,7 @@ public class SMSCodeController {
 			// 发送短信后的响应对象
 			response = SMSCodeUtils.getSMSCode(request);
 			if (response != null && SMSCodeConstants.RES_RETURN_STATUS.equals(response.getReturnstatus())) {
-				servletRequest.getSession().setAttribute(mobile, response.getSmsCode());
+				response.setEncryptedSMSCode(AESUtils.encode(response.getSmsCode()));
 			}
 		}
 

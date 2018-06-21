@@ -6,6 +6,9 @@ import com.iwantrun.front.utils.JSONUtils;
 public class PurchaserAccountRequest {
 	private String sessionId;
 	private String smsCode;
+	/**
+	 * 是否是短信登录
+	 */
 	private boolean messageLogin;
 	private PurchaserAccount account;
 	

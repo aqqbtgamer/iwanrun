@@ -7,7 +7,7 @@ public class SMSCodeRequest {
 	 * 手机号码
 	 */
 	private String mobile;
-
+	
 	public String getMobile() {
 		return mobile;
 	}
