@@ -13,6 +13,7 @@ var appListCase = new Vue(
             loginId:'18018336171',
             loginToken:'uuixooppasyytvdbftrraskm',
             loginRole:{id:1,role:'采购方'},
+            indexClick:1,
             criteria: {
                 location: [  
                     { id: 1, value: '上海市区',dbCode:1,code:1 },
@@ -35,9 +36,6 @@ var appListCase = new Vue(
                
             ],
             pageInfo:{
-            	currentIndex: 1,
-            	totalPage:5,
-            	pageSize:10
             },
             search: {
                 criteria: {
@@ -49,6 +47,20 @@ var appListCase = new Vue(
                     price: []
                 }
             }
+        },
+        computed: {
+        	numberPages:function(){//计算页数
+        		var number = 1;
+        		var total = this.pageInfo.total;
+        		var pageSize = this.pageInfo.pageSize;
+        		if( total != '' && total != undefined && pageSize != '' && pageSize != undefined){
+            		number = Math.floor(total/pageSize);//向下舍入
+        		}
+        		if( number == 0){//至少显示一页
+        			number=1;
+        		}
+        		return number;
+        	}
         },
         methods: {
             showLogin: function (message) {
@@ -101,28 +113,45 @@ var appListCase = new Vue(
             	})
             	
             },
-            queryCaseList:function(){
+            queryCaseList:function(pageIndex){
+            	
             	var vm = this;
             	var url="../../case/queryCaseList";
             	var param = {
-            			pageIndex:"0"	
+            			pageIndex:pageIndex-1	
             	};
+            	vm.indexClick=pageIndex;
             	axios.post(url,param).then(
             			function(response){
             				var list = response.data;
             				if( list != ''){
             					vm.List=list.content;
+            					vm.pageInfo=list.pageInfo;
             				}
             				
             	})
             	
+            },
+            nextPageClick:function(){
+            	var vm = this;
+            	if( vm.indexClick != 5){//vm.numberPages  当前页是最后一页，点击无效
+            		vm.indexClick = parseInt(vm.indexClick)+parseInt(1);//当前页加一
+                	vm.queryCaseList(vm.indexClick);
+            	}
+            },
+            previousPageClick:function(){
+            	var vm = this;
+            	if(vm.indexClick !=1){//当前页是第一页，点击无效
+            		vm.indexClick = parseInt(vm.indexClick)-parseInt(1);//当前页减一
+                	vm.queryCaseList(vm.indexClick);
+            	}
+            	
             }
-            
         },
         created: function(){
         	var vm = this;
         	vm.queryDictionaryList();
-        	vm.queryCaseList();
+        	vm.queryCaseList("1");
         }
     }
 );

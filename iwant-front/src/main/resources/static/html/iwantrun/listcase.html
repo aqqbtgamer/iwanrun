@@ -193,12 +193,11 @@
             </div>
             <div id="page-navigation" class="page-navigation">
                 <ul class="pagenation">
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">&#62</a></li>
+                	<li @click="previousPageClick"><a href="#" >&#60;</a></li>
+                	<template  v-for="index in 5">
+	                    <li  :class="{active:index==indexClick}" @click="queryCaseList(index)"><a href="#" >{{index}}</a></li>
+                    </template>
+                     <li @click="nextPageClick"><a href="#" >&#62</a></li>
                 </ul>
             </div>
             <div class="common-tail-bg">
