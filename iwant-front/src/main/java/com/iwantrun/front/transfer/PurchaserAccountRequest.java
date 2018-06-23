@@ -10,6 +10,10 @@ public class PurchaserAccountRequest {
 	 * 是否是短信登录
 	 */
 	private boolean messageLogin;
+	/**
+	 * 是否自动登录
+	 */
+	private boolean autoLogin;
 	private PurchaserAccount account;
 	
 	public String getSmsCode() {
@@ -41,5 +45,11 @@ public class PurchaserAccountRequest {
 
 	public void setMessageLogin(boolean messageLogin) {
 		this.messageLogin = messageLogin;
+	}
+	public boolean isAutoLogin() {
+		return autoLogin;
+	}
+	public void setAutoLogin(boolean autoLogin) {
+		this.autoLogin = autoLogin;
 	}
 }
