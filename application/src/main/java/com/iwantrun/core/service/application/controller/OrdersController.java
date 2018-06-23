@@ -59,5 +59,14 @@ public class OrdersController {
 		message.setMessageBody(JSONUtils.objToJSON(resultMap));
 		return message;
 	}
+	
+	@RequestMapping("getOrderMessage")
+	public Message getOrderMessage(@RequestBody Message message) {
+		String requestJson = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJson);
+		String result = orderService.getOrderMessage(requestObj);
+		message.setMessageBody(result);
+		return message;
+	}
 
 }

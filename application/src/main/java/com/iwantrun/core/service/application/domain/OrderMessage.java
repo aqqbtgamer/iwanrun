@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.application.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import com.iwantrun.core.service.application.enums.ReadyStatus;
 
 @Entity
 @Table(name="biz_order_message")
@@ -24,18 +26,18 @@ public class OrderMessage {
 	private String messageText;
 	
 	@Column(name="message_from" ,nullable=false)
-	private Integer messageFrom;
+	private String messageFrom;
 	
 	
 	@Column(name="message_reply")
-	private Integer messageReply; 
+	private String messageReply; 
 	
 	@Column(name="create_time")
 	private Date createTime;
 	
 	@Column(name="already_ready")
 	private Integer alreadyRead;
-
+	
 	public int getId() {
 		return id;
 	}
@@ -60,19 +62,19 @@ public class OrderMessage {
 		this.messageText = messageText;
 	}
 
-	public Integer getMessageFrom() {
+	public String getMessageFrom() {
 		return messageFrom;
 	}
 
-	public void setMessageFrom(Integer messageFrom) {
+	public void setMessageFrom(String messageFrom) {
 		this.messageFrom = messageFrom;
 	}
 
-	public Integer getMessageReply() {
+	public String getMessageReply() {
 		return messageReply;
 	}
 
-	public void setMessageReply(Integer messageReply) {
+	public void setMessageReply(String messageReply) {
 		this.messageReply = messageReply;
 	}
 
@@ -83,6 +85,14 @@ public class OrderMessage {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+	
+	public String getCreateTimeString() {
+		if(createTime == null) {
+			return null ;
+		}else {
+			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.createTime);
+		}
+	}
 
 	public Integer getAlreadyRead() {
 		return alreadyRead;
@@ -91,9 +101,18 @@ public class OrderMessage {
 	public void setAlreadyRead(Integer alreadyRead) {
 		this.alreadyRead = alreadyRead;
 	}
-	
-	
-	
-	
+
+	public String getAlreadyReadyString() {
+		if(this.alreadyRead !=  null) {
+			ReadyStatus status =  ReadyStatus.matchById(this.alreadyRead);
+			if(status != null) {
+				return status.getName();
+			}else {
+				return null ;
+			}
+		}else {
+			return null;
+		}
+	}
 
 }

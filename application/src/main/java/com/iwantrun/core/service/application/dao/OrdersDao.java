@@ -51,7 +51,6 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 	
 	String ORDERBY_DESC = "order by orders.id asc";
 	
-	
 	Function<Object[],Map<String,Object>> MAPPER_MIXED_ORDER =
 			objArray -> {
 				Map<String,Object> result = new HashMap<String,Object>();

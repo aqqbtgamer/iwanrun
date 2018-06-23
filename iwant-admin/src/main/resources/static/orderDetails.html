@@ -184,12 +184,7 @@
                 	  				<input class="input-big" type="text"  name="activityDate" id="activityDate" readonly="readonly"/>
                 	  			</td>
                 	 	</tr>
-                	 		<tr>
-                	  			<th><label>活动人数</label></th>
-                	  			<td>
-                	  				<input class="input-small" type="text"  name="groupNumberCode" id="groupNumberCode" readonly="readonly"/>
-                	  			</td>
-                	 	</tr>
+                	 	
                 	 		<tr>
                 	  			<th><label>活动预算</label></th>
                 	  			<td>
@@ -207,37 +202,47 @@
                     <table class="form_h" id="submitForm2">
                     	<tr>
                 	  			<th><label>初步方案</label></th>
-                	  			<td>
+                	  			<td id="case_draft">
                 	  				<span>未上传</span>
-                	  				<input type="button" value="点击下载" disabled="disabled"></input>
+                	  				
                 	  			</td>
                 	 	</tr>
                 	 		<tr>
                 	  			<th><label>合作意向书</label></th>
-                	  			<td>
-                	  				<span>未上传</span>
-                	  				<input type="button" value="点击下载" disabled="disabled"></input>
+                	  			<td id="appointment">
+                	  				<span>未上传</span>                	  				
                 	  			</td>
                 	 	</tr>
                 	 		<tr>
                 	  			<th><label>项目汇总</label></th>
-                	  			<td>
-                	  				<span>未上传</span>
-                	  				<input type="button" value="点击下载" disabled="disabled"></input>
+                	  			<td id="project_conclude">
+                	  				<span>未上传</span>         	  				
                 	  			</td>
                 	 	</tr>
                  	</table>
                        <h2 class="jquery_tab_title">沟通记录</h2>
-                    <table class="table_liquid datalist" cellspacing="0" id="orderMessage">
+                    <table class="table_liquid datalist" cellspacing="0" id="orderMessageTable">
                       <thead>
                     <tr>
+                        <th>全选</th>
                         <th>消息内容</th>
                         <th>发件人</th>
                         <th>创建时间</th>
                         <th>是否已读</th>
                     </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                    
+                    </tbody>
+                     <tfoot>
+                    <tr>
+                        <td colspan="5">
+                            <div class="pagination" id="pagination">
+
+                            </div>
+                        </td>
+                    </tr>
+                    </tfoot>
                     </table>
                   
             </div>

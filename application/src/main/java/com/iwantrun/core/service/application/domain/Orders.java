@@ -102,7 +102,7 @@ public class Orders {
 	private String activityDist;
 	
 	@Column(name="order_simulate_price_code")
-	@DictionaryField(name=DictionaryConfigParams.PRODUCTION_DICTIONARY_NAME,usedField=DictionaryConfigParams.PRODUCTION_SINGEL_PRICE_LIMIT_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.PRODUCTION_DICTIONARY_NAME,usedField=DictionaryConfigParams.PRODUCTION_SINGEL_PRICE_LIMIT_TYPE,aliasField="orderSimulatePrice")
 	private Integer orderSimulatePriceCode ;
 	
 	@Transient

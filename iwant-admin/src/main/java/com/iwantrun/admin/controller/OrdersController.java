@@ -30,5 +30,10 @@ public class OrdersController {
 	public String get(HttpServletRequest request) {
 		return orderService.get(request);
 	}
+	
+	@RequestMapping("getMessage")
+	public String getMessage(HttpServletRequest request) {
+		return orderService.getMessage(request);
+	}
 
 }

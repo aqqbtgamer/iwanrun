@@ -4,7 +4,27 @@
 console.log("加载create order details .js");
 const dictionaryUrl = "/iwant_admin/dictionary/getPages";
 const dataGetUrl ='/iwant_admin/orders/get';
+const orderMessageurl='/iwant_admin/orders/getMessage';
+
+const columns = new Array(
+		"messageText",
+		"messageFrom",
+		"createTimeString",
+		"alreadyReadyString"
+);
+
 var orderId = getUrlParam('id');
+
+var callObj = {
+		dataInitUrl:orderMessageurl,
+		dataUrl:orderMessageurl,
+		pageId:"pagination",
+		tableId:"orderMessageTable",
+		columns:columns,
+		call:function(){
+			
+		}
+	};
 
 $(document).ready(
 		function(){
@@ -13,6 +33,10 @@ $(document).ready(
 			var requestObj = new Object();
 			requestObj.id = orderId;
 			commonLoadForModify(requestObj,dataGetUrl,mappingData);
+			var callData = new Object();
+			callData.orderId = orderId ;
+			callObj.data = JSON.stringify(callData) ;
+			customerPageDataInit(callObj.tableId,callObj.dataInitUrl,0,callObj);
 		}		
 );
 
@@ -46,7 +70,7 @@ function mappingData(result){
 		mappingTextItem("activityTypeCode",orders.activitysCode);
 		mappingTextItem("activityDuringCode",orders.activityDuring);
 		mappingTextItem("activityDate",parseDateStr(orders.activityStart) + " - " + parseDateStr(orders.activityEnd));
-		mappingTextItem("orderSimulatePriceCode",orders.orderSimulatePrice);
+		mappingTextItem("orderSimulatePriceCode",orders.orderSimulatePrice);		
 	}
 	if(ret.purchaserAccountInfo != null){
 		var userInfo = ret.purchaserAccountInfo
@@ -58,4 +82,7 @@ function mappingData(result){
 		mappingTextItem("purchaseMobile",user.mobileNumber);
 		mappingTextItem("purchaseWeixin",user.wec);
 	}
+	mappingFileDownloadItem("case_draft",ret.caseDraft);
+	mappingFileDownloadItem("appointment",ret.appointment);
+	mappingFileDownloadItem("project_conclude",ret.projectConclude);
 }

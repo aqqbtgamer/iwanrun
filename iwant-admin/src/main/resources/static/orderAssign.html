@@ -16,7 +16,7 @@
 
     <link rel="stylesheet" href="css/jquery-ui.css" type="text/css" media="screen" />
 
-
+    <link rel="stylesheet" href="ueditor1_4_3_3-utf8-jsp/utf8-jsp/themes/default/css/ueditor.css" type="text/css" media="screen" />
 
     <link rel="stylesheet" href="css/css_dev/style_dev_all.css">
 
@@ -28,17 +28,14 @@
     </script>
     <![endif]-->
 
-   <script type='text/javascript' src='js/all-ck.js'></script>
-   <!-- <script type='text/javascript' src='ueditor1_2_2_0-utf8-php/editor_config.js'></script>-->
-
+   
+    <script type='text/javascript' src='js/all-ck.js'></script>
+    <script type='text/javascript' src="js/jquery.cookie.js"></script>
+   <script type="text/javascript" src="ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.config.js"></script>
+    <script type="text/javascript" src="ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.all.js"></script>
     <script type='text/javascript' src='js/custom.js'></script>
     <script type="text/javascript" src="js/js_dev/common.app.js"></script>
-    <script type="text/javascript" src="js/js_dev/locationlist.app.js"></script>
-    <script type="text/javascript" src="js/js_dev/dictionary.app.js"></script>
-    <style type="text/css">
-
-
-    </style>
+	<script type="text/javascript" src="js/js_dev/dictionary.app.js"></script>
 </head>
 
 <body>
@@ -73,38 +70,54 @@
 
     </div>
     <!--end head-->
-
     <div id="bg_wrapper">
 
         <div id="main">
             <div id="content">
-                <h2 class="jquery_tab_title">场地列表</h2>
-                <table class="table_liquid datalist" cellspacing="0" id="locationTable">
-                    <caption>
-
-                            <button method="href" to="createLocation.html">新增</button>
-                            <select name="queryField" id="queryField">
-                                <option value="">筛选</option>
-                                <option value="name">场地名称</option>
-                                <option value="activeTypeCode" dicName="common" dicField="9">活动类型</option>
-                                <option value="groupNumberLimitCode" dicName="location" dicField="3">最大活动人数</option>
-                                <option value="location">地址</option>
-                                <option value="simulatePriceCode" dicName="location" dicField="4">参考报价</option>
-                            </select>
-                            <input type="text" name="keyword" id="fieldInput"/>
-                            <button id="queryCondtion">查找</button>
-                            <button id="deleteAll">删除</button>
-
-                    </caption>
+                <h2 class="jquery_tab_title">订单指派</h2>
+                <table class="form_h" id="submitForm1"> 
+                	  <tr>
+                	  			<th><label>手机号码(模糊查询)</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="mobileNumber" id="mobileNumber" />
+                	  			</td>
+                	  		</tr>
+                	  		<tr>
+                	  			<th><label>姓名(模糊查询)</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="name" id="name" />
+                	  			</td>
+                	  		</tr>
+                	  		<tr>
+                	  			<th><label>用户名(精确匹配)</label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="loginId" id="loginId" />
+                	  			</td>
+                	  		</tr>
+                	  		<tr>
+                	  			<td>
+                	  				<button  class="button" id="queryCondtion">查询</button>
+                	  			</td>
+                	  			<td>
+                	  				<button  class="button" id="assignOrder">指派</button>
+                	  			</td>
+                	  		</tr>         
+                   
+                   
+                </table>
+                
+              <table class="table_liquid datalist" cellspacing="0" id="userTable">
+                   
                     <thead>
                     <tr>
-                         <th><input type="checkbox" id="selectAll">选择全部</th>
-                        <th>场地名称</a></th>
-                        <th>活动类型</th>
-                        <th>最大活动人数</th>
-                        <th>地址</th>
-                        <th>参考报价</th>
-                        <th>操作</th>
+                        <th></th>
+                        <th>姓名</a></th>
+                        <th>角色</th>
+                        <th>用户名</th>
+                        <th>手机号码</th>
+                        <th>微信</th>
+                        <th>审核状态</th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -120,7 +133,7 @@
                     </tr>
                     </tfoot>
                 </table>
-            </div>
+             </div>   
             <!--end content-->
 
         </div><!--end main-->
@@ -132,13 +145,14 @@
                         <li><a href="./locationlist.html">场地管理</a></li>
                         <li><a href="./productionInfoList.html">产品管理</a></li>
                         <li><a href="./casesList.html">案例管理</a></li>
-                        <li><a href="./userList.html">用户管理</a></li>
-                        <li><a href="./adminlist.html">管理员管理</a></li>
+                        <li><a href="./userlist.html">用户管理</a></li>
+                         <li><a href="./adminlist.html">管理员管理</a></li>
                         <li><a href="./orderList.html">交易管理</a></li>
                     </ul>
                 </li>
                 <li><a class="headitem item2" href="#">系统配置</a>
                     <ul id="dictionarys">
+                       
                     </ul>
                 </li>
                 <li><a class="headitem item4" href="#">编辑</a>
@@ -184,4 +198,5 @@
 
 </body>
 
+<script type="text/javascript" src="js/js_dev/orderAssign.app.js"></script>
 </html>

@@ -5,6 +5,7 @@ const dictionaryUrl = "/iwant_admin/dictionary/getPages";
 const dataInitUrl = '/iwant_admin/orders/findAll';
 const dataQueryUrl = '/iwant_admin/orders/findByExample';
 const orderDetailUrl = '/iwant_admin/orderDetails.html?id='
+const orderAssignUrl = '/iwant_admin/orderAssign.html?id='
 const dateFieldsArray = new Array(
 		"createTimeFrom",
 		"createTimeTo",
@@ -54,6 +55,12 @@ $(document).ready(
 					var parentTr = self.parent().parent();
 					var orderId = parentTr.find("th input").attr("id");
 					window.location.href = orderDetailUrl+orderId;
+				});
+				linkAssign.bind("click",function(event){
+					var self = $(event.target);
+					var parentTr = self.parent().parent();
+					var orderId = parentTr.find("th input").attr("id");
+					window.location.href = orderAssignUrl+orderId;
 				});
 				td.append(linkDetail);
 				td.append("/");

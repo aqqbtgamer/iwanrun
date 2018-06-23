@@ -43,6 +43,8 @@ function fileUpload(contentId,url,callback) {
     }
 }
 
+
+
     function checkUploadedFile(contentId){
 	    var checkValid = false ;
         var filePath = $("#"+contentId).val();
@@ -324,7 +326,12 @@ function fileUpload(contentId,url,callback) {
     			function(){
     				var requestObj = new Object();
         	        requestObj.pageIndex = 0 ;
-        	        var obj = new Object();
+        	        var obj;
+        	        if(callObj.data == null){
+        	        	obj = new Object();
+        	        }else{
+        	        	obj = $.parseJSON(callObj.data)
+        	        }        	        
         	        for(var i =0 ; i<filedArray.length ; i++){
                     	obj[$("#"+filedArray[i]).attr("name")] = $("#"+filedArray[i]).val();
                     }
@@ -851,6 +858,21 @@ function fileUpload(contentId,url,callback) {
     				}    			
     			}
     	);
+    }
+    
+    function mappingFileDownloadItem(id,value){
+    	var container = $("#"+id);
+    	if(value != null && value.length > 0){
+    		container.empty();
+    		for(var i = 0 ; i<value.length ; i++){
+    			var fileItem = value[i];
+    			var fileLink = $("<a></a>")
+    			.attr("id",fileItem.id).attr("href",fileItem.filePath)
+    			.attr("download",fileItem.fileName).text("点击下载");
+    			container.append(fileLink);
+    			container.append("&nbsp;&nbsp;&nbsp;");
+    		}
+    	}
     }
     
     function getDictionaryPages(url,callback){

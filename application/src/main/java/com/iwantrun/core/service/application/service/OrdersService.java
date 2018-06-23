@@ -26,7 +26,6 @@ import com.iwantrun.core.service.application.domain.OrderMessage;
 import com.iwantrun.core.service.application.domain.Orders;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
 import com.iwantrun.core.service.application.domain.UserInfo;
-import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
 import net.minidev.json.JSONObject;
@@ -117,21 +116,16 @@ public class OrdersService {
 				//fetch orders attachment 
 				List<OrderAttachments> caseDraft = ordersAttacgDao.findByOrderIdAndPagePath(id, AdminApplicationConstants.CASE_DRAFT);
 				if(caseDraft != null && caseDraft.size() > 0) {
-					resultMap.put("caseDraft", caseDraft.get(0));
+					resultMap.put("caseDraft", caseDraft);
 				}
 				List<OrderAttachments> appointment = ordersAttacgDao.findByOrderIdAndPagePath(id, AdminApplicationConstants.APPOINTMENT);
 				if(appointment != null && appointment.size() > 0) {
-					resultMap.put("appointment", appointment.get(0));
+					resultMap.put("appointment", appointment);
 				}
 				List<OrderAttachments> projectConclude = ordersAttacgDao.findByOrderIdAndPagePath(id, AdminApplicationConstants.PROJECT_CONCLUDE);
 				if(projectConclude != null && projectConclude.size() > 0) {
-					resultMap.put("projectConclude", projectConclude.get(0));
-				}
-				//fetch order messages
-				int pageSize = Integer.parseInt(env.getProperty("common.pageSize"));
-				Pageable page =  PageRequest.of(0, pageSize, Sort.Direction.DESC, "createTime");
-				Page<OrderMessage> messages = orderMessageDao.findByOrderId(id, page);
-				resultMap.put("orderMessage", messages);
+					resultMap.put("projectConclude", projectConclude);
+				}				
 				return resultMap;				
 			}else {
 				return null;
@@ -140,6 +134,19 @@ public class OrdersService {
 			return null;
 		}
 		
+	}
+
+	public String getOrderMessage(JSONObject requestObj) {
+		String pageIndexStr = requestObj.getAsString("pageIndex");
+		int pageSize = Integer.parseInt(env.getProperty("common.pageSize"));
+		String objString = requestObj.getAsString("obj");
+		JSONObject obj = (JSONObject) JSONValue.parse(objString);
+		Integer pageIndex = pageIndexStr == null ? 0:Integer.parseInt(pageIndexStr);
+		String orderIdStr = obj.getAsString("orderId");
+		Integer orderId = pageIndexStr == null? 0:Integer.parseInt(orderIdStr);		
+		Pageable page = PageRequest.of(pageIndex, pageSize, Sort.Direction.DESC,"createTime");
+		Page<OrderMessage> orderMessageResult = orderMessageDao.findByOrderId(orderId, page);
+		return PageDataWrapUtils.page2JsonNoCopy(orderMessageResult);
 	}
 
 }

@@ -77,4 +77,24 @@ public class OrdersService {
 		return response == null ? null : response.getBody().getMessageBody();
 	}
 
+	public String getMessage(HttpServletRequest request) {
+		String token = CookieUtils.getLoginToken(request);
+		List<String> paramList = FormDataUtils.stringArray2List(new String[] {
+				"obj",
+				"pageIndex"
+		});
+		JSONObject json = FormDataUtils.formData2JsonObj(request,paramList);
+		JSONObject obj  = (JSONObject) JSONValue
+				.parse(json.getAsString("obj"));
+		json.put("obj", obj);
+		String postUrl = env.getProperty("application.orders.getOrderMessage");
+		String baseUrl = env.getProperty("application.serverbase");
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(json.toJSONString());
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);	
+		return response == null ? null : response.getBody().getMessageBody();
+	}
+
 }
