@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
 import com.iwantrun.core.service.application.domain.CaseAttachments;
+import com.iwantrun.core.service.application.domain.SearchDictionary;
 import com.iwantrun.core.service.application.domain.CaseTags;
 import com.iwantrun.core.service.application.domain.Cases;
 import com.iwantrun.core.service.application.domain.Dictionary;
@@ -269,6 +270,46 @@ public class CaseController {
 		message.setMessageBody(result);
 		return message;
 	}
+	@RequestMapping("/application/cases/queryCaseByCondition")
+	public Message queryCaseByCondition(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		SearchDictionary queryVo =JSONUtils.jsonToObj(dataJson, SearchDictionary.class);
+		String json = caseListQuery(queryVo);
+		message.setMessageBody(json);
+		return message;		
+	}
+	public String caseListQuery(SearchDictionary queryVo) {
+		if( queryVo != null ) {
+			List<String> activityProvinceCode = new ArrayList<>();
+			List<String> activitytype = new ArrayList<>();
+			List<String> companytype = new ArrayList<>();
+			List<Integer> duration = new ArrayList<>();
+			List<String> personNum = new ArrayList<>();
+			String[] activityProvinceCodeArray = queryVo.getActivityProvinceCode();
+			if(activityProvinceCodeArray != null && activityProvinceCodeArray.length > 0) {
+				activityProvinceCode = dictionaryService.dictionaryParamSwitchString(activityProvinceCodeArray);
+			}
+			String[] activitytypeArray = queryVo.getActivitytype();
+			if(activitytypeArray != null && activitytypeArray.length > 0) {
+				activitytype = dictionaryService.dictionaryParamSwitchString(activitytypeArray);
+			}
+			String[] companytypeArray = queryVo.getCompanytype();
+			if(companytypeArray != null && companytypeArray.length > 0) {
+				companytype = dictionaryService.dictionaryParamSwitchString(companytypeArray);
+			}
+			Integer[] durationArray = queryVo.getDuration();
+			if(durationArray != null && durationArray.length > 0) {
+				duration = dictionaryService.dictionaryParamSwitch(durationArray);
+			}
+			String[] personNumArray = queryVo.getPersonNum();
+			if(personNumArray != null && personNumArray.length > 0) {
+				personNum = dictionaryService.dictionaryParamSwitchString(personNumArray);
+			}
+			String json = casesService.queryCaseByDictListConditionPageable(activityProvinceCode, activitytype, companytype, duration, personNum, queryVo.getPageIndex());
+			return json;
+		}
+		return "";
+		
+	} 
 	
-
 }

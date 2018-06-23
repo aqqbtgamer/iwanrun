@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,12 +21,13 @@ import org.springframework.stereotype.Service;
 import com.iwantrun.core.service.application.dao.CaseAttachmentsDao;
 import com.iwantrun.core.service.application.dao.CaseTagsDao;
 import com.iwantrun.core.service.application.dao.CasesDao;
+import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
 import com.iwantrun.core.service.application.domain.CaseAttachments;
 import com.iwantrun.core.service.application.domain.CaseTags;
 import com.iwantrun.core.service.application.domain.Cases;
-import com.iwantrun.core.service.application.intercepter.ControllInvokerIntercepter;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import com.iwantrun.core.service.utils.JPADBUtils;
+import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -34,7 +36,7 @@ import net.minidev.json.JSONValue;
 @Service
 public class CasesService {
 	
-	Logger logger = LoggerFactory.getLogger(ControllInvokerIntercepter.class);
+	Logger logger = LoggerFactory.getLogger(CasesService.class);
 	
 	@Autowired
 	private CasesDao casesDao;
@@ -42,10 +44,10 @@ public class CasesService {
 	private CaseTagsDao caseTagsDao;
 	@Autowired
 	private CaseAttachmentsDao caseAttachmentsDao;
-	
-	
-	
-	
+	@Autowired
+	private Environment environment;
+	@Autowired
+	private JPQLEnableRepository jpqlExecute;
 	@Autowired  
     private Environment env;
 	
@@ -175,5 +177,13 @@ public class CasesService {
 		return body;
 	}
 	
-	
+	public String queryCaseByDictListConditionPageable(List<String> activityProvinceCode,List<String> activitytype,List<String> companytype,List<Integer> duration,List<String> personNum,String pageIndex){	
+		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
+		int pageIndexInt =  pageIndex == null ? 1:Integer.parseInt(pageIndex)+1 ;
+		Pageable page =  PageRequest.of(pageIndexInt-1, pageSize, Sort.Direction.ASC, "id");
+		Long totalNum = casesDao.countByMutipleParams(activityProvinceCode,activitytype,companytype,duration,personNum,jpqlExecute);
+		List<Cases> content = casesDao.findByMutipleParams(activityProvinceCode,activitytype,companytype,duration,personNum,jpqlExecute,pageIndexInt,pageSize);
+		PageImpl<Cases> result = new PageImpl<Cases>(content, page, totalNum);
+		return PageDataWrapUtils.page2JsonNoCopy(result);
+	}
 }

@@ -1,6 +1,7 @@
 package com.iwantrun.core.service.application.service;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import com.iwantrun.core.constant.AdminApplicationConstants;
 import com.iwantrun.core.service.application.config.DictionaryPageConfig;
 import com.iwantrun.core.service.application.dao.DictionaryDao;
 import com.iwantrun.core.service.application.domain.Dictionary;
+import com.iwantrun.core.service.application.domain.SearchDictionary;
 import com.mysql.jdbc.StringUtils;
 
 @Service
@@ -195,5 +197,36 @@ public class DictionaryService {
 				
 		return dictionaryDao.findAll(Example.of(example,matcher));
 	}
-
+	public List<Dictionary> findDictionaryByIds(List<Integer> ids) {
+		return dictionaryDao.findAllById(ids);
+	}
+	public List<Integer> dictionaryParamSwitch(Integer[] array){
+		List<Integer> ids = new ArrayList<>();
+		List<Dictionary> quertList = new ArrayList<>();
+		List<Integer> codeList = new ArrayList<>();
+		for( Integer dic : array) {
+			ids.add(dic);
+		}
+		quertList = findDictionaryByIds(ids);
+		for( Dictionary dic : quertList ) {
+			codeList.add(dic.getCode());
+		}
+		return codeList;
+		
+	}
+	public List<String> dictionaryParamSwitchString(String[] array){
+		List<Integer> ids = new ArrayList<>();
+		List<Dictionary> quertList = new ArrayList<>();
+		List<String> codeList = new ArrayList<>();
+		for( String dic : array) {
+			ids.add(Integer.valueOf(dic));
+		}
+		quertList = findDictionaryByIds(ids);
+		for( Dictionary dic : quertList ) {
+			codeList.add(String.valueOf(dic.getCode()));
+		}
+		return codeList;
+		
+	}
+   
 }
