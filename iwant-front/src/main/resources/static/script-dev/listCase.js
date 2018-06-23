@@ -15,37 +15,18 @@ var appListCase = new Vue(
             loginRole:{id:1,role:'采购方'},
             indexClick:1,
             criteria: {
-                location: [  
-                    { id: 1, value: '上海市区',dbCode:1,code:1 },
-                    { id: 2, value: '周边城市',dbCode:1,code:2 },
-                    { id: 3, value: '境外城市',dbCode:1,code:3 }
-                ],
-                activitytype: [],
-                companytype: [],
-                personNum: [],
-                duration: [],
-                price: [
-                    { id: 0, value: '200以下' ,dbCode:6,code:1 },
-                    { id: 1, value: '200-300' ,dbCode:6,code:2},
-                    { id: 2, value: '300-400' ,dbCode:6,code:3},
-                    { id: 3, value: '400-500' ,dbCode:6,code:4},
-                    { id: 4, value: '500以上' ,dbCode:6,code:5}
-                ]
             },
             List: [
                
             ],
             pageInfo:{
             },
-            search: {
-                criteria: {
-                    location: [],
-                    activitytype: [],
-                    companytype: [],
-                    personNum: [],
-                    duration: [],
-                    price: []
-                }
+            searchCriteria: {
+            	activityProvinceCode:[],
+				activitytype:[],
+				companytype:[],
+				personNum:[],
+				duration:[]
             }
         },
         computed: {
@@ -59,7 +40,7 @@ var appListCase = new Vue(
         		if( number == 0){//至少显示一页
         			number=1;
         		}
-        		return number;
+        		return 10;
         	}
         },
         methods: {
@@ -84,15 +65,36 @@ var appListCase = new Vue(
                 var vm = this, $dom = $($event.target), $input = $dom.siblings('input'), name = $input.attr('name'), val = $input.val();
                 if ($dom.hasClass('icon-checkbox-non')) {
                     $dom.removeClass('icon-checkbox-non').addClass('icon-checkbox-blank');
-                    vm.search.criteria[name].push(val);
+                    vm.searchCriteria[name].push(val);
                 } else {
                     $dom.removeClass('icon-checkbox-blank').addClass('icon-checkbox-non');
-                    var index = vm.search.criteria[name].indexOf(val);
-                    vm.search.criteria[name].splice(index, 1);
+                    var index = vm.searchCriteria[name].indexOf(val);
+                    vm.searchCriteria[name].splice(index, 1);
                 }
-                console.log(vm.search.criteria[name]);
+                console.log(vm.searchCriteria[name]);
+                //查询
+                vm.queryCaseByCondition();
+                
             },
-            
+            queryCaseByCondition(){
+            	var vm = this;
+            	var url="../../case/queryCaseByCondition";
+            	var param = vm.searchCriteria;
+            	param.pageIndex="0";
+            	axios.post(url,param).then(
+            			function(response){
+            				console.log(response.data);
+            				var list = response.data;
+            				if( list != ''){
+            					vm.criteria.activityProvinceCode=list.activityProvinceCode;
+            					vm.criteria.activitytype=list.activitytype;
+            					vm.criteria.companytype=list.companytype;
+            					vm.criteria.personNum=list.personNum;
+            					vm.criteria.duration=list.duration;
+            				}
+            				
+            	})
+            },
             queryDictionaryList:function(){
             	var vm = this;
             	var url="../../case/caseSearchList";
@@ -104,6 +106,7 @@ var appListCase = new Vue(
             				console.log(response.data);
             				var list = response.data;
             				if( list != ''){
+            					vm.criteria.activityProvinceCode=list.activityProvinceCode;
             					vm.criteria.activitytype=list.activitytype;
             					vm.criteria.companytype=list.companytype;
             					vm.criteria.personNum=list.personNum;

@@ -7,7 +7,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.iwantrun.front.domain.Case;
+import com.iwantrun.front.domain.SearchDictionary;
 import com.iwantrun.front.domain.Dictionary;
 import com.iwantrun.front.transfer.Message;
 import com.iwantrun.front.utils.JSONUtils;
@@ -20,20 +20,37 @@ public class CaseService {
 	@Autowired
 	private DictionaryService dicService;
 	
-	public Case caseDictionaryDataDo(String messageBodyJson) {
+	/**
+	 * @param messageBodyJson
+	 * @return
+	 */
+	public SearchDictionary caseDictionaryDataDo(String messageBodyJson) {
 		List<Dictionary> dictoryList = JSONUtils.toList(messageBodyJson, Dictionary.class);
-		Case caseVo = new Case();
+		SearchDictionary vo = new SearchDictionary();
 		List<Dictionary> activitytypeList = dicService.filterByUsedField(dictoryList,"9");
-		caseVo.setActivitytype(activitytypeList);//设置活动类型
-		caseVo.setCompanytype(dicService.filterByUsedField(dictoryList,"24"));
-		caseVo.setPersonNum(dicService.filterByUsedField(dictoryList,"22"));
-		caseVo.setDuration(dicService.filterByUsedField(dictoryList,"23"));
-//		caseVo.setLocation(dicService.filterByUsedField(dictoryList,"24"));
-		return caseVo;
+		vo.setActivitytype(activitytypeList);//设置活动类型
+		vo.setCompanytype(dicService.filterByUsedField(dictoryList,"24"));
+		vo.setPersonNum(dicService.filterByUsedField(dictoryList,"22"));
+		vo.setDuration(dicService.filterByUsedField(dictoryList,"23"));
+		vo.setActivityProvinceCode(dicService.filterByUsedField(dictoryList,"6"));
+		return vo;
 		
 	}
 	public Message queryCaseList(String param) {
 		String findByName = environment.getProperty("application.cases.findAll");
+		String baseUrl = environment.getProperty("app.server");
+		
+		String url = baseUrl + findByName;
+
+		Message message = new Message();
+		message.setMessageBody(param);
+		message.setRequestMethod(url);
+		message = template.postForEntity(url, message, Message.class).getBody();
+		
+		return message;
+	}
+	public Message queryCaseByCondition(String param) {
+		String findByName = environment.getProperty("application.cases.queryCaseByCondition");
 		String baseUrl = environment.getProperty("app.server");
 		
 		String url = baseUrl + findByName;

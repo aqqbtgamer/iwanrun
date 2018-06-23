@@ -2,9 +2,11 @@ package com.iwantrun.front.domain;
 
 import java.util.List;
 
-public class Case {
+public class SearchDictionary {
 	
-	private List<Dictionary> location;//地区
+	private String pageIndex;
+	
+	private List<Dictionary> activityProvinceCode;//地区
 	
 	private List<Dictionary> activitytype;//活动类型
 	
@@ -13,13 +15,22 @@ public class Case {
 	private List<Dictionary> personNum;//人数
 	
 	private List<Dictionary> duration;//天数
-
-	public List<Dictionary> getLocation() {
-		return location;
+	
+	
+	public String getPageIndex() {
+		return pageIndex;
 	}
 
-	public void setLocation(List<Dictionary> location) {
-		this.location = location;
+	public void setPageIndex(String pageIndex) {
+		this.pageIndex = pageIndex;
+	}
+
+	public List<Dictionary> getActivityProvinceCode() {
+		return activityProvinceCode;
+	}
+
+	public void setActivityProvinceCode(List<Dictionary> activityProvinceCode) {
+		this.activityProvinceCode = activityProvinceCode;
 	}
 
 	public List<Dictionary> getActivitytype() {

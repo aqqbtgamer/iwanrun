@@ -10,7 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.iwantrun.front.domain.Case;
+import com.iwantrun.front.domain.SearchDictionary;
 import com.iwantrun.front.domain.Dictionary;
 import com.iwantrun.front.transfer.Message;
 import com.iwantrun.front.transfer.PurchaserAccountRequest;

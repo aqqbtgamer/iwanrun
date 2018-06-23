@@ -59,9 +59,9 @@
                             <input type="button" value="不限" class="btn-primary">
                         </div>
                         <div id="table-column-13" class="query-column-checkbox">
-                            <span v-for="item in criteria.location" style="padding-right:3px;">
+                            <span v-for="item in criteria.activityProvinceCode" style="padding-right:3px;">
                                 <i class="iconfont-grey icon-checkbox-non" @click="checkchange"></i>
-                                <input type="checkbox" :value="item.id" name="location" class="checkbox-primary">
+                                <input type="checkbox" :value="item.id" name="activityProvinceCode" class="checkbox-primary">
                                 <label for="check11">{{item.value}}</label>
                             </span>
                         </div>
@@ -194,7 +194,7 @@
             <div id="page-navigation" class="page-navigation">
                 <ul class="pagenation">
                 	<li @click="previousPageClick"><a href="#" >&#60;</a></li>
-                	<template  v-for="index in 5">
+                	<template  v-for="index in numberPages">
 	                    <li  :class="{active:index==indexClick}" @click="queryCaseList(index)"><a href="#" >{{index}}</a></li>
                     </template>
                      <li @click="nextPageClick"><a href="#" >&#62</a></li>

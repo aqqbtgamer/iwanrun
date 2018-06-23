@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.iwantrun.front.domain.Case;
+import com.iwantrun.front.domain.SearchDictionary;
 import com.iwantrun.front.service.CaseService;
 import com.iwantrun.front.service.DictionaryService;
 import com.iwantrun.front.transfer.Message;
@@ -24,13 +24,13 @@ public class CaseController {
 	@SuppressWarnings("rawtypes")
 	@RequestMapping("/caseSearchList")
 	@ResponseBody
-	public Case caseSearchList(@RequestBody String param) {
+	public SearchDictionary caseSearchList(@RequestBody String param) {
 
 		try {
 			Map map = JSONUtils.jsonToMap(param);
 			String name=(String) map.get("name");
 			Message result = dictionaryService.queryDictionaryList(name);//查询出公共字典所有数据
-			Case caseVo =caseService.caseDictionaryDataDo(result.getMessageBody()); //筛选出 案例需要数据
+			SearchDictionary caseVo =caseService.caseDictionaryDataDo(result.getMessageBody()); //筛选出 案例需要数据
 			return caseVo;
 		} catch (Exception e) {
 			
@@ -54,4 +54,19 @@ public class CaseController {
 		return null;
 		
 	} 
+	@RequestMapping("/queryCaseByCondition")
+	@ResponseBody
+	public String queryCaseByCondition(@RequestBody String param) {
+
+		try {
+			Message result =caseService.queryCaseByCondition(param); //筛选出 案例需要数据
+			if( result != null) {
+				return result.getMessageBody();
+			}
+		} catch (Exception e) {
+			
+		}
+		return null;
+		
+	}
 }
