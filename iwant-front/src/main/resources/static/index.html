@@ -192,7 +192,21 @@
                 </div>
             </div>
             <div id="mask" class="mask" v-if="mask" v-cloak></div>
-            <div id="login-pannel" class="login-pannel" v-if="loginWindow" v-cloak>
+            
+            <div id="float-collect-requirement" class="slidebar">
+                <h2 class="slidebar-head">急速获取免费方案</h2>
+                <p class="slidebar-text">
+                    超过100位专业咨询师免费为您提供
+                    量身定制的团建方案，优质供应链。
+                </p>
+                <div id="slider-button" class="slider-button">
+                    <input type="button" value="提交需求" class="slider-button-item" @click="toOrderSubmit()">
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="lrPannel">
+    		<div id="login-pannel" class="login-pannel" v-if="loginWindow" v-cloak id="loginWindow">
                 <div id="close-pannel" class="close-pannel">
                     <i class="iconfont-user1 icon-close" @click="closeLogin"></i>
                 </div>
@@ -321,18 +335,7 @@
                     </div>
                 </div>
             </div>
-            <div id="float-collect-requirement" class="slidebar">
-                <h2 class="slidebar-head">急速获取免费方案</h2>
-                <p class="slidebar-text">
-                    超过100位专业咨询师免费为您提供
-                    量身定制的团建方案，优质供应链。
-                </p>
-                <div id="slider-button" class="slider-button">
-                    <input type="button" value="提交需求" class="slider-button-item" @click="toOrderSubmit()">
-                </div>
-            </div>
-        </div>
-    </form>
+    </div>
 </body>
 <script type="application/javascript" src="script-dev/indexJquery.js"></script>
 <script type="application/javascript" src="script-dev/indexVue.js"></script>

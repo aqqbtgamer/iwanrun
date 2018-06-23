@@ -16,3 +16,25 @@ var $http = {
 		});
 	}
 };
+
+var baseUrl = 'http://localhost:8088/iwantrun/';
+
+jQuery(document).ready(function(){
+	if(jQuery.cookie('accessToken')){
+		//检查token
+		//verifyToken();
+	}
+});
+
+function verifyToken(){
+	$http.post(baseUrl+'token/verify',{},verifyTokenBack);
+}
+
+function verifyTokenBack(data){
+	if(data && data.token == 'success'){
+		console.log('登录状态为已登录');
+		loginSuccess();
+	}else{
+		console.log('还未登录');
+	}
+}

@@ -23,7 +23,7 @@ public class LoginTokenVerifyUtils {
 			String decodeSessionId = token.getAsString("tokenSession");
 			String decodeTokenHolder = token.getAsString("tokenHolder");
 			//3.verify specific field correct
-			if(!decodeSessionId.equals(sessionId) || !decodeTokenHolder.equals(decodeTokenHolder)) {
+			if(!decodeSessionId.equals(sessionId) || !decodeTokenHolder.equals(currentUser)) {
 				return false;
 			}
 			//4 verify time validate

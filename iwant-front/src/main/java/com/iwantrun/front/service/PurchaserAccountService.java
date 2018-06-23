@@ -1,6 +1,7 @@
 package com.iwantrun.front.service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import com.iwantrun.front.constants.CookieConstants;
 import com.iwantrun.front.domain.PurchaserAccount;
 import com.iwantrun.front.transfer.Message;
 import com.iwantrun.front.transfer.PurchaserAccountRequest;
@@ -27,6 +29,7 @@ public class PurchaserAccountService {
 
 	/**
 	 * 采购用户修改密码
+	 * 
 	 * @param purchaser
 	 * @return
 	 */
@@ -41,7 +44,7 @@ public class PurchaserAccountService {
 		message.setRequestMethod(url);
 		return template.postForEntity(url, message, Message.class).getBody();
 	}
-	
+
 	/**
 	 * 采购用户注册
 	 * 
@@ -127,5 +130,25 @@ public class PurchaserAccountService {
 			return "短信验证码不匹配";
 		}
 		return null;
+	}
+
+	/**
+	 * 将token写入cookie
+	 * 
+	 * @param isAutoLogin
+	 * 
+	 * @param accessToken
+	 * @param loginId 
+	 * @param response
+	 */
+	public void addCookieForToken(boolean isAutoLogin, String accessToken, String loginId, HttpServletResponse response) {
+		if (!StringUtils.isEmpty(accessToken)) {
+			String expirty = null;
+			if (isAutoLogin) {
+				expirty = environment.getProperty(CookieConstants.COOKIE_EXPIRY_ACCESS_TOKEN_KEY);
+			}
+			CookieUtils.addCookie(expirty, CookieConstants.COOKIE_ACCESS_TOKEN_KEY, accessToken, response);
+			CookieUtils.addCookie(expirty, CookieConstants.COOKIE_LOGIN_ID_KEY, loginId, response);
+		}
 	}
 }

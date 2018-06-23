@@ -1,6 +1,7 @@
 package com.iwantrun.front.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class PurchaserAccountController {
 		result = service.modifyPwd(purchaser);
 		return result;
 	}
-	
+
 	/**
 	 * 采购用户注册
 	 * 
@@ -64,7 +65,8 @@ public class PurchaserAccountController {
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public Message login(HttpServletRequest request, @RequestBody PurchaserAccountRequest purchaser) {
+	public Message login(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody PurchaserAccountRequest purchaser) {
 		boolean isMessageLogin = purchaser.isMessageLogin();
 		Message result;
 		if (isMessageLogin) {
@@ -73,7 +75,10 @@ public class PurchaserAccountController {
 				return result;
 			}
 		}
+		String sessionId=request.getSession().getId();
+		purchaser.setSessionId(sessionId);
 		result = service.login(purchaser);
+		service.addCookieForToken(purchaser.isAutoLogin(), result.getAccessToken(), purchaser.getAccount().getLoginId(), response);
 		return result;
 	}
 }
