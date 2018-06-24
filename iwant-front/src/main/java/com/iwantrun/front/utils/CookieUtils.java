@@ -22,10 +22,12 @@ public class CookieUtils {
 	 */
 	public static String getCookieValue(String key, HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
-		for (Cookie cookie : cookies) {
-			String name = cookie.getName();
-			if (name.equals(key)) {
-				return cookie.getValue();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				String name = cookie.getName();
+				if (name.equals(key)) {
+					return cookie.getValue();
+				}
 			}
 		}
 		return null;
