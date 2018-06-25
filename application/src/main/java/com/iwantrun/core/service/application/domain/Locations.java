@@ -85,6 +85,18 @@ public class Locations {
 	
 	@Column(name="special_tags_code")
 	private String specialTagsCode ;
+	
+	private String[] tips;//多个特色关键字
+	
+	
+
+	public String[] getTips() {
+		return tips;
+	}
+
+	public void setTips(String[] tips) {
+		this.tips = tips;
+	}
 
 	public int getId() {
 		return id;

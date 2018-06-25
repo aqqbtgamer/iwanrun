@@ -1,7 +1,5 @@
 package com.iwantrun.core.service.application.domain;
 
-import java.util.List;
-
 public class SearchDictionary {
 	
 	private String pageIndex;
@@ -15,6 +13,12 @@ public class SearchDictionary {
 	private String[] personNum;//人数
 	
 	private Integer[] duration;//天数
+	
+	private String[] locationTypeCode;//// 场地类型
+	
+	private String[] specialTagsCode;//特色关键词
+	
+	private Integer[] orderSimulatePriceCode;// 订单人均参考报价范围
 
 	public String getPageIndex() {
 		return pageIndex;
@@ -62,6 +66,30 @@ public class SearchDictionary {
 
 	public void setDuration(Integer[] duration) {
 		this.duration = duration;
+	}
+
+	public String[] getLocationTypeCode() {
+		return locationTypeCode;
+	}
+
+	public void setLocationTypeCode(String[] locationTypeCode) {
+		this.locationTypeCode = locationTypeCode;
+	}
+
+	public String[] getSpecialTagsCode() {
+		return specialTagsCode;
+	}
+
+	public void setSpecialTagsCode(String[] specialTagsCode) {
+		this.specialTagsCode = specialTagsCode;
+	}
+
+	public Integer[] getOrderSimulatePriceCode() {
+		return orderSimulatePriceCode;
+	}
+
+	public void setOrderSimulatePriceCode(Integer[] orderSimulatePriceCode) {
+		this.orderSimulatePriceCode = orderSimulatePriceCode;
 	}
 
 	

@@ -153,7 +153,7 @@
                               {{item.name}}
                             </p>
                             <p style="margin-top: 0.84vw">
-<!--                                 <span class="case-tip" style="margin-right:5px;" v-for="tip in item.tips">{{tip}}</span> -->
+                                <span class="case-tip" style="margin-right:5px;" v-for="tip in item.tips">{{tip}}</span>
                             </p>
                         </div>
                     </div>
@@ -195,7 +195,7 @@
                 <ul class="pagenation">
                 	<li @click="previousPageClick"><a href="#" >&#60;</a></li>
                 	<template  v-for="index in numberPages">
-	                    <li  :class="{active:index==indexClick}" @click="queryCaseList(index)"><a href="#" >{{index}}</a></li>
+	                    <li  :class="{active:index==indexClick}" @click="queryCaseByCondition(index)"><a href="#" >{{index}}</a></li>
                     </template>
                      <li @click="nextPageClick"><a href="#" >&#62</a></li>
                 </ul>

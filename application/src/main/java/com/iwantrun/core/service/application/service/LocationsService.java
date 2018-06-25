@@ -11,21 +11,28 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.iwantrun.core.service.application.dao.DictionaryDao;
+import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
 import com.iwantrun.core.service.application.dao.LocationAttachmentsDao;
 import com.iwantrun.core.service.application.dao.LocationTagsDao;
 import com.iwantrun.core.service.application.dao.LocationsDao;
+import com.iwantrun.core.service.application.domain.CaseTags;
+import com.iwantrun.core.service.application.domain.Cases;
+import com.iwantrun.core.service.application.domain.Dictionary;
 import com.iwantrun.core.service.application.domain.LocationAttachments;
 import com.iwantrun.core.service.application.domain.LocationTags;
 import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.intercepter.ControllInvokerIntercepter;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import com.iwantrun.core.service.utils.JPADBUtils;
+import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -45,8 +52,14 @@ public class LocationsService {
 	@Autowired
 	private LocationTagsDao tagsDao;
 	
+	@Autowired
+	private Environment environment;
+	@Autowired
+	private JPQLEnableRepository jpqlExecute;
 	@Autowired  
     private Environment env;
+	@Autowired
+	private DictionaryDao dictionaryDao;
 	
 	@Transactional
 	public boolean createLocations(Locations location,List<LocationAttachments> attachments,List<LocationTags> tags) {
@@ -175,5 +188,25 @@ public class LocationsService {
 		return body;
 	}
 	
+	public PageImpl<Locations> queryLocationByDictListConditionPageable(List<String> activityProvinceCode,List<String> activitytype,List<Integer> duration,List<String> personNum,List<String> specialTagsCode,List<String> locationTypeCode,String pageIndex){	
+		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
+		int pageIndexInt =  pageIndex == null ? 1:Integer.parseInt(pageIndex)+1 ;
+		Pageable page =  PageRequest.of(pageIndexInt-1, pageSize, Sort.Direction.ASC, "id");
+		Long totalNum = locationDao.countByMutipleParams(activityProvinceCode,activitytype,duration,personNum,specialTagsCode,locationTypeCode,jpqlExecute);
+		List<Locations> content = locationDao.findByMutipleParams(activityProvinceCode,activitytype,duration,personNum,specialTagsCode,locationTypeCode,jpqlExecute,pageSize,pageIndexInt);
+		for( Locations vo :content) {
+			List<LocationTags> listTag = tagsDao.findByLocationId(vo.getId());
+			if(listTag!= null && listTag.size() >0 ) {
+				String[] tips =new String[listTag.size()];
+				for( int i=0;i< listTag.size();i++ ) {
+					Dictionary dic = dictionaryDao.findByFiledNameCode(String.valueOf(listTag.get(i).getTagsType()),"location",listTag.get(i).getTagsCode());
+					tips[i]=dic.getValue();
+				}
+				vo.setTips(tips);
+			}
+		}
+		PageImpl<Locations> result = new PageImpl<Locations>(content, page, totalNum);
+		return result;
+	}
 	
 }

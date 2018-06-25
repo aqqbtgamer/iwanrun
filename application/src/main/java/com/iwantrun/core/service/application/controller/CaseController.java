@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -305,8 +306,10 @@ public class CaseController {
 			if(personNumArray != null && personNumArray.length > 0) {
 				personNum = dictionaryService.dictionaryParamSwitchString(personNumArray);
 			}
-			String json = casesService.queryCaseByDictListConditionPageable(activityProvinceCode, activitytype, companytype, duration, personNum, queryVo.getPageIndex());
-			return json;
+			PageImpl<Cases> result = casesService.queryCaseByDictListConditionPageable(activityProvinceCode, activitytype, companytype, duration, personNum, queryVo.getPageIndex());
+			Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new Cases());
+			dictionaryService.dictionaryFilter(result.getContent(), dictionnaryMap);
+			return PageDataWrapUtils.page2JsonNoCopy(result);
 		}
 		return "";
 		

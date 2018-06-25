@@ -11,16 +11,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
+import com.iwantrun.core.service.application.domain.Cases;
 import com.iwantrun.core.service.application.domain.Dictionary;
 import com.iwantrun.core.service.application.domain.LocationAttachments;
 import com.iwantrun.core.service.application.domain.LocationTags;
 import com.iwantrun.core.service.application.domain.Locations;
+import com.iwantrun.core.service.application.domain.SearchDictionary;
 import com.iwantrun.core.service.application.service.DictionaryService;
 import com.iwantrun.core.service.application.service.LocationsService;
 import com.iwantrun.core.service.application.transfer.Message;
@@ -256,6 +259,54 @@ public class LocationsController {
 		message.setMessageBody(result);
 		return message;
 	}
-	
+	@RequestMapping("/application/location/queryLocationByCondition")
+	public Message queryCaseByCondition(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		SearchDictionary queryVo =JSONUtils.jsonToObj(dataJson, SearchDictionary.class);
+		String json = locationListQuery(queryVo);
+		message.setMessageBody(json);
+		return message;		
+	}
+	public String locationListQuery(SearchDictionary queryVo) {
+		if( queryVo != null ) {
+			List<String> activityProvinceCode = new ArrayList<>();
+			List<String> activitytype = new ArrayList<>();
+			List<Integer> duration = new ArrayList<>();
+			List<String> personNum = new ArrayList<>();
+			List<String> locationTypeCode = new ArrayList<>();
+			List<String> specialTagsCode = new ArrayList<>();
+			String[] activityProvinceCodeArray = queryVo.getActivityProvinceCode();
+			if(activityProvinceCodeArray != null && activityProvinceCodeArray.length > 0) {
+				activityProvinceCode = dictionaryService.dictionaryParamSwitchString(activityProvinceCodeArray);
+			}
+			String[] activitytypeArray = queryVo.getActivitytype();
+			if(activitytypeArray != null && activitytypeArray.length > 0) {
+				activitytype = dictionaryService.dictionaryParamSwitchString(activitytypeArray);
+			}
+			
+			Integer[] durationArray = queryVo.getDuration();
+			if(durationArray != null && durationArray.length > 0) {
+				duration = dictionaryService.dictionaryParamSwitch(durationArray);
+			}
+			String[] personNumArray = queryVo.getPersonNum();
+			if(personNumArray != null && personNumArray.length > 0) {
+				personNum = dictionaryService.dictionaryParamSwitchString(personNumArray);
+			}
+			String[] specialTagsCodArray = queryVo.getSpecialTagsCode();
+			if(specialTagsCodArray != null && specialTagsCodArray.length > 0) {
+				specialTagsCode = dictionaryService.dictionaryParamSwitchString(specialTagsCodArray);
+			}
+			String[] locationTypeCodeArray = queryVo.getLocationTypeCode();
+			if(locationTypeCodeArray != null && locationTypeCodeArray.length > 0) {
+				locationTypeCode = dictionaryService.dictionaryParamSwitchString(locationTypeCodeArray);
+			}
+			PageImpl<Locations> result = locationService.queryLocationByDictListConditionPageable(activityProvinceCode, activitytype, duration, personNum,specialTagsCode,locationTypeCode, queryVo.getPageIndex());
+			Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new Locations());
+			dictionaryService.dictionaryFilter(result.getContent(), dictionnaryMap);
+			return PageDataWrapUtils.page2JsonNoCopy(result);
+		}
+		return "";
+		
+	} 
 
 }

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../css/listcase.css">
     <script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
     <script type="application/javascript" src="../../script/vue.min.js"></script>
+    <script type="application/javascript" src="../../script/axios.min.js"></script>
     <title>我要跑-搜索场地列表</title>
 </head>
 <body>
@@ -58,10 +59,10 @@
                         <input type="button" value="不限" class="btn-primary">
                     </div>
                     <div id="table-column-13" class="query-column-checkbox">
-                        <span v-for="item in criteria.keyword" style="padding-right:3px;">
+                        <span v-for="item in criteria.specialTagsCode" style="padding-right:3px;">
                             <i class="iconfont-grey icon-checkbox-non" @click="checkchange"></i>
-                            <input type="checkbox" :value="item.id" name="keyword" class="checkbox-primary">
-                            <label for="check11">{{item.text}}</label>
+                            <input type="checkbox" :value="item.id" name="specialTagsCode" class="checkbox-primary">
+                            <label for="check11">{{item.value}}</label>
                         </span>
                     </div>
                     <div class="query-column-openmore">
@@ -77,10 +78,10 @@
                         <input type="button" value="不限" class="btn-primary">
                     </div>
                     <div id="table-column-23" class="query-column-checkbox">
-                        <span v-for="item in criteria.location" style="padding-right:3px;">
+                        <span v-for="item in criteria.activityProvinceCode" style="padding-right:3px;">
                             <i class="iconfont-grey icon-checkbox-non" @click="checkchange"></i>
-                            <input type="checkbox" :value="item.id" name="location" class="checkbox-primary">
-                            <label for="check11">{{item.text}}</label>
+                            <input type="checkbox" :value="item.id" name="activityProvinceCode" class="checkbox-primary">
+                            <label for="check11">{{item.value}}</label>
                         </span>
                     </div>
                 </div>
@@ -96,7 +97,7 @@
                         <span v-for="item in criteria.activitytype" style="padding-right:3px;">
                             <i class="iconfont-grey icon-checkbox-non" @click="checkchange"></i>
                             <input type="checkbox" :value="item.id" name="activitytype" class="checkbox-primary">
-                            <label for="check11">{{item.text}}</label>
+                            <label for="check11">{{item.value}}</label>
                         </span>
                     </div>
                     <div class="query-column-openmore">
@@ -112,10 +113,10 @@
                         <input type="button" value="不限" class="btn-primary">
                     </div>
                     <div id="table-column-43" class="query-column-checkbox">
-                        <span v-for="item in criteria.sitetype" style="padding-right:3px;">
+                        <span v-for="item in criteria.locationTypeCode" style="padding-right:3px;">
                             <i class="iconfont-grey icon-checkbox-non" @click="checkchange"></i>
-                            <input type="checkbox" :value="item.id" name="sitetype" class="checkbox-primary">
-                            <label for="check11">{{item.text}}</label>
+                            <input type="checkbox" :value="item.id" name="locationTypeCode" class="checkbox-primary">
+                            <label for="check11">{{item.value}}</label>
                         </span>
                     </div>
                     <div class="query-column-openmore">
@@ -134,7 +135,7 @@
                         <span v-for="item in criteria.personNum" style="padding-right:3px;">
                             <i class="iconfont-grey icon-checkbox-non" @click="checkchange"></i>
                             <input type="checkbox" :value="item.id" name="personNum" class="checkbox-primary">
-                            <label for="check11">{{item.text}}</label>
+                            <label for="check11">{{item.value}}</label>
                         </span>
                     </div>
                 </div>
@@ -150,7 +151,7 @@
                         <span v-for="item in criteria.duration" style="padding-right:3px;">
                             <i class="iconfont-grey icon-checkbox-non" @click="checkchange"></i>
                             <input type="checkbox" :value="item.id" name="duration" class="checkbox-primary">
-                            <label for="check11">{{item.text}}</label>
+                            <label for="check11">{{item.value}}</label>
                         </span>
                     </div>
                 </div>
@@ -164,13 +165,13 @@
         <div class="list-case-item" v-for="item in List">
             <div id="list-case-image3" class="list-case-item-left">
                 <div class="wrapper">
-                    <img :src="item.img" alt="list-case1.png">
+                    <img :src="item.descirbeText2" alt="list-case1.png">
                 </div>
             </div>
             <div id="list-case-right3" class="list-case-item-right">
                 <div class="list-case-item-line">
                     <div class="list-case-item-table-top">
-                        <p class="case-title" style="width: 30.513vw">{{item.title}} </p>
+                        <p class="case-title" style="width: 30.513vw">{{item.name}} </p>
                         <p style="margin-top: 0.84vw">
                             <span class="case-tip" style="margin-right:5px;" v-for="tip in item.tips">{{tip}}</span>
                         </p>
@@ -180,7 +181,7 @@
                     <div class="list-case-item-table-bottom">
                         <div class="case-details-content">
                             <div class="case-details-up">
-                                <p class="case-price-hint">参考价格: {{item.price}}</p>
+                                <p class="case-price-hint">参考价格: {{item.simulatePriceCode}}</p>
                             </div>
                             <div class="case-detail-desc">
                                 <div class="case-detail-row">
@@ -193,7 +194,7 @@
                                 </div>
                                 <div class="case-detail-row">
                                     <div class="case-detail-col">
-                                        <p>人数：{{item.personNum}}</p>
+                                        <p>人数：{{item.groupNumberLimit}}</p>
                                     </div>
                                     <div class="case-detail-col">
                                         <p>天数：{{item.duration}} </p>
@@ -212,13 +213,12 @@
         </div>
         <div id="page-navigation" class="page-navigation">
             <ul class="pagenation">
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&#62</a></li>
-            </ul>
+                	<li @click="previousPageClick"><a href="#" >&#60;</a></li>
+                	<template  v-for="index in numberPages">
+	                    <li  :class="{active:index==indexClick}" @click="queryLocationByCondition(index)"><a href="#" >{{index}}</a></li>
+                    </template>
+                     <li @click="nextPageClick"><a href="#" >&#62</a></li>
+                </ul>
         </div>
         <div class="common-tail-bg">
             <div id="common-tail" class="common-tail">

@@ -21,10 +21,12 @@ import org.springframework.stereotype.Service;
 import com.iwantrun.core.service.application.dao.CaseAttachmentsDao;
 import com.iwantrun.core.service.application.dao.CaseTagsDao;
 import com.iwantrun.core.service.application.dao.CasesDao;
+import com.iwantrun.core.service.application.dao.DictionaryDao;
 import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
 import com.iwantrun.core.service.application.domain.CaseAttachments;
 import com.iwantrun.core.service.application.domain.CaseTags;
 import com.iwantrun.core.service.application.domain.Cases;
+import com.iwantrun.core.service.application.domain.Dictionary;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import com.iwantrun.core.service.utils.JPADBUtils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
@@ -50,6 +52,8 @@ public class CasesService {
 	private JPQLEnableRepository jpqlExecute;
 	@Autowired  
     private Environment env;
+	@Autowired
+	private DictionaryDao dictionaryDao;
 	
 	@Transactional
 	public boolean createCase(Cases caseVo,List<CaseAttachments> attachments,List<CaseTags> tags) {
@@ -177,13 +181,27 @@ public class CasesService {
 		return body;
 	}
 	
-	public String queryCaseByDictListConditionPageable(List<String> activityProvinceCode,List<String> activitytype,List<String> companytype,List<Integer> duration,List<String> personNum,String pageIndex){	
+	public PageImpl<Cases> queryCaseByDictListConditionPageable(List<String> activityProvinceCode,List<String> activitytype,List<String> companytype,List<Integer> duration,List<String> personNum,String pageIndex){	
 		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
 		int pageIndexInt =  pageIndex == null ? 1:Integer.parseInt(pageIndex)+1 ;
 		Pageable page =  PageRequest.of(pageIndexInt-1, pageSize, Sort.Direction.ASC, "id");
 		Long totalNum = casesDao.countByMutipleParams(activityProvinceCode,activitytype,companytype,duration,personNum,jpqlExecute);
-		List<Cases> content = casesDao.findByMutipleParams(activityProvinceCode,activitytype,companytype,duration,personNum,jpqlExecute,pageIndexInt,pageSize);
+		List<Cases> content = casesDao.findByMutipleParams(activityProvinceCode,activitytype,companytype,duration,personNum,jpqlExecute,pageSize,pageIndexInt);
+		for( Cases vo :content) {
+			List<CaseTags> listTag = caseTagsDao.findByCaseId(vo.getId());
+			if(listTag!= null && listTag.size() >0 ) {
+				String[] tips =new String[listTag.size()];
+				for( int i=0;i< listTag.size();i++ ) {
+					Dictionary dic = dictionaryDao.findByFiledNameCode(String.valueOf(listTag.get(i).getTagsType()),"case",listTag.get(i).getTagsCode());
+					tips[i]=dic.getValue();
+
+					
+				}
+				vo.setTips(tips);
+			}
+			
+		}
 		PageImpl<Cases> result = new PageImpl<Cases>(content, page, totalNum);
-		return PageDataWrapUtils.page2JsonNoCopy(result);
+		return result;
 	}
 }

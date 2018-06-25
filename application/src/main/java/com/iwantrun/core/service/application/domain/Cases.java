@@ -186,6 +186,8 @@ public class Cases {
 	@Column(name="special_key_word")
 	@DictionaryField(name=DictionaryConfigParams.CASE_DICTIONARY_NAME ,usedField=DictionaryConfigParams.CASE_TAGS_TYPE)
 	private String specialKeyWord;
+	
+	private String[] tips;//特色关键字  多个
 	/**
 	 *  
 	 *人均参考报价范围
@@ -390,7 +392,11 @@ public class Cases {
 	public void setDur(String dur) {
 		this.dur = dur;
 	}
-	
-	
+	public String[] getTips() {
+		return tips;
+	}
+	public void setTips(String[] tips) {
+		this.tips = tips;
+	}
 
 }

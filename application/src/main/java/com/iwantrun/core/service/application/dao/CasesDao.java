@@ -38,7 +38,7 @@ public interface CasesDao  extends JpaRepository<Cases, Integer>,JpaSpecificatio
 		    if(activityProvinceCode != null && activityProvinceCode.size() > 0) {
 				String activityProvinceCodeString="";
 				for(String acp : activityProvinceCode) {
-					activityProvinceCodeString = "'"+ acp + "',";
+					activityProvinceCodeString += "'"+ acp + "',";
 				}
 				activityProvinceCodeString = activityProvinceCodeString.substring(0, activityProvinceCodeString.length()-1);
 				queryJPQL = queryJPQL.concat(" and c.activityProvinceCode in ("+activityProvinceCodeString+")");
@@ -46,7 +46,7 @@ public interface CasesDao  extends JpaRepository<Cases, Integer>,JpaSpecificatio
 			 if(activitytype != null && activitytype.size() > 0) {
 					String activitytypeString="";
 					for(String act : activitytype) {
-						activitytypeString = "'"+ act + "',";
+						activitytypeString += "'"+ act + "',";
 					}
 					activitytypeString = activitytypeString.substring(0, activitytypeString.length()-1);
 					queryJPQL = queryJPQL.concat(" and c.activityCityCode in ("+activitytypeString+")");
@@ -54,7 +54,7 @@ public interface CasesDao  extends JpaRepository<Cases, Integer>,JpaSpecificatio
 			 if(companytype != null && companytype.size() > 0) {
 					String companytypeString="";
 					for(String comp : companytype) {
-						companytypeString = "'"+ comp + "',";
+						companytypeString += "'"+ comp + "',";
 					}
 					companytypeString = companytypeString.substring(0, companytypeString.length()-1);
 					queryJPQL = queryJPQL.concat(" and c.companyTypeCode in ("+companytypeString+")");
@@ -62,7 +62,7 @@ public interface CasesDao  extends JpaRepository<Cases, Integer>,JpaSpecificatio
 			 if(duration != null && duration.size() > 0) {
 					String durationString="";
 					for(Integer dur : duration) {
-						durationString = ""+ dur + ",";
+						durationString += ""+ dur + ",";
 					}
 					durationString = durationString.substring(0, durationString.length()-1);
 					queryJPQL = queryJPQL.concat(" and c.during in ("+durationString+")");
@@ -70,7 +70,7 @@ public interface CasesDao  extends JpaRepository<Cases, Integer>,JpaSpecificatio
 			 if(personNum != null && personNum.size() > 0) {
 					String personNumString="";
 					for(String person : personNum) {
-						personNumString = "'"+ person + "',";
+						personNumString += "'"+ person + "',";
 					}
 					personNumString = personNumString.substring(0, personNumString.length()-1);
 					queryJPQL = queryJPQL.concat(" and c.groupNumber in ("+personNumString+")");

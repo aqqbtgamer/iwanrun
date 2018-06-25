@@ -16,6 +16,12 @@ public class SearchDictionary {
 	
 	private List<Dictionary> duration;//天数
 	
+	private List<Dictionary> locationTypeCode;//// 场地类型
+	
+	private List<Dictionary> specialTagsCode;//特色关键词
+	
+	private List<Dictionary> orderSimulatePriceCode;// 订单人均参考报价范围
+	
 	
 	public String getPageIndex() {
 		return pageIndex;
@@ -64,11 +70,30 @@ public class SearchDictionary {
 	public void setDuration(List<Dictionary> duration) {
 		this.duration = duration;
 	}
-	
-	
-	
-	
-	
+
+	public List<Dictionary> getLocationTypeCode() {
+		return locationTypeCode;
+	}
+
+	public void setLocationTypeCode(List<Dictionary> locationTypeCode) {
+		this.locationTypeCode = locationTypeCode;
+	}
+
+	public List<Dictionary> getSpecialTagsCode() {
+		return specialTagsCode;
+	}
+
+	public void setSpecialTagsCode(List<Dictionary> specialTagsCode) {
+		this.specialTagsCode = specialTagsCode;
+	}
+
+	public List<Dictionary> getOrderSimulatePriceCode() {
+		return orderSimulatePriceCode;
+	}
+
+	public void setOrderSimulatePriceCode(List<Dictionary> orderSimulatePriceCode) {
+		this.orderSimulatePriceCode = orderSimulatePriceCode;
+	}
 	
 
 }
