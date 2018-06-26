@@ -31,6 +31,11 @@ public class OrdersController {
 		return orderService.get(request);
 	}
 	
+	@RequestMapping("getSingle")
+	public String getSingle(HttpServletRequest request) {
+		return orderService.getSingle(request);
+	}
+	
 	@RequestMapping("getMessage")
 	public String getMessage(HttpServletRequest request) {
 		return orderService.getMessage(request);

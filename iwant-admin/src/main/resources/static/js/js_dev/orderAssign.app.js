@@ -34,6 +34,8 @@ const queryField = new Array(
 		"imgManage"
 );
 
+var orderId = getUrlParam('id');
+
 var callObj = {
 		dataInitUrl:dataQueryUrl,
 		dataUrl:dataQueryUrl,

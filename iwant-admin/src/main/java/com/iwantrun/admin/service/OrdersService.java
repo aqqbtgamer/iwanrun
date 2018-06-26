@@ -97,4 +97,9 @@ public class OrdersService {
 		return response == null ? null : response.getBody().getMessageBody();
 	}
 
+	public String getSingle(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
