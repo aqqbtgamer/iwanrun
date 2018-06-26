@@ -3,8 +3,6 @@
  */
 console.log("Vue 脚本初始化..............");
 
-var baseUrl = "http://localhost:8088/iwantrun/";
-
 /*var appIndex = new Vue(
 		{
 			el : "#container",

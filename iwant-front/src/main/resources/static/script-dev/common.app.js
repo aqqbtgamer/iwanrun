@@ -17,7 +17,8 @@ var $http = {
 	}
 };
 
-var baseUrl = 'http://localhost:8088/iwantrun/';
+var location = window.location;
+var baseUrl = location.origin + location.pathname;
 
 jQuery(document).ready(function(){
 	if(jQuery.cookie('accessToken')){
