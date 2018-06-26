@@ -191,7 +191,7 @@ nav a:hover {
 
 .login-pannel {
     z-index: 100;
-    position: absolute;
+    position: fixed;
     /*top:13.44vw;*/
     top: 3vw;
     left: 26.56vw;
@@ -506,10 +506,4 @@ nav a:hover {
     color: #E27D17;
     text-decoration: underline;
     cursor: pointer;
-}
-
-
-.leftAccount .select-cell .center-item a {
-    color: black;
-    text-decoration: none;
 }

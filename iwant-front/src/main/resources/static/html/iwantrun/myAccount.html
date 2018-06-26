@@ -61,14 +61,10 @@
                         </p>
                     </div>
                     <div class="select-cell">
-                        <p class="center-item">
-                            <a href="./myCollection.html">我的收藏</a>
-                        </p>
+                        <p class="center-item">我的收藏</p>
                     </div>
                     <div class="select-cell">
-                        <p class="center-item">
-                            <a href="./myNews.html">站内消息</a>
-                        </p>
+                        <p class="center-item">站内消息</p>
                     </div>
                     <div class="select-cell">
                         <p class="center-item active-item">个人信息</p>
@@ -88,38 +84,51 @@
                             </div>
                             <div class="account-box-content">
                                 <p class="font-40px-black">修改头像</p>
-                                <input type="button" class="btn-black" value="上传头像">
+                                <input type="file" name="headimg" style="display:none;" @chanage="fileUpload" accept="image/jpeg,image/png" />
+                                <input type="button" class="btn-black" value="上传头像" @click="uploadimg">
                             </div>
                         </div>
                         <div class="account-box-line">
                             <div class="account-box-left">
                                 <p class="font-40px-black">账户昵称</p>
-                                <p class="font-30-black1">未设置</p>
+                                <p class="font-30-black1">{{account.nickname || '未设置'}}</p>
                             </div>
                             <div class="account-button-right">
-                                <input type="button" value="设置" class="btn-primary">
+                                <input type="button" value="设置" class="btn-primary" @click="showSetting(0)">
                             </div>
                         </div>
                         <div class="account-box-line">
                             <div class="account-box-left">
                                 <p class="font-40px-black">手机验证</p>
-                                <p class="font-30-black1">您的验证手机号是{{account.phone}}</p>
+                                <p class="font-30-black1">{{account.phone?('您的验证手机号是'+account.phone):'未设置'}}</p>
                             </div>
                             <div class="account-button-right">
-                                <input type="button" value="修改" class="btn-primary">
+                                <input type="button" value="修改" class="btn-primary" @click="showSetting(1)">
+                            </div>
+                        </div>
+                        <div class="account-box-line">
+                            <div class="account-box-left">
+                                <p class="font-40px-black">安全问题</p>
+                                <p class="font-30-black1">{{account.securityanswer.answer || '未设置'}}</p>
+                            </div>
+                            <div class="account-button-right">
+                                <input type="button" value="设置" class="btn-primary" @click="showSetting(2)">
                             </div>
                         </div>
                         <div class="account-box-line2">
                             <div class="account-box-left">
-                                <p class="font-40px-black">安全问题</p>
-                                <p class="font-30-black1">未设置安全问题</p>
+                                <p class="font-40px-black">公司信息</p>
+                                <p class="font-30-black1">
+                                    <span>{{account.company.name ||'公司名称'}}/</span>
+                                    <span>{{account.company.type ||'公司类型'}}/</span>
+                                    <span>{{account.company.personNum ||'人数'}}</span>
+                                </p>
                             </div>
                             <div class="account-button-right">
-                                <input type="button" value="设置" class="btn-primary">
+                                <input type="button" value="营业执照" class="btn-primary" style="width:auto;" @click="showSetting(4)">
+                                <input type="button" value="设置" class="btn-primary" @click="showSetting(3)">
                             </div>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -158,7 +167,90 @@
                     </div>
                 </div>
             </div>
-
+            <div class="login-pannel" v-if="setting" v-cloak>
+                <div id="close-pannel" class="close-pannel">
+                    <i class="iconfont-user1 icon-close" @click="closeSetting"></i>
+                </div>
+                <div class="login-head">
+                    <h2>{{settingTitle}}</h2>
+                </div>
+                <div class="username-input" v-show="settingFlag === 0">
+                    <div class="user-icon">
+                        <i class="iconfont-user2 icon-yonghu"></i>
+                    </div>
+                    <div class="user-input">
+                        <input type="text" class="inputText" v-model="account.nickname" placeholder="请输入昵称">
+                    </div>
+                </div>
+                <div class="username-input" v-show="settingFlag === 1">
+                    <div class="user-icon">
+                        <i class="iconfont-user2 icon-yonghu"></i>
+                    </div>
+                    <div class="user-input">
+                        <input type="text" class="inputText" v-model="account.phone" placeholder="请输入手机号">
+                    </div>
+                </div>
+                <div class="userpwd-input" v-show="settingFlag === 1">
+                    <div class="user-icon">
+                        <i class="iconfont-user2 icon-mima"></i>
+                    </div>
+                    <div class="user-pwd">
+                        <input type="text" class="inputText" placeholder="请输入验证码">
+                    </div>
+                    <div class="user-button">
+                        <input type="button" value="短信验证" class="sms-send-button">
+                    </div>
+                </div>
+                <div class="username-input" v-show="settingFlag === 2">
+                    <div class="user-icon">
+                        <i class="iconfont-user2 icon-yonghu"></i>
+                    </div>
+                    <div class="user-input">
+                        <input type="text" class="inputText" v-model="account.securityanswer.question" placeholder="请输入问题">
+                    </div>
+                </div>
+                <div class="username-input" v-show="settingFlag === 2">
+                    <div class="user-icon">
+                        <i class="iconfont-user2 icon-yonghu"></i>
+                    </div>
+                    <div class="user-input">
+                        <input type="text" class="inputText" v-model="account.securityanswer.answer" placeholder="请输入答案">
+                    </div>
+                </div>
+                <div class="username-input" v-show="settingFlag === 3">
+                    <div class="user-input">
+                        <input type="text" class="inputText" v-model="account.company.name" placeholder="请输入公司名称">
+                    </div>
+                </div>
+                <div class="username-input" v-show="settingFlag === 3">
+                    <div class="user-input">
+                        <select class="inputText" placeholder="请选择公司类型">
+                            <option value=""></option>
+                            <option value="1">国企</option>
+                            <option value="2">民营</option>
+                            <option value="3">外企</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="username-input" v-show="settingFlag === 3">
+                    <div class="user-input">
+                        <select class="inputText" placeholder="请选择公司人数">
+                            <option value=""></option>
+                            <option value="1">1~10人</option>
+                            <option value="2">10~50人</option>
+                            <option value="3">50人以上</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="username-input" v-show="settingFlag === 4">
+                    <img v-show="account.company.license" :src="account.company.license" style="max-width:300px;max-height:300px;" />
+                </div>
+                <div class="register-button">
+                    <input type="button" v-show="settingFlag < 4" value="确 认" class="sms-login-button">
+                    <input type="button" v-show="settingFlag === 4" value="上传营业执照" class="sms-login-button" @click="uploadimg">
+                    <input type="file" style="display:none" accept="image/jpeg,image/png" />
+                </div>
+            </div>
         </div>
     </form>
     <script type="application/javascript" src="../../script-dev/myAccount.js"></script>
