@@ -33,7 +33,7 @@ public class ProductionInfoControllerTest {
 		ObjectWriter writer=mapper.writer().withDefaultPrettyPrinter();
 		
 		ProductionInfo param = new ProductionInfo();
-		param.setActivityTypeCode(0);
+//		param.setActivityTypeCode(0);
 		
 		Message message=new Message();
 		message.setAccessToken("accessToken");

@@ -2,7 +2,7 @@
  * Created by WXP22 on 2018/3/20.
  */
 console.log("Vue 脚本初始化..............");
-var appListLocation = new Vue(
+var appIndex = new Vue(
     {
         el: "#container",
         data: {
@@ -62,12 +62,8 @@ var appListLocation = new Vue(
         	}
         },
         methods: {
-            showLogin: function (message) {
-                console.log("v-on  click method :showLogin");
-                var vm = this
-                vm.mask = true;
-                vm.loginWindow = true;
-                vm.loginTitle = message;
+            showLogin: function (flag) {
+            	lrApp.showLogin(flag);
             },
             closeLogin: function () {
                 console.log("v-on  click method :closeLogin");

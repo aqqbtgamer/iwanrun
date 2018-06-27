@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
+import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
+import com.iwantrun.core.service.application.dao.LocationTagsDao;
 import com.iwantrun.core.service.application.domain.Cases;
 import com.iwantrun.core.service.application.domain.Dictionary;
 import com.iwantrun.core.service.application.domain.LocationAttachments;
 import com.iwantrun.core.service.application.domain.LocationTags;
 import com.iwantrun.core.service.application.domain.Locations;
-import com.iwantrun.core.service.application.domain.SearchDictionary;
+import com.iwantrun.core.service.application.domain.SearchDictionaryArray;
+import com.iwantrun.core.service.application.domain.SearchDictionaryList;
 import com.iwantrun.core.service.application.service.DictionaryService;
 import com.iwantrun.core.service.application.service.LocationsService;
 import com.iwantrun.core.service.application.transfer.Message;
@@ -52,6 +55,10 @@ public class LocationsController {
 	
 	@Autowired
 	private DictionaryService dictionaryService;
+	@Autowired
+	private LocationTagsDao locationTagsDao;
+	@Autowired
+	private JPQLEnableRepository jpqlExecute;
 	
 
 	@SuppressWarnings("unchecked")
@@ -262,45 +269,56 @@ public class LocationsController {
 	@RequestMapping("/application/location/queryLocationByCondition")
 	public Message queryCaseByCondition(@RequestBody Message message) {
 		String dataJson = message.getMessageBody();
-		SearchDictionary queryVo =JSONUtils.jsonToObj(dataJson, SearchDictionary.class);
+		SearchDictionaryList queryVo =JSONUtils.jsonToObj(dataJson, SearchDictionaryList.class);
 		String json = locationListQuery(queryVo);
 		message.setMessageBody(json);
 		return message;		
 	}
-	public String locationListQuery(SearchDictionary queryVo) {
+	public String locationListQuery(SearchDictionaryList queryVo) {
 		if( queryVo != null ) {
+			SearchDictionaryList vo = new SearchDictionaryList();
 			List<String> activityProvinceCode = new ArrayList<>();
 			List<String> activitytype = new ArrayList<>();
 			List<Integer> duration = new ArrayList<>();
 			List<String> personNum = new ArrayList<>();
 			List<String> locationTypeCode = new ArrayList<>();
-			List<String> specialTagsCode = new ArrayList<>();
-			String[] activityProvinceCodeArray = queryVo.getActivityProvinceCode();
-			if(activityProvinceCodeArray != null && activityProvinceCodeArray.length > 0) {
+			List<Integer> specialTagsCode = new ArrayList<>();
+			List<String> activityProvinceCodeArray = queryVo.getActivityProvinceCode();
+			if(activityProvinceCodeArray != null && activityProvinceCodeArray.size() > 0) {
 				activityProvinceCode = dictionaryService.dictionaryParamSwitchString(activityProvinceCodeArray);
+				vo.setActivityProvinceCode(activityProvinceCode);
 			}
-			String[] activitytypeArray = queryVo.getActivitytype();
-			if(activitytypeArray != null && activitytypeArray.length > 0) {
+			List<String> activitytypeArray = queryVo.getActivitytype();
+			if(activitytypeArray != null && activitytypeArray.size() > 0) {
 				activitytype = dictionaryService.dictionaryParamSwitchString(activitytypeArray);
+				vo.setActivitytype(activitytype);
 			}
 			
-			Integer[] durationArray = queryVo.getDuration();
-			if(durationArray != null && durationArray.length > 0) {
+			List<Integer> durationArray = queryVo.getDuration();
+			if(durationArray != null && durationArray.size() > 0) {
 				duration = dictionaryService.dictionaryParamSwitch(durationArray);
+				vo.setDuration(duration);
 			}
-			String[] personNumArray = queryVo.getPersonNum();
-			if(personNumArray != null && personNumArray.length > 0) {
+			List<String> personNumArray = queryVo.getPersonNum();
+			if(personNumArray != null && personNumArray.size() > 0) {
 				personNum = dictionaryService.dictionaryParamSwitchString(personNumArray);
+				vo.setPersonNum(personNum);
 			}
-			String[] specialTagsCodArray = queryVo.getSpecialTagsCode();
-			if(specialTagsCodArray != null && specialTagsCodArray.length > 0) {
-				specialTagsCode = dictionaryService.dictionaryParamSwitchString(specialTagsCodArray);
+			List<Integer> specialTagsCodArray = queryVo.getSpecialTagsCode();
+			if(specialTagsCodArray != null && specialTagsCodArray.size() > 0) {
+				specialTagsCode = dictionaryService.dictionaryParamSwitch(specialTagsCodArray);
+				List<LocationTags> locationTagList = locationTagsDao.findByTagsCodes(specialTagsCode,jpqlExecute);
+				for(LocationTags tag : locationTagList) {
+					specialTagsCode.add(tag.getLocationId());
+				}
+				vo.setSpecialTagsCode(specialTagsCode);
 			}
-			String[] locationTypeCodeArray = queryVo.getLocationTypeCode();
-			if(locationTypeCodeArray != null && locationTypeCodeArray.length > 0) {
+			List<String> locationTypeCodeArray = queryVo.getLocationTypeCode();
+			if(locationTypeCodeArray != null && locationTypeCodeArray.size() > 0) {
 				locationTypeCode = dictionaryService.dictionaryParamSwitchString(locationTypeCodeArray);
+				vo.setLocationTypeCode(locationTypeCode);
 			}
-			PageImpl<Locations> result = locationService.queryLocationByDictListConditionPageable(activityProvinceCode, activitytype, duration, personNum,specialTagsCode,locationTypeCode, queryVo.getPageIndex());
+			PageImpl<Locations> result = locationService.queryLocationByDictListConditionPageable( vo, queryVo.getPageIndex());
 			Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new Locations());
 			dictionaryService.dictionaryFilter(result.getContent(), dictionnaryMap);
 			return PageDataWrapUtils.page2JsonNoCopy(result);

@@ -22,7 +22,7 @@ import com.iwantrun.core.constant.AdminApplicationConstants;
 import com.iwantrun.core.service.application.config.DictionaryPageConfig;
 import com.iwantrun.core.service.application.dao.DictionaryDao;
 import com.iwantrun.core.service.application.domain.Dictionary;
-import com.iwantrun.core.service.application.domain.SearchDictionary;
+import com.iwantrun.core.service.application.domain.SearchDictionaryArray;
 import com.mysql.jdbc.StringUtils;
 
 @Service
@@ -200,13 +200,9 @@ public class DictionaryService {
 	public List<Dictionary> findDictionaryByIds(List<Integer> ids) {
 		return dictionaryDao.findAllById(ids);
 	}
-	public List<Integer> dictionaryParamSwitch(Integer[] array){
-		List<Integer> ids = new ArrayList<>();
+	public List<Integer> dictionaryParamSwitch(List<Integer> ids){
 		List<Dictionary> quertList = new ArrayList<>();
 		List<Integer> codeList = new ArrayList<>();
-		for( Integer dic : array) {
-			ids.add(dic);
-		}
 		quertList = findDictionaryByIds(ids);
 		for( Dictionary dic : quertList ) {
 			codeList.add(dic.getCode());
@@ -214,7 +210,7 @@ public class DictionaryService {
 		return codeList;
 		
 	}
-	public List<String> dictionaryParamSwitchString(String[] array){
+	public List<String> dictionaryParamSwitchString(List<String> array){
 		List<Integer> ids = new ArrayList<>();
 		List<Dictionary> quertList = new ArrayList<>();
 		List<String> codeList = new ArrayList<>();
@@ -228,5 +224,6 @@ public class DictionaryService {
 		return codeList;
 		
 	}
+	
    
 }

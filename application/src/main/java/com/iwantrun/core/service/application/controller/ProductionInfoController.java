@@ -1,12 +1,17 @@
 package com.iwantrun.core.service.application.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -16,11 +21,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
+import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
+import com.iwantrun.core.service.application.dao.LocationTagsDao;
+import com.iwantrun.core.service.application.dao.ProductionTagsDao;
+import com.iwantrun.core.service.application.domain.Dictionary;
+import com.iwantrun.core.service.application.domain.LocationTags;
+import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.ProductionInfo;
+import com.iwantrun.core.service.application.domain.ProductionTags;
+import com.iwantrun.core.service.application.domain.SearchDictionaryList;
+import com.iwantrun.core.service.application.service.DictionaryService;
 import com.iwantrun.core.service.application.service.ProductionInfoService;
 import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.application.transfer.ProductionInfoRequest;
+import com.iwantrun.core.service.utils.EntityDictionaryConfigUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
+import com.iwantrun.core.service.utils.PageDataWrapUtils;
+
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
@@ -30,6 +47,12 @@ public class ProductionInfoController {
 
 	@Autowired
 	ProductionInfoService productionInfoService;
+	@Autowired
+	private DictionaryService dictionaryService;
+	@Autowired
+	private ProductionTagsDao productionTagsDao;
+	@Autowired
+	private JPQLEnableRepository jpqlExecute;
 
 	/**
 	 * 按照指定的字段筛选、查找产品，如活动类型、天数、人数、参考价格等 按照指定的字段对产品列表进行排序，如访问热度、上架时间、参考价格等
@@ -54,13 +77,13 @@ public class ProductionInfoController {
 		param.setStatus(0);
 		
 		if (null != activityTypeCode) {
-			param.setActivityTypeCode(activityTypeCode.intValue());
+			param.setActivityTypeCode(activityTypeCode.toString());
 		}
 		if (null != during) {
 			param.setDuring(during.intValue());
 		}
 		if (null != groupNumber) {
-			param.setGroupNumber(groupNumber.intValue());
+			param.setGroupNumber(groupNumber.toString());
 		}
 		if (null != orderSimulatePriceCode) {
 			param.setOrderSimulatePriceCode(orderSimulatePriceCode.intValue());
@@ -227,4 +250,64 @@ public class ProductionInfoController {
 		
 		return response;
 	}
+	@RequestMapping("/application/production/queryProdutionByCondition")
+	public Message queryCaseByCondition(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		SearchDictionaryList queryVo =JSONUtils.jsonToObj(dataJson, SearchDictionaryList.class);
+		String json = productionListQuery(queryVo);
+		message.setMessageBody(json);
+		return message;		
+	}
+	public String productionListQuery(SearchDictionaryList queryVo) {
+		if( queryVo != null ) {
+			SearchDictionaryList vo = new SearchDictionaryList();
+			List<String> activityProvinceCode = new ArrayList<>();
+			List<String> activitytype = new ArrayList<>();
+			List<Integer> duration = new ArrayList<>();
+			List<String> personNum = new ArrayList<>();
+			List<Integer> orderSimulatePriceCode = new ArrayList<>();
+			List<Integer> specialTagsCode = new ArrayList<>();
+			List<String> activityProvinceCodeArray = queryVo.getActivityProvinceCode();
+			if(activityProvinceCodeArray != null && activityProvinceCodeArray.size() > 0) {
+				activityProvinceCode = dictionaryService.dictionaryParamSwitchString(activityProvinceCodeArray);
+				vo.setActivityProvinceCode(activityProvinceCode);
+			}
+			List<String> activitytypeArray = queryVo.getActivitytype();
+			if(activitytypeArray != null && activitytypeArray.size() > 0) {
+				activitytype = dictionaryService.dictionaryParamSwitchString(activitytypeArray);
+				vo.setActivitytype(activitytype);
+			}
+			
+			List<Integer> durationArray = queryVo.getDuration();
+			if(durationArray != null && durationArray.size() > 0) {
+				duration = dictionaryService.dictionaryParamSwitch(durationArray);
+				vo.setDuration(duration);
+			}
+			List<String> personNumArray = queryVo.getPersonNum();
+			if(personNumArray != null && personNumArray.size() > 0) {
+				personNum = dictionaryService.dictionaryParamSwitchString(personNumArray);
+				vo.setPersonNum(personNum);
+			}
+			List<Integer> specialTagsCodArray = queryVo.getSpecialTagsCode();
+			if(specialTagsCodArray != null && specialTagsCodArray.size() > 0) {
+				specialTagsCode = dictionaryService.dictionaryParamSwitch(specialTagsCodArray);
+				List<ProductionTags> locationTagList = productionTagsDao.findByTagsCodes(specialTagsCode,jpqlExecute);
+				for(ProductionTags tag : locationTagList) {
+					specialTagsCode.add(tag.getProductionId());
+				}
+				vo.setSpecialTagsCode(specialTagsCode);
+			}
+			List<Integer> orderSimulatePriceCodeArray = queryVo.getOrderSimulatePriceCode();
+			if(orderSimulatePriceCodeArray != null && orderSimulatePriceCodeArray.size() > 0) {
+				orderSimulatePriceCode = dictionaryService.dictionaryParamSwitch(orderSimulatePriceCodeArray);
+				vo.setOrderSimulatePriceCode(orderSimulatePriceCode);
+			}
+			PageImpl<ProductionInfo> result = productionInfoService.queryProductionByDictListConditionPageable( vo, queryVo.getPageIndex());
+			Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new ProductionInfo());
+			dictionaryService.dictionaryFilter(result.getContent(), dictionnaryMap);
+			return PageDataWrapUtils.page2JsonNoCopy(result);
+		}
+		return "";
+		
+	} 
 }

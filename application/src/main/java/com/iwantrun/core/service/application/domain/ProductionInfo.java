@@ -12,6 +12,9 @@ import javax.persistence.Transient;
 
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 
+import com.iwantrun.core.service.application.annotation.DictionaryField;
+import com.iwantrun.core.service.utils.DictionaryConfigParams;
+
 @Entity
 @Table(name = "biz_productions")
 public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
@@ -22,17 +25,23 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 	private Integer id; // 系统主键
 
 	@Column(name = "activity_type_code", nullable = false)
-	private Integer activityTypeCode; // 活动类型
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_TYPE)
+	private String activityTypeCode; // 活动类型
 
 	@Column(name = "during", nullable = false)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_PERIOD_TYPE,aliasField="dur")
 	private Integer during; // 活动天数
+	
+	@Transient
+	private String dur; 
 
 	@Column(name = "during_code")
 	private Integer duringCode; // 活动天数范围
 
 	@Column(name = "group_number")
-	private Integer groupNumber; // 活动人数
-
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_PERSON_NUMBER_TYPE)
+	private String groupNumber; // 活动人数
+	
 	@Column(name = "group_number_code")
 	private Integer groupNumberCode; // 活动人数范围
 
@@ -43,19 +52,31 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 	private Integer status; // 状态 0-正常 1-下架'
 
 	@Column(name = "order_simulate_price_code")
+	@DictionaryField(name=DictionaryConfigParams.PRODUCTION_DICTIONARY_NAME ,usedField=DictionaryConfigParams.PRODUCTION_SINGEL_PRICE_LIMIT_TYPE,aliasField="orderSimulatePrice")
 	private Integer orderSimulatePriceCode; // 订单人均参考报价范围
+	
+	@Transient
+	private String orderSimulatePrice;
 
 	@Column(name = "order_group_price_code")
+	@DictionaryField(name=DictionaryConfigParams.PRODUCTION_DICTIONARY_NAME ,usedField=DictionaryConfigParams.PRODUCTION_GROUP_PRICE_LIMIT_TYPE,aliasField="orderGroupPrice")
 	private Integer orderGroupPriceCode; // 订单团体参考报价范围
+	
+	@Transient
+	private String orderGroupPrice;
 
 	@Column(name = "activity_province_code")
-	private Integer activityProvinceCode; // 产品省编码
-
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_TYPE)
+	private String activityProvinceCode; // 产品省编码
+	
 	@Column(name = "activity_city_code", nullable = true)
-	private Integer activityCityCode; // 产品市编码
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_CITY_TYPE)
+	private String activityCityCode; // 产品市编码
 
 	@Column(name = "activity_dist_code")
-	private Integer activityDistCode; // 产品区编码
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_DIST_TYPE)
+	private String activityDistCode; // 产品区编码
+	
 
 	@Column(name = "shift_time", nullable = false)
 	private Date shiftTime; // 上架时间
@@ -86,17 +107,11 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 
 	@Column(name = "qrcode")
 	private String qrcode; // 二维码信息地址
+	
+	private String[] tips;
 
 	@Transient
 	private Locations locations;
-
-	public Locations getLocations() {
-		return locations;
-	}
-
-	public void setLocations(Locations locations) {
-		this.locations = locations;
-	}
 
 	public Integer getId() {
 		return id;
@@ -106,11 +121,11 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 		this.id = id;
 	}
 
-	public Integer getActivityTypeCode() {
+	public String getActivityTypeCode() {
 		return activityTypeCode;
 	}
 
-	public void setActivityTypeCode(Integer activityTypeCode) {
+	public void setActivityTypeCode(String activityTypeCode) {
 		this.activityTypeCode = activityTypeCode;
 	}
 
@@ -122,6 +137,14 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 		this.during = during;
 	}
 
+	public String getDur() {
+		return dur;
+	}
+
+	public void setDur(String dur) {
+		this.dur = dur;
+	}
+
 	public Integer getDuringCode() {
 		return duringCode;
 	}
@@ -130,11 +153,11 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 		this.duringCode = duringCode;
 	}
 
-	public Integer getGroupNumber() {
+	public String getGroupNumber() {
 		return groupNumber;
 	}
 
-	public void setGroupNumber(Integer groupNumber) {
+	public void setGroupNumber(String groupNumber) {
 		this.groupNumber = groupNumber;
 	}
 
@@ -170,6 +193,14 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 		this.orderSimulatePriceCode = orderSimulatePriceCode;
 	}
 
+	public String getOrderSimulatePrice() {
+		return orderSimulatePrice;
+	}
+
+	public void setOrderSimulatePrice(String orderSimulatePrice) {
+		this.orderSimulatePrice = orderSimulatePrice;
+	}
+
 	public Integer getOrderGroupPriceCode() {
 		return orderGroupPriceCode;
 	}
@@ -178,27 +209,35 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 		this.orderGroupPriceCode = orderGroupPriceCode;
 	}
 
-	public Integer getActivityProvinceCode() {
+	public String getOrderGroupPrice() {
+		return orderGroupPrice;
+	}
+
+	public void setOrderGroupPrice(String orderGroupPrice) {
+		this.orderGroupPrice = orderGroupPrice;
+	}
+
+	public String getActivityProvinceCode() {
 		return activityProvinceCode;
 	}
 
-	public void setActivityProvinceCode(Integer activityProvinceCode) {
+	public void setActivityProvinceCode(String activityProvinceCode) {
 		this.activityProvinceCode = activityProvinceCode;
 	}
 
-	public Integer getActivityCityCode() {
+	public String getActivityCityCode() {
 		return activityCityCode;
 	}
 
-	public void setActivityCityCode(Integer activityCityCode) {
+	public void setActivityCityCode(String activityCityCode) {
 		this.activityCityCode = activityCityCode;
 	}
 
-	public Integer getActivityDistCode() {
+	public String getActivityDistCode() {
 		return activityDistCode;
 	}
 
-	public void setActivityDistCode(Integer activityDistCode) {
+	public void setActivityDistCode(String activityDistCode) {
 		this.activityDistCode = activityDistCode;
 	}
 
@@ -281,5 +320,23 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 	public void setQrcode(String qrcode) {
 		this.qrcode = qrcode;
 	}
+
+	public String[] getTips() {
+		return tips;
+	}
+
+	public void setTips(String[] tips) {
+		this.tips = tips;
+	}
+
+	public Locations getLocations() {
+		return locations;
+	}
+
+	public void setLocations(Locations locations) {
+		this.locations = locations;
+	}
+	
+
 
 }

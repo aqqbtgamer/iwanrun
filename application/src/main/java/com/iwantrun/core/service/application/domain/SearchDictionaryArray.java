@@ -1,6 +1,6 @@
 package com.iwantrun.core.service.application.domain;
 
-public class SearchDictionary {
+public class SearchDictionaryArray {
 	
 	private String pageIndex;
 	

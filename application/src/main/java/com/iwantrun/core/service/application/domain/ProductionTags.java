@@ -7,25 +7,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.iwantrun.core.service.application.annotation.DictionaryField;
-import com.iwantrun.core.service.utils.DictionaryConfigParams;
-
 @Entity
-@Table(name="biz_location_tags")
-public class LocationTags {
+@Table(name="biz_production_tags")
+public class ProductionTags {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id ;
 	
-	@Column(name="location_id",nullable=false)
-	private Integer locationId ;
+	@Column(name="production_id",nullable=false)
+	private Integer productionId ;
 	
-	@Column(name="tags_type")	
+	@Column(name="tags_type")
 	private Integer tagsType ;
 	
 	@Column(name="tags_code")
-	@DictionaryField(name=DictionaryConfigParams.LOCATION_DICTIONARY_NAME ,usedField=DictionaryConfigParams.LOCATION_TAGS_TYPE)
 	private Integer tagsCode ;
 
 	public int getId() {
@@ -36,12 +32,12 @@ public class LocationTags {
 		this.id = id;
 	}
 
-	public int getLocationId() {
-		return locationId;
+	public int getProductionId() {
+		return productionId;
 	}
 
-	public void setLocationId(Integer locationId) {
-		this.locationId = locationId;
+	public void setProductionId(Integer productionId) {
+		this.productionId = productionId;
 	}
 
 	public int getTagsType() {

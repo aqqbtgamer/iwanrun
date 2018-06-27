@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.iwantrun.core.service.application.domain.Cases;
 import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
+import com.iwantrun.core.service.application.domain.SearchDictionaryList;
 import com.iwantrun.core.service.application.transfer.MixedUserResponse;
 import com.mysql.jdbc.StringUtils;
 @Repository
@@ -21,20 +22,25 @@ public interface CasesDao  extends JpaRepository<Cases, Integer>,JpaSpecificatio
 	
 	String SORE_BY = "  order by c.id asc ";
 	
-	 default List<Cases> findByMutipleParams(List<String> activityProvinceCode,List<String> activitytype,List<String> companytype,List<Integer> duration,List<String> personNum,JPQLEnableRepository repository,int pageSize,int pageIndex){
+	 default List<Cases> findByMutipleParams(SearchDictionaryList vo,JPQLEnableRepository repository,int pageSize,int pageIndex){
 		 List<Cases> list = new ArrayList<Cases>();
 		 String queryJPQL = "" ;
-		 queryJPQL = mutipleParams(activityProvinceCode,activitytype,companytype,duration,personNum,QUERY_CASE_ALL);
+		 queryJPQL = mutipleParams(vo,QUERY_CASE_ALL);
 		 queryJPQL = queryJPQL.concat(SORE_BY);
 		 list = repository.findByJPQLPage(queryJPQL, Cases.class, pageIndex, pageSize);
 		return list;
 	}
-	 default Long countByMutipleParams(List<String> activityProvinceCode,List<String> activitytype,List<String> companytype,List<Integer> duration,List<String> personNum,JPQLEnableRepository repository) {
+	 default Long countByMutipleParams(SearchDictionaryList vo,JPQLEnableRepository repository) {
 		 String queryJPQL = "" ;
-		 queryJPQL = mutipleParams(activityProvinceCode,activitytype,companytype,duration,personNum,QUERY_CASE_ALL_COUNT);
+		 queryJPQL = mutipleParams(vo,QUERY_CASE_ALL_COUNT);
 		 return repository.findOneJPQL(queryJPQL, Long.class);
 	 }
-	 default String mutipleParams(List<String> activityProvinceCode,List<String> activitytype,List<String> companytype,List<Integer> duration,List<String> personNum,String queryJPQL) {
+	 default String mutipleParams(SearchDictionaryList vo,String queryJPQL) {
+		    List<String> activityProvinceCode = vo.getActivityProvinceCode();
+			List<String> activitytype = vo.getActivitytype();
+			List<String> companytype = vo.getCompanytype();
+			List<Integer> duration = vo.getDuration();
+			List<String> personNum = vo.getPersonNum();
 		    if(activityProvinceCode != null && activityProvinceCode.size() > 0) {
 				String activityProvinceCodeString="";
 				for(String acp : activityProvinceCode) {

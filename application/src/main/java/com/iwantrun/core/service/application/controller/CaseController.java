@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
 import com.iwantrun.core.service.application.domain.CaseAttachments;
-import com.iwantrun.core.service.application.domain.SearchDictionary;
+import com.iwantrun.core.service.application.domain.SearchDictionaryArray;
 import com.iwantrun.core.service.application.domain.CaseTags;
 import com.iwantrun.core.service.application.domain.Cases;
 import com.iwantrun.core.service.application.domain.Dictionary;
-import com.iwantrun.core.service.application.domain.Locations;
+import com.iwantrun.core.service.application.domain.SearchDictionaryList;
 import com.iwantrun.core.service.application.service.CasesService;
 import com.iwantrun.core.service.application.service.DictionaryService;
 import com.iwantrun.core.service.application.transfer.Message;
@@ -274,39 +274,45 @@ public class CaseController {
 	@RequestMapping("/application/cases/queryCaseByCondition")
 	public Message queryCaseByCondition(@RequestBody Message message) {
 		String dataJson = message.getMessageBody();
-		SearchDictionary queryVo =JSONUtils.jsonToObj(dataJson, SearchDictionary.class);
+		SearchDictionaryList queryVo =JSONUtils.jsonToObj(dataJson, SearchDictionaryList.class);
 		String json = caseListQuery(queryVo);
 		message.setMessageBody(json);
 		return message;		
 	}
-	public String caseListQuery(SearchDictionary queryVo) {
+	public String caseListQuery(SearchDictionaryList queryVo) {
 		if( queryVo != null ) {
+			SearchDictionaryList vo = new SearchDictionaryList();
 			List<String> activityProvinceCode = new ArrayList<>();
 			List<String> activitytype = new ArrayList<>();
 			List<String> companytype = new ArrayList<>();
 			List<Integer> duration = new ArrayList<>();
 			List<String> personNum = new ArrayList<>();
-			String[] activityProvinceCodeArray = queryVo.getActivityProvinceCode();
-			if(activityProvinceCodeArray != null && activityProvinceCodeArray.length > 0) {
+			List<String> activityProvinceCodeArray = queryVo.getActivityProvinceCode();
+			if(activityProvinceCodeArray != null && activityProvinceCodeArray.size() > 0) {
 				activityProvinceCode = dictionaryService.dictionaryParamSwitchString(activityProvinceCodeArray);
+				vo.setActivityProvinceCode(activityProvinceCode);
 			}
-			String[] activitytypeArray = queryVo.getActivitytype();
-			if(activitytypeArray != null && activitytypeArray.length > 0) {
+			List<String> activitytypeArray = queryVo.getActivitytype();
+			if(activitytypeArray != null && activitytypeArray.size() > 0) {
 				activitytype = dictionaryService.dictionaryParamSwitchString(activitytypeArray);
+				vo.setActivitytype(activitytype);
 			}
-			String[] companytypeArray = queryVo.getCompanytype();
-			if(companytypeArray != null && companytypeArray.length > 0) {
+			List<String> companytypeArray = queryVo.getCompanytype();
+			if(companytypeArray != null && companytypeArray.size() > 0) {
 				companytype = dictionaryService.dictionaryParamSwitchString(companytypeArray);
+				vo.setCompanytype(companytype);
 			}
-			Integer[] durationArray = queryVo.getDuration();
-			if(durationArray != null && durationArray.length > 0) {
+			List<Integer> durationArray = queryVo.getDuration();
+			if(durationArray != null && durationArray.size() > 0) {
 				duration = dictionaryService.dictionaryParamSwitch(durationArray);
+				vo.setDuration(duration);
 			}
-			String[] personNumArray = queryVo.getPersonNum();
-			if(personNumArray != null && personNumArray.length > 0) {
+			List<String> personNumArray = queryVo.getPersonNum();
+			if(personNumArray != null && personNumArray.size() > 0) {
 				personNum = dictionaryService.dictionaryParamSwitchString(personNumArray);
+				vo.setPersonNum(personNum);
 			}
-			PageImpl<Cases> result = casesService.queryCaseByDictListConditionPageable(activityProvinceCode, activitytype, companytype, duration, personNum, queryVo.getPageIndex());
+			PageImpl<Cases> result = casesService.queryCaseByDictListConditionPageable( vo, queryVo.getPageIndex());
 			Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new Cases());
 			dictionaryService.dictionaryFilter(result.getContent(), dictionnaryMap);
 			return PageDataWrapUtils.page2JsonNoCopy(result);

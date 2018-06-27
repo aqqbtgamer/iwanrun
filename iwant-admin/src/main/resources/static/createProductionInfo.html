@@ -35,7 +35,7 @@
     <script type="text/javascript" src="ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.all.js"></script>
     <script type='text/javascript' src='js/custom.js'></script>
     <script type="text/javascript" src="js/js_dev/common.app.js"></script>
-   
+	<script type="text/javascript" src="js/js_dev/dictionary.app.js"></script>
 </head>
 
 <body>
@@ -86,42 +86,42 @@
                     <tr>
                         <th> <label for="activityTypeCode">活动类型</label></th>
                         <td>
-                            <select name="activityTypeCode"  id="activityTypeCode">
-                                <option value="1">跑步</option>
-                                <option value="2">健身</option>
+                            <select name="activityTypeCode" id="activityTypeCode" dictionary_name="common" used_field="9" used_type="option" used_name="activityTypeCode_option" used_item="select">
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th> <label for="during">活动天数</label></th>
                         <td>
-                            <input class="input-small" type="number"  name="during" id="during" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> <label for="duringCode">活动天数范围</label></th> 
-                        <td>
-                        	<select name="duringCode"  id="duringCode">
-                                <option value="1">5~10 天</option>
-                                <option value="2">10~15 天</option>
+                            <select name="during" id="during" dictionary_name="common" used_field="23" used_type="option" used_name="during_option" used_item="select">
                             </select>
                         </td>
                     </tr>
+<!--                     <tr> -->
+<!--                         <th> <label for="duringCode">活动天数范围</label></th>  -->
+<!--                         <td> -->
+<!--                         	<select name="duringCode"  id="duringCode"> -->
+<!--                                 <option value="1">5~10 天</option> -->
+<!--                                 <option value="2">10~15 天</option> -->
+<!--                             </select> -->
+<!--                         </td> -->
+<!--                     </tr> -->
                     <tr>
                         <th> <label for="groupNumber">活动人数</label></th>
                         <td>
-                            <input class="input-small" type="number"  name="groupNumber" id="group_number" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> <label for="groupNumberCode">活动人数范围</label></th>
-                        <td>
-                        	<select name="groupNumberCode"  id="groupNumberCode">
-                                <option value="1">5~10 人</option>
-                                <option value="2">10~15 人</option>
+                            <select name="groupNumber" id="groupNumber" dictionary_name="common" used_field="22" used_type="option" used_name="groupNumber_option" used_item="select">
                             </select>
                         </td>
                     </tr>
+<!--                     <tr> -->
+<!--                         <th> <label for="groupNumberCode">活动人数范围</label></th> -->
+<!--                         <td> -->
+<!--                         	<select name="groupNumberCode"  id="groupNumberCode"> -->
+<!--                                 <option value="1">5~10 人</option> -->
+<!--                                 <option value="2">10~15 人</option> -->
+<!--                             </select> -->
+<!--                         </td> -->
+<!--                     </tr> -->
                     </tr>
                     <tr>
                         <th><label for="priority">优先级</label></th>
@@ -132,36 +132,30 @@
                     <tr>
                         <th><label for="orderSimulatePriceCode">订单人均参考报价范围</label></th>
                         <td>
-                        	<select name="orderSimulatePriceCode"  id="orderSimulatePriceCode">
-                                <option value="1">500~1000 元</option>
-                                <option value="2">1000~1500 元</option>
+                        	<select name="orderSimulatePriceCode" id="orderSimulatePriceCode" dictionary_name="production" used_field="13" used_type="option" used_name="orderSimulatePriceCode_option" used_item="select">
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th><label for="orderGroupPriceCode">订单团体参考报价范围</label></th>
                         <td>
-                        	<select name="orderGroupPriceCode"  id="orderGroupPriceCode">
-                                <option value="1">500~1000 元</option>
-                                <option value="2">1000~1500 元</option>
+                        	<select name="orderGroupPriceCode" id="orderGroupPriceCode" dictionary_name="production" used_field="14" used_type="option" used_name="orderGroupPriceCode_option" used_item="select">
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th> <label >产品地址</label></th>
                         <td>
-                            <label for="activityProvinceCode">省份：</label>
-                            <select name="activityProvinceCode" id="activityProvinceCode" >
-                                <option value="1">上海</option>
-                                <option value="1">北京</option>
+                             <label for="activityProvinceCode">省份：</label>
+                             <select name="activityProvinceCode" id="activityProvinceCode" dictionary_name="common" used_field="6" used_type="option" used_name="activityProvinceCode_option" used_item="select">
                             </select>
                             <label for="activityCityCode">市：</label>
                             <select name="activityCityCode" id="activityCityCode" >
-                                <option value="1">上海</option>
+                                
                             </select>
                             <label for="activityDistCode">区：</label>
                             <select name="activityDistCode" id="activityDistCode" >
-                                <option value="1">上海</option>
+                               
                             </select>
                         </td>
                     </tr>

@@ -4,11 +4,14 @@
 
 var uploadServer = '/iwant_admin/remote/fileupload';
 var submitUrl = '/iwant_admin/productionInfo/add';
-
+const dictionaryUrl = "/iwant_admin/dictionary/getPages";
+const dictionaryCodeUrl = "/iwant_admin/dictionary/findByCode";
+const dictionaryName ="production";
 $(document).ready(
     function(){
         //initUE();
     	showSidebar('产品管理');
+    	dictionaryItemsInit(dictionaryName,dictionaryCodeUrl);
         bindUploadFile('mainImageUpload',uploadServer,'mainImageLarge',singleDisplay);
         bindDataSubmitJSON('submitForm',
             new Array("name",
@@ -30,8 +33,14 @@ $(document).ready(
             submitUrl,returnListPage);
         bindSeclectAll("checkAll");
         bindDeleteSelected("deleteAll");
+        bindAssignToDictionary("activityCityCode","activityProvinceCode");
+        bindAssignToDictionary("activityDistCode","activityCityCode");
+        getDictionaryPages(dictionaryUrl,dicionaryCallBack);
     }
 );
+function dicionaryCallBack(result){
+	initDictionaryPage("dictionarys",result);
+}
 function showSidebar(title){
 	var liLabels = $("#sidebar").find("li");
 	$(liLabels).each(function(){

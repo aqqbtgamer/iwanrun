@@ -27,7 +27,7 @@ public class ProductionInfoServiceTest {
 			ProductionInfo param = new ProductionInfo();
 			//param.setName("wlm1314");
 			param.setName("whq1314");
-			param.setActivityCityCode(0);
+//			param.setActivityCityCode(0);
 //			param.setDescirbeText1("1314 love you, my family!");
 //			Sort sort= new Sort(Direction.DESC, "priority");
 			/*List<ProductionInfo> infos = service.findAllByParam(param);
@@ -43,8 +43,8 @@ public class ProductionInfoServiceTest {
 	public void save() {
 		ProductionInfo param = new ProductionInfo();
 		param.setName("whq1314");
-		param.setActivityCityCode(0);
-		param.setActivityTypeCode(0);
+//		param.setActivityCityCode(0);
+//		param.setActivityTypeCode(0);
 		param.setDuring(6);
 		param.setStatus(0);
 		param.setDescirbeText1("1314 love you, my family!");

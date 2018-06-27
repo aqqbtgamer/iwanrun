@@ -29,6 +29,7 @@ import com.iwantrun.core.service.application.domain.Dictionary;
 import com.iwantrun.core.service.application.domain.LocationAttachments;
 import com.iwantrun.core.service.application.domain.LocationTags;
 import com.iwantrun.core.service.application.domain.Locations;
+import com.iwantrun.core.service.application.domain.SearchDictionaryList;
 import com.iwantrun.core.service.application.intercepter.ControllInvokerIntercepter;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import com.iwantrun.core.service.utils.JPADBUtils;
@@ -188,21 +189,22 @@ public class LocationsService {
 		return body;
 	}
 	
-	public PageImpl<Locations> queryLocationByDictListConditionPageable(List<String> activityProvinceCode,List<String> activitytype,List<Integer> duration,List<String> personNum,List<String> specialTagsCode,List<String> locationTypeCode,String pageIndex){	
+	public PageImpl<Locations> queryLocationByDictListConditionPageable
+	(SearchDictionaryList vo,String pageIndex){	
 		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
 		int pageIndexInt =  pageIndex == null ? 1:Integer.parseInt(pageIndex)+1 ;
 		Pageable page =  PageRequest.of(pageIndexInt-1, pageSize, Sort.Direction.ASC, "id");
-		Long totalNum = locationDao.countByMutipleParams(activityProvinceCode,activitytype,duration,personNum,specialTagsCode,locationTypeCode,jpqlExecute);
-		List<Locations> content = locationDao.findByMutipleParams(activityProvinceCode,activitytype,duration,personNum,specialTagsCode,locationTypeCode,jpqlExecute,pageSize,pageIndexInt);
-		for( Locations vo :content) {
-			List<LocationTags> listTag = tagsDao.findByLocationId(vo.getId());
+		Long totalNum = locationDao.countByMutipleParams(vo,jpqlExecute);
+		List<Locations> content = locationDao.findByMutipleParams(vo,jpqlExecute,pageSize,pageIndexInt);
+		for( Locations loVo :content) {
+			List<LocationTags> listTag = tagsDao.findByLocationId(loVo.getId());
 			if(listTag!= null && listTag.size() >0 ) {
 				String[] tips =new String[listTag.size()];
 				for( int i=0;i< listTag.size();i++ ) {
 					Dictionary dic = dictionaryDao.findByFiledNameCode(String.valueOf(listTag.get(i).getTagsType()),"location",listTag.get(i).getTagsCode());
 					tips[i]=dic.getValue();
 				}
-				vo.setTips(tips);
+				loVo.setTips(tips);
 			}
 		}
 		PageImpl<Locations> result = new PageImpl<Locations>(content, page, totalNum);

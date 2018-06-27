@@ -27,6 +27,7 @@ import com.iwantrun.core.service.application.domain.CaseAttachments;
 import com.iwantrun.core.service.application.domain.CaseTags;
 import com.iwantrun.core.service.application.domain.Cases;
 import com.iwantrun.core.service.application.domain.Dictionary;
+import com.iwantrun.core.service.application.domain.SearchDictionaryList;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import com.iwantrun.core.service.utils.JPADBUtils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
@@ -181,14 +182,15 @@ public class CasesService {
 		return body;
 	}
 	
-	public PageImpl<Cases> queryCaseByDictListConditionPageable(List<String> activityProvinceCode,List<String> activitytype,List<String> companytype,List<Integer> duration,List<String> personNum,String pageIndex){	
+	public PageImpl<Cases> queryCaseByDictListConditionPageable(SearchDictionaryList vo,String pageIndex){	
+		
 		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
 		int pageIndexInt =  pageIndex == null ? 1:Integer.parseInt(pageIndex)+1 ;
 		Pageable page =  PageRequest.of(pageIndexInt-1, pageSize, Sort.Direction.ASC, "id");
-		Long totalNum = casesDao.countByMutipleParams(activityProvinceCode,activitytype,companytype,duration,personNum,jpqlExecute);
-		List<Cases> content = casesDao.findByMutipleParams(activityProvinceCode,activitytype,companytype,duration,personNum,jpqlExecute,pageSize,pageIndexInt);
-		for( Cases vo :content) {
-			List<CaseTags> listTag = caseTagsDao.findByCaseId(vo.getId());
+		Long totalNum = casesDao.countByMutipleParams(vo,jpqlExecute);
+		List<Cases> content = casesDao.findByMutipleParams(vo,jpqlExecute,pageSize,pageIndexInt);
+		for( Cases caseVo :content) {
+			List<CaseTags> listTag = caseTagsDao.findByCaseId(caseVo.getId());
 			if(listTag!= null && listTag.size() >0 ) {
 				String[] tips =new String[listTag.size()];
 				for( int i=0;i< listTag.size();i++ ) {
@@ -197,7 +199,7 @@ public class CasesService {
 
 					
 				}
-				vo.setTips(tips);
+				caseVo.setTips(tips);
 			}
 			
 		}

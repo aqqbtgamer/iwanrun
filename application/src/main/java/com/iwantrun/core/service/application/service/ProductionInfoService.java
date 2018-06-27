@@ -16,20 +16,29 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.iwantrun.core.service.application.dao.DictionaryDao;
+import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
 import com.iwantrun.core.service.application.dao.LocationsDao;
 import com.iwantrun.core.service.application.dao.ProductionInfoAttachmentsDao;
 import com.iwantrun.core.service.application.dao.ProductionInfoDao;
 import com.iwantrun.core.service.application.dao.ProductionLocationRelationDao;
+import com.iwantrun.core.service.application.dao.ProductionTagsDao;
+import com.iwantrun.core.service.application.domain.Dictionary;
+import com.iwantrun.core.service.application.domain.LocationTags;
 import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.ProductionInfo;
 import com.iwantrun.core.service.application.domain.ProductionInfoAttachments;
 import com.iwantrun.core.service.application.domain.ProductionLocationRelation;
+import com.iwantrun.core.service.application.domain.ProductionTags;
+import com.iwantrun.core.service.application.domain.SearchDictionaryList;
 import com.iwantrun.core.service.utils.ThumbnailatorUtils;
 
 @Service
@@ -44,6 +53,14 @@ public class ProductionInfoService {
 	private ProductionLocationRelationDao pLocationRelationDao;
 	@Autowired
 	private ProductionInfoAttachmentsDao pAttachmentsDao;
+	@Autowired
+	private Environment environment;
+	@Autowired
+	private JPQLEnableRepository jpqlExecute;
+	@Autowired
+	private DictionaryDao dictionaryDao;
+	@Autowired
+	private ProductionTagsDao productionTagsDao;
 	
 	/**
 	 * 查询产品信息 按照多个查询条件查询产品
@@ -239,5 +256,26 @@ public class ProductionInfoService {
 
 	public void edit(ProductionInfo param) {
 		edit(param, null);
+	}
+	public PageImpl<ProductionInfo> queryProductionByDictListConditionPageable
+	(SearchDictionaryList vo,String pageIndex){	
+		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
+		int pageIndexInt =  pageIndex == null ? 1:Integer.parseInt(pageIndex)+1 ;
+		Pageable page =  PageRequest.of(pageIndexInt-1, pageSize, Sort.Direction.ASC, "id");
+		Long totalNum = productionInfoDao.countByMutipleParams(vo,jpqlExecute);
+		List<ProductionInfo> content = productionInfoDao.findByMutipleParams(vo,jpqlExecute,pageSize,pageIndexInt);
+		for( ProductionInfo loVo :content) {
+			List<ProductionTags> listTag = productionTagsDao.findByProductionId(loVo.getId());
+			if(listTag!= null && listTag.size() >0 ) {
+				String[] tips =new String[listTag.size()];
+				for( int i=0;i< listTag.size();i++ ) {
+					Dictionary dic = dictionaryDao.findByFiledNameCode(String.valueOf(listTag.get(i).getTagsType()),"production",listTag.get(i).getTagsCode());
+					tips[i]=dic.getValue();
+				}
+				loVo.setTips(tips);
+			}
+		}
+		PageImpl<ProductionInfo> result = new PageImpl<ProductionInfo>(content, page, totalNum);
+		return result;
 	}
 }
