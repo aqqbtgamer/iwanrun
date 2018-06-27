@@ -247,5 +247,13 @@ public class PurchaserAccountController {
 		return message;
 	}
 	
-	
+	@RequestMapping("addAndModifyInfo")
+	@ResponseBody
+	@NeedTokenVerify
+	public Message addAndModifyInfo(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		String result = service.addAndModifyInfo(dataJson);
+		message.setMessageBody(result);
+		return message;
+	}
 }

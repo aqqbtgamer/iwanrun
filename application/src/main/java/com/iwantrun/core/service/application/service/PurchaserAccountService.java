@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageImpl;
@@ -32,6 +33,7 @@ import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.Md5Utils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
+import com.iwantrun.core.service.utils.SMSCodeUtils;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -423,6 +425,85 @@ public class PurchaserAccountService {
 		} else {
 			return validateLoginParam(account);
 		}
+	}
+
+	@Transactional(rollbackOn = Exception.class)
+	public String addAndModifyInfo(String dataJson) {
+		PurchaserAccount account = JSONUtils.jsonToObj(dataJson, PurchaserAccount.class);
+		String loginId = account.getLoginId();
+
+		PurchaserAccount dbAccount = dao.findByLoginId(loginId);
+		if (dbAccount == null) {
+			return "用户不存在";
+		}
+
+		String mobileNumber = account.getMobileNumber();
+		if (!StringUtils.isEmpty(mobileNumber)) {
+			if (!SMSCodeUtils.isMobileNum(mobileNumber)) {
+				return "验证手机格式不正确";
+			}
+			dbAccount.setMobileNumber(mobileNumber);
+		}
+
+		UserInfo userInfo = JSONUtils.jsonToObj(dataJson, UserInfo.class);
+		Integer loginInfoId = dbAccount.getId();
+		List<UserInfo> dbUserInfos = infoDao.findByLoginInfoId(loginInfoId);
+		UserInfo dbUserInfo = null;
+		if (CollectionUtils.isEmpty(dbUserInfos)) {
+			dbUserInfo = new UserInfo();
+			dbUserInfo.setLoginInfoId(loginInfoId);
+		} else {
+			dbUserInfo = dbUserInfos.get(0);
+		}
+		if (userInfo != null) {
+			String name = userInfo.getName();
+			String question = userInfo.getQuestion();
+			String answer = userInfo.getAnswer();
+			String companyName = userInfo.getCompanyName();
+			Integer companySizeId = userInfo.getCompanySizeId();
+			Integer companyTypeId = userInfo.getCompanyTypeId();
+
+			if (name != null) {
+				if (StringUtils.isEmpty(name)) {
+					return "用户昵称不能为空";
+				}
+				dbUserInfo.setName(name);
+			}
+
+			boolean questionBlank = StringUtils.isEmpty(question);
+			boolean answerBlank = StringUtils.isEmpty(answer);
+			if (!questionBlank) {
+				if (answerBlank) {
+					return "请设置问题答案";
+				}
+			}
+			if (!answerBlank) {
+				if (questionBlank) {
+					return "请设置问题";
+				}
+			}
+			if (!questionBlank && !questionBlank) {
+				dbUserInfo.setQuestion(question);
+				dbUserInfo.setAnswer(answer);
+			}
+
+			if (!StringUtils.isEmpty(companyName)) {
+				if (companyTypeId == null) {
+					return "请选择企业类型";
+				}
+				if (companySizeId == null) {
+					return "请选择企业规模";
+				}
+				dbUserInfo.setCompanyName(companyName);
+				dbUserInfo.setCompanyTypeId(companyTypeId);
+				dbUserInfo.setCompanySizeId(companySizeId);
+			}
+		}
+
+		dao.saveAndFlush(dbAccount);
+		infoDao.saveAndFlush(dbUserInfo);
+
+		return null;
 	}
 }
 

@@ -89,7 +89,7 @@ public class PurchaserAccountController {
 	 * @param request
 	 * @return
 	 */
-	public Message addAndModifyInfo(@RequestBody String param) {
-		return service.addAndModifyInfo(param);
+	public Message addAndModifyInfo(HttpServletRequest request, @RequestBody String param) {
+		return service.addAndModifyInfo(param, request);
 	}
 }

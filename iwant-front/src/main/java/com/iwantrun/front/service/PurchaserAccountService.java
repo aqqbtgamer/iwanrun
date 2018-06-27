@@ -138,10 +138,11 @@ public class PurchaserAccountService {
 	 * @param isAutoLogin
 	 * 
 	 * @param accessToken
-	 * @param loginId 
+	 * @param loginId
 	 * @param response
 	 */
-	public void addCookieForToken(boolean isAutoLogin, String accessToken, String loginId, HttpServletResponse response) {
+	public void addCookieForToken(boolean isAutoLogin, String accessToken, String loginId,
+			HttpServletResponse response) {
 		if (!StringUtils.isEmpty(accessToken)) {
 			String expirty = null;
 			if (isAutoLogin) {
@@ -152,16 +153,24 @@ public class PurchaserAccountService {
 		}
 	}
 
-	public Message addAndModifyInfo(String param) {
-		if(!StringUtils.isEmpty(param)) {
-			
+	public Message addAndModifyInfo(String param, HttpServletRequest request) {
+		if (!StringUtils.isEmpty(param)) {
+
 			String addAndModifyInfoUrl = environment.getProperty("application.purchaserAccount.addAndModifyInfo");
 			String baseUrl = environment.getProperty("app.server");
 			String url = baseUrl + addAndModifyInfoUrl;
-			
+
+			JSONObject json = JSONUtils.jsonToObj(param, JSONObject.class);
+			String loginId = CookieUtils.getCookieValue(CookieConstants.COOKIE_LOGIN_ID_KEY, request);
+			json.put("loginId", loginId);
+
 			Message message = new Message();
-			message.setMessageBody(param);
+			message.setMessageBody(json.toJSONString());
 			message.setRequestMethod(url);
+
+			Message result = template.postForEntity(url, message, Message.class).getBody();
+
+			return result;
 		}
 		return null;
 	}
