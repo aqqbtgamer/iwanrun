@@ -151,4 +151,18 @@ public class PurchaserAccountService {
 			CookieUtils.addCookie(expirty, CookieConstants.COOKIE_LOGIN_ID_KEY, loginId, response);
 		}
 	}
+
+	public Message addAndModifyInfo(String param) {
+		if(!StringUtils.isEmpty(param)) {
+			
+			String addAndModifyInfoUrl = environment.getProperty("application.purchaserAccount.addAndModifyInfo");
+			String baseUrl = environment.getProperty("app.server");
+			String url = baseUrl + addAndModifyInfoUrl;
+			
+			Message message = new Message();
+			message.setMessageBody(param);
+			message.setRequestMethod(url);
+		}
+		return null;
+	}
 }

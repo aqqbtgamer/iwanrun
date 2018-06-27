@@ -17,13 +17,8 @@ var $http = {
 	}
 };
 
-/*var location = window.location;
-var pathname = location.pathname;
-context = pathname.substr(0, pathname.lastIndexOf("/")+1);
-var baseUrl = location.origin + location.pathname;*/
-
-var href = window.location.href;
-var baseUrl = href.substr(0, href.lastIndexOf("/")+1);
+var pathnames = location.pathname.split('/');
+var baseUrl = location.origin + "/" + pathnames[1] + "/";
 
 jQuery(document).ready(function(){
 	if(jQuery.cookie('accessToken')){

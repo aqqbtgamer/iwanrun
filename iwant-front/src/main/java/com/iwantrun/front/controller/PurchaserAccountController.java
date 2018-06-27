@@ -75,10 +75,21 @@ public class PurchaserAccountController {
 				return result;
 			}
 		}
-		String sessionId=request.getSession().getId();
+		String sessionId = request.getSession().getId();
 		purchaser.setSessionId(sessionId);
 		result = service.login(purchaser);
-		service.addCookieForToken(purchaser.isAutoLogin(), result.getAccessToken(), purchaser.getAccount().getLoginId(), response);
+		service.addCookieForToken(purchaser.isAutoLogin(), result.getAccessToken(), purchaser.getAccount().getLoginId(),
+				response);
 		return result;
+	}
+
+	/**
+	 * 采购用户-用户信息-增加和修改
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public Message addAndModifyInfo(@RequestBody String param) {
+		return service.addAndModifyInfo(param);
 	}
 }
