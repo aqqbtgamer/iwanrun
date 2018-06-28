@@ -4,13 +4,15 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 /**
  * @author user
  */
 public class CookieUtils {
-
+	private static Logger logger = LoggerFactory.getLogger(CookieUtils.class);
 	public static final String DEFAULT_COOKIE_PATH = "/";
 
 	/**
@@ -43,6 +45,9 @@ public class CookieUtils {
 	 * @param response
 	 */
 	public static void addCookie(String expirty, String key, String value, HttpServletResponse response) {
+		
+		logger.info("开始写入cookie--key为{}--value为{}", key, value);
+		
 		Cookie cookie = new Cookie(key, value);
 		if (!StringUtils.isEmpty(expirty)) {
 			int maxAge = Integer.valueOf(expirty);
@@ -50,6 +55,8 @@ public class CookieUtils {
 		}
 		cookie.setPath(DEFAULT_COOKIE_PATH);
 		response.addCookie(cookie);
+		
+		logger.info("写入cookie结束--key为{}--value为{}", key, value);
 	}
 
 }

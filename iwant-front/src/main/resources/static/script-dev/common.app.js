@@ -40,7 +40,16 @@ function verifyTokenBack(data){
 	}
 }
 
-//登录和注册App
+var accountData = {
+	loginId : '',
+	smsCode : '',
+	password : '',
+	rePassword : '',
+	mobileNumber : '',
+	errMsg : ''
+};
+
+// 登录和注册App
 var lrApp=new Vue({
 	el : "#lrPannel",
 	data : {
@@ -57,14 +66,7 @@ var lrApp=new Vue({
 			id : 1,
 			role : '采购方'
 		},
-		account : {
-			loginId : '',
-			smsCode : '',
-			password : '',
-			rePassword : '',
-			mobileNumber : '',
-			errMsg : ''
-		}
+		account : accountData 
 	},
 	methods : {
 		forget : function(){
@@ -151,7 +153,9 @@ var lrApp=new Vue({
 		showLogin : function(flag) {
 			console.log("v-on  click method :showLogin");
 			var vm = this
-			vm.account = {'loginId' : vm.account.loginId};
+			accountData.loginId = vm.account.loginId;
+			vm.account = accountData;
+			accountData.loginId = '';
 			vm.mask = true;
 			vm.counselor = !!flag;
 			vm.registerWindow = false;
@@ -162,7 +166,7 @@ var lrApp=new Vue({
 		closeLogin : function() {
 			console.log("v-on  click method :closeLogin");
 			var vm = this;
-			vm.account = {};
+			vm.account = accountData;
 			vm.mask = false;
 			vm.loginWindow = false;
 		},
@@ -177,7 +181,9 @@ var lrApp=new Vue({
 		showRegister : function() {
 			console.log("v-on  click method :showRegister");
 			var vm = this
-			vm.account = {'loginId' : vm.account.loginId};
+			accountData.loginId = vm.account.loginId;
+			vm.account = accountData;
+			accountData.loginId = '';
 			vm.mask = true;
 			vm.loginWindow = false;
 			vm.registerWindow = true;
@@ -189,7 +195,9 @@ var lrApp=new Vue({
 		showForget : function() {
 			console.log("v-on  click method :showForget");
 			var vm = this
-			vm.account = {'loginId' : vm.account.loginId};
+			accountData.loginId = vm.account.loginId;
+			vm.account = accountData;
+			accountData.loginId = '';
 			vm.mask = true;
 			vm.loginWindow = false;
 			vm.registerWindow = true;
@@ -201,7 +209,7 @@ var lrApp=new Vue({
 		closeRegister : function() {
 			console.log("v-on  click method :closeRegister");
 			var vm = this;
-			vm.account = {};
+			vm.account = accountData;
 			vm.mask = false;
 			vm.registerWindow = false;
 		},
