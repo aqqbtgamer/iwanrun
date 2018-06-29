@@ -40,14 +40,16 @@ function verifyTokenBack(data){
 	}
 }
 
-var accountData = {
-	loginId : '',
-	smsCode : '',
-	password : '',
-	rePassword : '',
-	mobileNumber : '',
-	errMsg : ''
-};
+function accountReset(loginId) {
+	lrApp.account = {
+		loginId : (loginId ? loginId : ''),
+		smsCode : '',
+		password : '',
+		rePassword : '',
+		mobileNumber : '',
+		errMsg : ''
+	}
+}
 
 // 登录和注册App
 var lrApp=new Vue({
@@ -66,7 +68,14 @@ var lrApp=new Vue({
 			id : 1,
 			role : '采购方'
 		},
-		account : accountData 
+		account : {
+			loginId : '',
+			smsCode : '',
+			password : '',
+			rePassword : '',
+			mobileNumber : '',
+			errMsg : ''
+		} 
 	},
 	methods : {
 		forget : function(){
@@ -153,9 +162,7 @@ var lrApp=new Vue({
 		showLogin : function(flag) {
 			console.log("v-on  click method :showLogin");
 			var vm = this
-			accountData.loginId = vm.account.loginId;
-			vm.account = accountData;
-			accountData.loginId = '';
+			accountReset(vm.account.loginId);
 			vm.mask = true;
 			vm.counselor = !!flag;
 			vm.registerWindow = false;
@@ -166,7 +173,7 @@ var lrApp=new Vue({
 		closeLogin : function() {
 			console.log("v-on  click method :closeLogin");
 			var vm = this;
-			vm.account = accountData;
+			accountReset();
 			vm.mask = false;
 			vm.loginWindow = false;
 		},
@@ -181,9 +188,7 @@ var lrApp=new Vue({
 		showRegister : function() {
 			console.log("v-on  click method :showRegister");
 			var vm = this
-			accountData.loginId = vm.account.loginId;
-			vm.account = accountData;
-			accountData.loginId = '';
+			accountReset(vm.account.loginId);
 			vm.mask = true;
 			vm.loginWindow = false;
 			vm.registerWindow = true;
@@ -195,9 +200,7 @@ var lrApp=new Vue({
 		showForget : function() {
 			console.log("v-on  click method :showForget");
 			var vm = this
-			accountData.loginId = vm.account.loginId;
-			vm.account = accountData;
-			accountData.loginId = '';
+			accountReset(vm.account.loginId);
 			vm.mask = true;
 			vm.loginWindow = false;
 			vm.registerWindow = true;
@@ -209,7 +212,7 @@ var lrApp=new Vue({
 		closeRegister : function() {
 			console.log("v-on  click method :closeRegister");
 			var vm = this;
-			vm.account = accountData;
+			accountReset();
 			vm.mask = false;
 			vm.registerWindow = false;
 		},
