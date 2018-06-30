@@ -31,14 +31,24 @@ public class OrdersController {
 		return orderService.get(request);
 	}
 	
-	@RequestMapping("getSingle")
-	public String getSingle(HttpServletRequest request) {
-		return orderService.getSingle(request);
-	}
-	
 	@RequestMapping("getMessage")
 	public String getMessage(HttpServletRequest request) {
 		return orderService.getMessage(request);
+	}
+	
+	@RequestMapping("simpleGet")
+	public String simpleGet(HttpServletRequest request) {
+		return orderService.simpleGet(request);
+	}
+	
+	@RequestMapping("assign")
+	public String assign(HttpServletRequest request) {
+		return orderService.assign(request);
+	}
+	
+	@RequestMapping("close")
+	public String close(HttpServletRequest request) {
+		return orderService.close(request);
 	}
 
 }

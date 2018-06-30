@@ -1,6 +1,7 @@
 package com.iwantrun.admin.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import com.iwantrun.admin.transfer.Message;
 import com.iwantrun.admin.utils.CookieUtils;
 import com.iwantrun.admin.utils.FormDataUtils;
+import com.iwantrun.admin.utils.JSONUtils;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
@@ -97,9 +99,50 @@ public class OrdersService {
 		return response == null ? null : response.getBody().getMessageBody();
 	}
 
-	public String getSingle(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+	public String simpleGet(HttpServletRequest request) {
+		String token = CookieUtils.getLoginToken(request);
+		String id = request.getParameter("id");
+		JSONObject requestObj = new JSONObject();
+		requestObj.put("id", id);
+		String json = requestObj.toJSONString();
+		String postUrl = env.getProperty("application.orders.simpleGet");
+		String baseUrl = env.getProperty("application.serverbase");
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(json);
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);		
+		return response == null ? null : response.getBody().getMessageBody();
+	}
+
+	public String assign(HttpServletRequest request) {
+		String token = CookieUtils.getLoginToken(request);
+		Map<String,String[]> paramsMap = request.getParameterMap();
+		String json = JSONUtils.objToJSON(paramsMap);
+		String postUrl = env.getProperty("application.orders.assign");
+		String baseUrl = env.getProperty("application.serverbase");
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(json);
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);		
+		return response == null ? null : response.getBody().getMessageBody();
+	}
+
+	public String close(HttpServletRequest request) {
+		String token = CookieUtils.getLoginToken(request);
+		String id = request.getParameter("id");
+		JSONObject requestObj = new JSONObject();
+		requestObj.put("id", id);
+		String json = requestObj.toJSONString();
+		String postUrl = env.getProperty("application.orders.close");
+		String baseUrl = env.getProperty("application.serverbase");
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(json);
+		message.setRequestMethod(baseUrl+postUrl);
+		ResponseEntity<Message> response = restTemplate.postForEntity(baseUrl+postUrl, message, Message.class);		
+		return response == null ? null : response.getBody().getMessageBody();
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.utils;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,6 +118,28 @@ public class EntityBeanUtils {
 			}
 		}
 		return t ;
+	}
+	
+	public static <T> void copyEntityBeanValuesFromJSON(JSONObject requestObj,T bean) {
+		Set<String> params = requestObj.keySet();
+		for(String param : params) {
+			if(!"id".equals(param)) {
+				JSONArray paramValueObj = (JSONArray) requestObj.get(param);
+				if(paramValueObj != null && paramValueObj.size() > 0 ) {
+					String value = paramValueObj.get(0).toString();
+					try {
+						Class<?> editClass  = PropertyUtils.getPropertyType(bean,param);
+						if(editClass == String.class) {
+							PropertyUtils.setProperty(bean, param, value);
+						}else if(editClass == Integer.class) {
+							PropertyUtils.setProperty(bean, param, Integer.parseInt(value));
+						}
+					}catch(IllegalAccessException|InvocationTargetException|NoSuchMethodException e) {
+						logger.error("bean处理异常",e);
+					}
+				}
+			}
+		}
 	}
 	
 

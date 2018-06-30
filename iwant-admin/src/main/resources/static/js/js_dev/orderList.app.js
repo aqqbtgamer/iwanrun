@@ -4,8 +4,9 @@
 const dictionaryUrl = "/iwant_admin/dictionary/getPages";
 const dataInitUrl = '/iwant_admin/orders/findAll';
 const dataQueryUrl = '/iwant_admin/orders/findByExample';
-const orderDetailUrl = '/iwant_admin/orderDetails.html?id='
-const orderAssignUrl = '/iwant_admin/orderAssign.html?id='
+const orderDetailUrl = '/iwant_admin/orderDetails.html?id=';
+const orderAssignUrl = '/iwant_admin/orderAssign.html?id=';
+const orderCloseUrl = '/iwant_admin/orders/close';	
 const dateFieldsArray = new Array(
 		"createTimeFrom",
 		"createTimeTo",
@@ -61,6 +62,36 @@ $(document).ready(
 					var parentTr = self.parent().parent();
 					var orderId = parentTr.find("th input").attr("id");
 					window.location.href = orderAssignUrl+orderId;
+				});
+				linkClose.bind("click",function(event){
+					var self = $(event.target);
+					var parentTr = self.parent().parent();
+					var orderId = parentTr.find("th input").attr("id");
+					var orderStatusDesc = parentTr.find("td:eq(4)").text();
+					var confirmClose = confirm("是否确定关闭此交易?");
+					if(confirmClose){
+						if(orderStatusDesc == "已关闭"){
+							return;
+						}
+						var request = new Object();
+						request.id = orderId ;
+						$.ajax(
+					            {
+					                url: orderCloseUrl,
+					                data: request,
+					                type: "post",
+					                dataType: "text",
+					                cache: false,
+					                success: function (result) {					                	
+					                	parentTr.find("td:eq(4)").text("已关闭");  
+					                },
+					                error:function(XMLHttpRequest ,error,exception){
+					                    console.log("提交到"+orderCloseUrl+"失败,原因是: "+ error.toString());					           
+					                }
+
+					            }
+					        )
+					}
 				});
 				td.append(linkDetail);
 				td.append("/");
