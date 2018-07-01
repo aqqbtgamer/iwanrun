@@ -26,7 +26,7 @@ public class UEditorService {
 	
 	private static final String COMMON_FILE_PREV = "";
 	
-	private static final int IMG_MAX_SIZE = 2048000000;
+	private static final int UPLOAD_MAX_SIZE = 2048000000;
 	
 	private static final String[] IMG_ALLOWED_TYPE = new String[] {
 			".png",
@@ -39,6 +39,14 @@ public class UEditorService {
 	private static final String[] VIDEO_ALLOW_TYPE = new String[] {
 			".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
 	        ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid"
+	};
+	
+	private static final String[] FILE_ALLOW_TYPE = new String[] {
+			".png", ".jpg", ".jpeg", ".gif", ".bmp",
+	        ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
+	        ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
+	        ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
+	        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml"
 	};
 	
 	private static final String IMG_INSERT_ALIGN = "none";
@@ -55,7 +63,7 @@ public class UEditorService {
 	public String getConfig() {
 		JSONObject jsonConfig = new JSONObject();
 		jsonConfig.put("imageActionName", UPLOAD_PATF);
-		jsonConfig.put("imageMaxSize", IMG_MAX_SIZE);
+		jsonConfig.put("imageMaxSize", UPLOAD_MAX_SIZE);
 		jsonConfig.put("imageAllowFiles", IMG_ALLOWED_TYPE);
 		jsonConfig.put("imageCompressEnable", false);
 		jsonConfig.put("imageInsertAlign", IMG_INSERT_ALIGN);
@@ -63,17 +71,19 @@ public class UEditorService {
 		jsonConfig.put("imageUrlPrefix", COMMON_FILE_PREV);
 		jsonConfig.put("scrawlActionName", UPLOAD_SCRAW_PATF);
 		jsonConfig.put("scrawlFieldName", SCRAW_FIELD_NAME);
-		jsonConfig.put("scrawlMaxSize", IMG_MAX_SIZE);
+		jsonConfig.put("scrawlMaxSize", UPLOAD_MAX_SIZE);
 		jsonConfig.put("scrawlUrlPrefix", COMMON_FILE_PREV);
 		jsonConfig.put("scrawlInsertAlign", IMG_INSERT_ALIGN);
 		jsonConfig.put("videoActionName", UPLOAD_VIDEO_PATF);
 		jsonConfig.put("videoFieldName", IMG_FIELD_NAME);
 		jsonConfig.put("videoUrlPrefix", COMMON_FILE_PREV);
-		jsonConfig.put("videoMaxSize", IMG_MAX_SIZE);
+		jsonConfig.put("videoMaxSize", UPLOAD_MAX_SIZE);
 		jsonConfig.put("videoAllowFiles", VIDEO_ALLOW_TYPE);
 		jsonConfig.put("fileActionName", UPLOAD_File_PATF);
 		jsonConfig.put("fileFieldName", IMG_FIELD_NAME);
-		jsonConfig.put("fileFieldName", IMG_FIELD_NAME);
+		jsonConfig.put("fileUrlPrefix", COMMON_FILE_PREV);
+		jsonConfig.put("fileMaxSize", UPLOAD_MAX_SIZE);
+		jsonConfig.put("fileAllowFiles", FILE_ALLOW_TYPE);
 		return jsonConfig.toJSONString();
 	}
 

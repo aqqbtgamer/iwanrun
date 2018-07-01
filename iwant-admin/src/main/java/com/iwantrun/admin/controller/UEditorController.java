@@ -29,6 +29,8 @@ public class UEditorController {
 			return ueService.uploadScraw(request, response);
 		}else if(UEditorService.UPLOAD_VIDEO_PATF.equals(action)) {
 			return ueService.upload(request, response);
+		}else if(UEditorService.UPLOAD_File_PATF.equals(action)) {
+			return ueService.upload(request, response);
 		}
 		else {
 			return null ;
