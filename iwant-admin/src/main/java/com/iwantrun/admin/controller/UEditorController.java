@@ -16,30 +16,23 @@ public class UEditorController {
 	@Autowired
 	private UEditorService ueService ;
 	
-	private static final String METHOD_NAME_CONFIG = "config" ;
+	
 	
 	@RequestMapping(value="server")
 	public String getConfig(HttpServletRequest request, HttpServletResponse response) {
 		String action = request.getParameter("action");
-		if(METHOD_NAME_CONFIG.equals(action)) {
+		if(UEditorService.METHOD_NAME_CONFIG.equals(action)) {
 			return ueService.getConfig();
 		}else if(UEditorService.UPLOAD_PATF.equals(action)) {
 			return ueService.upload(request,response);
-		}else {
+		}else if(UEditorService.UPLOAD_SCRAW_PATF.equals(action)) {
+			return ueService.uploadScraw(request, response);
+		}else if(UEditorService.UPLOAD_VIDEO_PATF.equals(action)) {
+			return ueService.upload(request, response);
+		}
+		else {
 			return null ;
 		}
 	}
-	
-	@RequestMapping("upload")
-	public String upload(HttpServletRequest request, HttpServletResponse response) {
-		 String config = "{\"state\": \"SUCCESS\"," +
-	                "\"url\": \"" + "http://localhost:8088/" + "abc.png" + "\"," +
-	                "\"title\": \"" + "abc.png" + "\"," +
-	                "\"original\": \"" + "fileName" + "\"}"; 
-		 return config;
-	}
-	
-	
-	
 
 }

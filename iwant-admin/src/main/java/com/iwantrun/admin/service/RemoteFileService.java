@@ -62,5 +62,23 @@ public class RemoteFileService {
 			}
 		}
 	}
+	
+	public String sendBase64ToApplication(String base64,String fileName,String token) {
+		JSONObject object = new JSONObject();
+		object.put("base64_file", base64);
+		object.put("fileName", fileName);
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(object.toJSONString());
+		message.setRequestMethod(env.getProperty("application.file.service"));
+		String url = env.getProperty("application.serverbase")+env.getProperty("application.file.service");
+		ResponseEntity<Message> response = null;
+		try {
+			response = restTemplate.postForEntity(url, message, Message.class);
+		}catch(Exception e) {
+			logger.error("errors sendding message to file service ",e);					
+		}		
+		return response != null ? env.getProperty("application.serverbase")+response.getBody().getMessageBody() : null;		
+	}
 
 }
