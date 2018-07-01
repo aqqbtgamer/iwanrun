@@ -223,13 +223,13 @@
                 </div>
                 <div class="userpwd-input" v-show="messageLogin">
                     <div id="pwd-icon" class="user-icon">
-                        <i class="iconfont-user2 icon-mima"></i>
+                        <i class="iconfont-user2 icon-mail"></i>
                     </div>
                     <div id="pwd-input" class="user-pwd">
-                        <input v-model="account.smsCode" @focus="accountFocus()" type="password" class="inputText" placeholder="请输入验证码">
+                        <input v-model="account.smsCode" @focus="accountFocus()" class="inputText" placeholder="请输入验证码">
                     </div>
                     <div id="pwd-button" class="user-button">
-                        <input @click="accountSmsCodeGet" type="button" value="短信验证" class="sms-send-button">
+                        <input @click="accountSmsCodeGet" type="button" :value="SMS.btnText" class="sms-send-button" :disabled="SMS.disabled">
                     </div>
                 </div>
                 <div class="userpwd-input" v-show="!messageLogin">
@@ -295,13 +295,13 @@
                 </div>
                 <div class="register-input">
                     <div id="pwd-icon" class="user-icon">
-                        <i class="iconfont-user2 icon-mima"></i>
+                        <i class="iconfont-user2 icon-mail"></i>
                     </div>
                     <div class="user-pwd">
-                        <input v-model="account.smsCode" @focus="accountFocus()" type="password" class="inputText" placeholder="请输入验证码">
+                        <input v-model="account.smsCode" @focus="accountFocus()" class="inputText" placeholder="请输入验证码">
                     </div>
                     <div class="user-button">
-                        <input @click="accountSmsCodeGet" type="button" value="短信验证" class="sms-send-button">
+                        <input @click="accountSmsCodeGet" type="button" :value="SMS.btnText" class="sms-send-button" :disabled="SMS.disabled">
                     </div>
                 </div>
                 <div class="register-input">
