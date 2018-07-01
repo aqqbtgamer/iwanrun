@@ -298,7 +298,7 @@
                         <i class="iconfont-user2 icon-mima"></i>
                     </div>
                     <div class="user-pwd">
-                        <input v-model="account.smsCode" @focus="accountFocus()" type="password" class="inputText" placeholder="请输入验证码">
+                        <input v-model="account.smsCode" @focus="accountFocus()" type="text" class="inputText" placeholder="请输入短信验证码">
                     </div>
                     <div class="user-button">
                         <input @click="accountSmsCodeGet" type="button" value="短信验证" class="sms-send-button">
