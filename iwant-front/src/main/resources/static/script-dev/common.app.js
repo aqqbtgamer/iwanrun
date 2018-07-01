@@ -88,7 +88,13 @@ var lrApp=new Vue({
 			rePassword : '',
 			mobileNumber : '',
 			errMsg : ''
-		} 
+        },
+        SMS: {
+            timer: null,
+            disabled: false,
+            count: 0,
+            btnText: '短信验证'
+        }
 	},
 	methods : {
 		forget : function(){
@@ -150,14 +156,35 @@ var lrApp=new Vue({
 				$http.post(url, JSON.stringify(data), registerBack);
 			}
 		},
-		accountSmsCodeGet : function() {
+        accountSmsCodeGet: function () {
+            var vm = this;
+            
 			var mobile = this.account.loginId;
 			// 先校验手机号
 			var msg = isMobile(mobile);
 			if (msg) {
 				showErrMsg(msg);
 				return;
-			}
+            }
+
+            var TIME_COUNT = 60;
+            if (!vm.SMS.timer) {
+                vm.SMS.count = TIME_COUNT;
+                vm.SMS.disabled = true;
+                vm.SMS.timer = setInterval(() => {
+                    if (vm.SMS.count > 0 && vm.SMS.count <= TIME_COUNT) {
+                        console.log(vm.SMS.count);
+                        vm.SMS.btnText = vm.SMS.count + 's后重发';
+                        vm.SMS.count--;
+                    } else {
+                        vm.SMS.disabled = false;
+                        clearInterval(vm.SMS.timer);
+                        vm.SMS.timer = null;
+                        vm.SMS.btnText = '短信验证';
+                    }
+                }, 1000);
+            }
+
 			var url = baseUrl + 'smsCode/getSMSCode';
 			var data = {
 				'mobile' : mobile
@@ -166,7 +193,8 @@ var lrApp=new Vue({
 
 			console.log('短信验证码获取，参数：' + data);
 
-			$http.post(url, data, getSMSCodeBack);
+            $http.post(url, data, getSMSCodeBack);
+
 		},
 		accountFocus : function(flag) {
 			var vm = this;
@@ -338,7 +366,11 @@ function validateSMScode(smsCode) {
 function validatePwd(password, rePassword) {
 	if (!password) {
 		return "请输入密码";
-	}
+    }
+
+    if (password.length < 6) {
+        return "密码最少6个字符";
+    }
 
 	var regex = new RegExp('(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}', 'g');
 	var correct = regex.test(password);

@@ -262,6 +262,14 @@
      var ue = UE.getEditor('container',{
     	serverUrl:"/iwant_admin/ueEditor/server"
     }); 
+    /*  UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+     UE.Editor.prototype.getActionUrl = function(action) {
+         if (action == 'ueUpload') {
+             return 'http://localhost:8089/iwant_admin/ueEditor/upload'; //在这里返回我们实际的上传图片地址
+         } else {
+             return this._bkGetActionUrl.call(this, action);
+         }
+     } */
 </script>
 <script type="text/javascript" src="js/js_dev/locationCreate.app.js"></script>
 </html>

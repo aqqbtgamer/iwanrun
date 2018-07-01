@@ -507,3 +507,10 @@ nav a:hover {
     text-decoration: underline;
     cursor: pointer;
 }
+
+input[type=button]:disabled {
+    color: #ACA899;
+    background-color: #F5F5F5;
+    border: 1px solid #DDD;
+    cursor: not-allowed;
+}

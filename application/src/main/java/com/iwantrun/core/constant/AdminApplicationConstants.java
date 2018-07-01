@@ -10,6 +10,8 @@ public interface AdminApplicationConstants {
 	
 	String USER_COMPANY_CREDENTIAL = "company_credential";
 	
+	String USER_HEAD_IMG = "user_head_img";
+
 	int ADMIN_ROLE_TYPE = 1;
 	
 	String CASE_DRAFT = "case_draft" ;

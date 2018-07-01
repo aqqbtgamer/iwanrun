@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
 import com.iwantrun.core.service.application.domain.Dictionary;
 import com.iwantrun.core.service.application.domain.Orders;
 import com.iwantrun.core.service.application.service.DictionaryService;
@@ -60,11 +61,40 @@ public class OrdersController {
 		return message;
 	}
 	
+	@RequestMapping("simpleGet")
+	public Message simpleGet(@RequestBody Message message) {
+		String requestJson = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJson);
+		Orders order = orderService.simpleGet(requestObj);
+		message.setMessageBody(JSONUtils.objToJSON(order));
+		return message;
+	}
+	
 	@RequestMapping("getOrderMessage")
 	public Message getOrderMessage(@RequestBody Message message) {
 		String requestJson = message.getMessageBody();
 		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJson);
 		String result = orderService.getOrderMessage(requestObj);
+		message.setMessageBody(result);
+		return message;
+	}
+	
+	@RequestMapping("assign")
+	@NeedTokenVerify
+	public Message update(@RequestBody Message message) {
+		String requestJson = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJson);
+		String result = orderService.assignOrder(requestObj);
+		message.setMessageBody(result);
+		return message;
+	}
+	
+	@RequestMapping("close")
+	@NeedTokenVerify
+	public Message close(@RequestBody Message message) {
+		String requestJson = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJson);
+		String result = orderService.close(requestObj);
 		message.setMessageBody(result);
 		return message;
 	}

@@ -12,6 +12,7 @@ const emailReg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Z
 const mobileReg = /^1[3|4|5|8][0-9]\d{4,8}$/;
 const passwordReg = /^([a-zA-Z]+[0-9]+[!@#$%^&*]+)|([a-zA-Z]+[!@#$%^&*]+[0-9]+)|([0-9]+[!@#$%^&*]+[a-zA-Z]+)|([0-9]+[a-zA-Z]+[!@#$%^&*]+)|([!@#$%^&*]+[a-zA-Z]+[0-9]+)|([!@#$%^&*]+[0-9]+[a-zA-Z]+)$/
 
+	
 function fileUpload(contentId,url,callback) {
     var formData = new FormData();
     var uploadFile = $("#" + contentId).prop("files")[0];

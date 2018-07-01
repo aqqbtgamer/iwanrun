@@ -429,23 +429,19 @@ public class PurchaserAccountService {
 
 	@Transactional(rollbackOn = Exception.class)
 	public String addAndModifyInfo(String dataJson) {
-		PurchaserAccount account = JSONUtils.jsonToObj(dataJson, PurchaserAccount.class);
-		String loginId = account.getLoginId();
-
+		JSONObject paramJSON = JSONUtils.jsonToObj(dataJson, JSONObject.class);
+		String loginId = paramJSON.getAsString("loginId");
 		PurchaserAccount dbAccount = dao.findByLoginId(loginId);
 		if (dbAccount == null) {
 			return "用户不存在";
 		}
-
-		String mobileNumber = account.getMobileNumber();
-		if (!StringUtils.isEmpty(mobileNumber)) {
+		String mobileNumber = paramJSON.getAsString("mobileNumber");
+		if (mobileNumber != null) {
 			if (!SMSCodeUtils.isMobileNum(mobileNumber)) {
 				return "验证手机格式不正确";
 			}
 			dbAccount.setMobileNumber(mobileNumber);
 		}
-
-		UserInfo userInfo = JSONUtils.jsonToObj(dataJson, UserInfo.class);
 		Integer loginInfoId = dbAccount.getId();
 		List<UserInfo> dbUserInfos = infoDao.findByLoginInfoId(loginInfoId);
 		UserInfo dbUserInfo = null;
@@ -455,54 +451,62 @@ public class PurchaserAccountService {
 		} else {
 			dbUserInfo = dbUserInfos.get(0);
 		}
-		if (userInfo != null) {
-			String name = userInfo.getName();
-			String question = userInfo.getQuestion();
-			String answer = userInfo.getAnswer();
-			String companyName = userInfo.getCompanyName();
-			Integer companySizeId = userInfo.getCompanySizeId();
-			Integer companyTypeId = userInfo.getCompanyTypeId();
+		String name = paramJSON.getAsString("name");
+		String question = paramJSON.getAsString("question");
+		String answer = paramJSON.getAsString("answer");
+		String companyName = paramJSON.getAsString("companyName");
+		Number companySizeId = paramJSON.getAsNumber("companySizeId");
+		Number companyTypeId = paramJSON.getAsNumber("companyTypeId");
+		if (name != null) {
+			dbUserInfo.setName(name);
+		}
+		if (question != null) {
+			dbUserInfo.setQuestion(question);
+		}
+		if (answer != null) {
+			dbUserInfo.setAnswer(answer);
+		}
+		if (companyName != null) {
+			dbUserInfo.setCompanyName(companyName);
+		}
+		if (companySizeId != null) {
+			dbUserInfo.setCompanySizeId((Integer) companySizeId);
+		}
+		if (companyTypeId != null) {
+			dbUserInfo.setCompanyTypeId((Integer) companyTypeId);
+		}
 
-			if (name != null) {
-				if (StringUtils.isEmpty(name)) {
-					return "用户昵称不能为空";
-				}
-				dbUserInfo.setName(name);
+		if (paramJSON.get("imgManage[]") != null) {
+			@SuppressWarnings("unchecked")
+			List<String> attchPaths = (List<String>) paramJSON.get("imgManage[]");
+			List<UserInfoAttachments> attchList = new ArrayList<UserInfoAttachments>();
+			for (String path : attchPaths) {
+				UserInfoAttachments attach = new UserInfoAttachments();
+				int fileNameIndex = path.lastIndexOf("/");
+				attach.setFileName(path.substring(fileNameIndex + 1));
+				attach.setFilePath(path);
+				attach.setPagePath(AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
+				attach.setUserInfoId(dbUserInfo.getId());
+				attchList.add(attach);
 			}
+			attachmentsDao.saveAll(attchList);
+		}
 
-			boolean questionBlank = StringUtils.isEmpty(question);
-			boolean answerBlank = StringUtils.isEmpty(answer);
-			if (!questionBlank) {
-				if (answerBlank) {
-					return "请设置问题答案";
-				}
-			}
-			if (!answerBlank) {
-				if (questionBlank) {
-					return "请设置问题";
-				}
-			}
-			if (!questionBlank && !questionBlank) {
-				dbUserInfo.setQuestion(question);
-				dbUserInfo.setAnswer(answer);
-			}
-
-			if (!StringUtils.isEmpty(companyName)) {
-				if (companyTypeId == null) {
-					return "请选择企业类型";
-				}
-				if (companySizeId == null) {
-					return "请选择企业规模";
-				}
-				dbUserInfo.setCompanyName(companyName);
-				dbUserInfo.setCompanyTypeId(companyTypeId);
-				dbUserInfo.setCompanySizeId(companySizeId);
-			}
+		if (paramJSON.get("headimg") != null) {
+			String path = (String) paramJSON.get("headimg");
+			List<UserInfoAttachments> attchList = new ArrayList<UserInfoAttachments>();
+			UserInfoAttachments attach = new UserInfoAttachments();
+			int fileNameIndex = path.lastIndexOf("/");
+			attach.setFileName(path.substring(fileNameIndex + 1));
+			attach.setFilePath(path);
+			attach.setPagePath(AdminApplicationConstants.USER_HEAD_IMG);
+			attach.setUserInfoId(dbUserInfo.getId());
+			attchList.add(attach);
+			attachmentsDao.saveAll(attchList);
 		}
 
 		dao.saveAndFlush(dbAccount);
 		infoDao.saveAndFlush(dbUserInfo);
-
 		return null;
 	}
 }

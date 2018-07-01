@@ -1,10 +1,16 @@
 package com.iwantrun.core.service.application.service;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -26,8 +32,13 @@ import com.iwantrun.core.service.application.domain.OrderMessage;
 import com.iwantrun.core.service.application.domain.Orders;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
 import com.iwantrun.core.service.application.domain.UserInfo;
+import com.iwantrun.core.service.application.enums.TradeStatus;
+import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
+import com.iwantrun.core.service.utils.EntityBeanUtils;
+import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
@@ -57,6 +68,8 @@ public class OrdersService {
 	
 	@Autowired  
     private Environment env;
+	
+	Logger logger = LoggerFactory.getLogger(OrdersService.class);
 	
 	public String findAll(JSONObject requestObj) {
 		String pageIndexStr = requestObj.getAsString("pageIndex");
@@ -147,6 +160,66 @@ public class OrdersService {
 		Pageable page = PageRequest.of(pageIndex, pageSize, Sort.Direction.DESC,"createTime");
 		Page<OrderMessage> orderMessageResult = orderMessageDao.findByOrderId(orderId, page);
 		return PageDataWrapUtils.page2JsonNoCopy(orderMessageResult);
+	}
+
+	public Orders simpleGet(JSONObject requestObj) {
+		Number idNum = requestObj.getAsNumber("id");
+		if(idNum != null) {
+			Integer ordersId = idNum.intValue();
+			Optional<Orders> orders = ordersDao.findById(ordersId);
+			return orders.get();
+		}else {
+			return null;
+		}
+		
+	}
+	
+
+	public String assignOrder(JSONObject requestObj) {
+		SimpleMessageBody resultBody = new SimpleMessageBody();
+		JSONArray idObj = (JSONArray) requestObj.get("id");
+		if(idObj != null && idObj.size() > 0) {
+			String idStr = idObj.get(0).toString();
+			//update item by id 
+			Integer id = Integer.parseInt(idStr);
+			Optional<Orders> ordersOp =ordersDao.findById(id);
+			if(ordersOp.isPresent()) {
+				//get all params except id 
+				Orders order = ordersOp.get();
+				if(TradeStatus.OPENED.getId() == order.getOrderStatusCode()) {
+					EntityBeanUtils.copyEntityBeanValuesFromJSON(requestObj, order);
+					order.setOrderStatusCode(TradeStatus.ASSIGNED.getId());
+					ordersDao.save(order);
+					resultBody.setSuccessful(true);
+					resultBody.setDescription("指派订单成功");
+				}else {
+					resultBody.setSuccessful(false);
+					resultBody.setDescription("只有已提交状态的订单可以指派");
+				}				
+			}else {
+				resultBody.setSuccessful(false);
+				resultBody.setDescription("未找到Update的Item");
+			}
+		}else {
+			resultBody.setSuccessful(false);
+			resultBody.setDescription("关键参数Id缺失 无法更新");
+		}
+		return JSONUtils.objToJSON(resultBody);
+	}
+
+	public String close(JSONObject requestObj) {
+		SimpleMessageBody resultBody = new SimpleMessageBody();
+		String idStr = requestObj.getAsString("id");
+		Integer id = Integer.parseInt(idStr);
+		Optional<Orders> ordersOp =ordersDao.findById(id);
+		if(ordersOp.isPresent()) {
+			Orders order = ordersOp.get();
+			order.setOrderStatusCode(TradeStatus.CLOSED.getId());
+			ordersDao.save(order);
+		}
+		resultBody.setSuccessful(true);
+		resultBody.setDescription("关闭订单成功");
+		return JSONUtils.objToJSON(resultBody);
 	}
 
 }
