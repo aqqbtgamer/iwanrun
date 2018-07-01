@@ -98,4 +98,13 @@ public class PurchaserAccountController {
 		resonse.setMessageBody(result);
 		return resonse;
 	}
+
+	@RequestMapping("findMixedByLoginId")
+	@ResponseBody
+	public Message findMixedByLoginId(HttpServletRequest request) {
+		Message resonse = new Message();
+		String result = service.findMixedByLoginId(request);
+		resonse.setMessageBody(result);
+		return resonse;
+	}
 }

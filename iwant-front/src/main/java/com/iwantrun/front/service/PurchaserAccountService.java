@@ -199,4 +199,23 @@ public class PurchaserAccountService {
 		Message response = template.postForEntity(url, message, Message.class).getBody();
 		return response.getMessageBody();
 	}
+
+	public String findMixedByLoginId(HttpServletRequest request) {
+		String loginId = CookieUtils.getCookieValue(CookieConstants.COOKIE_LOGIN_ID_KEY, request);
+		if (loginId == null) {
+			JSONObject result = new JSONObject();
+			result.put("errMsg", "请重新登录");
+			return result.toJSONString();
+		}
+		JSONObject json = new JSONObject();
+		json.put("loginId", loginId);
+		String baseUrl = environment.getProperty("app.server");
+		String findMixedByLoginIdUrl = environment.getProperty("application.purchaserAccount.findMixedByLoginId");
+		String url = baseUrl + findMixedByLoginIdUrl;
+		Message message = new Message();
+		message.setMessageBody(json.toJSONString());
+		message.setRequestMethod(url);
+		Message response = template.postForEntity(url, message, Message.class).getBody();
+		return response.getMessageBody();
+	}
 }

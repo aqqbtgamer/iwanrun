@@ -509,6 +509,27 @@ public class PurchaserAccountService {
 		infoDao.saveAndFlush(dbUserInfo);
 		return null;
 	}
+
+	public String findMixedByLoginId(String dataJSON) {
+		JSONObject paramJSON = JSONUtils.jsonToObj(dataJSON, JSONObject.class);
+		String loginId = paramJSON.getAsString("loginId");
+		if (!StringUtils.isEmpty(loginId)) {
+			List<MixedUserResponse> mixedUserResponses = dao.findByMutipleParams(loginId, null, null, null, jpqlExecute,
+					1, 0);
+			if (CollectionUtils.isNotEmpty(mixedUserResponses)) {
+				MixedUserResponse response = mixedUserResponses.get(0);
+				Integer userInfoId = response.getUserInfo().getId();
+				List<UserInfoAttachments> companyCredentials = attachmentsDao.findByUserInfoIdAndPagePath(userInfoId,
+						AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
+				List<UserInfoAttachments> headImgs = attachmentsDao.findByUserInfoIdAndPagePath(userInfoId,
+						AdminApplicationConstants.USER_HEAD_IMG);
+				response.setCompanyCredentials(companyCredentials);
+				response.setHeadImgs(headImgs);
+				return JSONUtils.objToJSON(response);
+			}
+		}
+		return null;
+	}
 }
 
 
