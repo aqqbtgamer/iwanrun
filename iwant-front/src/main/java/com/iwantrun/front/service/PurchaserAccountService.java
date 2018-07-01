@@ -109,16 +109,28 @@ public class PurchaserAccountService {
 	 */
 	public String validateSMSCodeParam(HttpServletRequest request, PurchaserAccountRequest purchaser) {
 		PurchaserAccount account = purchaser.getAccount();
-		String loginId = account.getLoginId();
-		if (StringUtils.isEmpty(loginId)) {
+		String mobileNumber = account.getMobileNumber();
+		String smsCode = purchaser.getSmsCode();
+		return validateSMSCodeParam(mobileNumber, smsCode, request);
+	}
+
+	/**
+	 * 短信验证码校验
+	 * 
+	 * @param mobileNumber
+	 * @param smsCode
+	 * @param request
+	 * @return
+	 */
+	public String validateSMSCodeParam(String mobileNumber, String smsCode, HttpServletRequest request) {
+		if (StringUtils.isEmpty(mobileNumber)) {
 			return "请输入账号";
 		}
-		String smsCode = purchaser.getSmsCode();
 		if (StringUtils.isEmpty(smsCode)) {
 			return "请输入短信验证码";
 		}
 
-		String encryptedSMSCode = CookieUtils.getCookieValue(SMSCodeUtils.COOKIE_ENCRYPTED_SMS_CODE_KEY + loginId,
+		String encryptedSMSCode = CookieUtils.getCookieValue(SMSCodeUtils.COOKIE_ENCRYPTED_SMS_CODE_KEY + mobileNumber,
 				request);
 
 		if (StringUtils.isEmpty(encryptedSMSCode)) {
@@ -153,25 +165,38 @@ public class PurchaserAccountService {
 		}
 	}
 
-	public Message addAndModifyInfo(String param, HttpServletRequest request) {
-		if (!StringUtils.isEmpty(param)) {
-
-			String addAndModifyInfoUrl = environment.getProperty("application.purchaserAccount.addAndModifyInfo");
-			String baseUrl = environment.getProperty("app.server");
-			String url = baseUrl + addAndModifyInfoUrl;
-
-			JSONObject json = JSONUtils.jsonToObj(param, JSONObject.class);
-			String loginId = CookieUtils.getCookieValue(CookieConstants.COOKIE_LOGIN_ID_KEY, request);
-			json.put("loginId", loginId);
-
-			Message message = new Message();
-			message.setMessageBody(json.toJSONString());
-			message.setRequestMethod(url);
-
-			Message result = template.postForEntity(url, message, Message.class).getBody();
-
-			return result;
+	/**
+	 * 采购用户-用户个人信息-增加和修改
+	 * 
+	 * @param param
+	 * @param request
+	 * @return
+	 */
+	public String addAndModifyInfo(String param, HttpServletRequest request) {
+		if (StringUtils.isEmpty(param)) {
+			return "请求参数不能为空";
 		}
-		return null;
+
+		String loginId = CookieUtils.getCookieValue(CookieConstants.COOKIE_LOGIN_ID_KEY, request);
+		if (loginId == null) {
+			return "请重新登录";
+		}
+
+		JSONObject json = JSONUtils.jsonToObj(param, JSONObject.class);
+		String mobileNumber = json.getAsString("mobileNumber");
+		String smsCode = json.getAsString("smsCode");
+		if (mobileNumber != null && smsCode != null) {
+			return validateSMSCodeParam(mobileNumber, smsCode, request);
+		}
+
+		json.put("loginId", loginId);
+		String addAndModifyInfoUrl = environment.getProperty("application.purchaserAccount.addAndModifyInfo");
+		String baseUrl = environment.getProperty("app.server");
+		String url = baseUrl + addAndModifyInfoUrl;
+		Message message = new Message();
+		message.setMessageBody(json.toJSONString());
+		message.setRequestMethod(url);
+		Message response = template.postForEntity(url, message, Message.class).getBody();
+		return response.getMessageBody();
 	}
 }

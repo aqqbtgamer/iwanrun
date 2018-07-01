@@ -38,4 +38,14 @@ public class PurchaserAccountServiceTest {
 		account.setPassword("a123123");
 		service.modifyPwd(account);
 	}
+
+	@Test
+	public void findOne() throws Exception {
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("pageIndex", 0);
+		jsonObj.put("loginId", "13167126686");
+		String result = service.findPurchaseUserPaged(jsonObj);
+		assertNotNull(result);
+		System.out.println(result);
+	}
 }

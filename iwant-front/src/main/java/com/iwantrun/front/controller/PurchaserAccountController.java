@@ -84,12 +84,18 @@ public class PurchaserAccountController {
 	}
 
 	/**
-	 * 采购用户-用户信息-增加和修改
+	 * 采购用户-用户个人信息-增加和修改
 	 * 
 	 * @param request
+	 * @param param
 	 * @return
 	 */
+	@RequestMapping("/addAndModifyInfo")
+	@ResponseBody
 	public Message addAndModifyInfo(HttpServletRequest request, @RequestBody String param) {
-		return service.addAndModifyInfo(param, request);
+		Message resonse = new Message();
+		String result = service.addAndModifyInfo(param, request);
+		resonse.setMessageBody(result);
+		return resonse;
 	}
 }

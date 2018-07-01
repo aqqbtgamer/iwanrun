@@ -46,6 +46,11 @@ public interface PurchaserAccountDao extends JpaRepository<PurchaserAccount, Int
 		return resultList;
 	}
 	
+	default MixedUserResponse findMixedByLoginId(String loginId, JPQLEnableRepository repository) {
+		String jpql = "";
+		return repository.findOneJPQL(jpql, MixedUserResponse.class);
+	}
+
 	default Long countByMutipleParams(String loginId ,String name,Integer role,String mobileNumber,JPQLEnableRepository repository) {
 		String queryJPQL = COUNT_PURCHASE_USER_JPQL ;
 		if(!StringUtils.isNullOrEmpty(loginId)) {
