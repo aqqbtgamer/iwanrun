@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import com.iwantrun.front.constants.CookieConstants;
+
 /**
  * @author user
  */
@@ -59,4 +61,7 @@ public class CookieUtils {
 		logger.info("写入cookie结束--key为{}--value为{}", key, value);
 	}
 
+	public static String getLoginToken(HttpServletRequest request) {
+		return getCookieValue(CookieConstants.COOKIE_ACCESS_TOKEN_KEY, request);
+	}
 }

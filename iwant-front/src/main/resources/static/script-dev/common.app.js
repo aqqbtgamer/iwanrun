@@ -20,6 +20,19 @@ var $http = {
 var pathnames = location.pathname.split('/');
 var baseUrl = location.origin + "/" + pathnames[1] + "/";
 
+Array.prototype.remove=function(dx) 
+{ 
+  if(isNaN(dx)||dx>this.length){return false;} 
+  for(var i=0,n=0;i<this.length;i++) 
+  { 
+    if(this[i]!=this[dx]) 
+    { 
+      this[n++]=this[i] 
+    } 
+  } 
+  this.length-=1 
+}
+
 jQuery(document).ready(function(){
 	if(jQuery.cookie('accessToken')){
 		//检查token
@@ -240,17 +253,20 @@ function loginBack(data) {
 	}
 }
 
-function loginSuccess(){
+function loginSuccess() {
 	var $ = jQuery;
-	
+
 	var loginId = lrApp.account.loginId;
-	if(!loginId){
+	if (!loginId) {
 		loginId = $.cookie('loginId');
 	}
-	//$.cookie('accessToken', accessToken);
+	// $.cookie('accessToken', accessToken);
 	lrApp.account = {};
 	lrApp.loginWindow = false;
-	showLoginId(loginId);	
+	
+	// 其他页面登录时需要写的方法，里面的appIndex替换成当前页面的Vue实例
+	showLoginId(loginId);
+	
 	showErrMsg('登录成功');
 }
 

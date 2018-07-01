@@ -234,3 +234,53 @@ img {
 .username-input .user-input select {
     height: 40px;
 }
+
+.msg-show-button {
+	width: 30%;
+	background: #818181;
+	height: 100%;
+	border-radius: 0.42vw;
+	outline: none;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px solid #979797;
+	color: #FFFFFF;
+	font-family: PingFangSC-Regular, sans-serif;
+	font-size: 2.08vw;
+	font-weight: bold;
+}
+
+.msg-show-button:hover {
+	cursor: pointer;
+	background: #727272;
+}
+.msg-pannel {
+	width: 26vw;
+    height: 13vw;
+    left: 46vw;
+    top: 40%;
+    text-align: center;
+    border: 1.6px solid rgb(151, 151, 151);
+    z-index: 100;
+    position: fixed;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+}
+.msg-close-pannel {
+	margin-right: 0.33vw;
+    margin-top: 0.1vw;
+    text-align: right;
+    color:#979797;
+}
+.msg-close-pannel:hover {
+	cursor: pointer;
+	color: #727272;
+}
+.msg-text-pannel {
+	margin-top: 5.8%; 
+	color: red; 
+	font-size: 1.01rem;
+}
+.msg-btn-pannel {
+	margin-top: 3.9%;
+}

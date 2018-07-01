@@ -380,11 +380,12 @@ var appIndex = new Vue(
 				}
 			}
 		});
-//其他页面登录时需要写的方法，里面的appIndex替换成当前页面的Vue实例
+
 function showLoginId(loginId){
-	appIndex.mask = false;
-	appIndex.loginId = loginId;
-	appIndex.loginIdUl = true;
-	appIndex.loginBtnUl = false;
+	var vm = appIndex;
+	vm.mask = false;
+	vm.loginId = loginId;
+	vm.loginIdUl = true;
+	vm.loginBtnUl = false;
 }
 console.log("Vue 脚本绑定渲染完成..............");
