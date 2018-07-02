@@ -71,7 +71,7 @@ public class ListUpdateUtils {
 			for(T t : tList) {
 				for(int i = 0; i< propertyNames.length ; i++) {
 					try {
-						PropertyUtils.setSimpleProperty(t, propertyNames[i], supliers[i].get());
+						PropertyUtils.setProperty(t, propertyNames[i], supliers[i].get());
 					} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 						logger.error("copy property的时候出错  具体参考statck ",e );
 					}

@@ -36,7 +36,7 @@ public class LocationTags {
 		this.id = id;
 	}
 
-	public int getLocationId() {
+	public Integer getLocationId() {
 		return locationId;
 	}
 
@@ -44,7 +44,7 @@ public class LocationTags {
 		this.locationId = locationId;
 	}
 
-	public int getTagsType() {
+	public Integer getTagsType() {
 		return tagsType;
 	}
 
@@ -52,13 +52,18 @@ public class LocationTags {
 		this.tagsType = tagsType;
 	}
 
-	public int getTagsCode() {
+	public Integer getTagsCode() {
 		return tagsCode;
 	}
 
 	public void setTagsCode(Integer tagsCode) {
 		this.tagsCode = tagsCode;
 	}
+
+	
+	
+	
+
 	
 	
 
