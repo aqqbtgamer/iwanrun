@@ -256,4 +256,14 @@ public class PurchaserAccountController {
 		message.setMessageBody(result);
 		return message;
 	}
+
+	@RequestMapping("findMixedByLoginId")
+	@ResponseBody
+	@NeedTokenVerify
+	public Message findMixedByLoginId(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		String result = service.findMixedByLoginId(dataJson);
+		message.setMessageBody(result);
+		return message;
+	}
 }

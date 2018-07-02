@@ -41,7 +41,7 @@ var appMyAccount = new Vue(
         },
         methods: {
         	initData: function(){
-        		
+        		$http.post(baseUrl + 'purchaserAccount/findMixedByLoginId', null, initDataBack);
         	},
             showLogin: function (message) {
                 console.log("v-on  click method :showLogin");
@@ -152,7 +152,9 @@ var appMyAccount = new Vue(
 				var data=null;
 				if(flag==0){
 					var nickname = vm.account.nickname;
-					data ={"name":nickname};
+					if(nickname){
+						data ={"name":nickname};
+					}
 				}
 				if(flag==1){
 					var smsCode = vm.account.smsCode;
@@ -167,20 +169,26 @@ var appMyAccount = new Vue(
 						console.log(msg);
 						return;
 					}
-					data={"mobileNumber":mobile,"smsCode":smsCode};
+					if(mobile&&smsCode){
+						data={"mobileNumber":mobile,"smsCode":smsCode};
+					}
 				}
 				if(flag==2){
 					var question=vm.account.securityanswer.question;
 					var answer=vm.account.securityanswer.answer;
-					data={"question":question,"answer":answer};
+					if(question&&answer){
+						data={"question":question,"answer":answer};
+					}
 				}
 				if(flag==3){
 					var companyName=vm.account.company.companyName;
 					var companySizeId=vm.account.company.companySizeId;
 					var companyTypeId=vm.account.company.companyTypeId;
-					data={"companyName":companyName,"companySizeId":companySizeId,"companyTypeId":companyTypeId};
+					if(companyName&&companySizeId&&companyTypeId){
+						data={"companyName":companyName,"companySizeId":companySizeId,"companyTypeId":companyTypeId};
+					}
 				}
-				if(data!=null){
+				if(data){
 					var dataJSON=JSON.stringify(data);
 					setUserInfo(dataJSON);
 				}
@@ -262,6 +270,37 @@ function setUserInfoBack(data){
 		vm.initData();
 	}else{
 		vm.closeSetting();
+	}
+}
+function initDataBack(data){
+	var resultJSON=result.messageBody;
+	if(resultJSON){
+		if(resultJSON.errMsg){
+			showMsg(resultJSON.errMsg);
+			return;
+		}
+		var info=resultJSON.userInfo;
+		var headImgs=resultJSON.headImgs; 
+		var companyCredentials=resultJSON.companyCredentials; 
+		var loginInfo = resultJSON.loginInfo;
+		if(info){
+			var vm = appMyAccount;
+			if(headImgs && headImgs.length >0){
+				vm.account.headimg=headImgs[0];
+			}
+			vm.account.nickname=info.name;
+			if(loginInfo){
+				vm.account.phone=loginInfo.mobileNumber;
+			}
+			vm.account.securityanswer.question=info.question;
+			vm.account.securityanswer.answer=info.answer;
+			vm.account.company.name=info.companyName;
+			if(companyCredentials){
+				vm.account.company.licenses=companyCredentials;
+			}
+			vm.account.company.type=info.companyTypeId;
+			vm.account.company.personNum=info.companySizeId;
+		}
 	}
 }
 
