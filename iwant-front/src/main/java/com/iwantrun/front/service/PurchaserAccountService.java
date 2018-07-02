@@ -16,6 +16,7 @@ import com.iwantrun.front.transfer.PurchaserAccountRequest;
 import com.iwantrun.front.utils.AESUtils;
 import com.iwantrun.front.utils.CookieUtils;
 import com.iwantrun.front.utils.JSONUtils;
+import com.iwantrun.front.utils.LoginTokenUtils;
 import com.iwantrun.front.utils.SMSCodeUtils;
 
 import net.minidev.json.JSONObject;
@@ -177,8 +178,8 @@ public class PurchaserAccountService {
 			return "请求参数不能为空";
 		}
 
-		String loginId = CookieUtils.getCookieValue(CookieConstants.COOKIE_LOGIN_ID_KEY, request);
-		if (loginId == null) {
+		boolean hasLogin = LoginTokenUtils.verifyLoginToken(request);
+		if (!hasLogin) {
 			return "请重新登录";
 		}
 
@@ -189,7 +190,8 @@ public class PurchaserAccountService {
 			return validateSMSCodeParam(mobileNumber, smsCode, request);
 		}
 
-		json.put("loginId", loginId);
+		json.put("loginId", LoginTokenUtils.getLoginId(request));
+
 		String addAndModifyInfoUrl = environment.getProperty("application.purchaserAccount.addAndModifyInfo");
 		String baseUrl = environment.getProperty("app.server");
 		String url = baseUrl + addAndModifyInfoUrl;
@@ -201,14 +203,16 @@ public class PurchaserAccountService {
 	}
 
 	public String findMixedByLoginId(HttpServletRequest request) {
-		String loginId = CookieUtils.getCookieValue(CookieConstants.COOKIE_LOGIN_ID_KEY, request);
-		if (loginId == null) {
+
+		boolean hasLogin = LoginTokenUtils.verifyLoginToken(request);
+		if (!hasLogin) {
 			JSONObject result = new JSONObject();
 			result.put("errMsg", "请重新登录");
 			return result.toJSONString();
 		}
+
 		JSONObject json = new JSONObject();
-		json.put("loginId", loginId);
+		json.put("loginId", LoginTokenUtils.getLoginId(request));
 		String baseUrl = environment.getProperty("app.server");
 		String findMixedByLoginIdUrl = environment.getProperty("application.purchaserAccount.findMixedByLoginId");
 		String url = baseUrl + findMixedByLoginIdUrl;

@@ -39,10 +39,10 @@ var appMyAccount = new Vue(
             settingTitle: '昵称',
             settingFlag: 0 //0:nickname;1:phone;2:securityanswer
         },
+        created: function(){
+        	initData();
+        },
         methods: {
-        	initData: function(){
-        		$http.post(baseUrl + 'purchaserAccount/findMixedByLoginId', null, initDataBack);
-        	},
             showLogin: function (message) {
                 console.log("v-on  click method :showLogin");
                 lrApp.showLogin(message);
@@ -198,11 +198,10 @@ var appMyAccount = new Vue(
 );
 console.log("Vue 脚本绑定渲染完成..............");
 
-/* 
-* 方法:Array.remove(dx) 通过遍历,重构数组 
-* 功能:删除数组元素. 
-* 参数:dx删除元素的下标. 
-*/
+function initData() {
+	$http.post(baseUrl + 'purchaserAccount/findMixedByLoginId', null, initDataBack);
+}
+
 function fileUpload(contentId, url, callback, uploadFile) {
 	var formData = new FormData();
 	formData.append('fileUpload', uploadFile);
@@ -272,34 +271,34 @@ function setUserInfoBack(data){
 		vm.closeSetting();
 	}
 }
-function initDataBack(data){
-	var resultJSON=result.messageBody;
-	if(resultJSON){
-		if(resultJSON.errMsg){
-			showMsg(resultJSON.errMsg);
+
+function initDataBack(data) {
+	if (data) {
+		if (data.errMsg) {
+			showMsg(data.errMsg);
 			return;
 		}
-		var info=resultJSON.userInfo;
-		var headImgs=resultJSON.headImgs; 
-		var companyCredentials=resultJSON.companyCredentials; 
-		var loginInfo = resultJSON.loginInfo;
-		if(info){
+		var info = data.userInfo;
+		var headImgs = data.headImgs;
+		var companyCredentials = data.companyCredentials;
+		var loginInfo = data.loginInfo;
+		if (info) {
 			var vm = appMyAccount;
-			if(headImgs && headImgs.length >0){
-				vm.account.headimg=headImgs[0];
+			if (headImgs && headImgs.length > 0) {
+				vm.account.headimg = headImgs[0];
 			}
-			vm.account.nickname=info.name;
-			if(loginInfo){
-				vm.account.phone=loginInfo.mobileNumber;
+			vm.account.nickname = info.name;
+			if (loginInfo) {
+				vm.account.phone = loginInfo.mobileNumber;
 			}
-			vm.account.securityanswer.question=info.question;
-			vm.account.securityanswer.answer=info.answer;
-			vm.account.company.name=info.companyName;
-			if(companyCredentials){
-				vm.account.company.licenses=companyCredentials;
+			vm.account.securityanswer.question = info.question;
+			vm.account.securityanswer.answer = info.answer;
+			vm.account.company.name = info.companyName;
+			if (companyCredentials) {
+				vm.account.company.licenses = companyCredentials;
 			}
-			vm.account.company.type=info.companyTypeId;
-			vm.account.company.personNum=info.companySizeId;
+			vm.account.company.type = info.companyTypeId;
+			vm.account.company.personNum = info.companySizeId;
 		}
 	}
 }
@@ -316,4 +315,6 @@ function showLoginId(loginId){
 	vm.loginId = loginId;
 	vm.loginIdUl = true;
 	vm.loginBtnUl = false;
+	
+	initData();
 }

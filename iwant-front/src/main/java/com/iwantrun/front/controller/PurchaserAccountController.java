@@ -101,10 +101,7 @@ public class PurchaserAccountController {
 
 	@RequestMapping("findMixedByLoginId")
 	@ResponseBody
-	public Message findMixedByLoginId(HttpServletRequest request) {
-		Message resonse = new Message();
-		String result = service.findMixedByLoginId(request);
-		resonse.setMessageBody(result);
-		return resonse;
+	public String findMixedByLoginId(HttpServletRequest request) {
+		return service.findMixedByLoginId(request);
 	}
 }

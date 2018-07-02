@@ -20,6 +20,10 @@ var $http = {
 var pathnames = location.pathname.split('/');
 var baseUrl = location.origin + "/" + pathnames[1] + "/";
 
+/**
+ *  方法:Array.remove(dx) 通过遍历,重构数组 
+ *  功能:删除数组元素. 参数:dx删除元素的下标. 
+ */
 Array.prototype.remove=function(dx) 
 { 
   if(isNaN(dx)||dx>this.length){return false;} 
