@@ -16,13 +16,13 @@ public class CaseTags {
 	private int id ;
 	
 	@Column(name="case_id",nullable=false)
-	private int caseId ;
+	private Integer caseId ;
 	
 	@Column(name="tags_type")
-	private int tagsType ;
+	private Integer tagsType ;
 	
 	@Column(name="tags_code")
-	private int tagsCode ;
+	private Integer tagsCode ;
 
 	public int getId() {
 		return id;
@@ -31,30 +31,30 @@ public class CaseTags {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getCaseId() {
+
+	public Integer getCaseId() {
 		return caseId;
 	}
 
-	public void setCaseId(int caseId) {
+	public void setCaseId(Integer caseId) {
 		this.caseId = caseId;
 	}
 
-	public int getTagsType() {
+	public Integer getTagsType() {
 		return tagsType;
 	}
 
-	public void setTagsType(int tagsType) {
+	public void setTagsType(Integer tagsType) {
 		this.tagsType = tagsType;
 	}
 
-	public int getTagsCode() {
+	public Integer getTagsCode() {
 		return tagsCode;
 	}
 
-	public void setTagsCode(int tagsCode) {
+	public void setTagsCode(Integer tagsCode) {
 		this.tagsCode = tagsCode;
 	}
-	
 	
 
 }

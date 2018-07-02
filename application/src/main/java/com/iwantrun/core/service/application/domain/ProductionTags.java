@@ -32,7 +32,7 @@ public class ProductionTags {
 		this.id = id;
 	}
 
-	public int getProductionId() {
+	public Integer getProductionId() {
 		return productionId;
 	}
 
@@ -40,7 +40,7 @@ public class ProductionTags {
 		this.productionId = productionId;
 	}
 
-	public int getTagsType() {
+	public Integer getTagsType() {
 		return tagsType;
 	}
 
@@ -48,14 +48,14 @@ public class ProductionTags {
 		this.tagsType = tagsType;
 	}
 
-	public int getTagsCode() {
+	public Integer getTagsCode() {
 		return tagsCode;
 	}
 
 	public void setTagsCode(Integer tagsCode) {
 		this.tagsCode = tagsCode;
 	}
-	
+
 	
 
 }
