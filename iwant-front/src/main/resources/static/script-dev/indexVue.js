@@ -273,7 +273,7 @@ var appIndex = new Vue(
 				bannerList : [ 'img/banner/banner1.png' ],
 				loginId : '18018336171',
 				loginBtnUl : true,
-				loginIdUl : false,
+                loginIdUl: false,
 				productIndexList : [ {
 					id : 1,
 					img : 'img/normalpd1.png',
@@ -377,7 +377,7 @@ var appIndex = new Vue(
 				toOrderSubmit : function() {
 					var vm = this;
 					window.location.href = "html/iwantrun/ordersubmit.html"
-				}
+                }
 			}
 		});
 
@@ -387,5 +387,12 @@ function showLoginId(loginId){
 	vm.loginId = loginId;
 	vm.loginIdUl = true;
 	vm.loginBtnUl = false;
+}
+
+function clearLoginId() {
+    var vm = appIndex;
+    vm.loginId = false;
+    vm.loginIdUl = false;
+    vm.loginBtnUl = true;
 }
 console.log("Vue 脚本绑定渲染完成..............");

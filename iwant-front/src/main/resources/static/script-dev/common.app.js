@@ -264,7 +264,7 @@ var lrApp=new Vue({
 		changeMessageLogin : function() {
 			var vm = this;
 			vm.messageLogin = !vm.messageLogin;
-		}
+        }
 	}
 
 })
@@ -480,4 +480,14 @@ function getSMSCodeBack(data) {
 	} else {
 		showErrMsg('短信获取失败，请重新获取');
 	}
+}
+
+function logout() {
+    $.cookie('accessToken', null);
+    $.cookie('loginId', null);
+
+    lrApp.account = {};
+
+    //当前页 账号信息清理 TODO
+    clearLoginId && typeof (clearLoginId) === 'function' && clearLoginId();
 }

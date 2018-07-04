@@ -43,7 +43,8 @@
                             <li class="li-right"><a href="#" @click="showLogin(0)">用户登录</a></li>
                         </ul>
                         <ul v-if="loginIdUl">
-                            <li class="li-right"><a href="#">欢迎您：{{loginId}}</a></li>
+                            <li class="li-right" style="margin-left: 0.5vw;"><a href="javascript:void(0);" onclick="logout()">退出</a></li>
+                            <li class="li-right" style="margin-left: 0.5vw;"><a href="#">欢迎您：{{loginId}}</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -251,17 +252,19 @@
                         <i class="iconfont-user3 icon-gouxuan1" @click="changeAutoLogin" v-else></i>
                     </div>
                     <div class="exttra-message-right">
-                        <p>自动登陆</p>
+                        <p>自动登录</p>
                     </div>
                     <div class="exttra-message-left" style="padding-left:15px;">
                         <i class="iconfont-user3 icon-gouxuan " @click="changeMessageLogin" v-if="messageLogin"></i>
                         <i class="iconfont-user3 icon-gouxuan1" @click="changeMessageLogin" v-else></i>
                     </div>
                     <div class="exttra-message-right">
-                        <p>短信快捷登陆</p>
+                        <p>短信快捷登录</p>
                     </div>
                     <div class="exttra-message-right" style="padding-left:30px;">
-                        <a @click="showRegister" class="cursor-link">注册</a>|<a @click="showForget" class="cursor-link">忘记密码</a>
+                        <a v-show="!counselor" @click="showRegister" class="cursor-link">注册</a>
+                        <span v-show="!counselor">|</span>
+                        <a @click="showForget" class="cursor-link">忘记密码</a>
                     </div>
                 </div>
                 <div id="login-button" class="login-button">
@@ -269,7 +272,7 @@
                 </div>
                 <div id="join-account-login" class="join-account-login">
                     <div id="join-account-left" class="join-account-left">
-                        <p>其他账号登陆</p>
+                        <p>其他账号登录</p>
                     </div>
                     <div class="join-account-right">
                         <i class="iconfont icon-facebookfacebook52 clickIcon"></i>
