@@ -111,7 +111,7 @@ var appIndex = new Vue(
             	})
             	
             },
-            queryLocationByCondition(pageIndex){
+            queryLocationByCondition:function(pageIndex){
             	var vm = this;
             	var url="../../location/querylocationByCondition";
             	vm.indexClick=pageIndex;

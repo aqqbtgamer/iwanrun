@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../css/iconfont.css">
     <link rel="stylesheet" href="../../css/listcase.css">
     <script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="application/javascript" src="../../script/bluebird.min.js"></script>
     <script type="application/javascript" src="../../script/vue.min.js"></script>
     <script type="application/javascript" src="../../script/axios.min.js"></script>
     <title>我要跑-搜索产品列表</title>
@@ -220,7 +221,7 @@
                 	<template  v-for="index in numberPages">
 	                    <li  :class="{active:index==indexClick}" @click="queryProdutionByCondition(index)"><a href="#" >{{index}}</a></li>
                     </template>
-                     <li @click="nextPageClick"><a href="#" >&#62</a></li>
+                     <li @click="nextPageClick"><a href="#" >&#62;</a></li>
                 </ul>
         	</div>
             <div class="common-tail-bg">
