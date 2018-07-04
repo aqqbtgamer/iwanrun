@@ -117,7 +117,7 @@ var appListProduction = new Vue(
             	})
             	
             },
-            queryProdutionByCondition(pageIndex){
+            queryProdutionByCondition:function(pageIndex){
             	var vm = this;
             	var url="../../production/queryProdutionByCondition";
             	vm.indexClick=pageIndex;

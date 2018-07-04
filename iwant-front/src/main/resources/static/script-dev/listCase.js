@@ -106,7 +106,7 @@ var appListCase = new Vue(
                 vm.queryCaseByCondition("1");
                 
             },
-            queryCaseByCondition(pageIndex){
+            queryCaseByCondition:function(pageIndex){
             	var vm = this;
             	var url="../../case/queryCaseByCondition";
             	vm.indexClick=pageIndex;
