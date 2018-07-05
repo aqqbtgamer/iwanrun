@@ -1,3 +1,4 @@
+const dictionaryQueryUrl = "../../dictionary/queryListByField"
 var $http = {
 	post : function(url, data, callback, dataType){
 		

@@ -1,9 +1,7 @@
 package com.iwantrun.core.service.application.domain;
 
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Test;
 
