@@ -168,6 +168,15 @@ public class PurchaserAccountController {
 		return message;
 	}
 	
+	@RequestMapping("findByLoginId")
+	@ResponseBody
+	public Message findByLoginId(@RequestBody Message message) {
+		String requestJSON = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJSON);
+		message.setMessageBody(service.findByLoginId(requestObj));
+		return message;
+	}
+
 	@RequestMapping("findByExample")
 	@ResponseBody
 	public Message findByExample(@RequestBody Message message){

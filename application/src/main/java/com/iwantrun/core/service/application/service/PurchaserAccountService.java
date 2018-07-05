@@ -530,6 +530,14 @@ public class PurchaserAccountService {
 		}
 		return null;
 	}
+
+	public String findByLoginId(JSONObject requestObj) {
+		if (requestObj == null || StringUtils.isEmpty(requestObj.getAsString("loginId"))) {
+			return null;
+		}
+		PurchaserAccount dbAccount = dao.findByLoginId(requestObj.getAsString("loginId"));
+		return JSONUtils.objToJSON(dbAccount);
+	}
 }
 
 

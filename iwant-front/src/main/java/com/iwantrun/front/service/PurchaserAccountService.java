@@ -110,9 +110,29 @@ public class PurchaserAccountService {
 	 */
 	public String validateSMSCodeParam(HttpServletRequest request, PurchaserAccountRequest purchaser) {
 		PurchaserAccount account = purchaser.getAccount();
-		String mobileNumber = account.getMobileNumber();
+
+		String dbAccountJSON = findByLoginId(account.getLoginId());
+		if (StringUtils.isEmpty(dbAccountJSON)) {
+			return "账号不存在";
+		}
+
+		PurchaserAccount dbAccount = JSONUtils.jsonToObj(dbAccountJSON, PurchaserAccount.class);
+		String mobileNumber = dbAccount.getMobileNumber();
 		String smsCode = purchaser.getSmsCode();
 		return validateSMSCodeParam(mobileNumber, smsCode, request);
+	}
+
+	public String findByLoginId(String loginId) {
+		JSONObject json = new JSONObject();
+		json.put("loginId", loginId);
+		String baseUrl = environment.getProperty("app.server");
+		String findByLoginIdUrl = environment.getProperty("application.purchaserAccount.findByLoginId");
+		String url = baseUrl + findByLoginIdUrl;
+		Message message = new Message();
+		message.setMessageBody(json.toJSONString());
+		message.setRequestMethod(url);
+		Message response = template.postForEntity(url, message, Message.class).getBody();
+		return response.getMessageBody();
 	}
 
 	/**
@@ -125,7 +145,7 @@ public class PurchaserAccountService {
 	 */
 	public String validateSMSCodeParam(String mobileNumber, String smsCode, HttpServletRequest request) {
 		if (StringUtils.isEmpty(mobileNumber)) {
-			return "请输入账号";
+			return "验证手机号未设置，请在个人中心设置";
 		}
 		if (StringUtils.isEmpty(smsCode)) {
 			return "请输入短信验证码";
@@ -203,7 +223,6 @@ public class PurchaserAccountService {
 	}
 
 	public String findMixedByLoginId(HttpServletRequest request) {
-
 		boolean hasLogin = LoginTokenUtils.verifyLoginToken(request);
 		if (!hasLogin) {
 			JSONObject result = new JSONObject();
@@ -211,8 +230,14 @@ public class PurchaserAccountService {
 			return result.toJSONString();
 		}
 
+		String loginId = LoginTokenUtils.getLoginId(request);
+
+		return findMixedByLoginId(loginId);
+	}
+
+	public String findMixedByLoginId(String loginId) {
 		JSONObject json = new JSONObject();
-		json.put("loginId", LoginTokenUtils.getLoginId(request));
+		json.put("loginId", loginId);
 		String baseUrl = environment.getProperty("app.server");
 		String findMixedByLoginIdUrl = environment.getProperty("application.purchaserAccount.findMixedByLoginId");
 		String url = baseUrl + findMixedByLoginIdUrl;
