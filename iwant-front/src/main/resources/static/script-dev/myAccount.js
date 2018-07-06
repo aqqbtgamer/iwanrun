@@ -43,6 +43,9 @@ var appMyAccount = new Vue(
         	initData();
         },
         methods: {
+        	companySizeSelected: function($event){
+        		
+        	},
             showLogin: function (message) {
                 console.log("v-on  click method :showLogin");
                 lrApp.showLogin(message);
@@ -266,7 +269,7 @@ function setUserInfoBack(data){
 	var vm = appMyAccount;
 	if(data){
 		showMsg(data);
-		vm.initData();
+		initData();
 	}else{
 		vm.closeSetting();
 	}
