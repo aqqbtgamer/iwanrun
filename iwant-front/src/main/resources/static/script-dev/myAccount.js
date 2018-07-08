@@ -27,12 +27,20 @@ var appMyAccount = new Vue(
                     answer: ''
                 },
                 company: {
+                	types:{0:'', 1:'国企', 2:'民营', 3:'外企'},
+                	personNums:{0:'', 1:'1~10人', 2:'10~50人', 3:'50人以上'},
+                	typeSelected: new Array(4),
+                	sizeSelected: new Array(4),
                     name: '',
                     license: '../../img/accountImage.png',
                     licenses:[],
                     licenseShow:'',
+                    licenseShowIndex:-1,
                     type: '',
-                    personNum: 100
+                    personNum: 100,
+                    companyTypeId: 0,
+                    companySizeId: 0,
+                    hasCredential: false
                 }
             },
             setting: false,
@@ -43,7 +51,7 @@ var appMyAccount = new Vue(
         	initData();
         },
         methods: {
-        	companySizeSelected: function($event){
+        	sizeSelected: function($event){
         		
         	},
             showLogin: function (message) {
@@ -53,6 +61,10 @@ var appMyAccount = new Vue(
             uploadimg: function ($event) {
                 var vm = this, $file = $($event.target).siblings('input:file');
                 $file.trigger('click');
+                
+                if(vm.account.company.licenses.length>0){
+            		vm.account.company.hasCredential = true;
+            	}
             },
             /*fileUpload: function ($event) {
                 var vm = this, files = $event.target.files;
@@ -60,16 +72,25 @@ var appMyAccount = new Vue(
             },*/
             deleteimg:function(){
             	var vm = this;
-            	var licenseShow = vm.account.company.licenseShow;
+            	/*var licenseShow = vm.account.company.licenseShow;
             	var licenses = vm.account.company.licenses;
-            	var index = licenses.indexOf(licenseShow);
+            	var index = licenses.indexOf(licenseShow);*/
+            	var company = vm.account.company;
+				var licenses = company.licenses;
+				var index = company.licenseShowIndex;
             	if(index>0){
             		vm.preCompanyCredential();
+            		licenses.remove(index);
             	}else if(index==0){
-            		vm.account.company.licenseShow='';
+            		if(licenses.length>0){
+            			company.licenseShow=licenses[index+1];
+            			licenses.remove(index);
+            		}
             		$("#companyCredentialUploadEle").val('');
             	}
-            	licenses.remove(index);
+            	if(licenses.length==0){
+            		vm.account.company.hasCredential = false;
+            	}
             },
             companyCredentialUpload: function ($event) {
                 var vm = this, files = $event.target.files;
@@ -86,24 +107,24 @@ var appMyAccount = new Vue(
             },
             preCompanyCredential:function(){
             	var vm = this;
-            	var licenseShow = vm.account.company.licenseShow;
-            	var licenses = vm.account.company.licenses;
-            	var index = licenses.indexOf(licenseShow);
-            	--index;
-            	if(index >= 0){
-            		vm.account.company.licenseShow=vm.account.company.licenses[index];
-            	}
+            	var company = vm.account.company; 
+				var licenses = company.licenses;
+				var index = company.licenseShowIndex;
+				if (index >= 1) {
+					company.licenseShowIndex = --index;
+					company.licenseShow = company.licenses[index];
+				}
             },
-            nextCompanyCredential:function(){
-            	var vm = this;
-            	var licenseShow = vm.account.company.licenseShow;
-            	var licenses = vm.account.company.licenses;
-            	var index = licenses.indexOf(licenseShow);
-            	++index;
-            	if(index < licenses.length){
-            		vm.account.company.licenseShow=vm.account.company.licenses[index];
-            	}
-            },
+            nextCompanyCredential : function() {
+				var vm = this;
+				var company = vm.account.company;
+				var licenses = company.licenses;
+				var index = company.licenseShowIndex;
+				if (index < licenses.length - 1) {
+					company.licenseShowIndex = ++index;
+					company.licenseShow = company.licenses[index];
+				}
+			},
             showSetting: function (flag) {
                 flag = flag || 0;
                 var vm = this;
@@ -144,11 +165,11 @@ var appMyAccount = new Vue(
             },
             companyTypeSelect:function($event){
             	var vm=this;
-            	account.company.companyTypeId=$event.target.value;
+            	vm.account.company.companyTypeId=$event.target.value;
             },
             companySizeSelect:function($event){
             	var vm=this;
-            	account.company.companySizeId=$event.target.value;
+            	vm.account.company.companySizeId=$event.target.value;
             },
 			setBaseInfo:function(flag){
 				var vm=this;
@@ -184,16 +205,22 @@ var appMyAccount = new Vue(
 					}
 				}
 				if(flag==3){
-					var companyName=vm.account.company.companyName;
+					var companyName=vm.account.company.name;
 					var companySizeId=vm.account.company.companySizeId;
 					var companyTypeId=vm.account.company.companyTypeId;
 					if(companyName&&companySizeId&&companyTypeId){
 						data={"companyName":companyName,"companySizeId":companySizeId,"companyTypeId":companyTypeId};
 					}
+				}//imgManage[]
+				if(flag==4){
+					var company = vm.account.company; 
+					var licenses = company.licenses;
+					if(licenses){
+						data = {"imgManage[]":licenses};
+					}
 				}
 				if(data){
-					var dataJSON=JSON.stringify(data);
-					setUserInfo(dataJSON);
+					setUserInfo(data);
 				}
 			}
         }
@@ -230,9 +257,12 @@ function mutipleDisplay(displayId, param) {
 	if (param) {
 		vm.account.company.licenses.push(param);
 		vm.account.company.licenseShow = param;
-		setUserInfo({
-					"imgManage[]" : vm.account.company.licenses
-				});
+		if(vm.account.company.licenses.length>0){
+			vm.account.company.hasCredential = true;
+		}
+		/*setUserInfo({
+		 	"imgManage[]" : vm.account.company.licenses
+		 });*/
 	}
 }
 
@@ -245,6 +275,7 @@ function headImgDisplay(param) {
 }
 
 function setUserInfo(data) {
+	data = JSON.stringify(data);
 	var vm = appMyAccount;
 	var url = baseUrl + 'purchaserAccount/addAndModifyInfo';
 	var account = vm.account;
@@ -265,14 +296,17 @@ function setUserInfo(data) {
 	$http.post(url, data, callback);
 }
 
-function setUserInfoBack(data){
+function setUserInfoBack(data) {
 	var vm = appMyAccount;
-	if(data){
-		showMsg(data);
-		initData();
-	}else{
-		vm.closeSetting();
+	if (data) {
+		if (data.indexOf("{") == -1) {
+			showMsg(data);
+			initData();
+		} else {
+			initDataBack(JSON.parse(data));
+		}
 	}
+	vm.closeSetting();
 }
 
 function initDataBack(data) {
@@ -288,7 +322,7 @@ function initDataBack(data) {
 		if (info) {
 			var vm = appMyAccount;
 			if (headImgs && headImgs.length > 0) {
-				vm.account.headimg = headImgs[0];
+				vm.account.headimg = headImgs[0].filePath;
 			}
 			vm.account.nickname = info.name;
 			if (loginInfo) {
@@ -298,11 +332,35 @@ function initDataBack(data) {
 			vm.account.securityanswer.answer = info.answer;
 			vm.account.company.name = info.companyName;
 			if (companyCredentials) {
-				vm.account.company.licenses = companyCredentials;
+				for(var i = 0; i < companyCredentials.length; i++){
+					vm.account.company.licenses.push(companyCredentials[i].filePath);
+				}
+				vm.account.company.hasCredential = true;
+				vm.nextCompanyCredential();
 			}
-			vm.account.company.type = info.companyTypeId;
-			vm.account.company.personNum = info.companySizeId;
+			
+			var company = vm.account.company;
+			
+			company.companyTypeId = info.companyTypeId;
+			company.companySizeId = info.companySizeId;
+			company.type = company.types[info.companyTypeId];
+			company.personNum = company.personNums[info.companySizeId];
+			
+			setCompanyOption();
 		}
+	}
+}
+
+function setCompanyOption(){
+	var vm = appMyAccount;
+	var type = vm.account.company.companyTypeId;
+	var personNum = vm.account.company.companySizeId;
+	if(type){
+		var typeSelected = vm.account.company.typeSelected;
+		typeSelected[type] = 'selected';
+	}
+	if(personNum){
+		vm.account.company.sizeSelected[personNum] = 'selected';
 	}
 }
 
@@ -312,12 +370,14 @@ function showMsg(msg) {
 	vm.msgText = msg;
 }
 
-function showLoginId(loginId){
+function showLoginId(loginId, opt){
 	var vm = appMyAccount;
 	vm.mask = false;
 	vm.loginId = loginId;
 	vm.loginIdUl = true;
 	vm.loginBtnUl = false;
 	
-	initData();
+	if(opt == 'login'){
+		initData();
+	}
 }
