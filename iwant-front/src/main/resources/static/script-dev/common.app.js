@@ -1,4 +1,8 @@
+//const 区域
 const dictionaryQueryUrl = "../../dictionary/queryListByField"
+//const end	
+	
+	
 var $http = {
 	post : function(url, data, callback, dataType){
 		
@@ -17,6 +21,29 @@ var $http = {
 		});
 	}
 };
+
+var $http_form = {
+		post : function(url, callback, dataType){
+			
+			if(!dataType){
+				dataType = 'json';
+			}
+			
+			$.ajax({
+				url : url,
+				type : 'POST',
+				data : callback.request,
+				contentType : 'application/x-www-form-urlencoded',
+				dataType : dataType,
+				success : function(result){
+					callback.success(result);
+				},
+				error : function(XMLHttpRequest, textStatus){
+					callback.error(XMLHttpRequest, textStatus);
+				}
+			});
+		}
+}
 
 var pathnames = location.pathname.split('/');
 var baseUrl = location.origin + "/" + pathnames[1] + "/";
