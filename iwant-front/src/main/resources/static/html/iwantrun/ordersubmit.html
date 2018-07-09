@@ -59,12 +59,13 @@
         <div class="formcontent">
             <div class="first-contentrow">
                 <div class="label-grey fistcolumn">企业类型</div>
-                <select name="company_type" id="company_type" class="select-grey">
-                    <option value=" ">请选择 </option>
+                <select name="company_type" id="company_type" class="select-grey" v-model="selectedCompanyType">
+                	<option value="">请选择 </option>
+                    <option v-for="companyType in companyTypeList" :value="companyType.id">{{companyType.text}} </option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
                 <div class="label-grey secondcolumn">联系人姓名</div>
-                <input type="text" class="input-grey">
+                <input type="text" class="input-grey" v-model="contractName">
             </div>
             <div class="contentrow">
                 <div class="label-grey fistcolumn">参与人数</div>
@@ -629,6 +630,7 @@
             </div>
     </div>
 </body>
-<script type="application/javascript" src="../../script-dev/orderSubmit.js"></script>
 <script type="application/javascript" src="../../script-dev/common.app.js"></script>
+<script type="application/javascript" src="../../script-dev/orderSubmit.js"></script>
+
 </html>

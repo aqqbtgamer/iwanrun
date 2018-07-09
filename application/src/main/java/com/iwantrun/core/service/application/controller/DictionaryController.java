@@ -80,6 +80,7 @@ public class DictionaryController {
 		message.setMessageBody(JSONValue.toJSONString(body));
 		return message;
 	}
+	
 	@RequestMapping("/application/dictionary/findByName")
 	public Message findByName(@RequestBody Message message) {
 		String param = message.getMessageBody();

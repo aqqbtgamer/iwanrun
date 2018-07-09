@@ -1,5 +1,8 @@
 package com.iwantrun.core.service.utils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.junit.Test;
 
 public class AESUtilsTest {
@@ -13,5 +16,14 @@ public class AESUtilsTest {
 	@Test
 	public void test2() throws Exception {
 		System.out.println(AESUtils.encode("123123"));	
+	}
+	
+	@Test
+	public void testReg() {
+		String regRex = "^([a-zA-Z]+.*[0-9]+.*[!@#$%^&*]+)|([a-zA-Z]+.*[!@#$%^&*]+.*[0-9]+)|([0-9]+.*[!@#$%^&*]+.*[a-zA-Z]+)|([0-9]+.*[a-zA-Z]+.*[!@#$%^&*]+)|([!@#$%^&*]+.*[a-zA-Z]+.*[0-9]+)|([!@#$%^&*]+.*[0-9]+.*[a-zA-Z]+)$";
+		Pattern pattern = Pattern.compile(regRex);
+		Matcher match = pattern.matcher("a1234a!");
+		System.out.println(match.matches());
+		
 	}
 }

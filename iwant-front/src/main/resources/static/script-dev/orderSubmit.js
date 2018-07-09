@@ -2,8 +2,8 @@
  * Created by WXP22 on 2018/3/20.
  */
 console.log("Vue 脚本初始化..............");
-const companyTypeParam = {"name":"common","used_field":24,"field":"company_type"};
-const groupNumberTypeParam = {"name":"common","used_field":22,"field":"peopleNum"};
+const companyTypeParam = {"name":"common","used_field":24,"field":"companyTypeList"};
+const groupNumberTypeParam = {"name":"common","used_field":22,"field":"groupNumberList"};
 const dictParams = new Array(
 		companyTypeParam,
 		groupNumberTypeParam
@@ -22,6 +22,7 @@ var appMyAccount = new Vue(
             loginBtnUl:true,
             loginToken:null,
             loginRole:null,
+            contractName:null,
             order: {
                 orderid: '40020171014',
                 createdate: '2017年10月12日',
@@ -32,38 +33,26 @@ var appMyAccount = new Vue(
                 simulatedPrice:'800元/人',
                 other:'其他需求'
             },
-            activityList:[
-            	{
-            		id:1,
-            		text:'野外拓展',
-            		dbcode:1,
-            		code:1
-            	},
-            	{
-            		id:2,
-            		text:'真人cs',
-            		dbcode:1,
-            		code:2
-            	}
-            ],
-            companyTypeList:[
-            	{
-            		id:3,
-            		text:'民营企业',
-            		dbcode:2,
-            		code:1
-            	}
-            ],
-            dictionaryObjList:[]
-            
+            activityTypeList:[],
+            companyTypeList:[],
+            selectedCompanyType:"",
+            groupNumberList:[]
         },
         created:function(){
         	console.log("init server http data ....");
         	var vm = this ;
         	for(var i = 0 ; i<dictParams.length; i++ ){
-        		
-        	}
-        	
+        		var callback = new Object();
+        		callback.request = dictParams[i] ;
+        		callback.vm = vm ;
+        		callback.success = function(result){
+        			
+        		};
+        		callback.error = function(){
+        			
+        		};
+        		$http_form.post(dictionaryQueryUrl,callback);
+        	}        	
         },
         methods: {
             showLogin: function (message) {
