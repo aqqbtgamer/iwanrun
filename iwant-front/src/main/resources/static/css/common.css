@@ -161,7 +161,7 @@ nav a:hover {
 }
 
 [v-cloak] {
-    display: none;
+    display: none !important;
 }
 
 .page-location {

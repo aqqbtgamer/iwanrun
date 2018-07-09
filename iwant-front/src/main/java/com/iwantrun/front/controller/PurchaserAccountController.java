@@ -20,6 +20,7 @@ import com.iwantrun.front.transfer.PurchaserAccountRequest;
 @Controller
 @RequestMapping("purchaserAccount")
 public class PurchaserAccountController {
+
 	@Autowired
 	private PurchaserAccountService service;
 

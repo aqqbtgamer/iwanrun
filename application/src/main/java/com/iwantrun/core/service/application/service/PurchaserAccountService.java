@@ -41,7 +41,7 @@ import net.minidev.json.JSONValue;
 
 @Service
 public class PurchaserAccountService {
-	
+
 	@Autowired
 	private Environment environment;
 	@Autowired
@@ -56,11 +56,11 @@ public class PurchaserAccountService {
 	public String modifyPwd(PurchaserAccount account) {
 		String loginId = account.getLoginId();
 		PurchaserAccount dbAccount = dao.findByLoginId(loginId);
-		if(dbAccount == null) {
+		if (dbAccount == null) {
 			return "账号：" + loginId + "，不存在";
 		}
-		
-		String md5Password=Md5Utils.generate(account.getPassword());
+
+		String md5Password = Md5Utils.generate(account.getPassword());
 		dbAccount.setPassword(md5Password);
 		PurchaserAccount saved = dao.save(dbAccount);
 		if (saved == null) {
@@ -68,15 +68,15 @@ public class PurchaserAccountService {
 		}
 		return null;
 	}
-	
+
 	public String register(PurchaserAccount account) {
 		String loginId = account.getLoginId();
 		PurchaserAccount dbAccount = dao.findByLoginId(loginId);
-		if(dbAccount != null) {
+		if (dbAccount != null) {
 			return "账号：" + loginId + "，已存在";
 		}
-		
-		String md5Password=Md5Utils.generate(account.getPassword());
+
+		String md5Password = Md5Utils.generate(account.getPassword());
 		account.setPassword(md5Password);
 		account.setMobileNumber(loginId);
 		account.setSysRoleId(RoleType.Purchase.getId());
@@ -89,7 +89,7 @@ public class PurchaserAccountService {
 	}
 
 	public String validateRegisterParam(PurchaserAccountRequest accountRequest) {
-		
+
 		if (accountRequest == null || accountRequest.getAccount() == null) {
 			return "请输入相关数据";
 		}
@@ -135,24 +135,25 @@ public class PurchaserAccountService {
 		}
 		return null;
 	}
-	
+
 	public String findPurchaseUserPaged(JSONObject obj) {
 		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
 		String index = obj.getAsString("pageIndex");
-		int pageIndex =  index == null ? 1:Integer.parseInt(index)+1 ;
+		int pageIndex = index == null ? 1 : Integer.parseInt(index) + 1;
 		String loginId = obj.getAsString("loginId");
 		String name = obj.getAsString("name");
 		String mobileNumber = obj.getAsString("mobileNumber");
-		Integer role = obj.getAsNumber("role") == null ?null : obj.getAsNumber("role").intValue();
-		Pageable page =  PageRequest.of(pageIndex-1, pageSize, Sort.Direction.ASC, "id");
+		Integer role = obj.getAsNumber("role") == null ? null : obj.getAsNumber("role").intValue();
+		Pageable page = PageRequest.of(pageIndex - 1, pageSize, Sort.Direction.ASC, "id");
 		Long totalNum = dao.countByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute);
-		List<MixedUserResponse> content = dao.findByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute, pageSize, pageIndex);
+		List<MixedUserResponse> content = dao.findByMutipleParams(loginId, name, role, mobileNumber, jpqlExecute,
+				pageSize, pageIndex);
 		PageImpl<MixedUserResponse> result = new PageImpl<MixedUserResponse>(content, page, totalNum);
 		return PageDataWrapUtils.page2JsonNoCopy(result);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	@Transactional(rollbackOn=Exception.class)
+	@Transactional(rollbackOn = Exception.class)
 	public String addPurchaseUserAndRelated(Map<String, Object> paramsMap) {
 		String mobileNumber = (String) paramsMap.get("mobileNumber");
 		List<PurchaserAccount> findList = dao.findByMobileNumber(mobileNumber);
@@ -212,18 +213,18 @@ public class PurchaserAccountService {
 			if (paramsMap.get("companySizeId") != null) {
 				userInfo.setCompanySizeId(Integer.parseInt(paramsMap.get("companySizeId").toString()));
 			}
-			if(paramsMap.get("companyName") != null) {
+			if (paramsMap.get("companyName") != null) {
 				userInfo.setCompanyName(paramsMap.get("companyName").toString());
 			}
-			if(paramsMap.get("role") != null ) {
+			if (paramsMap.get("role") != null) {
 				String role = paramsMap.get("role").toString();
 				Integer roleId = Integer.parseInt(role);
-				if(RoleType.Advisor.equals(RoleType.matchById(roleId))) {
+				if (RoleType.Advisor.equals(RoleType.matchById(roleId))) {
 					userInfo.setVerified(VerifyStatus.Verifed.getId());
-				}else {
+				} else {
 					userInfo.setVerified(VerifyStatus.Not_Verified.getId());
 				}
-			}else {
+			} else {
 				userInfo.setVerified(VerifyStatus.Not_Verified.getId());
 			}
 			infoDao.saveAndFlush(userInfo);
@@ -251,35 +252,36 @@ public class PurchaserAccountService {
 
 	public String get(Integer id) {
 		Optional<PurchaserAccount> accountOp = dao.findById(id);
-		if(accountOp.get() != null) {
+		if (accountOp.get() != null) {
 			PurchaserAccount account = accountOp.get();
 			JSONObject returnObj = new JSONObject();
 			returnObj.put("purchaseAccount", JSONValue.toJSONString(account));
 			List<UserInfo> userInfoList = infoDao.findByLoginInfoId(id);
-			if(userInfoList != null && userInfoList.size() > 0) {
+			if (userInfoList != null && userInfoList.size() > 0) {
 				UserInfo userInfo = userInfoList.get(0);
 				returnObj.put("userInfo", JSONValue.toJSONString(userInfo));
 				Integer userInfoId = userInfo.getId();
-				List<UserInfoAttachments> userAttachList = attachmentsDao.findByUserInfoIdAndPagePath(userInfoId, AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
+				List<UserInfoAttachments> userAttachList = attachmentsDao.findByUserInfoIdAndPagePath(userInfoId,
+						AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
 				returnObj.put("attachList", JSONValue.toJSONString(userAttachList));
 			}
 			return returnObj.toJSONString();
-		}else {
+		} else {
 			return null;
-		}		
+		}
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional(rollbackOn=Exception.class)
+	@Transactional(rollbackOn = Exception.class)
 	public String modify(String idStr, Map<String, Object> paramsMap) {
 		Integer id = Integer.parseInt(idStr);
 		Optional<PurchaserAccount> accountOp = dao.findById(id);
-		if(accountOp.get() == null) {
+		if (accountOp.get() == null) {
 			SimpleMessageBody result = new SimpleMessageBody();
 			result.setSuccessful(false);
 			result.setDescription("要修改的id在数据库中找不到对应的值");
 			return JSONUtils.objToJSON(result);
-		}else {
+		} else {
 			PurchaserAccount account = accountOp.get();
 			if (paramsMap.get("password") != null) {
 				String password = Md5Utils.generate(paramsMap.get("password").toString());
@@ -303,12 +305,12 @@ public class PurchaserAccountService {
 			dao.save(account);
 			List<UserInfo> infoList = infoDao.findByLoginInfoId(id);
 			UserInfo userInfo = null;
-			if(infoList != null && infoList.size() > 0) {
-				userInfo = infoList.get(0);				
-			}else if(paramsMap.get("name") != null) {
+			if (infoList != null && infoList.size() > 0) {
+				userInfo = infoList.get(0);
+			} else if (paramsMap.get("name") != null) {
 				userInfo = new UserInfo();
 			}
-			if(userInfo != null) {
+			if (userInfo != null) {
 				userInfo.setName(paramsMap.get("name").toString());
 				List<String> genderList = (List<String>) paramsMap.get("gender[]");
 				if (genderList != null) {
@@ -326,11 +328,12 @@ public class PurchaserAccountService {
 				if (paramsMap.get("companySizeId") != null) {
 					userInfo.setCompanySizeId(Integer.parseInt(paramsMap.get("companySizeId").toString()));
 				}
-				if(paramsMap.get("companyName") != null) {
+				if (paramsMap.get("companyName") != null) {
 					userInfo.setCompanyName(paramsMap.get("companyName").toString());
 				}
 				infoDao.saveAndFlush(userInfo);
-				List<UserInfoAttachments> userAttachList = attachmentsDao.findByUserInfoIdAndPagePath(userInfo.getId(), AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
+				List<UserInfoAttachments> userAttachList = attachmentsDao.findByUserInfoIdAndPagePath(userInfo.getId(),
+						AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
 				attachmentsDao.deleteAll(userAttachList);
 				// save new attachments
 				if (paramsMap.get("imgManage[]") != null) {
@@ -355,18 +358,18 @@ public class PurchaserAccountService {
 		return JSONUtils.objToJSON(result);
 	}
 
-	@Transactional(rollbackOn=Exception.class)
+	@Transactional(rollbackOn = Exception.class)
 	public String delete(JSONObject requestObj) {
-		if(requestObj != null) {
-			if(requestObj.getAsString("id") != null) {
+		if (requestObj != null) {
+			if (requestObj.getAsString("id") != null) {
 				deleteSingle(requestObj.getAsString("id"));
 			}
-			if(requestObj.get("id[]")!=null) {
+			if (requestObj.get("id[]") != null) {
 				JSONArray idList = (JSONArray) requestObj.get("id[]");
-			    for(int i = 0 ; i<idList.size() ; i++) {
-			    	String id = idList.get(i).toString();
-			    	deleteSingle(id);
-			    }
+				for (int i = 0; i < idList.size(); i++) {
+					String id = idList.get(i).toString();
+					deleteSingle(id);
+				}
 			}
 		}
 		SimpleMessageBody result = new SimpleMessageBody();
@@ -374,7 +377,7 @@ public class PurchaserAccountService {
 		result.setDescription("删除成功");
 		return JSONUtils.objToJSON(result);
 	}
-	
+
 	public void deleteSingle(String idStr) {
 		Integer id = Integer.parseInt(idStr);
 		Optional<PurchaserAccount> accountOp = dao.findById(id);
@@ -392,7 +395,7 @@ public class PurchaserAccountService {
 
 	}
 
-	@Transactional(rollbackOn=Exception.class)
+	@Transactional(rollbackOn = Exception.class)
 	public String apply(String idStr) {
 		Integer id = Integer.parseInt(idStr);
 		Optional<PurchaserAccount> accountOp = dao.findById(id);
@@ -448,6 +451,8 @@ public class PurchaserAccountService {
 		if (CollectionUtils.isEmpty(dbUserInfos)) {
 			dbUserInfo = new UserInfo();
 			dbUserInfo.setLoginInfoId(loginInfoId);
+			// 数据库没有Info信息，先保存
+			dbUserInfo = infoDao.saveAndFlush(dbUserInfo);
 		} else {
 			dbUserInfo = dbUserInfos.get(0);
 		}
@@ -470,49 +475,85 @@ public class PurchaserAccountService {
 			dbUserInfo.setCompanyName(companyName);
 		}
 		if (companySizeId != null) {
-			dbUserInfo.setCompanySizeId((Integer) companySizeId);
+			dbUserInfo.setCompanySizeId(companySizeId.intValue());
 		}
 		if (companyTypeId != null) {
-			dbUserInfo.setCompanyTypeId((Integer) companyTypeId);
+			dbUserInfo.setCompanyTypeId(companyTypeId.intValue());
 		}
+
+		Integer dbUserInfoId = dbUserInfo.getId();
 
 		if (paramJSON.get("imgManage[]") != null) {
 			@SuppressWarnings("unchecked")
 			List<String> attchPaths = (List<String>) paramJSON.get("imgManage[]");
-			List<UserInfoAttachments> attchList = new ArrayList<UserInfoAttachments>();
-			for (String path : attchPaths) {
+
+			if (dbUserInfoId != null) {
+				// 先删除
+				attachmentsDao.deleteByUserInfoIdAndPagePath(dbUserInfoId,
+						AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
+				List<UserInfoAttachments> attchList = new ArrayList<UserInfoAttachments>();
+				for (String path : attchPaths) {
+					UserInfoAttachments attach = new UserInfoAttachments();
+					int fileNameIndex = path.lastIndexOf("/");
+					attach.setFileName(path.substring(fileNameIndex + 1));
+					attach.setFilePath(path);
+					attach.setPagePath(AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
+					attach.setUserInfoId(dbUserInfo.getId());
+					attchList.add(attach);
+				}
+				// 再添加
+				if (attchList.size() > 0) {
+					attachmentsDao.saveAll(attchList);
+				}
+			}
+
+		}
+
+		if (paramJSON.get("headimg") != null) {
+			if (dbUserInfoId != null) {
+				// 先删除
+				attachmentsDao.deleteByUserInfoIdAndPagePath(dbUserInfoId, AdminApplicationConstants.USER_HEAD_IMG);
+				String path = (String) paramJSON.get("headimg");
+				List<UserInfoAttachments> attchList = new ArrayList<UserInfoAttachments>();
 				UserInfoAttachments attach = new UserInfoAttachments();
 				int fileNameIndex = path.lastIndexOf("/");
 				attach.setFileName(path.substring(fileNameIndex + 1));
 				attach.setFilePath(path);
-				attach.setPagePath(AdminApplicationConstants.USER_COMPANY_CREDENTIAL);
-				attach.setUserInfoId(dbUserInfo.getId());
+				attach.setPagePath(AdminApplicationConstants.USER_HEAD_IMG);
+				attach.setUserInfoId(dbUserInfoId);
 				attchList.add(attach);
+				attachmentsDao.saveAll(attchList);
 			}
-			attachmentsDao.saveAll(attchList);
 		}
 
-		if (paramJSON.get("headimg") != null) {
-			String path = (String) paramJSON.get("headimg");
-			List<UserInfoAttachments> attchList = new ArrayList<UserInfoAttachments>();
-			UserInfoAttachments attach = new UserInfoAttachments();
-			int fileNameIndex = path.lastIndexOf("/");
-			attach.setFileName(path.substring(fileNameIndex + 1));
-			attach.setFilePath(path);
-			attach.setPagePath(AdminApplicationConstants.USER_HEAD_IMG);
-			attach.setUserInfoId(dbUserInfo.getId());
-			attchList.add(attach);
-			attachmentsDao.saveAll(attchList);
-		}
+		PurchaserAccount newAccount = dao.saveAndFlush(dbAccount);
+		UserInfo newUserInfo = infoDao.saveAndFlush(dbUserInfo);
+		MixedUserResponse mixed = new MixedUserResponse(newAccount, newUserInfo, null);
+		return JSONUtils.objToJSON(mixed);
+	}
 
-		dao.saveAndFlush(dbAccount);
-		infoDao.saveAndFlush(dbUserInfo);
-		return null;
+	public List<String> getCCFilePaths(String loginId) {
+		List<String> ccFilePaths = new ArrayList<>();
+		MixedUserResponse dbMixed = findMixedObjByLoginId(loginId);
+		if (dbMixed != null) {
+			List<UserInfoAttachments> companyCredentials = dbMixed.getCompanyCredentials();
+			if (companyCredentials != null) {
+				for (UserInfoAttachments atts : companyCredentials) {
+					ccFilePaths.add(atts.getFilePath());
+				}
+			}
+		}
+		return ccFilePaths;
 	}
 
 	public String findMixedByLoginId(String dataJSON) {
 		JSONObject paramJSON = JSONUtils.jsonToObj(dataJSON, JSONObject.class);
 		String loginId = paramJSON.getAsString("loginId");
+		MixedUserResponse response = findMixedObjByLoginId(loginId);
+		return JSONUtils.objToJSON(response);
+	}
+
+	public MixedUserResponse findMixedObjByLoginId(String loginId) {
 		if (!StringUtils.isEmpty(loginId)) {
 			List<MixedUserResponse> mixedUserResponses = dao.findByMutipleParams(loginId, null, null, null, jpqlExecute,
 					1, 0);
@@ -528,7 +569,7 @@ public class PurchaserAccountService {
 					response.setCompanyCredentials(companyCredentials);
 					response.setHeadImgs(headImgs);
 				}
-				return JSONUtils.objToJSON(response);
+				return response;
 			}
 		}
 		return null;
@@ -542,5 +583,3 @@ public class PurchaserAccountService {
 		return JSONUtils.objToJSON(dbAccount);
 	}
 }
-
-

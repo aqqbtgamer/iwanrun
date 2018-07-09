@@ -79,7 +79,7 @@ function verifyToken(){
 function verifyTokenBack(data){
 	if(data && data.token == 'success'){
 		console.log('登录状态为已登录');
-		loginSuccess();
+		loginSuccess('verify');
 	}else{
 		console.log('还未登录');
 	}
@@ -309,11 +309,11 @@ function loginBack(data) {
 	}
 	var accessToken = data.accessToken;
 	if (accessToken) {
-		loginSuccess();
+		loginSuccess('login');
 	}
 }
 
-function loginSuccess() {
+function loginSuccess(opt) {
 	var $ = jQuery;
 
 	var loginId = lrApp.account.loginId;
@@ -325,7 +325,7 @@ function loginSuccess() {
 	lrApp.loginWindow = false;
 	
 	// 其他页面登录时需要写的方法，里面的appIndex替换成当前页面的Vue实例
-	showLoginId(loginId);
+	showLoginId(loginId, opt);
 	
 	showErrMsg('登录成功');
 }
@@ -398,10 +398,6 @@ function validateSMScode(smsCode) {
 function validatePwd(password, rePassword) {
 	if (!password) {
 		return "请输入密码";
-    }
-
-    if (password.length < 6) {
-        return "密码最少6个字符";
     }
 
 	var regex = new RegExp('(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}', 'g');
@@ -484,7 +480,6 @@ function forgetBack(data){
 }
 
 function getSMSCodeBack(data) {
-	var vm = appIndex;
 	var encryptedSMSCode = $.cookie('encryptedSMSCode');
 	if (data) {
 		console.log('短信验证码获取结束，结果' + data);
