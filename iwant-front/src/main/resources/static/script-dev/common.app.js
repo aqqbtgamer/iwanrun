@@ -373,7 +373,13 @@ function validatePwd(password, rePassword) {
 		return "请输入密码";
     }
 
-	var regex = new RegExp('(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}', 'g');
+	var length = password.length;
+	if(length < 8 || length > 16){
+		return "密码长度必须大于等于8位，小于等于16位";
+	}
+	
+//	var regex = new RegExp('(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}', 'g');
+	var regex = new RegExp('^([a-zA-Z]+.*[0-9]+.*[!@#$%^&*]+)|([a-zA-Z]+.*[!@#$%^&*]+.*[0-9]+)|([0-9]+.*[!@#$%^&*]+.*[a-zA-Z]+)|([0-9]+.*[a-zA-Z]+.*[!@#$%^&*]+)|([!@#$%^&*]+.*[a-zA-Z]+.*[0-9]+)|([!@#$%^&*]+.*[0-9]+.*[a-zA-Z]+)$', 'g');
 	var correct = regex.test(password);
 	if (!correct) {
 		return '密码格式不正确，请重新输入';

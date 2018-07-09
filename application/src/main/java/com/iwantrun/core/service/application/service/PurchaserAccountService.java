@@ -103,6 +103,17 @@ public class PurchaserAccountService {
 		}
 
 		String password = accountRequest.getAccount().getPassword();
+
+		if(StringUtils.isEmpty(password)) {
+			return "密码不能为空";
+		}
+		
+		int length = password.length();
+		
+		if(length < 8 || length > 16){
+			return "密码长度必须大于等于8位，小于等于16位";
+		}
+		
 		boolean matchered = password.matches(environment.getProperty("purchaser.account.password.regex"));
 
 		if (!matchered) {
