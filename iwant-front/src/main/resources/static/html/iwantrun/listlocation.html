@@ -39,13 +39,16 @@
                 </nav>
             </div>
             <div id="url-login" class="class-login-nav">
-                <nav class="navbar">
-                    <ul>
-                        <li class="li-right"><a href="#" @click="showLogin('咨询师登录')">咨询师登录</a></li>
-                        <li class="li-right"><a href="#" @click="showLogin('用户登录')">用户登录</a></li>
-                    </ul>
-                </nav>
-            </div>
+					<nav class="navbar">
+						<ul v-if="loginBtnUl">
+							<li class="li-right"><a href="#" @click="showLogin(1)">咨询师登录</a></li>
+							<li class="li-right"><a href="#" @click="showLogin(0)">用户登录</a></li>
+						</ul>
+						<ul v-if="loginIdUl">
+							<li class="li-right"><a href="#">欢迎您：{{loginId}}</a></li>
+						</ul>
+					</nav>
+				</div>
             <div class="clear"></div>
         </div>
         <div id="page-location" class="page-location">
@@ -393,8 +396,8 @@
             </div>
     </div>
 </form>
-
-<script type="application/javascript" src="../../script-dev/listLocation.js"></script>
+<div id="lrPannel"></div>
 <script type="application/javascript" src="../../script-dev/common.app.js"></script>
+<script type="application/javascript" src="../../script-dev/listLocation.js"></script>
 </body>
 </html>

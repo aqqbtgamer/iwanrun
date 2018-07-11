@@ -11,6 +11,8 @@ var appListProduction = new Vue(
             autoLogin: false,
             loginTitle: '用户登录',
             loginId:'18018336171',
+            loginBtnUl : true,
+			loginIdUl : false,
             loginToken:'uuixooppasyytvdbftrraskm',
             loginRole:{id:1,role:'采购方'},
             indexClick:1,
@@ -65,10 +67,7 @@ var appListProduction = new Vue(
         	
             showLogin: function (message) {
                 console.log("v-on  click method :showLogin");
-                var vm = this
-                vm.mask = true;
-                vm.loginWindow = true;
-                vm.loginTitle = message;
+                lrApp.showLogin(message);
             },
             closeLogin: function () {
                 console.log("v-on  click method :closeLogin");
@@ -202,3 +201,11 @@ var appListProduction = new Vue(
     }
 );
 console.log("Vue 脚本绑定渲染完成..............");
+
+function showLoginId(loginId){
+	var vm = appListProduction;
+	vm.mask = false;
+	vm.loginId = loginId;
+	vm.loginIdUl = true;
+	vm.loginBtnUl = false;
+}

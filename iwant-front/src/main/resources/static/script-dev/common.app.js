@@ -117,10 +117,11 @@ var lrTemplate = ""+
                         '<input v-model="account.smsCode" @focus="accountFocus()" type="text" class="inputText" placeholder="请输入短信验证码">'+
                     '</div>'+
                     '<div class="user-button">'+
-                        '<input @click="accountSmsCodeGet" type="button" value="短信验证" class="sms-send-button">'+
+                        '<input @click="accountSmsCodeGet" type="button" :value="SMS.btnText" class="sms-send-button" :disabled="SMS.disabled">'+
                     '</div>'+
                 '</div>'+
-                '<div class="register-input">'+
+                '<div class="register-input"><span style="color: red;">(密码为数字、字母和特殊符号组合, 长度大于等于8位, 小于等于16位)</span></div>'+
+                '<div class="register-input" style="margin-top: 0.2vw">'+
                     '<div class="user-icon">'+
                         '<i class="iconfont-user2 icon-mima"></i>'+
                     '</div>'+
@@ -241,7 +242,8 @@ function verifyTokenBack(data){
 }
 
 function accountReset(loginId) {
-	lrApp.account = {
+	var vm = lrApp;
+	vm.account = {
 		loginId : (loginId ? loginId : ''),
 		smsCode : '',
 		password : '',
@@ -249,6 +251,21 @@ function accountReset(loginId) {
 		mobileNumber : '',
 		errMsg : ''
 	}
+}
+
+function smsReset(){
+	var vm = lrApp;
+	vm.SMS = {
+        timer: null,
+        disabled: false,
+        count: 0,
+        btnText: '短信验证'
+    }
+}
+
+function lrAppDataReset(){
+	accountReset();
+	smsReset();
 }
 
 // 登录和注册App
@@ -283,6 +300,11 @@ var lrApp=new Vue({
             count: 0,
             btnText: '短信验证'
         }
+	},
+	watch : {
+		counselor(newVal, oldVal){
+			lrAppDataReset();
+		}
 	},
 	methods : {
 		forget : function(){
@@ -397,6 +419,8 @@ var lrApp=new Vue({
 			vm.registerWindow = false;
 			vm.loginWindow = true;
 			vm.loginTitle = (vm.counselor ? '咨询师' : '用户') + '登录';
+			
+			lrAppDataReset();
 			showErrMsg();
 		},
 		closeLogin : function() {
@@ -405,6 +429,8 @@ var lrApp=new Vue({
 			accountReset();
 			vm.mask = false;
 			vm.loginWindow = false;
+			
+			lrAppDataReset();
 		},
 		changeAutoLogin : function() {
 			var vm = this;
@@ -424,6 +450,8 @@ var lrApp=new Vue({
 			vm.forgetBtn = false;
 			vm.registerBtn = true;
 			vm.registerTitle = (vm.counselor ? '咨询师' : '用户') + '注册';
+			
+			lrAppDataReset();
 			showErrMsg();
 		},
 		showForget : function() {
@@ -436,6 +464,8 @@ var lrApp=new Vue({
 			vm.registerBtn = false;
 			vm.forgetBtn = true;
 			vm.registerTitle = '忘记密码';
+			
+			lrAppDataReset();
 			showErrMsg();
 		},
 		closeRegister : function() {
@@ -444,6 +474,8 @@ var lrApp=new Vue({
 			accountReset();
 			vm.mask = false;
 			vm.registerWindow = false;
+			
+			lrAppDataReset();
 		},
 		changeMessageLogin : function() {
 			var vm = this;

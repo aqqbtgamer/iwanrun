@@ -42,4 +42,14 @@ public class RegexTest {
 			System.out.println("查找到了："+matcher.group());
 		}
 	}
+	
+	@Test
+	public void testPreAssert() throws Exception {
+		String input="10234567890";
+		String regex="(?<=(\\d{2}|\\d{2}))(\\d{3})+";
+		Matcher matcher=Pattern.compile(regex).matcher(input);
+		while (matcher.find()) {
+			System.out.println("找到了："+matcher.group());
+		}
+	}
 }

@@ -9,6 +9,8 @@ var appIndex = new Vue(
             mask: false,
             loginWindow: false,
             autoLogin: false,
+            loginBtnUl : true,
+			loginIdUl : false,
             loginTitle: '用户登录',
             loginId:'18018336171',
             loginToken:'uuixooppasyytvdbftrraskm',
@@ -197,3 +199,11 @@ var appIndex = new Vue(
         
     });
 console.log("Vue 脚本绑定渲染完成..............");
+
+function showLoginId(loginId){
+	var vm = appIndex;
+	vm.mask = false;
+	vm.loginId = loginId;
+	vm.loginIdUl = true;
+	vm.loginBtnUl = false;
+}

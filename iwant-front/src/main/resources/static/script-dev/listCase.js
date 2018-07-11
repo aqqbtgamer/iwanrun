@@ -9,6 +9,8 @@ var appListCase = new Vue(
             mask: false,
             loginWindow: false,
             autoLogin: false,
+            loginBtnUl : true,
+			loginIdUl : false,
             loginTitle: '用户登录',
             loginId:'18018336171',
             loginToken:'uuixooppasyytvdbftrraskm',
@@ -76,10 +78,7 @@ var appListCase = new Vue(
         	
             showLogin: function (message) {
                 console.log("v-on  click method :showLogin");
-                var vm = this
-                vm.mask = true;
-                vm.loginWindow = true;
-                vm.loginTitle = message;
+                lrApp.showLogin(message);
             },
             closeLogin: function () {
                 console.log("v-on  click method :closeLogin");
@@ -234,3 +233,11 @@ var appListCase = new Vue(
     }
 );
 console.log("Vue 脚本绑定渲染完成..............");
+
+function showLoginId(loginId){
+	var vm = appListCase;
+	vm.mask = false;
+	vm.loginId = loginId;
+	vm.loginIdUl = true;
+	vm.loginBtnUl = false;
+}
