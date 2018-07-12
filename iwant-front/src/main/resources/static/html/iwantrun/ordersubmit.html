@@ -61,7 +61,7 @@
                 <div class="label-grey fistcolumn">企业类型</div>
                 <select name="company_type" id="company_type" class="select-grey" v-model="selectedCompanyType">
                 	<option value="">请选择 </option>
-                    <option v-for="companyType in companyTypeList" :value="companyType.id">{{companyType.text}} </option>
+                    <option v-for="companyType in companyTypeList"  :value="companyType.code">{{companyType.value}} </option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
                 <div class="label-grey secondcolumn">联系人姓名</div>
@@ -69,8 +69,9 @@
             </div>
             <div class="contentrow">
                 <div class="label-grey fistcolumn">参与人数</div>
-                <select name="company_type" id="peopleNum" class="select-grey">
-                    <option value=" ">请选择 </option>
+                <select name="company_type" id="peopleNum" class="select-grey" v-model="selectedGroupNumber">
+                    <option value="">请选择 </option>
+                    <option v-for="groupNumber in groupNumberList" :value="groupNumber.code"> {{groupNumber.value}}</option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
                 <div class="label-grey secondcolumn">联系人电话</div>
@@ -78,11 +79,12 @@
             </div>
             <div class="contentrow">
                 <div class="label-grey fistcolumn">人群特点</div>
-                <select name="company_type" id="people-special1" class="select-grey" style="width: 19.63vw ">
+                <select name="company_type" id="people-special1" class="select-grey" >
                     <option value=" ">请选择 </option>
+                    <option v-for="peopleTag in peopleTagList" :value="peopleTag.code"> {{peopleTag.value}}</option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
-                <select name="company_type" id="people-special2" class="select-grey" style="width: 19.63vw;margin-left: 0">
+              <!--   <select name="company_type" id="people-special2" class="select-grey" style="width: 19.63vw;margin-left: 0">
                     <option value=" ">请选择 </option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
@@ -90,7 +92,7 @@
                     <option value=" ">请选择 </option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
-                <i class="iconfont-color icon-tianjia"></i>
+                <i class="iconfont-color icon-tianjia"></i> -->
             </div>
 
         </div>
@@ -100,20 +102,22 @@
         <div class="formcontent" style="height: 41.46vw;vertical-align: top">
             <div class="first-contentrow">
                 <div class="label-grey fistcolumn">活动类型</div>
-                <select name="company_type" id="activity-type1" class="select-grey">
+                <select name="company_type" id="activity-type1" class="select-grey" v-model="selectedActivityType">
+                    <option value="">请选择 </option>
+                     <option v-for="activityType in activityTypeList"  :value="activityType.code">{{activityType.value}} </option>
+                </select>
+                <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
+               <!--  <select name="company_type" id="activity-type2" class="select-grey" style="margin-left: 0">
                     <option value=" ">请选择 </option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
-                <select name="company_type" id="activity-type2" class="select-grey" style="margin-left: 0">
-                    <option value=" ">请选择 </option>
-                </select>
-                <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
-                <i class="iconfont-color icon-tianjia"></i>
+                <i class="iconfont-color icon-tianjia"></i> -->
             </div>
             <div class="contentrow">
                 <div class="label-grey fistcolumn">活动地区</div>
-                <select name="company_type" id="location-type" class="select-grey">
-                    <option value=" ">请选择 </option>
+                <select name="company_type" id="location-type" class="select-grey" v-model="selectedProvince">
+                    <option value="">请选择 </option>
+                    <option :value="province.code" v-for="province in provinceList">{{province.value}} </option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
                 <div class="label-grey secondcolumn">活动天数</div>

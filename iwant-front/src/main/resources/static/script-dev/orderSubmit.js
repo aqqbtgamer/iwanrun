@@ -2,11 +2,17 @@
  * Created by WXP22 on 2018/3/20.
  */
 console.log("Vue 脚本初始化..............");
+const activityTypeParam = {"name":"common","used_field":9,"field":"activityTypeList"};
 const companyTypeParam = {"name":"common","used_field":24,"field":"companyTypeList"};
 const groupNumberTypeParam = {"name":"common","used_field":22,"field":"groupNumberList"};
+const peopleTagParam = {"name":"common","used_field":26,"field":"peopleTagList"};
+const provinceParam = {"name":"common","used_field":9,"field":"provinceList"};
 const dictParams = new Array(
+		activityTypeParam,
 		companyTypeParam,
-		groupNumberTypeParam
+		groupNumberTypeParam,
+		peopleTagParam,
+		provinceParam
 );
 
 var appMyAccount = new Vue(
@@ -33,10 +39,18 @@ var appMyAccount = new Vue(
                 simulatedPrice:'800元/人',
                 other:'其他需求'
             },
+            selectedActivityType:"",
             activityTypeList:[],
             companyTypeList:[],
             selectedCompanyType:"",
-            groupNumberList:[]
+            groupNumberList:[],
+            selectedGroupNumber:"",
+            peopleTagList:[],
+            selectedPeopleTag:"",
+            distributionList:[],
+            selectedDistribution:"",
+            provinceList:[],
+            selectedProvince:""
         },
         created:function(){
         	console.log("init server http data ....");
@@ -46,11 +60,10 @@ var appMyAccount = new Vue(
         		callback.request = dictParams[i] ;
         		callback.vm = vm ;
         		callback.success = function(result){
-        			
-        		};
-        		callback.error = function(){
-        			
-        		};
+        			var field = this.request.field ;
+        			var vm = this.vm ;
+        			vm[field.toString()] = result ;
+        		};  		
         		$http_form.post(dictionaryQueryUrl,callback);
         	}        	
         },

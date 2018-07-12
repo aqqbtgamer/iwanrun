@@ -84,6 +84,8 @@ public interface DictionaryConfigParams {
 	
 	int COMMON_COMPANY_SIZE_TYPE = 25;
 	
+	int COMMON_PEOPLE_TAG_TYPE = 26;
+	
 	//通用字段字典描述
 	
 	String COMMON_PROVINCE_DESC = "省" ;
@@ -104,6 +106,8 @@ public interface DictionaryConfigParams {
 	
 	String COMMON_COMPANY_SIZE_DESC = "企业规模";
 	
+	String COMMON_PEOPLE_TAG_DESC = "人群特色";
+	
 	int[] COMMON_DICTIONARY_TYPE_ARRAY = new int[] {
 			COMMON_PROVINCE_TYPE,
 			COMMON_CITY_TYPE,
@@ -113,7 +117,8 @@ public interface DictionaryConfigParams {
 			COMMON_ACTIVITY_PERSON_NUMBER_TYPE,
 			COMMON_ACTIVITY_PERIOD_TYPE,
 			COMMON_COMPANY_TYPE,
-			COMMON_COMPANY_SIZE_TYPE
+			COMMON_COMPANY_SIZE_TYPE,
+			COMMON_PEOPLE_TAG_TYPE
 	};
 	
 	
@@ -126,7 +131,8 @@ public interface DictionaryConfigParams {
 			COMMON_ACTIVITY_PERSON_NUMBER_DESC,
 			COMMON_ACTIVITY_PERIOD_DESC,
 			COMMON_COMPANY_DESC,
-			COMMON_COMPANY_SIZE_DESC
+			COMMON_COMPANY_SIZE_DESC,
+			COMMON_PEOPLE_TAG_DESC
 	};
 	
 	//产品数据字典类型

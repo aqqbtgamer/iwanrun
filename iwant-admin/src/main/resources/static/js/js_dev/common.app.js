@@ -9,7 +9,7 @@ const displayPagenationlLimit = 7 ;
 //数据字典主页面
 const dictionaryPageUrl ="./dictionarylist.html";
 const emailReg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-const mobileReg = /^1[3|4|5|8][0-9]\d{4,8}$/;
+const mobileReg = /^1[3|4|5|7|8|9][0-9]\d{4,8}$/;
 const passwordReg = /^([a-zA-Z]+[0-9]+[!@#$%^&*]+)|([a-zA-Z]+[!@#$%^&*]+[0-9]+)|([0-9]+[!@#$%^&*]+[a-zA-Z]+)|([0-9]+[a-zA-Z]+[!@#$%^&*]+)|([!@#$%^&*]+[a-zA-Z]+[0-9]+)|([!@#$%^&*]+[0-9]+[a-zA-Z]+)$/
 
 	

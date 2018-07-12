@@ -72,13 +72,15 @@ img{
     height: 4.17vw;
     font-size:1.56vw;
     font-weight: normal;
-    color:#CBC9C9;
+    /*color:#CBC9C9;*/
+     color:#979797;
     margin-left: 1.36vw;
     -webkit-appearance: none;  /*Removes default chrome and safari style*/
     -moz-appearance: none; /* Removes Default Firefox style*/
     text-indent: 0.01px; /* Removes default arrow from firefox*/
     text-overflow: "";  /*Removes default arrow from firefox*/
 }
+
 
 .iconfontposition{
     position: relative;
