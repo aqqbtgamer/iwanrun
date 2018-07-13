@@ -6,14 +6,20 @@ const activityTypeParam = {"name":"common","used_field":9,"field":"activityTypeL
 const companyTypeParam = {"name":"common","used_field":24,"field":"companyTypeList"};
 const groupNumberTypeParam = {"name":"common","used_field":22,"field":"groupNumberList"};
 const peopleTagParam = {"name":"common","used_field":26,"field":"peopleTagList"};
-const provinceParam = {"name":"common","used_field":9,"field":"provinceList"};
+const provinceParam = {"name":"common","used_field":6,"field":"provinceList"};
+const durationparam = {"name":"common","used_field":23,"field":"durationList"};
+const simulatePriceparam = {"name":"production","used_field":13,"field":"simulatePriceList"};
 const dictParams = new Array(
 		activityTypeParam,
 		companyTypeParam,
 		groupNumberTypeParam,
 		peopleTagParam,
-		provinceParam
+		provinceParam,
+		durationparam,
+		simulatePriceparam
 );
+
+
 
 var appMyAccount = new Vue(
     {
@@ -29,6 +35,7 @@ var appMyAccount = new Vue(
             loginToken:null,
             loginRole:null,
             contractName:null,
+            contractMobile:null,
             order: {
                 orderid: '40020171014',
                 createdate: '2017年10月12日',
@@ -50,7 +57,11 @@ var appMyAccount = new Vue(
             distributionList:[],
             selectedDistribution:"",
             provinceList:[],
-            selectedProvince:""
+            selectedProvince:"",
+            durationList:[],
+            selectedDuration:"",
+            simulatePriceList:[],
+            selectedSimulatePrice:"" 
         },
         created:function(){
         	console.log("init server http data ....");

@@ -12,6 +12,7 @@
     <script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
     <script type="application/javascript" src="../../script/jquery.cookie.js"></script>
     <script type="application/javascript" src="../../script/vue.min.js"></script>
+    <script type="application/javascript" src="../../script/laydate.js"></script>
 </head>
 <body>
 <form action="#">
@@ -75,7 +76,7 @@
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
                 <div class="label-grey secondcolumn">联系人电话</div>
-                <input type="text" class="input-grey">
+                <input type="text" class="input-grey" v-model="contractMobile">
             </div>
             <div class="contentrow">
                 <div class="label-grey fistcolumn">人群特点</div>
@@ -121,16 +122,21 @@
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
                 <div class="label-grey secondcolumn">活动天数</div>
-                <input type="text" class="input-grey">
+                <select name="company_type" id="duration-type" class="select-grey" v-model="selectedDuration">
+                    <option value="">请选择 </option>
+                    <option :value="duration.code" v-for="duration in durationList">{{duration.value}} </option>
+                </select>
+                <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
             </div>
             <div class="contentrow">
                 <div class="label-grey fistcolumn">活动日期</div>
-                <select name="company_type" id="duration-type" class="select-grey">
-                    <option value=" ">请选择 </option>
+                <input class="laydate-icon input-grey-small" id="activityDate" readOnly="readOnly" value=""> 
+                <div class="label-grey secondcolumn">活动预算</div>
+                <select name="company_type" id="duration-type" class="select-grey" v-model="selectedSimulatePrice">
+                    <option value="">请选择 </option>
+                    <option :value="simulatePrice" v-for="simulatePrice in simulatePriceList">{{simulatePrice.value}} </option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
-                <div class="label-grey secondcolumn">活动预算</div>
-                <input type="text" class="input-grey">
             </div>
             <div class="contentrow" >
                 <div class="label-grey fistcolumn vtop">其他需求</div>
@@ -636,5 +642,8 @@
 </body>
 <script type="application/javascript" src="../../script-dev/common.app.js"></script>
 <script type="application/javascript" src="../../script-dev/orderSubmit.js"></script>
+<script>
+laydate({elem: '#activityDate'});
+</script>
 
 </html>
