@@ -1,14 +1,9 @@
 package com.iwantrun.core.service.application.service;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-
-import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -220,6 +215,15 @@ public class OrdersService {
 		resultBody.setSuccessful(true);
 		resultBody.setDescription("关闭订单成功");
 		return JSONUtils.objToJSON(resultBody);
+	}
+
+	public String add(JSONObject requestObj) {
+		Orders orders = (Orders) requestObj.get("orders");
+		PurchaserAccount owner = (PurchaserAccount)requestObj.get("user");
+		PurchaserAccount dbOwner = purchaseDao.findByLoginId(owner.getLoginId());
+		orders.setId(dbOwner.getId());
+		ordersDao.saveAndFlush(orders);
+		return JSONUtils.objToJSON(orders);
 	}
 
 }

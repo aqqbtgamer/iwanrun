@@ -156,7 +156,9 @@ var lrTemplate = ""+
 //---------------------------------- lrApp Template End ---------------------------------------
 
 //const 区域
-const dictionaryQueryUrl = "../../dictionary/queryListByField"
+const dictionaryQueryUrl = "../../dictionary/queryListByField";
+const tokenVerifyUrl ="../../token/verify";
+const ordersubmit = "../../orders/submitOrder"
 //const end	
 
 var $http = {
@@ -707,4 +709,26 @@ function logout() {
 
     //当前页 账号信息清理 TODO
     clearLoginId && typeof (clearLoginId) === 'function' && clearLoginId();
+}
+
+
+function verifyNotEmpty(value){
+	if(value == null || value == ""){
+		return false ;
+	}else{
+		return true ;
+	}
+}
+
+
+function verifyFieldsNotEmpty(valueArray){
+	var arrayResult = new Array();
+	valueArray.forEach(
+			function(currentValue,index){
+				if(!verifyNotEmpty(currentValue.value)){
+					arrayResult.push(currentValue.id);
+				}
+			}
+	)
+	return arrayResult ;
 }

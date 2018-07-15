@@ -98,5 +98,15 @@ public class OrdersController {
 		message.setMessageBody(result);
 		return message;
 	}
+	
+	@RequestMapping("submit")
+	@NeedTokenVerify
+	public Message submit(@RequestBody Message message) {
+		String requestJson = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJson);
+		String result = orderService.add(requestObj);
+		message.setMessageBody(result);
+		return message;
+	}
 
 }

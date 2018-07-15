@@ -98,6 +98,10 @@ img{
     margin-left: 1.36vw;
 }
 
+.validate-error{
+	border: 1px solid red;
+}
+
 .input-grey-small{
     border: 1px solid #CBC9C9;
     border-radius: 0.42vw;

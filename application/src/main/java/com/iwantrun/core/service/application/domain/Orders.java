@@ -110,6 +110,13 @@ public class Orders {
 	
 	@Column(name="order_group_price_code")
 	private Integer orderGroupPriceCode;
+	
+	@Column(name="people_tag_code")
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME,usedField=DictionaryConfigParams.COMMON_PEOPLE_TAG_TYPE,aliasField="peopleTag")
+	private Integer peopleTagCode ;
+	
+	@Transient
+	private String peopleTag;
 
 	public int getId() {
 		return id;
@@ -336,6 +343,23 @@ public class Orders {
 	public void setOrderSimulatePrice(String orderSimulatePrice) {
 		this.orderSimulatePrice = orderSimulatePrice;
 	}
+
+	public Integer getPeopleTagCode() {
+		return peopleTagCode;
+	}
+
+	public void setPeopleTagCode(Integer peopleTagCode) {
+		this.peopleTagCode = peopleTagCode;
+	}
+
+	public String getPeopleTag() {
+		return peopleTag;
+	}
+
+	public void setPeopleTag(String peopleTag) {
+		this.peopleTag = peopleTag;
+	}
+	
 	
 	
 	
