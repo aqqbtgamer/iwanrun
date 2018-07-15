@@ -71,6 +71,11 @@ img {
     background-color: #979797;
 }
 
+#accountBody a{ 
+    text-decoration:none;
+    color: #414141;
+} 
+
 .active-item {
     background-color: #414141;
     color: white !important;
