@@ -20,7 +20,7 @@ public interface CasesDao  extends JpaRepository<Cases, Integer>,JpaSpecificatio
 	
 	String QUERY_CASE_ALL_COUNT="select count(*) from Cases c where 1=1";
 	
-	String SORE_BY = "  order by c.id asc ";
+	String SORE_BY = "  order by c.priority desc ";
 	
 	 default List<Cases> findByMutipleParams(SearchDictionaryList vo,JPQLEnableRepository repository,int pageSize,int pageIndex){
 		 List<Cases> list = new ArrayList<Cases>();
