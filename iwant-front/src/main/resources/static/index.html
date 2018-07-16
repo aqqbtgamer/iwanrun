@@ -11,6 +11,7 @@
     <script type="application/javascript" src="script/jquery-3.3.1.min.js"></script>
     <script type="application/javascript" src="script/jquery.cookie.js"></script>
     <script type="application/javascript" src="script/vue.min.js"></script>
+    <script type="application/javascript" src="script/axios.min.js"></script>
     <title>我要跑-首页</title>
 </head>
 <body>
@@ -70,7 +71,7 @@
                         <label class="labelcenter">爆款产品</label>
                     </div>
                     <div id="content-head-link1" class="content-head-link">
-                        <a href="#" class="content-link-a">查看更多</a>
+                        <a href="html/iwantrun/listproduction.html" class="content-link-a">查看更多</a>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -81,13 +82,13 @@
                             <!--<div class="outstanding-item">
                                 <img src="img/otstandingproduction.png" alt="outstanding.png" width="100%">
                             </div>-->
-                            <div class="normal-item" v-for="item in productIndexList">
+                            <div class="normal-item" v-if="index<8" v-for="(item,index) in productIndexList">
                                 <div>
-                                    <img :src="item.img" alt="normalpd1.png" width="100%">
+                                    <img :src="item.mainImageLarge" alt="normalpd1.png" width="100%">
                                 </div>
                                 <div class="displayText-production">
-                                    <p>{{item.text}}</p>
-                                    <p style="color:#FF7E00">{{item.price}}</p>
+                                    <p>{{item.name}}</p>
+                                    <p style="color:#FF7E00">{{item.orderSimulatePrice}}</p>
                                 </div>
                             </div>
                             <!--  <div class="clear"></div>-->
@@ -101,28 +102,28 @@
                         <label class="labelcenter">爆款场地</label>
                     </div>
                     <div id="content-head-link2" class="content-head-link">
-                        <a href="#" class="content-link-a">查看更多</a>
+                        <a href="html/iwantrun/listlocation.html" class="content-link-a">查看更多</a>
                     </div>
                 </div>
                 <div class="content-box-location-body">
-                    <div class="content-box-location-line" v-for="(item,index) in locationIndexList">
+                    <div class="content-box-location-line" v-if="index<3" v-for="(item,index) in locationIndexList">
                         <div class="location-text" v-if="index%2===0">
                             <div class="location-text-head">
-                                <p>{{item.text}} &nbsp;&nbsp;<i class="iconfont icon-sanjiaoright"></i></p>
+                                <p>{{item.name }} | {{item.activeTypeCode }}  &nbsp;&nbsp;<i class="iconfont icon-sanjiaoright"></i></p>
                             </div>
                             <div class="location-text-detail">
-                                <p>{{item.long_text}}</p>
+                                <p>{{item.descirbeText3}}</p>
                             </div>
                         </div>
                         <div class="location-image">
-                            <img :src="item.img" alt="location1.png" width="100%">
+                            <img :src="item.descirbeText2" alt="location1.png" width="100%">
                         </div>
                         <div class="location-text" v-if="index%2>0">
                             <div class="location-text-head">
-                                <p><i class="iconfont icon-sanjiaoleft"></i>&nbsp;{{item.text}}</p>
+                                <p><i class="iconfont icon-sanjiaoleft"></i>&nbsp;{{item.name}} | {{item.activeTypeCode }}</p>
                             </div>
                             <div class="location-text-detail">
-                                <p>{{item.long_text}}</p>
+                                <p>{{item.descirbeText3}}</p>
                             </div>
                         </div>
                     </div>
@@ -159,12 +160,12 @@
                         <label class="labelcenter content-black" style="color:#414141;font-weight: bold">精选案例</label>
                     </div>
                     <div id="content-box-case-link1" class="content-head-link" style="margin-right:1.04vw">
-                        <a href="#" class="content-link-b">查看更多</a>
+                        <a href="html/iwantrun/listcase.html" class="content-link-b">查看更多</a>
                     </div>
                 </div>
                 <div class="content-box-case-line">
-                    <div v-for="item in caseIndexList" style="display:inline-block" :class="item.isBig?'content-box-case-imgbig':'content-box-case-imgsmall'">
-                        <img :src="item.img" alt="case1.png" width="100%">
+                    <div v-if="index<6" v-for="(item,index) in caseIndexList" style="display:inline-block" :class="item.isBig?'content-box-case-imgbig':'content-box-case-imgsmall'">
+                        <img :src="item.descirbeText2" alt="case1.png" width="100%">
                     </div>
                 </div>
             </div>
