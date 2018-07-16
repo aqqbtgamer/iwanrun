@@ -26,7 +26,7 @@ public interface ProductionInfoDao
 	
 	String QUERY_CASE_ALL_COUNT="select count(*) from ProductionInfo p where 1=1";
 	
-	String SORE_BY = "  order by p.id asc ";
+	String SORE_BY = "  order by p.priority desc ";
 	 default List<ProductionInfo> findByMutipleParams(SearchDictionaryList vo,JPQLEnableRepository repository,int pageSize,int pageIndex){
 		 List<ProductionInfo> list = new ArrayList<ProductionInfo>();
 		 String queryJPQL = "" ;

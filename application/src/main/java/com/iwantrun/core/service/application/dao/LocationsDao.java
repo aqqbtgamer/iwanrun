@@ -18,7 +18,7 @@ public interface LocationsDao  extends JpaRepository<Locations, Integer>,JpaSpec
 	
 	String QUERY_CASE_ALL_COUNT="select count(*) from Locations loc where 1=1";
 	
-	String SORE_BY = "  order by loc.id asc ";
+	String SORE_BY = "  order by loc.priority desc ";
 	
 	 default List<Locations> findByMutipleParams(SearchDictionaryList vo,JPQLEnableRepository repository,int pageSize,int pageIndex){
 		 List<Locations> list = new ArrayList<Locations>();

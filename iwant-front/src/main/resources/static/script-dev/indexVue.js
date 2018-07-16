@@ -314,7 +314,7 @@ var appIndex = new Vue(
 					img : 'img/normalpd2.png',
 					text : '南湖水上龙舟游',
 					price : '388/人'
-				} ],
+				}],
 				locationIndexList : [
 						{
 							id : 1,
@@ -360,6 +360,11 @@ var appIndex = new Vue(
 					isBig : true
 				} ]
 			},
+			created: function(){
+	        	var vm = this;
+	        	this.queryProdutionByCondition('1');
+//	        	vm.queryCaseByCondition("1");
+	        },
 			methods : {
 				showLogin : function(flag) {
 					
@@ -377,7 +382,37 @@ var appIndex = new Vue(
 				toOrderSubmit : function() {
 					var vm = this;
 					window.location.href = "html/iwantrun/ordersubmit.html"
-                }
+                },
+                queryCaseByCondition:function(pageIndex){
+                	var vm = this;
+                	var url="case/queryCaseByCondition";
+                	var param={};
+                	param.pageIndex=pageIndex-1;
+                	axios.post(url,param).then(
+                			function(response){
+                				console.log(response.data);
+                				var list = response.data;
+                				if( list != ''){
+                					vm.caseIndexList=list.content;
+                				}
+                				
+                	})
+                },
+                queryProdutionByCondition:function(pageIndex){
+                	var vm = this;
+                	var url="production/queryProdutionByCondition";
+                	var param = {};
+                	param.pageIndex=pageIndex-1;
+                	axios.post(url,param).then(
+                			function(response){
+                				console.log(response.data);
+                				var list = response.data;
+                				if( list != ''){
+                					vm.productIndexList=list.content;
+                				}
+                				
+                	})
+                },
 			}
 		});
 
