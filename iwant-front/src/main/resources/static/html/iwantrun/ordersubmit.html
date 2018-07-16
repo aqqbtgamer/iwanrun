@@ -134,7 +134,7 @@
                 <div class="label-grey secondcolumn">活动预算</div>
                 <select name="simulatePrice" id="simulatePrice" class="select-grey" v-model="selectedSimulatePrice">
                     <option value="">请选择 </option>
-                    <option :value="simulatePrice" v-for="simulatePrice in simulatePriceList">{{simulatePrice.value}} </option>
+                    <option :value="simulatePrice.code" v-for="simulatePrice in simulatePriceList">{{simulatePrice.value}} </option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
             </div>
@@ -643,7 +643,10 @@
 <script type="application/javascript" src="../../script-dev/common.app.js"></script>
 <script type="application/javascript" src="../../script-dev/orderSubmit.js"></script>
 <script>
-laydate({elem: '#activityDate'});
+laydate({elem: '#activityDate',
+		 istime: true, 
+		 format: 'YYYY-MM-DD hh:mm:ss'
+	});
 </script>
 
 </html>

@@ -102,7 +102,7 @@ var appMyAccount = new Vue(
             		alert("系统错误 无法提交订单")
             	}else{
             		//校验
-            		if($.cookie("accessToken") == null || $.cookie("loginId") == "" ){
+            		if(!verifyNotEmpty($.cookie("accessToken")) ||  !verifyNotEmpty(vm.loginId) ){
             			lrApp.showLogin();
             			vm.loginVerifyInteval = setInterval(function(){
             				verifyLoginTokenJob(vm);
@@ -155,6 +155,7 @@ var appMyAccount = new Vue(
             				order.activityDuringCode = vm.selectedDuration;
             				order.orderSimulatePriceCode = vm.selectedSimulatePrice;
             				order.activityStart = $("#activityDate").val();
+            				order.otherRequest = vm.otherRequire;
             				var user = new Object();
             				user.loginId =  $.cookie("loginId");
             				var request = new Object();
@@ -166,7 +167,10 @@ var appMyAccount = new Vue(
             				callback.request = requestData ;
             				callback.vm = vm ;
                     		callback.success = function(result){
-                    			alert(result);
+                    			if(result != null && result.submitResult == true){
+                    				alert("需求提交成功");
+                    				window.location.href = "./orderlist.html";
+                    			}
                     		}; 
             				$http_form.post(ordersubmit,callback);
             			}

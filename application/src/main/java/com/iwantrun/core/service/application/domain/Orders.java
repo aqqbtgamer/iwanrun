@@ -117,6 +117,9 @@ public class Orders {
 	
 	@Transient
 	private String peopleTag;
+	
+	@Column(name="other_request" ,length=1024)
+	private String otherRequest ;
 
 	public int getId() {
 		return id;
@@ -359,6 +362,16 @@ public class Orders {
 	public void setPeopleTag(String peopleTag) {
 		this.peopleTag = peopleTag;
 	}
+
+	public String getOtherRequest() {
+		return otherRequest;
+	}
+
+	public void setOtherRequest(String otherRequest) {
+		this.otherRequest = otherRequest;
+	}
+	
+	
 	
 	
 	

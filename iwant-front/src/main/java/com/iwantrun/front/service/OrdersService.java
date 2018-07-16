@@ -24,11 +24,12 @@ public class OrdersService {
 	public Map<String,Object> submitOrder(String orderJson,String token){
 		Map<String,Object> result = new HashMap<String,Object>();
 		String orderSubmitUrl = environment.getProperty("application.orders.submit");
+		String baseUrl = environment.getProperty("app.server");
 		Message message = new Message();
 		message.setMessageBody(orderJson);
 		message.setAccessToken(token);
-		message.setRequestMethod(orderSubmitUrl);
-		Message response = template.postForEntity(orderSubmitUrl, message, Message.class).getBody();
+		message.setRequestMethod(baseUrl+orderSubmitUrl);
+		Message response = template.postForEntity(baseUrl+orderSubmitUrl, message, Message.class).getBody();
 		String resultOrder = response == null ? null : response.getMessageBody();
 		if(resultOrder != null) {
 			Orders order = JSONUtils.jsonToObj(resultOrder, Orders.class);

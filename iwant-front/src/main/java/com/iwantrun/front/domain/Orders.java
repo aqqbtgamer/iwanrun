@@ -58,6 +58,12 @@ public class Orders {
 	private String orderSimulatePrice;	
 
 	private Integer orderGroupPriceCode;
+	
+	private String peopleTag;
+	
+	private Integer peopleTagCode ;
+	
+	private String otherRequest ;
 
 	public int getId() {
 		return id;
@@ -274,6 +280,29 @@ public class Orders {
 	public void setOrderGroupPriceCode(Integer orderGroupPriceCode) {
 		this.orderGroupPriceCode = orderGroupPriceCode;
 	}
-	
+
+	public String getPeopleTag() {
+		return peopleTag;
+	}
+
+	public void setPeopleTag(String peopleTag) {
+		this.peopleTag = peopleTag;
+	}
+
+	public Integer getPeopleTagCode() {
+		return peopleTagCode;
+	}
+
+	public void setPeopleTagCode(Integer peopleTagCode) {
+		this.peopleTagCode = peopleTagCode;
+	}
+
+	public String getOtherRequest() {
+		return otherRequest;
+	}
+
+	public void setOtherRequest(String otherRequest) {
+		this.otherRequest = otherRequest;
+	}
 	
 }

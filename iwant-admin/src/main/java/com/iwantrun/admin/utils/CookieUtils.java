@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.iwantrun.admin.constant.AdminApplicationConstants;
 
+import net.minidev.json.JSONObject;
+
 public class CookieUtils {
 	
 	public static String getCookieValue(HttpServletRequest request,String key) {
@@ -19,7 +21,14 @@ public class CookieUtils {
 	}
 	
 	public static String getLoginToken(HttpServletRequest request) {
-		return getCookieValue(request,AdminApplicationConstants.LOGIN_TOKEN);
+		String token = getCookieValue(request,AdminApplicationConstants.LOGIN_TOKEN);
+		String user =  getCookieValue(request,AdminApplicationConstants.USER_TOKEN);
+		String sessionId = request.getSession().getId();
+		JSONObject tokenJson = new JSONObject();
+		tokenJson.put("loginToken", token);
+		tokenJson.put("currentUser", user);
+		tokenJson.put("sessionId", sessionId);
+		return tokenJson.toJSONString();
 	}
 
 }

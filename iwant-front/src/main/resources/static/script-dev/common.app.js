@@ -158,7 +158,7 @@ var lrTemplate = ""+
 //const 区域
 const dictionaryQueryUrl = "../../dictionary/queryListByField";
 const tokenVerifyUrl ="../../token/verify";
-const ordersubmit = "../../orders/submitOrder"
+const ordersubmit = "../../orders/submit"
 //const end	
 
 var $http = {

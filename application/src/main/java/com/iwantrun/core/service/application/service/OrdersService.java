@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.application.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import com.iwantrun.core.service.application.enums.TradeStatus;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import com.iwantrun.core.service.utils.EntityBeanUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
+import com.iwantrun.core.service.utils.OrderNoGenerator;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
 import net.minidev.json.JSONArray;
@@ -218,12 +220,21 @@ public class OrdersService {
 	}
 
 	public String add(JSONObject requestObj) {
-		Orders orders = (Orders) requestObj.get("orders");
-		PurchaserAccount owner = (PurchaserAccount)requestObj.get("user");
-		PurchaserAccount dbOwner = purchaseDao.findByLoginId(owner.getLoginId());
-		orders.setId(dbOwner.getId());
-		ordersDao.saveAndFlush(orders);
-		return JSONUtils.objToJSON(orders);
+		JSONObject orderJson = (JSONObject)requestObj.get("order");
+		if(orderJson != null) {
+			Orders orders = JSONUtils.jsonToObj(orderJson.toJSONString(), Orders.class);
+			JSONObject user = (JSONObject)requestObj.get("user");
+			PurchaserAccount owner = JSONUtils.jsonToObj(user.toJSONString(), PurchaserAccount.class);
+			PurchaserAccount dbOwner = purchaseDao.findByLoginId(owner.getLoginId());
+			orders.setOrderOwnerId(dbOwner.getId());
+			orders.setOrderNo(OrderNoGenerator.generateOrderNo());
+			orders.setOrderStatusCode(TradeStatus.OPENED.getId());
+			orders.setCreateTime(new Date());
+			ordersDao.saveAndFlush(orders);
+			return JSONUtils.objToJSON(orders);
+		}else {
+			return null;
+		}		
 	}
 
 }

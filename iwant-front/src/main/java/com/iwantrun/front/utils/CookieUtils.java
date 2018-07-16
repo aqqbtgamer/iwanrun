@@ -10,6 +10,8 @@ import org.springframework.util.StringUtils;
 
 import com.iwantrun.front.constants.CookieConstants;
 
+import net.minidev.json.JSONObject;
+
 /**
  * @author user
  */
@@ -62,6 +64,13 @@ public class CookieUtils {
 	}
 
 	public static String getLoginToken(HttpServletRequest request) {
-		return getCookieValue(CookieConstants.COOKIE_ACCESS_TOKEN_KEY, request);
+		String token =  getCookieValue(CookieConstants.COOKIE_ACCESS_TOKEN_KEY, request);
+		String loginId = getCookieValue(CookieConstants.COOKIE_LOGIN_ID_KEY, request);
+		String sessionId = request.getSession().getId();
+		JSONObject tokenJson = new JSONObject();
+		tokenJson.put("loginToken", token);
+		tokenJson.put("currentUser", loginId);
+		tokenJson.put("sessionId", sessionId);
+		return tokenJson.toJSONString();
 	}
 }
