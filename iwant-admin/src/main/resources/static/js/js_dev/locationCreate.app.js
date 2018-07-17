@@ -21,6 +21,7 @@ const fields = new Array('name',
         'activity_dist_code',
         'location',
         'priority',
+        'descirbeText3',
         'mainImage',
         'imgManage',
         'simulatePriceCode'
