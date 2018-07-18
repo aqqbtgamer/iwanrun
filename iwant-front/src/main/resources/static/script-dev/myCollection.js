@@ -30,7 +30,7 @@ var appMyAccount = new Vue(
                     activitytype: '跑步运动',
                     personNum: '50-150人',
                     duration: '半天'
-                },
+                }/*,
                 {
                     img: '../../img/list-location3.png',
                     title: '夏日水上球类运动—— 某集团户外团体水球趣味赛',
@@ -50,7 +50,7 @@ var appMyAccount = new Vue(
                     activitytype: '跑步运动',
                     personNum: '50-150人',
                     duration: '半天'
-                }
+                }*/
             ],
             products: [
                 {
@@ -63,7 +63,7 @@ var appMyAccount = new Vue(
                     personNum: '50-150人',
                     duration: '半天',
                     saled: '已售122份'
-                },
+                }/*,
                 {
                     img: '../../img/list-location2.png',
                     title: '探秘古道红枫，寻访仙谷奇缘——南黄古道+琼台仙谷3天2晚穿越之旅',
@@ -96,7 +96,7 @@ var appMyAccount = new Vue(
                     personNum: '50-150人',
                     duration: '半天',
                     saled: '已售122份'
-                }
+                }*/
             ],
             cases: [
                 {
@@ -109,7 +109,7 @@ var appMyAccount = new Vue(
                     personNum: '50-150人',
                     duration: '半天',
                     saled: '已售122份'
-                },
+                }/*,
                 {
                     img: '../../img/list-product1.png',
                     title: '探秘古道红枫，寻访仙谷奇缘——南黄古道+琼台仙谷3天2晚穿越之旅',
@@ -142,10 +142,50 @@ var appMyAccount = new Vue(
                     personNum: '50-150人',
                     duration: '半天',
                     saled: '已售122份'
-                }
+                }*/
             ]
         },
+        mounted: function(){
+        	var vm = this;
+        	this.queryCollectList('location');
+        },
         methods: {
+            queryCollectList:function(queryType){
+            	var vm = this;
+            	var url="../../favourite/favouriteList";
+            	var param = {
+            		name: queryType	
+            	};
+                
+            	axios.post(url,param).then(
+            			function(response){
+            				console.log(response.data);
+            				var list = response.data;
+            				//if( list != ''){ 
+                                vm.locations = [{
+                                    img: '../../img/list-product1.png',
+                                    title: '探秘古道红枫，寻访仙谷奇缘——南黄古道+琼台仙谷3天2晚穿越之旅',
+                                    tips: ['隋代古刹', '仙谷奇缘', '古道红枫', '五星级酒店'],
+                                    price: '2000-2500元/人',
+                                    location: '上海市',
+                                    activitytype: '跑步运动',
+                                    personNum: '50-150人',
+                                    duration: '半天',
+                                    saled: '已售122份'
+                                }]
+                                //vm.products = vm.locations
+                                //vm.cases = vm.locations
+
+            					// vm.criteria.activityProvinceCode=list.activityProvinceCode;
+            					// vm.criteria.activitytype=list.activitytype;
+            					// vm.criteria.specialTagsCode=list.specialTagsCode;
+            					// vm.criteria.personNum=list.personNum;
+            					// vm.criteria.duration=list.duration;
+            					// vm.criteria.orderSimulatePriceCode=list.orderSimulatePriceCode;
+            				//}
+            				
+            	})
+            },
             showLogin: function (message) {
                 console.log("v-on  click method :showLogin");
                 var vm = this
