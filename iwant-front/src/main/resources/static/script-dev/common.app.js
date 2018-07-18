@@ -304,7 +304,7 @@ var lrApp=new Vue({
         }
 	},
 	watch : {
-		counselor(newVal, oldVal){
+		counselor:function(newVal, oldVal){
 			lrAppDataReset();
 		}
 	},

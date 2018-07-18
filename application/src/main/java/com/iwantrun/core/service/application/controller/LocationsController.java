@@ -319,6 +319,7 @@ public class LocationsController {
 				locationTypeCode = dictionaryService.dictionaryParamSwitchString(locationTypeCodeArray);
 				vo.setLocationTypeCode(locationTypeCode);
 			}
+			vo.setPageSize(queryVo.getPageSize());
 			PageImpl<Locations> result = locationService.queryLocationByDictListConditionPageable( vo, queryVo.getPageIndex());
 			Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new Locations());
 			dictionaryService.dictionaryFilter(result.getContent(), dictionnaryMap);

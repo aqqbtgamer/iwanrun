@@ -312,6 +312,7 @@ public class CaseController {
 				personNum = dictionaryService.dictionaryParamSwitchString(personNumArray);
 				vo.setPersonNum(personNum);
 			}
+			vo.setPageSize(queryVo.getPageSize());
 			PageImpl<Cases> result = casesService.queryCaseByDictListConditionPageable( vo, queryVo.getPageIndex());
 			Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new Cases());
 			dictionaryService.dictionaryFilter(result.getContent(), dictionnaryMap);

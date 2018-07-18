@@ -6,6 +6,8 @@ public class SearchDictionary {
 	
 	private String pageIndex;
 	
+	private Integer pageSize;
+	
 	private List<Dictionary> activityProvinceCode;//地区
 	
 	private List<Dictionary> activitytype;//活动类型
@@ -22,7 +24,14 @@ public class SearchDictionary {
 	
 	private List<Dictionary> orderSimulatePriceCode;// 订单人均参考报价范围
 	
-	
+	public Integer getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+
 	public String getPageIndex() {
 		return pageIndex;
 	}

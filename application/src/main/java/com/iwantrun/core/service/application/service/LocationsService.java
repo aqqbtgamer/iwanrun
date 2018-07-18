@@ -191,7 +191,13 @@ public class LocationsService {
 	
 	public PageImpl<Locations> queryLocationByDictListConditionPageable
 	(SearchDictionaryList vo,String pageIndex){	
-		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
+//		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
+		Integer pageSize=null;
+		if(vo!= null && vo.getPageSize() != null) {
+			pageSize = vo.getPageSize() ;
+		}else {
+			pageSize=Integer.parseInt(environment.getProperty("common.pageSize"));
+		}
 		int pageIndexInt =  pageIndex == null ? 1:Integer.parseInt(pageIndex)+1 ;
 		Pageable page =  PageRequest.of(pageIndexInt-1, pageSize, Sort.Direction.ASC, "id");
 		Long totalNum = locationDao.countByMutipleParams(vo,jpqlExecute);

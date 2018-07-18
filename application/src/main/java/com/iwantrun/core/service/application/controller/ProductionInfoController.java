@@ -302,6 +302,7 @@ public class ProductionInfoController {
 				orderSimulatePriceCode = dictionaryService.dictionaryParamSwitch(orderSimulatePriceCodeArray);
 				vo.setOrderSimulatePriceCode(orderSimulatePriceCode);
 			}
+			vo.setPageSize(queryVo.getPageSize());
 			PageImpl<ProductionInfo> result = productionInfoService.queryProductionByDictListConditionPageable( vo, queryVo.getPageIndex());
 			Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new ProductionInfo());
 			dictionaryService.dictionaryFilter(result.getContent(), dictionnaryMap);

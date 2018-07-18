@@ -6,6 +6,8 @@ public class SearchDictionaryList {
 	
 	private String pageIndex;
 	
+	private Integer pageSize;
+	
 	private List<String> activityProvinceCode;//地区
 	
 	private List<String> activitytype;//活动类型
@@ -21,6 +23,16 @@ public class SearchDictionaryList {
 	private List<Integer> specialTagsCode;//特色关键词
 	
 	private List<Integer> orderSimulatePriceCode;// 订单人均参考报价范围
+	
+	
+
+	public Integer getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
 
 	public String getPageIndex() {
 		return pageIndex;

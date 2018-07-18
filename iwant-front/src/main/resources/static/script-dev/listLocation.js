@@ -15,11 +15,10 @@ var appIndex = new Vue(
             loginId:'18018336171',
             loginToken:'uuixooppasyytvdbftrraskm',
             loginRole:{id:1,role:'采购方'},
-            indexClick:1,
-            numberPages:[1],// 分页模块      页面显示哪些值
-            pageSizeFront:5,// 分页模块      页面显示几个值
-            currentPFront:1,
-            pages:0,
+            page: 1,  //显示的是哪一页
+            pageSize: 10, //每一页显示的数据条数
+            total: 1, //记录总数
+            maxPage:1,  //最大页数
             criteria: {},
             List: [],
             pageInfo:{},
@@ -34,35 +33,12 @@ var appIndex = new Vue(
         },
         created:function(){
         	var vm = this;
-        	this.queryLocationByCondition('1');
-        	this.queryDictionaryList();
+        	vm.pageHandler(1);
+        	vm.queryLocationByCondition('1');
+        	vm.queryDictionaryList();
         	
         },
-        watch:{
-        	pageInfo:function(newVal,oldVal){
-        		var vm = this;
-    			if( oldVal.total != newVal.total ){
-    				vm.numberPagesInit();
-    			}
-        	},
-        	indexClick:function(newVal,oldVal){
-        		var vm = this;
-        		var param1 = parseInt(vm.pageSizeFront*vm.currentPFront)+parseInt(1);
-        		var param2 = parseInt(vm.pageSizeFront*(parseInt(vm.currentPFront)-parseInt(1)));
-    			if( oldVal != newVal && newVal ==param1){
-    				vm.currentPFront =parseInt( vm.currentPFront) + parseInt( 1);
-    			}
-    			if( oldVal != newVal && newVal ==param2){
-    				vm.currentPFront =parseInt( vm.currentPFront) - parseInt( 1);
-    			}
-        	},
-        	currentPFront:function(newVal,oldVal){
-        		var vm = this;
-    			if( oldVal != newVal){
-    				vm.numberPagesCat();
-    			}
-        	}
-        },
+       
         methods: {
             showLogin: function (flag) {
             	lrApp.showLogin(flag);
@@ -116,9 +92,9 @@ var appIndex = new Vue(
             queryLocationByCondition:function(pageIndex){
             	var vm = this;
             	var url="../../location/querylocationByCondition";
-            	vm.indexClick=pageIndex;
             	var param = vm.searchCriteria;
             	param.pageIndex=pageIndex-1;
+            	param.pageSize=vm.pageSize;
             	axios.post(url,param).then(
             			function(response){
             				console.log(response.data);
@@ -126,73 +102,18 @@ var appIndex = new Vue(
             				if( list != ''){
             					vm.List=list.content;
             					vm.pageInfo=list.pageInfo;
+            					vm.total=list.pageInfo.total;
             				}
             				
             	})
             },
            
-            numberPagesInit:function(){ // 分页模块      页面显示值初始化
-        		var vm = this;
-        		var pages;
-        		
-        		var total = vm.pageInfo.total;
-        		var pageSize = vm.pageInfo.pageSize;
-        		if( total != '' && total != undefined && pageSize != '' && pageSize != undefined){
-        			pages = Math.floor(total/pageSize);//向下舍入     总页数
-        			vm.pages=pages;
-            		if( pages <= vm.pageSizeFront){ 
-            			for(var i=0;i<pages;i++){
-            				vm.numberPages.push(i+1);
-            			}
-            		}else{
-            			vm.numberPages=[];
-            			for(var i=0;i<vm.pageSizeFront;i++){
-            				vm.numberPages.push(i+1);
-            			}
-            		}
-        		}
-        	},
-        	numberPagesCat:function(){ // 分页模块      页面显示值初始化
-        		var vm = this;
-        		var pages=vm.pages;
-        		if( vm.currentPFront > 1){
-        			vm.numberPages=[];
-        			//pagePart =  Math.floor(pages/vm.pageSizeFront);
-        			var currentPFrontA = parseInt(vm.currentPFront)-parseInt(1);
-        			var result1 =  parseInt(vm.pageSizeFront*currentPFrontA)+parseInt(1);
-        			
-        			var result2 =  parseInt(vm.pageSizeFront*vm.currentPFront);
-        			if(  pages >= result1 && pages <= result2){
-        				for(var j=result1;j<=pages;j++){
-                			vm.numberPages.push(j);
-            			}
-        			}
-        			if(  pages >= result2 ){
-        				for(var i=result1;i<=result2;i++){
-                			vm.numberPages.push(i);
-            			}
-        			}
-        		}else{
-        			vm.numberPages=[];
-        			for(var i=0;i<vm.pageSizeFront;i++){
-        				vm.numberPages.push(i+1);
-        			}
-        		}
-        	},
-            nextPageClick:function(){
-            	var vm = this;
-            	if( vm.indexClick < vm.pages){//vm.pages  当前页是最后一页，点击无效
-            		vm.indexClick = parseInt(vm.indexClick)+parseInt(1);//当前页加一
-                	vm.queryCaseByCondition(vm.indexClick);
-            	}
-            },
-            previousPageClick:function(){
-            	var vm = this;
-            	if(vm.indexClick !=1){//当前页是第一页，点击无效
-            		vm.indexClick = parseInt(vm.indexClick)-parseInt(1);//当前页减一
-                	vm.queryCaseByCondition(vm.indexClick);
-            	}
-            	
+            //pagehandler方法 跳转到page页
+            pageHandler: function (page) {
+            	//here you can do custom state update
+            	var vm=this;
+            	vm.page = page;
+            	vm.queryLocationByCondition(vm.page);
             }
         }
        

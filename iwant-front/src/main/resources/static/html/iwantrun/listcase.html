@@ -8,11 +8,13 @@
     <link rel="stylesheet" href=" ../../css/common.css">
     <link rel="stylesheet" href="../../css/iconfont.css">
     <link rel="stylesheet" href="../../css/listcase.css">
+    <link href="../../css/zpageNav.css" rel="stylesheet" />
     <script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
     <script type="application/javascript" src="../../script/jquery.cookie.js"></script>
     <script type="application/javascript" src="../../script/bluebird.min.js"></script>
     <script type="application/javascript" src="../../script/vue.min.js"></script>
     <script type="application/javascript" src="../../script/axios.min.js"></script>
+    <script type="application/javascript" src="../../script/zpageNav.js"></script>
     <title>我要跑-搜索案例列表</title>
 </head>
 <body>
@@ -196,7 +198,7 @@
                     </div>
                 </div>
             </div>
-            <div id="page-navigation" class="page-navigation">
+           <!--   <div id="page-navigation" class="page-navigation">
                 <ul class="pagenation">
                 	<li @click="previousPageClick"><a href="#" >&#60;</a></li>
                 	<template  v-for="index in numberPages">
@@ -204,7 +206,12 @@
                     </template>
                      <li @click="nextPageClick"><a href="#" >&#62;</a></li>
                 </ul>
-            </div>
+            </div> -->
+              <div class="wrap" id="wrap">
+		        <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total" 
+		        	v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
+		        </zpagenav>
+		    </div>
             <div class="common-tail-bg">
                 <div id="common-tail" class="common-tail">
                     <div id="tail-nav" class="tail-nav">
