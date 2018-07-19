@@ -70,7 +70,9 @@ function mappingData(result){
 		mappingTextItem("activityTypeCode",orders.activitysCode);
 		mappingTextItem("activityDuringCode",orders.activityDuring);
 		mappingTextItem("activityDate",parseDateStr(orders.activityStart) + " - " + parseDateStr(orders.activityEnd));
-		mappingTextItem("orderSimulatePriceCode",orders.orderSimulatePrice);		
+		mappingTextItem("orderSimulatePriceCode",orders.orderSimulatePrice);
+		mappingTextItem("groupTags",orders.peopleTag);
+		mappingTextItem("activityLocation",orders.activityProvince)
 	}
 	if(ret.purchaserAccountInfo != null){
 		var userInfo = ret.purchaserAccountInfo

@@ -248,8 +248,9 @@ img{
 .middle-column{
     width: 33%;
     display: table-cell;
-    text-align: center;
+    /*text-align: center*/;
     /*vertical-align: middle;*/
+    padding-left:3.8vw;
 }
 .right-header{
     width: 33%;
@@ -438,6 +439,10 @@ img{
     text-align: center;
     font-size: 1.25vw;
     color:#414141;
+}
+
+.manditory{
+	color:red ;
 }
 
 

@@ -199,12 +199,12 @@ var appMyAccount = new Vue(
             			verifyFieldList.push({"id":"contractName","value":vm.contractName});
             			verifyFieldList.push({"id":"peopleNum","value":vm.selectedGroupNumber});
             			verifyFieldList.push({"id":"contractMobile","value":vm.contractMobile});  
-            			verifyFieldList.push({"id":"people-special1","value":vm.selectedPeopleTag})
+            			//verifyFieldList.push({"id":"people-special1","value":vm.selectedPeopleTag})
             			verifyFieldList.push({"id":"activity-type","value":vm.selectedActivityType});
             			verifyFieldList.push({"id":"province","value":vm.selectedProvince});
             			verifyFieldList.push({"id":"duration-type","value":vm.selectedDuration});
             			verifyFieldList.push({"id":"simulatePrice","value":vm.selectedSimulatePrice});
-            			verifyFieldList.push({"id":"activityDate","value":$("#activityDate").val()});
+            			//verifyFieldList.push({"id":"activityDate","value":$("#activityDate").val()});
             			var verifyResult = verifyFieldsNotEmpty(verifyFieldList);
             			if(verifyResult.length > 0){
             				verifyFieldList.forEach(
@@ -212,14 +212,14 @@ var appMyAccount = new Vue(
             							$("#"+item.id).removeClass("validate-error");
             						}
             				);
-            				$("#activityDate").attr("style","");
+            				//$("#activityDate").attr("style","");
             				verifyResult.forEach(
             						function(item){
             							$("#"+item).addClass("validate-error");
-            							if(item == "activityDate"){
+            							/*if(item == "activityDate"){
             								$("#"+item).removeClass("validate-error");
-            								$("#"+item).attr("style","border:1px solid red");
-            							}
+            								//$("#"+item).attr("style","border:1px solid red");
+            							}*/
             						}
             				);
             				alert("必填项没有全部填写或选择");
@@ -229,7 +229,7 @@ var appMyAccount = new Vue(
             							$("#"+item.id).removeClass("validate-error");
             						}
             				);
-            				$("#activityDate").attr("style","");
+            				//$("#activityDate").attr("style","");
             				var order = new Object();
             				order.companyTypeId = vm.selectedCompanyType ;
             				order.contract = vm.contractName;
