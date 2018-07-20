@@ -13,6 +13,7 @@
     <script type="application/javascript" src="../../script/jquery.cookie.js"></script>
     <script type="application/javascript" src="../../script/vue.min.js"></script>
     <script type="application/javascript" src="../../script/laydate.js"></script>
+    <script type="application/javascript" src="../../script/axios.min.js"></script>
 </head>
 <body>
 <form action="#">
@@ -59,23 +60,23 @@
         </div>
         <div class="formcontent">
             <div class="first-contentrow">
-                <div class="label-grey fistcolumn">企业类型</div>
+                <div class="label-grey fistcolumn"><span class="manditory">*</span>企业类型</div>
                 <select name="company_type" id="company_type" class="select-grey" v-model="selectedCompanyType">
                 	<option value="">请选择 </option>
                     <option v-for="companyType in companyTypeList"  :value="companyType.code">{{companyType.value}} </option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
-                <div class="label-grey secondcolumn">联系人姓名</div>
+                <div class="label-grey secondcolumn"><span class="manditory">*</span>联系人姓名</div>
                 <input id="contractName" type="text" class="input-grey" v-model="contractName">
             </div>
             <div class="contentrow">
-                <div class="label-grey fistcolumn">参与人数</div>
+                <div class="label-grey fistcolumn"><span class="manditory">*</span>参与人数</div>
                 <select name="peopleNum" id="peopleNum" class="select-grey" v-model="selectedGroupNumber">
                     <option value="">请选择 </option>
                     <option v-for="groupNumber in groupNumberList" :value="groupNumber.code"> {{groupNumber.value}}</option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
-                <div class="label-grey secondcolumn">联系人电话</div>
+                <div class="label-grey secondcolumn"><span class="manditory">*</span>联系人电话</div>
                 <input id="contractMobile" type="text" class="input-grey" v-model="contractMobile">
             </div>
             <div class="contentrow">
@@ -102,7 +103,7 @@
         </div>
         <div class="formcontent" style="height: 41.46vw;vertical-align: top">
             <div class="first-contentrow">
-                <div class="label-grey fistcolumn">活动类型</div>
+                <div class="label-grey fistcolumn"><span class="manditory">*</span>活动类型</div>
                 <select name="activity-type" id="activity-type" class="select-grey" v-model="selectedActivityType">
                     <option value="">请选择 </option>
                      <option v-for="activityType in activityTypeList"  :value="activityType.code">{{activityType.value}} </option>
@@ -115,13 +116,13 @@
                 <i class="iconfont-color icon-tianjia"></i> -->
             </div>
             <div class="contentrow">
-                <div class="label-grey fistcolumn">活动地区</div>
+                <div class="label-grey fistcolumn"><span class="manditory">*</span>活动地区</div>
                 <select name="province" id="province" class="select-grey" v-model="selectedProvince">
                     <option value="">请选择 </option>
                     <option :value="province.code" v-for="province in provinceList">{{province.value}} </option>
                 </select>
                 <i class="iconfont-bold icon-xiajiantou iconfontposition"></i>
-                <div class="label-grey secondcolumn">活动天数</div>
+                <div class="label-grey secondcolumn"><span class="manditory">*</span>活动天数</div>
                 <select name="duration-type" id="duration-type" class="select-grey" v-model="selectedDuration">
                     <option value="">请选择 </option>
                     <option :value="duration.code" v-for="duration in durationList">{{duration.value}} </option>
@@ -131,7 +132,7 @@
             <div class="contentrow">
                 <div class="label-grey fistcolumn">活动日期</div>
                 <input class="laydate-icon input-grey-small" id="activityDate" readOnly="readOnly" value=""> 
-                <div class="label-grey secondcolumn">活动预算</div>
+                <div class="label-grey secondcolumn"><span class="manditory">*</span>活动预算</div>
                 <select name="simulatePrice" id="simulatePrice" class="select-grey" v-model="selectedSimulatePrice">
                     <option value="">请选择 </option>
                     <option :value="simulatePrice.code" v-for="simulatePrice in simulatePriceList">{{simulatePrice.value}} </option>
@@ -157,327 +158,139 @@
         <div class="imagge-mix-table-wrapper">
             <div class="imagge-mix-table">
                 <div class="image-mix-row">
-                    <div class="left-column">
+                    <div class="left-header">
                         <div class="span-grey span-grey-column1">产品</div>
                     </div>
-                    <div class="middle-column">
+                    <div class="middle-header">
                         <div class="span-grey span-grey-column2">场地</div>
                     </div>
-                    <div class="right-column">
+                    <div class="right-header">
                         <div class="span-grey span-grey-column3">案例</div>
                     </div>
                 </div>
                 <div class="image-mix-row">
-                    <div class="left-column">
+                    <div class="left-header">
                         <div class="span-grey-blank span-column1">
-                            <i class="iconfont-bolder icon-shangjiantou"></i>
+                            <i class="iconfont-bolder icon-shangjiantou" @click="productionBeforeClick"></i>
                         </div>
                     </div>
-                    <div class="middle-column">
+                    <div class="middle-header">
                         <div class="span-grey-blank span-column2">
-                            <i class="iconfont-bolder icon-shangjiantou"></i>
+                            <i class="iconfont-bolder icon-shangjiantou" @click="locationBeforeClick"></i>
                         </div>
                     </div>
-                    <div class="right-column">
+                    <div class="right-header">
                         <div class="span-grey-blank span-column3 ">
-                            <i class="iconfont-bolder icon-shangjiantou"></i>
+                            <i class="iconfont-bolder icon-shangjiantou" @click="caseBeforeClick"></i>
                         </div>
                     </div>
                 </div>
-                <!--  3个一组是整体-->
-                <div class="image-mix-row">
-                    <div class="left-column">
+                <!-- 产品-->
+                
+                    <div class="left-column" style="display:block">
+                    <template  v-for="item in productionList">
                         <div class="span-image-blank span-column1 border-radius">
                             <div class="span-image-content">
-                                <img src="../../img/require-image11.png" alt="">
-                                <p class="align-left">探秘古道红枫，寻访仙谷奇缘—
-                                    南黄古道+琼台仙谷......   </p>
+                                <img :src="item.mainImageLarge" alt="">
+                                <p class="align-left">{{item.name}}</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="middle-column">
-                        <div class="span-image-blank span-column2 border-radius">
-                            <div class="span-image-content">
-                                <img src="../../img/require-image12.png" alt="">
-                                <p class="align-left">上海卢湾体育场 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right-column">
-                        <div class="span-image-blank span-column3 border-radius">
-                            <div class="span-image-content">
-                                <img src="../../img/require-image13.png" alt="">
-                                <p class="align-left">上海卢湾体育场  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="image-mix-row">
-                    <div class="left-column">
                         <div class="span-image-blank span-column1 border-slide position-relative">
-                           <span class="price-label">参考价格: 1000-1500元/人</span>
+                           <span class="price-label">参考价格: {{item.orderSimulatePrice}}</span>
                             <input type="checkbox" name="selectcase" style="display: none">
                             <i class="iconfont-bold2 icon-checkbox-non"></i>
                             <hr class="specil-line">
                         </div>
-                    </div>
-                    <div class="middle-column">
-                        <div class="span-image-blank span-column2 border-slide position-relative">
-                            <span class="price-label">参考价格: 1200元/人</span>
-                            <input type="checkbox" name="selectcase" style="display: none">
-                            <i class="iconfont-bold2 icon-checkbox-non"></i>
-                            <hr class="specil-line">
-                        </div>
-                    </div>
-                    <div class="right-column">
-                        <div class="span-image-blank span-column3 border-slide position-relative">
-                            <span class="price-label">参考价格: 400-600元/人</span>
-                            <input type="checkbox" name="selectcase" style="display: none">
-                            <i class="iconfont-bold2 icon-checkbox-non"></i>
-                            <hr class="specil-line">
-                        </div>
-                    </div>
-                </div>
-                <div class="image-mix-row">
-                    <div class="left-column">
                         <div class="span-image-blank span-column1 border-bottom position-top" >
                             <div class="left-text-wrapper">
                                 <div class="left-text">
-                                    <p>地区：浙江省台州市</p>
-                                    <p>人数：50-150人</p>
+                                    <p>地区：{{item.location}}</p>
+                                    <p>人数：{{item.groupNumber}}</p>
                                 </div>
                                 <div class="right-text">
-                                    <p>类型：户外拓展</p>
-                                    <p>天数： 2-3天</p>
+                                    <p>类型：{{item.activityTypeCode}}</p>
+                                    <p>天数： {{item.dur}}</p>
                                 </div>
                             </div>
                         </div>
+                        </template>
                     </div>
-                    <div class="middle-column">
-                        <div class="span-image-blank span-column2 border-bottom position-top">
-                            <div class="left-text-wrapper">
-                                <div class="left-text">
-                                    <p>地区：上海市</p>
-                                    <p>人数：可容纳3000人</p>
-                                </div>
-                                <div class="right-text">
-                                    <p>类型：团队赛跑 </p>
-                                    <p>天数：1天   </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right-column">
-                        <div class="span-image-blank span-column3 border-bottom position-top">
-                            <div class="left-text-wrapper">
-                                <div class="left-text">
-                                    <p>地区：杭州市</p>
-                                    <p> 类型：趣味游戏 </p>
-                                </div>
-                                <div class="right-text">
-                                    <p>人数：20-50人  </p>
-                                    <p>天数：2天   </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--  3个一组是整体-->
-                <div class="image-mix-row">
-                    <div class="left-column">
-                        <div class="span-image-blank span-column1 border-radius">
-                            <div class="span-image-content">
-                                <img src="../../img/require-image21.png" alt="">
-                                <p class="align-left">2018年上港集团公路骑行 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="middle-column">
-                        <div class="span-image-blank span-column2 border-radius">
-                            <div class="span-image-content">
-                                <img src="../../img/require-image22.png" alt="">
-                                <p class="align-left">上海卢湾体育场 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right-column">
-                        <div class="span-image-blank span-column3 border-radius">
-                            <div class="span-image-content">
-                                <img src="../../img/require-image23.png" alt="">
-                                <p class="align-left">某长沙集团水上球类运动  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="image-mix-row">
-                    <div class="left-column">
-                        <div class="span-image-blank span-column1 border-slide position-relative">
-                            <span class="price-label">参考价格: 500-600元/人</span>
-                            <input type="checkbox" name="selectcase" style="display: none">
-                            <i class="iconfont-bold2 icon-checkbox-non"></i>
-                            <hr class="specil-line">
-                        </div>
-                    </div>
-                    <div class="middle-column">
-                        <div class="span-image-blank span-column2 border-slide position-relative">
-                            <span class="price-label">参考价格: 1000-1500元/人</span>
-                            <input type="checkbox" name="selectcase" style="display: none">
-                            <i class="iconfont-bold2 icon-checkbox-non"></i>
-                            <hr class="specil-line">
-                        </div>
-                    </div>
-                    <div class="right-column">
-                        <div class="span-image-blank span-column3 border-slide position-relative">
-                            <span class="price-label">参考价格: 500元/人</span>
-                            <input type="checkbox" name="selectcase" style="display: none">
-                            <i class="iconfont-bold2 icon-checkbox-non"></i>
-                            <hr class="specil-line">
-                        </div>
-                    </div>
-                </div>
-                <div class="image-mix-row">
-                    <div class="left-column">
-                        <div class="span-image-blank span-column1 border-bottom position-top" >
-                            <div class="left-text-wrapper">
-                                <div class="left-text">
-                                    <p>地区：上海市  </p>
-                                    <p>人数：500-1000人</p>
-                                </div>
-                                <div class="right-text">
-                                    <p>类型：户外拓展</p>
-                                    <p>天数： 1天</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="middle-column">
-                        <div class="span-image-blank span-column2 border-bottom position-top">
-                            <div class="left-text-wrapper">
-                                <div class="left-text">
-                                    <p>地区：浙江台州市</p>
-                                    <p> 人数：50-100人 </p>
-                                </div>
-                                <div class="right-text">
-                                    <p>类型：户外拓展  </p>
-                                    <p>天数：2-3天   </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right-column">
-                        <div class="span-image-blank span-column3 border-bottom position-top">
-                            <div class="left-text-wrapper">
-                                <div class="left-text">
-                                    <p>地区：湖南长沙市</p>
-                                    <p> 人数：50-100人 </p>
-                                </div>
-                                <div class="right-text">
-                                    <p>类型：团队合作</p>
-                                    <p>天数：1天   </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--  3个一组是整体-->
-                <div class="image-mix-row">
-                    <div class="left-column">
-                        <div class="span-image-blank span-column1 border-radius">
-                            <div class="span-image-content">
-                                <img src="../../img/require-image31.png" alt="">
-                                <p class="align-left">探秘古道红枫，寻访仙谷奇缘—
-                                    南黄古道+琼台仙谷......   </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="middle-column">
-                        <div class="span-image-blank span-column2 border-radius">
-                            <div class="span-image-content">
-                                <img src="../../img/require-image32.png" alt="">
-                                <p class="align-left">卡丁车赛车馆速度争霸赛 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right-column">
-                        <div class="span-image-blank span-column3 border-radius">
-                            <div class="span-image-content">
-                                <img src="../../img/require-image33.png" alt="">
-                                <p class="align-left">户外森林公园团体拓展培训  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="image-mix-row">
-                    <div class="left-column">
-                        <div class="span-image-blank span-column1 border-slide position-relative">
-                            <span class="price-label">参考价格: 1000-1500元/人</span>
-                            <input type="checkbox" name="selectcase" style="display: none">
-                            <i class="iconfont-bold2 icon-checkbox-non"></i>
-                            <hr class="specil-line">
-                        </div>
-                    </div>
-                    <div class="middle-column">
-                        <div class="span-image-blank span-column2 border-slide position-relative">
-                            <span class="price-label">参考价格: 1000-1500元/人</span>
-                            <input type="checkbox" name="selectcase" style="display: none">
-                            <i class="iconfont-bold2 icon-checkbox-non"></i>
-                            <hr class="specil-line">
-                        </div>
-                    </div>
-                    <div class="right-column">
-                        <div class="span-image-blank span-column3 border-slide position-relative">
-                            <span class="price-label">参考价格: 300-500元/人</span>
-                            <input type="checkbox" name="selectcase" style="display: none">
-                            <i class="iconfont-bold2 icon-checkbox-non"></i>
-                            <hr class="specil-line">
-                        </div>
-                    </div>
-                </div>
-                <div class="image-mix-row">
-                    <div class="left-column">
-                        <div class="span-image-blank span-column1 border-bottom position-top" >
-                            <div class="left-text-wrapper">
-                                <div class="left-text">
-                                    <p>地区：浙江省台州市  </p>
-                                    <p>人数：50-150人</p>
-                                </div>
-                                <div class="right-text">
-                                    <p>类型：户外拓展</p>
-                                    <p>天数： 2-3天</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="middle-column">
-                        <div class="span-image-blank span-column2 border-bottom position-top">
-                            <div class="left-text-wrapper">
-                                <div class="left-text">
-                                    <p>地区：浙江省台州市  </p>
-                                    <p>人数：50-150人</p>
-                                </div>
-                                <div class="right-text">
-                                    <p>类型：户外拓展</p>
-                                    <p>天数： 2-3天</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right-column">
-                        <div class="span-image-blank span-column3 border-bottom position-top">
-                            <div class="left-text-wrapper">
-                                <div class="left-text">
-                                    <p>地区：上海市</p>
-                                    <p> 人数：50-100人 </p>
-                                </div>
-                                <div class="right-text">
-                                    <p>类型：拓展训练</p>
-                                    <p>天数：2天   </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
+                    <div class="middle-column" >
+                    <template  v-for="item in locationList">
+                        <div class="span-image-blank span-column2  border-radius" >
+                            <div class="span-image-content">
+                                <img :src="item.descirbeText2" alt="">
+                                <p class="align-left">{{item.name}}</p>
+                            </div>
+                        </div>
+                        <div class="span-image-blank span-column2  border-slide position-relative">
+                           <span class="price-label">参考价格: {{item.simulatePriceCode}}</span>
+                            <input type="checkbox" name="selectcase" style="display: none">
+                            <i class="iconfont-bold2 icon-checkbox-non"></i>
+                            <hr class="specil-line">
+                        </div>
+                         <div class="span-image-blank span-column2  border-bottom position-top" >
+                            <div class="left-text-wrapper">
+                                <div class="left-text">
+                                    <p>地区：{{item.location}}</p>
+                                    <p>人数：{{item.groupNumberLimitCode}}</p>
+                                </div>
+                                <div class="right-text">
+                                    <p>类型：{{item.activeTypeCode}}</p>
+                                    <p>天数： {{item.duration}}</p>
+                                </div>
+                            </div>
+                        </div>
+                         </template>
+                    </div>             
+                <!-- 案例-->                
+                
+                    <div class="right-column" >
+                    <template  v-for="item in caseList">
+                        <div class="span-image-blank span-column1  border-radius">
+                            <div class="span-image-content">
+                                <img :src="item.descirbeText2" alt="">
+                                <p class="align-left">{{item.name}}</p>
+                            </div>
+                        </div>
+                        <div class="span-image-blank span-column1 border-slide position-relative">
+                           <span class="price-label">参考价格: {{item.simulatePriceCode}}</span>
+                            <input type="checkbox" name="selectcase" style="display: none">
+                            <i class="iconfont-bold2 icon-checkbox-non"></i>
+                            <hr class="specil-line">
+                        </div>
+                        <div class="span-image-blank span-column1 border-bottom position-top" >
+                            <div class="left-text-wrapper">
+                                <div class="left-text">
+                                    <p>地区：{{item.location}}</p>
+                                    <p>人数：{{item.groupNumber}}</p>
+                                </div>
+                                <div class="right-text">
+                                    <p>类型：{{item.activityTypeCode}}</p>
+                                    <p>天数： {{item.during}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        </template>
+                    </div>   
+                   <div class="image-mix-row">
+                    <div class="left-column">
+                        <div class="span-grey-blank span-column1" >
+                            <i class="iconfont-bolder icon-xiajiantou" v-if="productionNext" @click="productionNextClick"></i>
+                        </div>
+                    </div>
+                    <div class="middle-column">
+                        <div class="span-grey-blank span-column2" >
+                            <i class="iconfont-bolder icon-xiajiantou" v-if="locationNext" @click="locationNextClick"></i>
+                        </div>
+                    </div>
+                    <div class="right-column">
+                        <div class="span-grey-blank span-column3 " >
+                            <i class="iconfont-bolder icon-xiajiantou" v-if="caseNext" @click="caseNextClick"></i>
+                        </div>
+                    </div>
+                </div>                            
             </div>
         </div>
         <div class="common-tail-bg" style="margin-top: 4.32vw">

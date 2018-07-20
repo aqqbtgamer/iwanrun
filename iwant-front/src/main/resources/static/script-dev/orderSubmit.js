@@ -46,6 +46,20 @@ var appMyAccount = new Vue(
                 simulatedPrice:'800元/人',
                 other:'其他需求'
             },
+            productionList:{},
+            locationList:{},
+            caseList:{},
+            productionCurrentPage:1,
+            locationCurrentPage:1,
+            caseCurrentPage:1,
+            pageSize:3,
+            total:1,
+            productionMaxPage:1,
+            locationMaxPage:1,
+            caseMaxPage:1,
+            productionNext:true,
+            locationNext:true,
+            caseNext:true,
             selectedActivityType:"",
             activityTypeList:[],
             companyTypeList:[],
@@ -78,7 +92,10 @@ var appMyAccount = new Vue(
         			vm[field.toString()] = result ;
         		};  		
         		$http_form.post(dictionaryQueryUrl,callback);
-        	}        	
+        	}  
+        	vm.queryProdutionByCondition('1');
+        	vm.queryLocationByCondition('1');
+        	vm.queryCaseByCondition("1");
         },
         methods: {
             showLogin: function (message) {
@@ -94,6 +111,75 @@ var appMyAccount = new Vue(
             changeAutoLogin: function () {
                 var vm = this;
                 vm.autoLogin = !vm.autoLogin;
+            },
+            queryProdutionByCondition:function(pageIndex){
+            	var vm = this;
+            	var url="../../production/queryProdutionByCondition";
+            	var param = {};
+            	param.pageIndex=pageIndex-1;
+            	param.pageSize=vm.pageSize;
+            	axios.post(url,param).then(
+            			function(response){
+            				console.log(response.data);
+            				var list = response.data;
+            				if( list != ''){
+            					vm.productionList=list.content;
+            					vm.productionMaxPage=list.pageInfo.totalpage;//最大页数
+            					if(vm.productionCurrentPage==vm.productionMaxPage){
+            						vm.productionNext=false;
+            					}
+            					if( vm.productionMaxPage > vm.productionCurrentPage){
+            	            		vm.productionNext=true;
+            	            	}
+            				}
+            				
+            	})
+            },
+            queryLocationByCondition:function(pageIndex){
+            	var vm = this;
+            	var url="../../location/querylocationByCondition";
+            	var param = {};
+            	param.pageIndex=pageIndex-1;
+            	param.pageSize=vm.pageSize;
+            	axios.post(url,param).then(
+            			function(response){
+            				console.log(response.data);
+            				var list = response.data;
+            				if( list != ''){
+            					vm.locationList=list.content;
+            					vm.locationMaxPage=list.pageInfo.totalpage;//最大页数
+            					if(vm.locationCurrentPage==vm.locationMaxPage){
+            						vm.locationNext=false;
+            					}
+            					if(vm.locationMaxPage > vm.locationCurrentPage){
+            	            		vm.locationNext=true;
+            	            	}
+            				}
+            				
+            	})
+            },
+            queryCaseByCondition:function(pageIndex){
+            	var vm = this;
+            	var url="../../case/queryCaseByCondition";
+            	var param = {};
+            	param.pageIndex=pageIndex-1;
+            	param.pageSize=vm.pageSize;
+            	axios.post(url,param).then(
+            			function(response){
+            				console.log(response.data);
+            				var list = response.data;
+            				if( list != ''){
+            					vm.caseList=list.content;
+            					vm.caseMaxPage=list.pageInfo.totalpage;//最大页数
+            					if(vm.caseCurrentPage==vm.caseMaxPage){
+            						vm.caseNext=false;
+            					}
+            					if( vm.caseMaxPage > vm.caseCurrentPage ){
+            	            		vm.caseNext=true;
+            	            	}
+            				}
+            				
+            	})
             },
             submitOrder:function(){
             	console.log("v-on click method :submit order");
@@ -113,12 +199,12 @@ var appMyAccount = new Vue(
             			verifyFieldList.push({"id":"contractName","value":vm.contractName});
             			verifyFieldList.push({"id":"peopleNum","value":vm.selectedGroupNumber});
             			verifyFieldList.push({"id":"contractMobile","value":vm.contractMobile});  
-            			verifyFieldList.push({"id":"people-special1","value":vm.selectedPeopleTag})
+            			//verifyFieldList.push({"id":"people-special1","value":vm.selectedPeopleTag})
             			verifyFieldList.push({"id":"activity-type","value":vm.selectedActivityType});
             			verifyFieldList.push({"id":"province","value":vm.selectedProvince});
             			verifyFieldList.push({"id":"duration-type","value":vm.selectedDuration});
             			verifyFieldList.push({"id":"simulatePrice","value":vm.selectedSimulatePrice});
-            			verifyFieldList.push({"id":"activityDate","value":$("#activityDate").val()});
+            			//verifyFieldList.push({"id":"activityDate","value":$("#activityDate").val()});
             			var verifyResult = verifyFieldsNotEmpty(verifyFieldList);
             			if(verifyResult.length > 0){
             				verifyFieldList.forEach(
@@ -126,14 +212,14 @@ var appMyAccount = new Vue(
             							$("#"+item.id).removeClass("validate-error");
             						}
             				);
-            				$("#activityDate").attr("style","");
+            				//$("#activityDate").attr("style","");
             				verifyResult.forEach(
             						function(item){
             							$("#"+item).addClass("validate-error");
-            							if(item == "activityDate"){
+            							/*if(item == "activityDate"){
             								$("#"+item).removeClass("validate-error");
-            								$("#"+item).attr("style","border:1px solid red");
-            							}
+            								//$("#"+item).attr("style","border:1px solid red");
+            							}*/
             						}
             				);
             				alert("必填项没有全部填写或选择");
@@ -143,7 +229,7 @@ var appMyAccount = new Vue(
             							$("#"+item.id).removeClass("validate-error");
             						}
             				);
-            				$("#activityDate").attr("style","");
+            				//$("#activityDate").attr("style","");
             				var order = new Object();
             				order.companyTypeId = vm.selectedCompanyType ;
             				order.contract = vm.contractName;
@@ -176,8 +262,43 @@ var appMyAccount = new Vue(
             			}
             		}      
             	}
-            }
-            
+            },
+            productionNextClick:function(){  
+            	var vm=this;
+            	vm.productionCurrentPage=vm.productionCurrentPage+1;
+            	vm.queryProdutionByCondition(vm.productionCurrentPage);
+            },
+            locationNextClick:function(){
+            	var vm=this;
+            	vm.locationCurrentPage=vm.locationCurrentPage+1;
+            	vm.queryLocationByCondition(vm.locationCurrentPage);
+            },
+            caseNextClick:function(){
+            	var vm=this;
+            	vm.caseCurrentPage=vm.caseCurrentPage+1;
+            	vm.queryCaseByCondition(vm.caseCurrentPage);
+            },
+            productionBeforeClick:function(){  
+            	var vm=this;
+            	if( vm.productionCurrentPage >1){
+            		vm.productionCurrentPage=vm.productionCurrentPage-1;
+                	vm.queryProdutionByCondition(vm.productionCurrentPage);
+            	}
+            },
+            locationBeforeClick:function(){
+            	var vm=this;
+            	if( vm.locationCurrentPage > 1){
+            		vm.locationCurrentPage=vm.locationCurrentPage-1;
+                	vm.queryLocationByCondition(vm.locationCurrentPage);
+            	}
+            },
+            caseBeforeClick:function(){
+            	var vm=this;
+            	if( vm.caseCurrentPage >1){
+            		vm.caseCurrentPage=vm.caseCurrentPage-1;
+                	vm.queryCaseByCondition(vm.caseCurrentPage);
+            	}
+            },
         }
     }
 );

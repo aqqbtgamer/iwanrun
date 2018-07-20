@@ -100,7 +100,7 @@ var appIndex = new Vue(
 			},
 			created: function(){
 	        	var vm = this;
-	        	this.queryProdutionByCondition('1');
+	        	vm.queryProdutionByCondition('1');
 	        	vm.queryLocationByCondition('1');
 	        	vm.queryCaseByCondition("1");
 	        },

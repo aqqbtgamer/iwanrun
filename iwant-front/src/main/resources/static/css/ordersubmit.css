@@ -1,5 +1,6 @@
 img{
     width: 100%;
+    height:14vw;
 }
 
 .banner{
@@ -222,23 +223,46 @@ img{
     height: 2.61vw;
 }
 
+.left-header{
+    width: 33%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+
 .left-column{
     width: 33%;
     display: table-cell;
     vertical-align: middle;
 }
 
-.middle-column{
+
+
+.middle-header{
     width: 33%;
     display: table-cell;
     text-align: center;
     vertical-align: middle;
 }
 
-.right-column{
+.middle-column{
+    width: 33%;
+    display: table-cell;
+    /*text-align: center*/;
+    /*vertical-align: middle;*/
+    padding-left:3.8vw;
+}
+.right-header{
     width: 33%;
     display: table-cell;
     vertical-align: middle;
+}
+
+
+.right-column{
+    width: 33%;
+    display: table-cell;
+    /*vertical-align: middle;*/
 }
 
 .span-grey{
@@ -269,7 +293,7 @@ img{
 .span-grey-column3{
     float: right;
     margin-top: 2.34vw;
-    margin-right:4.58vw;
+    margin-right:3.3vw;
 }
 
 .span-grey-blank{
@@ -415,6 +439,10 @@ img{
     text-align: center;
     font-size: 1.25vw;
     color:#414141;
+}
+
+.manditory{
+	color:red ;
 }
 
 
