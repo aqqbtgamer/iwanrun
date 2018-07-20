@@ -12,8 +12,8 @@ import java.util.Optional;
 
 @Repository
 public interface FavouriteDao extends JpaRepository<Favourite, Integer>,JpaSpecificationExecutor<Favourite> {
-    public List<Favourite> findAllByUserId(int userId);
-    default Favourite findCase(int userId, String caseType, int caseId) {
+    public List<Favourite> findAllByUserId(String userId);
+    default Favourite findCase(String userId, String caseType, int caseId) {
         Favourite favourite = new Favourite();
         favourite.setUserId(userId);
         favourite.setCaseType(caseType);

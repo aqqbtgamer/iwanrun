@@ -15,13 +15,14 @@ public class FavouriteService {
     @Autowired
     private DictionaryService dicService;
 
-    public Message queryFavouriteList(String param) {
+    public Message queryFavouriteList(String param, String token) {
         String findByName = environment.getProperty("application.favourite.queryFavourite");
         String baseUrl = environment.getProperty("app.server");
 
         String url = baseUrl + findByName;
 
         Message message = new Message();
+        message.setAccessToken(token);
         message.setMessageBody(param);
         message.setRequestMethod(url);
         message = template.postForEntity(url, message, Message.class).getBody();

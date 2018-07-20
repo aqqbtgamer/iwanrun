@@ -231,17 +231,19 @@ public class PurchaserAccountService {
 		}
 
 		String loginId = LoginTokenUtils.getLoginId(request);
+		String accessToken = LoginTokenUtils.getToken(request);
 
-		return findMixedByLoginId(loginId);
+		return findMixedByLoginId(loginId, accessToken);
 	}
 
-	public String findMixedByLoginId(String loginId) {
+	public String findMixedByLoginId(String loginId, String accessToken) {
 		JSONObject json = new JSONObject();
 		json.put("loginId", loginId);
 		String baseUrl = environment.getProperty("app.server");
 		String findMixedByLoginIdUrl = environment.getProperty("application.purchaserAccount.findMixedByLoginId");
 		String url = baseUrl + findMixedByLoginIdUrl;
 		Message message = new Message();
+		message.setAccessToken(accessToken);
 		message.setMessageBody(json.toJSONString());
 		message.setRequestMethod(url);
 		Message response = template.postForEntity(url, message, Message.class).getBody();

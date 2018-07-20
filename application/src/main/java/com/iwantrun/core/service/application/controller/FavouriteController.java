@@ -1,7 +1,9 @@
 package com.iwantrun.core.service.application.controller;
 
+import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
 import com.iwantrun.core.service.application.domain.Cases;
 import com.iwantrun.core.service.application.domain.Dictionary;
+import com.iwantrun.core.service.application.domain.Favourite;
 import com.iwantrun.core.service.application.service.CasesService;
 import com.iwantrun.core.service.application.service.DictionaryService;
 import com.iwantrun.core.service.application.service.FavouriteService;
@@ -35,18 +37,60 @@ public class FavouriteController {
     @Autowired
     private DictionaryService dictionaryService;
 
+    @NeedTokenVerify
     @RequestMapping("/application/favourite/queryFavourite")
     public Message queryFavourite(@RequestBody Message message) {
         String dataJson = message.getMessageBody();
         JSONObject object = (JSONObject) JSONValue.parse(dataJson);
+        JSONObject accessToken =(JSONObject) JSONValue.parse(message.getAccessToken());
+        String login_id = accessToken.getAsString("currentUser");
 
         // FIXME: how to get userId from session.
-        int userId = 0;
         String caseType = object.getAsString("name");
-        if ("location" == caseType) {
-            List<FavouriteCase> favouriteCaseList = favouriteService.queryFavouriteCase(userId, caseType);
+        if ("location".equals(caseType)) {
+            List<FavouriteCase> favouriteCaseList = favouriteService.queryFavouriteCase(login_id, caseType);
             message.setMessageBody(JSONUtils.objToJSON(favouriteCaseList));
         }
+        return message;
+    }
+
+    @NeedTokenVerify
+    @RequestMapping("/application/favourite/addFavourite")
+    public Message addFavourite(@RequestBody Message message) {
+        String dataJson = message.getMessageBody();
+        JSONObject object = (JSONObject) JSONValue.parse(dataJson);
+        JSONObject accessToken =(JSONObject) JSONValue.parse(message.getAccessToken());
+        String login_id = accessToken.getAsString("currentUser");
+
+        String caseType = object.getAsString("caseType");
+        Integer caseId = object.getAsNumber("caseId").intValue();
+
+        Favourite favourite = new Favourite();
+        favourite.setUserId(login_id);
+        favourite.setCaseType(caseType);
+        favourite.setCaseId(caseId);
+
+        favouriteService.addFavourite(favourite);
+        return message;
+    }
+
+    @NeedTokenVerify
+    @RequestMapping("/application/favourite/delFavourite")
+    public Message delFavourite(@RequestBody Message message) {
+        String dataJson = message.getMessageBody();
+        JSONObject object = (JSONObject) JSONValue.parse(dataJson);
+        JSONObject accessToken =(JSONObject) JSONValue.parse(message.getAccessToken());
+        String login_id = accessToken.getAsString("currentUser");
+
+        String caseType = object.getAsString("caseType");
+        Integer caseId = object.getAsNumber("caseId").intValue();
+
+        Favourite favourite = new Favourite();
+        favourite.setUserId(login_id);
+        favourite.setCaseType(caseType);
+        favourite.setCaseId(caseId);
+
+        favouriteService.delFavourite(favourite);
         return message;
     }
 }
