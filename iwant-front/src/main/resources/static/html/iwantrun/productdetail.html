@@ -8,6 +8,10 @@
     <link rel="stylesheet" href=" ../../css/common.css">
     <link rel="stylesheet" href="../../css/iconfont.css">
     <link rel="stylesheet" href="../../css/productdetail.css">
+    <script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="application/javascript" src="../../script/bluebird.min.js"></script>
+    <script type="application/javascript" src="../../script/vue.min.js"></script>
+    <script type="application/javascript" src="../../script/jquery.cookie.js"></script>
     <title>我要跑-查看产品详情</title>
 </head>
 <body>
@@ -35,10 +39,14 @@
             </div>
             <div id="url-login" class="class-login-nav">
                 <nav class="navbar">
-                    <ul>
-                        <li class="li-right"><a href="#" @click="showLogin('咨询师登录')">咨询师登录</a></li>
-                        <li class="li-right"><a href="#" @click="showLogin('用户登录')">用户登录</a></li>
-                    </ul>
+                    <ul v-if="loginBtnUl">
+                            <li class="li-right"><a href="#" @click="showLogin(1)">咨询师登录</a></li>
+                            <li class="li-right"><a href="#" @click="showLogin(0)">用户登录</a></li>
+                     </ul>
+                     <ul v-if="loginIdUl">
+                            <li class="li-right" style="margin-left: 0.5vw;"><a href="javascript:void(0);" @click="logout">退出</a></li>
+                            <li class="li-right" style="margin-left: 0.5vw;"><a href="#">欢迎您：{{loginId}}</a></li>
+                     </ul>
                 </nav>
             </div>
             <div class="clear"></div>
@@ -100,5 +108,8 @@
         </div>
     </div>
 </form>
+<div id="lrPannel"></div>
 </body>
+<script type="application/javascript" src="../../script-dev/common.app.js"></script>
+<script type="application/javascript" src="../../script-dev/productdetails.js"></script>
 </html>

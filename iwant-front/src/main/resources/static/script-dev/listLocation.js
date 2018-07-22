@@ -114,6 +114,10 @@ var appIndex = new Vue(
             	var vm=this;
             	vm.page = page;
             	vm.queryLocationByCondition(vm.page);
+            },
+            toDetails:function(id){
+            	console.log("v-on click toDetails :"+id);
+            	window.location.href = "./productdetail.html?type=location&id="+id ;
             }
         }
        
