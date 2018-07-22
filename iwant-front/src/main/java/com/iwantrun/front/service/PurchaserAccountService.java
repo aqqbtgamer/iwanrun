@@ -180,6 +180,8 @@ public class PurchaserAccountService {
 			String expirty = null;
 			if (isAutoLogin) {
 				expirty = environment.getProperty(CookieConstants.COOKIE_EXPIRY_ACCESS_TOKEN_KEY);
+			} else {
+				expirty = environment.getProperty(CookieConstants.COOKIE_TEMP_EXPIRY_ACCESS_TOKEN_KEY);
 			}
 			CookieUtils.addCookie(expirty, CookieConstants.COOKIE_ACCESS_TOKEN_KEY, accessToken, response);
 			CookieUtils.addCookie(expirty, CookieConstants.COOKIE_LOGIN_ID_KEY, loginId, response);
@@ -231,7 +233,7 @@ public class PurchaserAccountService {
 		}
 
 		String loginId = LoginTokenUtils.getLoginId(request);
-		String accessToken = LoginTokenUtils.getToken(request);
+		String accessToken = CookieUtils.getLoginToken(request);
 
 		return findMixedByLoginId(loginId, accessToken);
 	}

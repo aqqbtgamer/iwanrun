@@ -255,8 +255,7 @@ function accountReset(loginId) {
 	}
 }
 
-function smsReset(){
-	var vm = lrApp;
+function smsReset(vm){
 	vm.SMS = {
         timer: null,
         disabled: false,
@@ -267,7 +266,7 @@ function smsReset(){
 
 function lrAppDataReset(){
 	accountReset();
-	smsReset();
+	smsReset(this);
 }
 
 // 登录和注册App
