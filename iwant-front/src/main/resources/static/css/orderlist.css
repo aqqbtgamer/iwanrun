@@ -88,7 +88,14 @@ input:focus{outline: none;}
     font-size: 1.56vw;
     color: #414141;
 }
-
+.center-item a{
+	text-decoration:none;
+	color: #414141;
+}
+.active-item a{
+    background-color:#414141;
+    color: white !important;
+}
 .accountTitle{
     width: 100%;
     height: 4.167vw;
@@ -200,9 +207,9 @@ input:focus{outline: none;}
 }
 
 .account-box-line .table-head div,.account-box-line .table-body div{display: inline-block;}
-.account-box-line .sect-one{width: 18vw;}
-.account-box-line .sect-two{width: 20vw;}
-.account-box-line .sect-three{width: 8vw;}
+.account-box-line .sect-one{width: 22vw;word-break:break-all}
+.account-box-line .sect-two{width: 15vw;}
+.account-box-line .sect-three{width: 10vw;}
 .account-box-line .sect-four{width: 12vw;}
 .account-box-line .sect-five{width: 7vw;}
 .table-head{border-bottom:1px solid #979797;padding-bottom: 1vw;margin-top: 2vw;}
@@ -259,4 +266,3 @@ ul.pagenation li.active a{
 	background: #fff;
 	color: #FF7E00;
 }
-

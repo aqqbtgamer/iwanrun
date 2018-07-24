@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.iwantrun.core.constant.AdminApplicationConstants;
+import com.iwantrun.core.service.application.domain.Cases;
 import com.iwantrun.core.service.application.domain.Orders;
+import com.iwantrun.core.service.application.domain.SearchDictionaryList;
 import com.iwantrun.core.service.application.enums.SQLConditions;
 import com.iwantrun.core.service.application.enums.TradeStatus;
 import com.iwantrun.core.service.utils.NativeSQLUtils;
@@ -31,11 +34,11 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 	String QUERY_ORDERS_WITH_USER_INFO_SQL =" select orders.id ,login.id as loginId, info.id as infoId ,info.name,"
 			+ " login.mobile_number as mobileNumber, orders.order_no as orderNo,orders.create_time as createTime,orders.order_status_code as orderStatusCode "
 			+ "from biz_orders orders left outer join  sys_login_info login on orders.order_owner_id = login.id left join sys_user_info info "
-			+ "on login.id = info.login_info_id where 1=1 order by orders.id asc"  ;  
+			+ "on login.id = info.login_info_id where 1=1 "  ;  
 	
 	String COUNT_ORDERS_WITH_USER_INFO_SQL =" select count(orders.id)"
 			+ "from biz_orders orders left outer join  sys_login_info login on orders.order_owner_id = login.id left join sys_user_info info "
-			+ "on login.id = info.login_info_id "  ; 
+			+ "on login.id = info.login_info_id where 1=1 "  ; 
 	
 	String QUERY_ORDERS_WITH_USER_ASSIGNER_INFO_SQL = " select orders.id ,login.id as loginId, info.id as infoId ,info.name,"
 			+ " login.mobile_number as mobileNumber, orders.order_no as orderNo,orders.create_time as createTime,orders.order_status_code as orderStatusCode "
@@ -50,6 +53,8 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 	
 	
 	String ORDERBY_DESC = "order by orders.id asc";
+	
+	String QUERY_BY_LOGIN_ID=" and login.login_id='";
 	
 	Function<Object[],Map<String,Object>> MAPPER_MIXED_ORDER =
 			objArray -> {
@@ -171,5 +176,17 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 		}
 		return sql ;
 	}
-
+	@SuppressWarnings("unchecked")
+	default List<Map<String,Object>> getOrdersByLoginId(JPQLEnableRepository repository,int pageSize,int pageIndex,String loginId){
+		 String sql = QUERY_ORDERS_WITH_USER_INFO_SQL+QUERY_BY_LOGIN_ID+loginId+"'";
+		 List<Object[]> rawResult = (List<Object[]>)repository.findByNativeSqlPage(sql, pageIndex, pageSize);
+			return rawResult.stream().map(MAPPER_MIXED_ORDER).collect(Collectors.toList());
+	}
+	@SuppressWarnings("unchecked")
+	default Integer countAllWithOrdersByLoginId(JPQLEnableRepository repository,String loginId) {	
+		String sql = COUNT_ORDERS_WITH_USER_INFO_SQL+QUERY_BY_LOGIN_ID+loginId+"'";
+		List<Object> rawResult = repository.findByNativeSqlPage(sql);
+		Object raw = rawResult.get(0);
+		return AdminApplicationConstants.MAPPER_FOR_INTEGER.apply(raw);
+	}
 }

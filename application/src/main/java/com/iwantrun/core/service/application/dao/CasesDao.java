@@ -8,11 +8,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.iwantrun.core.service.application.domain.Cases;
-import com.iwantrun.core.service.application.domain.Locations;
-import com.iwantrun.core.service.application.domain.PurchaserAccount;
 import com.iwantrun.core.service.application.domain.SearchDictionaryList;
-import com.iwantrun.core.service.application.transfer.MixedUserResponse;
-import com.mysql.jdbc.StringUtils;
 @Repository
 public interface CasesDao  extends JpaRepository<Cases, Integer>,JpaSpecificationExecutor<Cases> {
 	

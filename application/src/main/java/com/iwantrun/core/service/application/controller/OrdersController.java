@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.application.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,5 +109,12 @@ public class OrdersController {
 		message.setMessageBody(result);
 		return message;
 	}
-
+	@RequestMapping("getOrderListByLoginId")
+	public Message getOrderListByLoginId(@RequestBody Message message) {
+		String requestJson = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJson);
+		String result = orderService.getOrderListByLoginId(requestObj);
+		message.setMessageBody(result);
+		return message;
+	}
 }
