@@ -1,6 +1,7 @@
 package com.iwantrun.core.service.application.service;
 
 import com.iwantrun.core.service.application.dao.SiteMessageDao;
+import com.iwantrun.core.service.application.dao.UserAccountDao;
 import com.iwantrun.core.service.application.domain.SiteMessage;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import net.minidev.json.JSONArray;
@@ -8,12 +9,16 @@ import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class SiteMessageService {
     @Autowired
     private SiteMessageDao siteMessageDao;
+
+    @Autowired
+    private UserAccountDao userAccountDao;
 
     public SimpleMessageBody sendSiteMessage(String from_user, JSONObject data) {
         SimpleMessageBody body = new SimpleMessageBody();
@@ -24,6 +29,7 @@ public class SiteMessageService {
         siteMessage.setSendtoUser(data.getAsString("to_user"));
         siteMessage.setMessageText(data.getAsString("message"));
         siteMessage.setOrderNo(data.getAsString("order_no"));
+        siteMessage.setCreateTime(new Date());
 
         siteMessageDao.save(siteMessage);
         body.setSuccessful(true);
@@ -41,6 +47,7 @@ public class SiteMessageService {
             obj.put("message", siteMessage.getMessageText());
             obj.put("blread", siteMessage.isBlRead());
             obj.put("timestamp", siteMessage.getCreateTime().toString());
+            result.appendElement(obj);
         }
 
         return result;
@@ -57,6 +64,7 @@ public class SiteMessageService {
             obj.put("message", siteMessage.getMessageText());
             obj.put("blread", siteMessage.isBlRead());
             obj.put("timestamp", siteMessage.getCreateTime().toString());
+            result.appendElement(obj);
         }
 
         return result;
