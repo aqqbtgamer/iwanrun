@@ -1,0 +1,87 @@
+package com.iwantrun.core.service.application.domain;
+
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Table(name="biz_site_message")
+public class SiteMessage {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id; // '系统主键'
+
+    @Column(name="from_user" ,nullable=false)
+    private String fromUser ;
+
+    @Column(name="sendto_user" ,nullable=false)
+    private String sendtoUser ;
+
+    @Column(name="message_text" ,nullable=false)
+    private String messageText;
+
+    @Column(name="order_no",nullable=false)
+    private String orderNo;
+
+    @Column(name="blread",nullable=false)
+    private boolean blRead = false;
+
+    @Column(name="create_time")
+    private Date createTime;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(String fromUser) {
+        this.fromUser = fromUser;
+    }
+
+    public String getSendtoUser() {
+        return sendtoUser;
+    }
+
+    public void setSendtoUser(String sendtoUser) {
+        this.sendtoUser = sendtoUser;
+    }
+
+    public String getMessageText() {
+        return messageText;
+    }
+
+    public void setMessageText(String messageText) {
+        this.messageText = messageText;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public boolean isBlRead() {
+        return blRead;
+    }
+
+    public void setBlRead(boolean blRead) {
+        this.blRead = blRead;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+}
