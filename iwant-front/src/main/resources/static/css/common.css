@@ -203,7 +203,7 @@ nav a:hover {
 }
 
 .login-head {
-    margin-top: 0.94vw;
+    /*margin-top: 0.94vw;*/
     text-align: center;
     font-family: PingFangSC-Regular, sans-serif;
     font-size: 3.125vw;
