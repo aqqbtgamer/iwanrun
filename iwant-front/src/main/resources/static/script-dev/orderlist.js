@@ -21,6 +21,8 @@ var appListProduction = new Vue(
             msgWindow:false,
             loginBtnUl : true,
             loginIdUl: false,
+            nickname:'',
+            headimg:'',
             list: [],
             pageInfo:{
             	currentIndex:1,
@@ -33,6 +35,7 @@ var appListProduction = new Vue(
         		var vm = this;
     			if( oldVal != newVal){
     				vm.getOrderListByLoginId(1);
+    				vm.getUserInfo();
     				vm.msgWindow=false;
     			}
         	}
@@ -80,6 +83,25 @@ var appListProduction = new Vue(
             					vm.total=list.pageInfo.total;
             				}
             				
+            	})
+            },
+            getUserInfo:function(){
+            	var vm = this;
+            	var url = "../../purchaserAccount/findMixedByLoginId";
+            	axios.post(url).then(
+            			function(response){
+            				console.log(response.data.content);
+            				var data = response.data;
+            				if( data != ''){
+            					var headImgs = data.headImgs;
+                				var info = data.userInfo;
+                				if(info != '' && info != undefined){
+                					vm.nickname = info.name+'，您好';
+                				}
+                				if (headImgs != '' && headImgs != undefined && headImgs.length > 0) {
+                					vm.headimg = headImgs[0].filePath;
+                				}
+            				}
             	})
             }
         },
