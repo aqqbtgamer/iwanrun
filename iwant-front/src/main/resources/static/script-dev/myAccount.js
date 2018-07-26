@@ -12,7 +12,7 @@ var appMyAccount = new Vue(
             msgWindow: false,
             msgText: '',
             loginTitle: '用户登录',
-            loginId: '18018336171',
+            loginId: '',
             loginToken: 'uuixooppasyytvdbftrraskm',
             loginBtnUl : true,
 			loginIdUl : false,
@@ -20,7 +20,7 @@ var appMyAccount = new Vue(
             account: {
                 headimg: '../../img/accountImage.png',
                 nickname: '用户001',
-                phone: '180****6171',
+                phone: '',
                 smsCode: '',
                 securityanswer: {
                     question: '',
@@ -41,8 +41,15 @@ var appMyAccount = new Vue(
                     companyTypeId: 0,
                     companySizeId: 0,
                     hasCredential: false
-                }
+                },
+                infoSetErrMsg:''
             },
+            SMS: {
+	            timer: null,
+	            disabled: false,
+	            count: 0,
+	            btnText: '短信验证'
+	        },
             setting: false,
             settingTitle: '昵称',
             settingFlag: 0 //0:nickname;1:phone;2:securityanswer
@@ -149,12 +156,32 @@ var appMyAccount = new Vue(
                 vm.msgText = '';
             },
             smsCodeGet:function(){
+            	var vm = this;
             	var mobile = vm.account.phone;
 				var msg = isMobile(mobile);
 				if (msg) {
 					console.log(msg);
 					return;
 				}
+				
+				var TIME_COUNT = 60;
+	            if (!vm.SMS.timer) {
+	                vm.SMS.count = TIME_COUNT;
+	                vm.SMS.disabled = true;
+	                vm.SMS.timer = setInterval(() => {
+	                    if (vm.SMS.count > 0 && vm.SMS.count <= TIME_COUNT) {
+	                        console.log(vm.SMS.count);
+	                        vm.SMS.btnText = vm.SMS.count + 's后重发';
+	                        vm.SMS.count--;
+	                    } else {
+	                        vm.SMS.disabled = false;
+	                        clearInterval(vm.SMS.timer);
+	                        vm.SMS.timer = null;
+	                        vm.SMS.btnText = '短信验证';
+	                    }
+	                }, 1000);
+	            }
+				
 				var url = baseUrl + 'smsCode/getSMSCode';
 				var data = {
 					'mobile' : mobile
@@ -186,11 +213,13 @@ var appMyAccount = new Vue(
 					var msg = isMobile(mobile);
 					if (msg) {
 						console.log(msg);
+						showInfoSetErrMsg(msg);
 						return;
 					}
 					msg = validateSMScode(smsCode);
 					if (msg) {
 						console.log(msg);
+						showInfoSetErrMsg(msg);
 						return;
 					}
 					if(mobile&&smsCode){
@@ -226,6 +255,12 @@ var appMyAccount = new Vue(
         }
     }
 );
+
+function showInfoSetErrMsg(msg){
+	var vm = appMyAccount;
+	vm.account.infoSetErrMsg = msg;
+}
+
 console.log("Vue 脚本绑定渲染完成..............");
 
 function initData() {
@@ -305,14 +340,24 @@ function setUserInfoBack(data) {
 		} else {
 			initDataBack(JSON.parse(data));
 		}
+	}else{
+		smsReset(vm);
 	}
+	vm.account.smsCode=null;
 	vm.closeSetting();
 }
 
 function initDataBack(data) {
 	if (data) {
-		if (data.errMsg) {
-			showMsg(data.errMsg);
+		var vm = appMyAccount;
+		var errMsg = data.errMsg;
+		if (errMsg) {
+			if(errMsg == '请重新登录'){
+				if(!vm.loginId){
+					errMsg='请登录后再试';
+				}
+				showMsg(errMsg);
+			}
 			return;
 		}
 		var info = data.userInfo;
@@ -320,7 +365,6 @@ function initDataBack(data) {
 		var companyCredentials = data.companyCredentials;
 		var loginInfo = data.loginInfo;
 		if (info) {
-			var vm = appMyAccount;
 			if (headImgs && headImgs.length > 0) {
 				vm.account.headimg = headImgs[0].filePath;
 			}

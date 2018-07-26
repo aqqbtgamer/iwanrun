@@ -17,7 +17,7 @@ public class Favourite {
      * 分类类型：产品，场地，案例，...
      */
     @Column(name="user_id")
-    private int userId ;
+    private String userId ;
 
     /**
      * 分类类型：产品，场地，案例，...
@@ -38,10 +38,10 @@ public class Favourite {
         this.id = id;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

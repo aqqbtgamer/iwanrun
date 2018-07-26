@@ -17,7 +17,7 @@ var appIndex = new Vue(
             loginRole:{id:1,role:'采购方'},
             page: 1,  //显示的是哪一页
             pageSize: 10, //每一页显示的数据条数
-            total: 1, //记录总数
+            total: 0, //记录总数
             maxPage:1,  //最大页数
             criteria: {},
             List: [],
@@ -114,6 +114,10 @@ var appIndex = new Vue(
             	var vm=this;
             	vm.page = page;
             	vm.queryLocationByCondition(vm.page);
+            },
+            toDetails:function(id){
+            	console.log("v-on click toDetails :"+id);
+            	window.location.href = "./productdetail.html?type=location&id="+id ;
             }
         }
        

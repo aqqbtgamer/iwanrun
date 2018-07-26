@@ -180,6 +180,8 @@ public class PurchaserAccountService {
 			String expirty = null;
 			if (isAutoLogin) {
 				expirty = environment.getProperty(CookieConstants.COOKIE_EXPIRY_ACCESS_TOKEN_KEY);
+			} else {
+				expirty = environment.getProperty(CookieConstants.COOKIE_TEMP_EXPIRY_ACCESS_TOKEN_KEY);
 			}
 			CookieUtils.addCookie(expirty, CookieConstants.COOKIE_ACCESS_TOKEN_KEY, accessToken, response);
 			CookieUtils.addCookie(expirty, CookieConstants.COOKIE_LOGIN_ID_KEY, loginId, response);
@@ -231,17 +233,19 @@ public class PurchaserAccountService {
 		}
 
 		String loginId = LoginTokenUtils.getLoginId(request);
+		String accessToken = CookieUtils.getLoginToken(request);
 
-		return findMixedByLoginId(loginId);
+		return findMixedByLoginId(loginId, accessToken);
 	}
 
-	public String findMixedByLoginId(String loginId) {
+	public String findMixedByLoginId(String loginId, String accessToken) {
 		JSONObject json = new JSONObject();
 		json.put("loginId", loginId);
 		String baseUrl = environment.getProperty("app.server");
 		String findMixedByLoginIdUrl = environment.getProperty("application.purchaserAccount.findMixedByLoginId");
 		String url = baseUrl + findMixedByLoginIdUrl;
 		Message message = new Message();
+		message.setAccessToken(accessToken);
 		message.setMessageBody(json.toJSONString());
 		message.setRequestMethod(url);
 		Message response = template.postForEntity(url, message, Message.class).getBody();

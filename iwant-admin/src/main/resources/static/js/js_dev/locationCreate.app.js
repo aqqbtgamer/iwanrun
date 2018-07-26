@@ -89,6 +89,7 @@ function mappingData(result){
 		mappingSelectItem("activity_dist_code",locationData.activityDistCode);
 		mappingTextItem("location",locationData.location);
 		mappingTextItem("priority",locationData.priority);
+		mappingTextItem("descirbeText3",locationData.descirbeText3);
 		mappingTextItem("simulatePriceCode",locationData.simulatePriceCode);
 		$("#mainImage").prop("src",locationData.descirbeText2);
 		ue.ready(function() {

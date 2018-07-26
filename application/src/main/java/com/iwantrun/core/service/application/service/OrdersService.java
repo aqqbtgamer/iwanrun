@@ -65,6 +65,8 @@ public class OrdersService {
 	
 	@Autowired  
     private Environment env;
+	@Autowired
+	private JPQLEnableRepository jpqlExecute;
 	
 	Logger logger = LoggerFactory.getLogger(OrdersService.class);
 	
@@ -235,6 +237,22 @@ public class OrdersService {
 		}else {
 			return null;
 		}		
+	}
+	/**
+	 * 根据loginId查询订单信息
+	 * @param pageIndex
+	 * @param loginId
+	 * @return
+	 */
+	public String getOrderListByLoginId( JSONObject requestObj){
+		int pageIndex =  (int)requestObj.get("pageIndex");
+		String loginId = (String)requestObj.get("loginId");
+		Integer pageSize=Integer.parseInt(environment.getProperty("common.pageSize"));
+		List<Map<String,Object>> resultList = ordersDao.getOrdersByLoginId(jpqlExecute, pageSize, pageIndex, loginId);
+		Integer total = ordersDao.countAllWithOrdersByLoginId(jpql,loginId);
+		Pageable page =  PageRequest.of(pageIndex, pageSize, Sort.Direction.ASC, "id");
+		PageImpl<Map<String,Object>> result = new PageImpl<Map<String,Object>>(resultList, page, total);
+		return PageDataWrapUtils.page2JsonNoCopy(result);
 	}
 
 }

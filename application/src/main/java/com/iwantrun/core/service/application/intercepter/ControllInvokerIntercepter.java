@@ -51,10 +51,11 @@ public class ControllInvokerIntercepter {
 					}
 				}
 				if(!validToken) {
-					return "token verify failed  not valid user";
+					logger.error("token verify failed  not valid user");
+					return null;
 				}
 			}catch(Exception e) {
-				logger.info("getting input params error");
+				logger.info("getting input params error",e);
 				return null;
 			}
 		}		

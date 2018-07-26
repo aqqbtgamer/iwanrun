@@ -58,7 +58,7 @@ public class FavouriteService {
      * @param caseType
      * @return
      */
-    public List<FavouriteCase> queryFavouriteCase(int userId, String caseType) {
+    public List<FavouriteCase> queryFavouriteCase(String userId, String caseType) {
         List<FavouriteCase> favouriteCaseList = new ArrayList<>();
         List<Favourite> favouriteList = favouriteDao.findAllByUserId(userId);
         favouriteList.forEach(favourite -> {
