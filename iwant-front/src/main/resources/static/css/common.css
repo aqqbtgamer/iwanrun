@@ -514,3 +514,13 @@ input[type=button]:disabled {
     border: 1px solid #DDD;
     cursor: not-allowed;
 }
+
+.select-cell .center-item a{
+    text-decoration: none;
+    color: #414141;
+}
+
+.select-cell .active-item{
+    color: white !important;
+}
+
