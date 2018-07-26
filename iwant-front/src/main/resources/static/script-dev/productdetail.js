@@ -6,13 +6,9 @@ var appListProduction = new Vue(
     {
         el: "#container",
         data: {
-            mask: false,
-            loginWindow: false,
-            autoLogin: false,
-            loginTitle: '用户登录',
-            loginId: '18018336171',
-            loginToken: 'uuixooppasyytvdbftrraskm',
-            loginRole: { id: 1, role: '采购方' },
+            loginId: null,
+            loginIdUl: false,
+            loginBtnUl: true,
             detail: {
                 name: '探秘古道红枫，寻访仙谷奇缘',
                 description: '南黄古道+琼台仙谷3天2晚穿越之路',
@@ -36,20 +32,16 @@ var appListProduction = new Vue(
         methods: {
             showLogin: function (message) {
                 console.log("v-on  click method :showLogin");
-                var vm = this
-                vm.mask = true;
-                vm.loginWindow = true;
-                vm.loginTitle = message;
+                lrApp.showLogin(message);
             },
-            closeLogin: function () {
-                console.log("v-on  click method :closeLogin");
+            logout: function () {
                 var vm = this;
-                vm.mask = false;
-                vm.loginWindow = false;
-            },
-            changeAutoLogin: function () {
-                var vm = this;
-                vm.autoLogin = !vm.autoLogin;
+                vm.loginId = null;
+                vm.loginIdUl = false;
+                vm.loginBtnUl = true;
+                $.cookie('accessToken', null, { path: "/" });
+                $.cookie('loginId', null, { path: "/" });
+                lrApp.account = {};
             },
             sliderPre: function () {
                 var vm = this;
