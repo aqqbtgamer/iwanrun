@@ -48,3 +48,4 @@ function showLoginId(loginId){
 	vm.loginIdUl = true;
 	vm.loginBtnUl = false;
 }
+
