@@ -2,6 +2,12 @@
  * wxp22 创建于2018年
  */
 console.log("Vue 脚本初始化..............");
+const appProductDetailsConfig = {
+		location:{
+			dataUrl:"../../location/getDetailsById"
+		}
+};
+
 var appProductDetails = new Vue(
 		{
 			el:"#container",
@@ -11,7 +17,11 @@ var appProductDetails = new Vue(
 		         loginBtnUl:true
 			},
 			created:function(){
-				
+				var vm = this ;
+				var typdId =  getUrlParam("id");
+				var typeDesc = getUrlParam("type");
+				var dataUrl = appProductDetailsConfig[typeDesc].dataUrl ;
+				console.log("page mod : "+typeDesc+" page id :  "+typdId);
 			},
 			methods:{
 				 showLogin: function (message) {

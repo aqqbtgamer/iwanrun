@@ -69,4 +69,8 @@ public class DictionaryService {
 		return resultList;
 	}
 
+	public Message queryDetailById(String id, String token) {
+		return null;
+	}
+
 }
