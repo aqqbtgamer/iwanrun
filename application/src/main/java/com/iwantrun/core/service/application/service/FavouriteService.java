@@ -67,6 +67,8 @@ public class FavouriteService {
 
             if (caseType.equals(favourite.getCaseType())) {
                 // FIXME: 页面如果对应数据库？
+                favouriteCase.setType(caseType);
+                favouriteCase.setFavouriteId(favourite.getCaseId());
                 favouriteCase.setPrice(cases.getSimulatePriceCode());
                 favouriteCase.setLocation(cases.getLocation());
                 favouriteCase.setImage(cases.getMainImageIcon());

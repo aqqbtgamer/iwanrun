@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 public class SiteMessageController {
-    private final static String SITE_ADMIN_USER = "0";
+    private final static String SITE_ADMIN_USER = "admin";
 
     @Autowired
     private SiteMessageService service;
@@ -42,7 +42,7 @@ public class SiteMessageController {
         JSONObject accessToken =(JSONObject) JSONValue.parse(message.getAccessToken());
         String login_id = accessToken.getAsString("currentUser");
 
-        JSONArray result = service.getSiteMessageSendto(login_id);
+        JSONArray result = service.getSiteMessageSendtoMe(login_id);
         message.setMessageBody(result.toJSONString());
         return message;
     }
