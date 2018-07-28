@@ -88,10 +88,7 @@ input:focus{outline: none;}
     font-size: 1.56vw;
     color: #414141;
 }
-.center-item a{
-	text-decoration:none;
-	color: #414141;
-}
+
 .active-item a{
     background-color:#414141;
     color: white !important;

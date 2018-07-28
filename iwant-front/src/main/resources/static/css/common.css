@@ -203,7 +203,7 @@ nav a:hover {
 }
 
 .login-head {
-    margin-top: 0.94vw;
+    /*margin-top: 0.94vw;*/
     text-align: center;
     font-family: PingFangSC-Regular, sans-serif;
     font-size: 3.125vw;
@@ -561,3 +561,13 @@ input[type=button]:disabled {
 	font-size: 2.08vw;
 	font-weight: bold;
 }
+
+.select-cell .center-item a{
+    text-decoration: none;
+    color: #414141;
+}
+
+.select-cell .active-item{
+    color: white !important;
+}
+

@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import com.iwantrun.front.domain.SearchDictionary;
 import com.iwantrun.front.domain.Dictionary;
 import com.iwantrun.front.transfer.Message;
+import com.iwantrun.front.utils.CookieUtils;
 import com.iwantrun.front.utils.JSONUtils;
 @Service
 public class ProductionService {
@@ -62,6 +63,17 @@ public class ProductionService {
 		message.setRequestMethod(url);
 		message = template.postForEntity(url, message, Message.class).getBody();
 		
+		return message;
+	}
+	
+	public Message queryDetailById(String id,String token) {
+		String url = environment.getProperty("application.production.queryDetailById");
+		String baseUrl = environment.getProperty("app.server");
+		Message message = new Message();
+		message.setMessageBody(id);
+		message.setRequestMethod(url+baseUrl);
+		message.setAccessToken(token);
+		message = template.postForEntity(url, message, Message.class).getBody();
 		return message;
 	}
 }

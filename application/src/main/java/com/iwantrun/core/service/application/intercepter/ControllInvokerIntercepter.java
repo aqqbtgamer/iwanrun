@@ -55,7 +55,7 @@ public class ControllInvokerIntercepter {
 					return null;
 				}
 			}catch(Exception e) {
-				logger.info("getting input params error");
+				logger.info("getting input params error",e);
 				return null;
 			}
 		}		

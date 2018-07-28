@@ -2,6 +2,8 @@ package com.iwantrun.front.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,7 @@ import com.iwantrun.front.service.CaseService;
 import com.iwantrun.front.service.DictionaryService;
 import com.iwantrun.front.service.ProductionService;
 import com.iwantrun.front.transfer.Message;
+import com.iwantrun.front.utils.CookieUtils;
 import com.iwantrun.front.utils.JSONUtils;
 
 @Controller
@@ -54,6 +57,20 @@ public class ProductionController {
 			
 		}
 		return null;
+		
+	}
+	
+	@RequestMapping("/getDetailsById")
+	@ResponseBody
+	public String queryDetailsById(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		String token = CookieUtils.getLoginToken(request);
+		Message result = produtionService.queryDetailById(id, token);
+		if(result != null) {
+			return result.getMessageBody();
+		}else {
+			return null ;
+		}
 		
 	}
 }

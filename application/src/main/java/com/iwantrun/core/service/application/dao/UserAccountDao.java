@@ -20,4 +20,6 @@ public interface  UserAccountDao extends JpaRepository<UserAccount,Integer>,JpaS
 	public Page<UserAccount> findByMobileNumberLike(String mobileNumber,Pageable page);
 	
 	public List<UserAccount> findByUsernameAndRole(String username,Integer roleId);
+
+	public List<UserAccount> findByUsername(String username);
 }

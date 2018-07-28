@@ -12,7 +12,7 @@ var appMyAccount = new Vue(
             msgWindow: false,
             msgText: '',
             loginTitle: '用户登录',
-            loginId: '18018336171',
+            loginId: '',
             loginToken: 'uuixooppasyytvdbftrraskm',
             loginBtnUl : true,
 			loginIdUl : false,
@@ -66,7 +66,15 @@ var appMyAccount = new Vue(
                 lrApp.showLogin(message);
             },
             uploadimg: function ($event) {
-                var vm = this, $file = $($event.target).siblings('input:file');
+            	var vm = this;
+            	//是否登录
+                var login = (vm.loginId);
+            	if(!login){
+            		showMsg('请登录后再试');
+            		return;
+            	}
+            	
+                var $file = $($event.target).siblings('input:file');
                 $file.trigger('click');
                 
                 if(vm.account.company.licenses.length>0){
@@ -133,8 +141,15 @@ var appMyAccount = new Vue(
 				}
 			},
             showSetting: function (flag) {
-                flag = flag || 0;
                 var vm = this;
+                //是否登录
+                var login = (vm.loginId);
+            	if(!login){
+            		showMsg('请登录后再试');
+            		return;
+            	}
+            	
+                flag = flag || 0;
                 vm.setting = true;
                 vm.settingFlag = flag;
                 var title = {
@@ -349,8 +364,15 @@ function setUserInfoBack(data) {
 
 function initDataBack(data) {
 	if (data) {
-		if (data.errMsg) {
-			showMsg(data.errMsg);
+		var vm = appMyAccount;
+		var errMsg = data.errMsg;
+		if (errMsg) {
+			if(errMsg == '请重新登录'){
+				if(!vm.loginId){
+					errMsg='请登录后再试';
+				}
+				showMsg(errMsg);
+			}
 			return;
 		}
 		var info = data.userInfo;
@@ -358,7 +380,6 @@ function initDataBack(data) {
 		var companyCredentials = data.companyCredentials;
 		var loginInfo = data.loginInfo;
 		if (info) {
-			var vm = appMyAccount;
 			if (headImgs && headImgs.length > 0) {
 				vm.account.headimg = headImgs[0].filePath;
 			}

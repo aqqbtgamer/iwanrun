@@ -67,6 +67,8 @@ public class ProductionInfoService {
 
 		Message message = new Message();
 		message.setMessageBody(param.toJSONString());
+		String token = CookieUtils.getLoginToken(request);
+		message.setAccessToken(token);
 
 		System.err.println("请求=====" + param.toJSONString());
 

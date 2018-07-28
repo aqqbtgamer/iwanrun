@@ -16,10 +16,12 @@ import java.util.List;
 
 @RestController
 public class SiteMessageController {
+    private final static String SITE_ADMIN_USER = "0";
+
     @Autowired
     private SiteMessageService service;
 
-    @NeedTokenVerify
+//    @NeedTokenVerify
     @PostMapping("/application/siteMessage")
     public Message sendSiteMessage(@RequestBody Message message) {
         String dataJson = message.getMessageBody();
@@ -32,7 +34,7 @@ public class SiteMessageController {
         return message;
     }
 
-    @NeedTokenVerify
+//    @NeedTokenVerify
     @PostMapping("/application/siteMessage/tome")
     public Message getSiteMessageToMe(@RequestBody Message message) {
         String dataJson = message.getMessageBody();
@@ -45,7 +47,7 @@ public class SiteMessageController {
         return message;
     }
 
-    @NeedTokenVerify
+//    @NeedTokenVerify
     @PostMapping("/application/siteMessage/myself")
     public Message getSiteMessageMyself(@RequestBody Message message) {
         String dataJson = message.getMessageBody();

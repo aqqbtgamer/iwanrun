@@ -58,7 +58,7 @@ $(function () {
 });
 
 var apiService = {
-    sourse: 'http://139.196.228.29:9999/iwant_app',
+    sourse: 'http://139.196.228.29:8088/iwantrun/',
     url: {
         loginToken: '/application/loginToken',
         file: '/application/file',
