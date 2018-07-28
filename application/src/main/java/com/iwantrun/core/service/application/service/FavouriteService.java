@@ -31,6 +31,13 @@ public class FavouriteService {
         SimpleMessageBody body = new SimpleMessageBody();
         body.setSuccessful(false);
 
+        Favourite favourite_old = favouriteDao.findCase(favourite.getUserId(), favourite.getCaseType(), favourite.getCaseId());
+        if (null != favourite_old) {
+            body.setDescription("Error: exists " + favourite_old.toString());
+            logger.error("exists {}", favourite_old);
+            return null;
+        }
+
         favouriteDao.save(favourite);
         body.setSuccessful(true);
         return body;

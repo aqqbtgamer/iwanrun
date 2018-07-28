@@ -53,7 +53,7 @@ public class Favourite {
     }
 
     public int getCaseId() {
-        return id;
+        return caseId;
     }
     public void setCaseId(int caseId) {
         this.caseId = caseId;

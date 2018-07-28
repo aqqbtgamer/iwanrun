@@ -3,13 +3,13 @@ application:    prefix=application
 
 用户：
     1) 查询收藏
-        GET http://ip:port/{prefix}/favourite/query/{case|product|location}       <1>
+        GET http://ip:port/{prefix}/favourite/query/{case|product|location} <1>
         Response: [{type: "", id: "xxx", ...}, ...]
     2）添加收藏
-        POST http://ip:port/{prefix}/favourite/add         <2>
+        POST http://ip:port/{prefix}/favourite/add                          <2>
         Request Body: {type: "", id: "xxx"}
         Response: { ...}
     3）删除收藏
-        POST http://ip:port/{prefix}/favourite/delete
+        POST http://ip:port/{prefix}/favourite/delete                       <3>
         Request: {id: "xxx", type: ""}
         Response: { ...}
