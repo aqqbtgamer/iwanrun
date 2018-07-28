@@ -220,6 +220,7 @@ public class PurchaserAccountService {
 		Message message = new Message();
 		message.setMessageBody(json.toJSONString());
 		message.setRequestMethod(url);
+		message.setAccessToken(CookieUtils.getLoginToken(request));
 		Message response = template.postForEntity(url, message, Message.class).getBody();
 		return response.getMessageBody();
 	}
