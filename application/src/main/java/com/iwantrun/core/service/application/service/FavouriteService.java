@@ -69,19 +69,21 @@ public class FavouriteService {
         List<FavouriteCase> favouriteCaseList = new ArrayList<>();
         List<Favourite> favouriteList = favouriteDao.findAllByUserId(userId);
         favouriteList.forEach(favourite -> {
-            FavouriteCase favouriteCase = new FavouriteCase();
-            Cases cases = casesDao.getOne(favourite.getCaseId());
+            if ("case".equals(caseType)) {
+                FavouriteCase favouriteCase = new FavouriteCase();
+                Cases cases = casesDao.getOne(favourite.getCaseId());
 
-            if (caseType.equals(favourite.getCaseType())) {
-                // FIXME: 页面如果对应数据库？
-                favouriteCase.setType(caseType);
-                favouriteCase.setFavouriteId(favourite.getCaseId());
-                favouriteCase.setPrice(cases.getSimulatePriceCode());
-                favouriteCase.setLocation(cases.getLocation());
-                favouriteCase.setImage(cases.getMainImageIcon());
-                favouriteCase.setTips(cases.getTips());
+                if (caseType.equals(favourite.getCaseType())) {
+                    // FIXME: 页面如果对应数据库？
+                    favouriteCase.setType(caseType);
+                    favouriteCase.setFavouriteId(favourite.getCaseId());
+                    favouriteCase.setPrice(cases.getSimulatePriceCode());
+                    favouriteCase.setLocation(cases.getLocation());
+                    favouriteCase.setImage(cases.getMainImageIcon());
+                    favouriteCase.setTips(cases.getTips());
 
-                favouriteCaseList.add(favouriteCase);
+                    favouriteCaseList.add(favouriteCase);
+                }
             }
         });
         return favouriteCaseList;

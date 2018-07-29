@@ -47,10 +47,8 @@ public class FavouriteController {
 
         //String caseType = object.getAsString("name");
         String caseType = message.getMessageBody();
-        if ("case".equals(caseType)) {
-            List<FavouriteCase> favouriteCaseList = favouriteService.queryFavouriteCase(login_id, caseType);
-            message.setMessageBody(JSONUtils.objToJSON(favouriteCaseList));
-        }
+        List<FavouriteCase> favouriteCaseList = favouriteService.queryFavouriteCase(login_id, caseType);
+        message.setMessageBody(JSONUtils.objToJSON(favouriteCaseList));
         return message;
     }
 

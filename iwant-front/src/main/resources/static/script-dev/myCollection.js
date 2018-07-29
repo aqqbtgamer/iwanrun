@@ -148,6 +148,8 @@ var appMyAccount = new Vue(
         mounted: function(){
         	var vm = this;
         	this.queryCollectList('location');
+        	this.queryCollectList('product');
+        	this.queryCollectList('case');
         },
         methods: {
             queryCollectList:function(queryType){
