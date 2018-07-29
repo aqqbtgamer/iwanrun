@@ -66,7 +66,15 @@ var appMyAccount = new Vue(
                 lrApp.showLogin(message);
             },
             uploadimg: function ($event) {
-                var vm = this, $file = $($event.target).siblings('input:file');
+            	var vm = this;
+            	//是否登录
+                var login = (vm.loginId);
+            	if(!login){
+            		showMsg('请登录后再试');
+            		return;
+            	}
+            	
+                var $file = $($event.target).siblings('input:file');
                 $file.trigger('click');
                 
                 if(vm.account.company.licenses.length>0){
@@ -133,8 +141,15 @@ var appMyAccount = new Vue(
 				}
 			},
             showSetting: function (flag) {
-                flag = flag || 0;
                 var vm = this;
+                //是否登录
+                var login = (vm.loginId);
+            	if(!login){
+            		showMsg('请登录后再试');
+            		return;
+            	}
+            	
+                flag = flag || 0;
                 vm.setting = true;
                 vm.settingFlag = flag;
                 var title = {

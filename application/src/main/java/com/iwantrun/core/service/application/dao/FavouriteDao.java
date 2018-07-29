@@ -18,12 +18,19 @@ public interface FavouriteDao extends JpaRepository<Favourite, Integer>,JpaSpeci
         favourite.setUserId(userId);
         favourite.setCaseType(caseType);
         favourite.setCaseId(caseId);
-        ExampleMatcher matcher = ExampleMatcher.matchingAll()
-                .withMatcher("case_type", ExampleMatcher.GenericPropertyMatchers.exact())
-                .withMatcher("case_id", ExampleMatcher.GenericPropertyMatchers.exact())
-                .withMatcher("user_id", ExampleMatcher.GenericPropertyMatchers.exact())
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("caseType", ExampleMatcher.GenericPropertyMatchers.exact())
+                .withMatcher("caseId", ExampleMatcher.GenericPropertyMatchers.exact())
+                .withMatcher("userId", ExampleMatcher.GenericPropertyMatchers.exact())
                 .withIgnorePaths("id");
+        //List<Favourite> ls = findAll(Example.of(favourite, matcher));
+        //if (ls.size() <= 0) {
+        //    return null;
+        //}
+
+        //return ls.get(0);
         Optional<Favourite> op = findOne(Example.of(favourite, matcher));
+        List<Favourite> ls = findAll();
         if (op.isPresent()) {
             return op.get();
         } else {

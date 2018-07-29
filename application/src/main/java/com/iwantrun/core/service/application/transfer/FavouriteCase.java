@@ -1,6 +1,8 @@
 package com.iwantrun.core.service.application.transfer;
 
 public class FavouriteCase {
+    private String type;
+    private int favouriteId;
     private String image;
     private String title;
     private String[] tips;
@@ -10,6 +12,26 @@ public class FavouriteCase {
     private int personNum;
     private String during;
     private int saled;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getFavouriteId() {
+        return favouriteId;
+    }
+
+    public void setFavouriteId(int favouriteId) {
+        this.favouriteId = favouriteId;
+    }
+
+    public String getActivityType() {
+        return activityType;
+    }
 
     public String getImage() {
         return image;

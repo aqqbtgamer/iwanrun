@@ -37,24 +37,22 @@ public class FavouriteController {
     @Autowired
     private DictionaryService dictionaryService;
 
-    @NeedTokenVerify
+    //@NeedTokenVerify
     @RequestMapping("/application/favourite/queryFavourite")
     public Message queryFavourite(@RequestBody Message message) {
-        String dataJson = message.getMessageBody();
-        JSONObject object = (JSONObject) JSONValue.parse(dataJson);
+        //String dataJson = message.getMessageBody();
+        //JSONObject object = (JSONObject) JSONValue.parse(dataJson);
         JSONObject accessToken =(JSONObject) JSONValue.parse(message.getAccessToken());
         String login_id = accessToken.getAsString("currentUser");
 
-        // FIXME: how to get userId from session.
-        String caseType = object.getAsString("name");
-        if ("location".equals(caseType)) {
-            List<FavouriteCase> favouriteCaseList = favouriteService.queryFavouriteCase(login_id, caseType);
-            message.setMessageBody(JSONUtils.objToJSON(favouriteCaseList));
-        }
+        //String caseType = object.getAsString("name");
+        String caseType = message.getMessageBody();
+        List<FavouriteCase> favouriteCaseList = favouriteService.queryFavouriteCase(login_id, caseType);
+        message.setMessageBody(JSONUtils.objToJSON(favouriteCaseList));
         return message;
     }
 
-    @NeedTokenVerify
+    //@NeedTokenVerify
     @RequestMapping("/application/favourite/addFavourite")
     public Message addFavourite(@RequestBody Message message) {
         String dataJson = message.getMessageBody();
@@ -62,8 +60,8 @@ public class FavouriteController {
         JSONObject accessToken =(JSONObject) JSONValue.parse(message.getAccessToken());
         String login_id = accessToken.getAsString("currentUser");
 
-        String caseType = object.getAsString("caseType");
-        Integer caseId = object.getAsNumber("caseId").intValue();
+        String caseType = object.getAsString("type");
+        Integer caseId = object.getAsNumber("id").intValue();
 
         Favourite favourite = new Favourite();
         favourite.setUserId(login_id);
@@ -74,7 +72,7 @@ public class FavouriteController {
         return message;
     }
 
-    @NeedTokenVerify
+    //@NeedTokenVerify
     @RequestMapping("/application/favourite/delFavourite")
     public Message delFavourite(@RequestBody Message message) {
         String dataJson = message.getMessageBody();
@@ -82,8 +80,8 @@ public class FavouriteController {
         JSONObject accessToken =(JSONObject) JSONValue.parse(message.getAccessToken());
         String login_id = accessToken.getAsString("currentUser");
 
-        String caseType = object.getAsString("caseType");
-        Integer caseId = object.getAsNumber("caseId").intValue();
+        String caseType = object.getAsString("type");
+        Integer caseId = object.getAsNumber("id").intValue();
 
         Favourite favourite = new Favourite();
         favourite.setUserId(login_id);

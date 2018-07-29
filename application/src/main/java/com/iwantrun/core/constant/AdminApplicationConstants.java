@@ -29,6 +29,7 @@ public interface AdminApplicationConstants {
 					total = Integer.parseInt(objArray.toString());
 				}
 				return total;					
-			};		
+			};
 
+	String SITE_ADMIN_USER = "admin";
 }

@@ -148,16 +148,19 @@ var appMyAccount = new Vue(
         mounted: function(){
         	var vm = this;
         	this.queryCollectList('location');
+        	this.queryCollectList('product');
+        	this.queryCollectList('case');
         },
         methods: {
             queryCollectList:function(queryType){
             	var vm = this;
-            	var url="../../favourite/favouriteList";
-            	var param = {
-            		name: queryType	
-            	};
+            	var url="../../favourite/query/" + queryType;
+            	//var param = {
+            	//	name: queryType	
+            	//};
                 
-            	axios.post(url,param).then(
+            	//axios.post(url,param).then(
+                axios.get(url).then(
             			function(response){
             				console.log(response.data);
             				var list = response.data;
