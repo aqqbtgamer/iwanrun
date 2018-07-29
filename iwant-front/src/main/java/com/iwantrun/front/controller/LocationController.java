@@ -60,7 +60,7 @@ public class LocationController {
 	}
 	
 	
-	@RequestMapping("/getDetailsById")
+	@RequestMapping("getDetailsById")
 	@ResponseBody
 	public String queryDetailsById(HttpServletRequest request) {
 		String id = request.getParameter("id");

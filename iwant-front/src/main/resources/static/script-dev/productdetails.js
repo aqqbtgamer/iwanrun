@@ -22,6 +22,14 @@ var appProductDetails = new Vue(
 				var typeDesc = getUrlParam("type");
 				var dataUrl = appProductDetailsConfig[typeDesc].dataUrl ;
 				console.log("page mod : "+typeDesc+" page id :  "+typdId);
+				var callback = new Object();
+				callback.request = {"id":typdId};
+				callback.success = function(result){
+					console.log("result from server :" +result)
+				}
+				callback.error = function(errorMsg){
+					console.log("result from server :" +errorMsg)
+				}
 			},
 			methods:{
 				 showLogin: function (message) {

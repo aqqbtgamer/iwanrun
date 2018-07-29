@@ -70,6 +70,14 @@ public class DictionaryService {
 	}
 
 	public Message queryDetailById(String id, String token) {
+		JSONObject requestObj = new JSONObject();
+		requestObj.put("id", id);
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(requestObj.toJSONString());
+		String queryDetailById = environment.getProperty("application.location.queryDetailById");
+		String baseUrl = environment.getProperty("app.server");
+		
 		return null;
 	}
 
