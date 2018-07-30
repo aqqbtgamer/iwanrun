@@ -103,7 +103,7 @@
                                         </div>
                                         <div class="case-detail-button">
                                             <div class="case-detail-button-wrapper">
-                                                <input type="button" class="btn-primary-big" value="查看详情">
+                                                <input @click="routeToDetail(item.id,'location')" type="button" class="btn-primary-big" value="查看详情">
                                             </div>
                                         </div>
                                     </div>
@@ -135,7 +135,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pagenation-bar">
+                            <!--<div class="pagenation-bar">
                                 <ul class="pagenation">
                                     <li class="active">1</li>
                                     <li>2</li>
@@ -147,7 +147,7 @@
                                     <span>到&nbsp;&nbsp;<input type="text" value="" />&nbsp;&nbsp;页</span>
                                     <input type="button" value="确定" class="btn-primary" />
                                 </ul>
-                            </div>
+                            </div>-->
                         </div>
                         <div class="account-box-line coll-cont collect-tab" name="product" v-show="showFlag==='product'" style="margin-top: 1vw;">
                             <div class="list-case-item" v-for="item in products">
@@ -166,7 +166,7 @@
                                         </div>
                                         <div class="case-detail-button">
                                             <div class="case-detail-button-wrapper">
-                                                <input type="button" class="btn-primary-big" value="查看详情">
+                                                <input @click="routeToDetail(item.id,'product')" type="button" class="btn-primary-big" value="查看详情">
                                             </div>
                                         </div>
                                     </div>
@@ -198,7 +198,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="pagenation-bar">
+                            <!--<div class="pagenation-bar">
                                 <ul class="pagenation">
                                     <li class="active">1</li>
                                     <li>2</li>
@@ -210,7 +210,7 @@
                                     <span>到&nbsp;&nbsp;<input type="text" value="" />&nbsp;&nbsp;页</span>
                                     <input type="button" value="确定" class="btn-primary" />
                                 </ul>
-                            </div>
+                            </div>-->
                         </div>
                         <div class="account-box-line coll-cont collect-tab" name="case" v-show="showFlag==='case'" style="margin-top: 1vw;">
                             <div class="list-case-item" v-for="item in cases">
@@ -231,7 +231,7 @@
                                         </div>
                                         <div class="case-detail-button">
                                             <div class="case-detail-button-wrapper">
-                                                <input type="button" class="btn-primary-big" value="查看详情">
+                                                <input @click="routeToDetail(item.id,'case')" type="button" class="btn-primary-big" value="查看详情">
                                             </div>
                                         </div>
                                     </div>
@@ -264,7 +264,7 @@
 
                                 </div>
                             </div>
-                            <div class="pagenation-bar">
+                            <!--<div class="pagenation-bar">
                                 <ul class="pagenation">
                                     <li class="active">1</li>
                                     <li>2</li>
@@ -276,7 +276,7 @@
                                     <span>到&nbsp;&nbsp;<input type="text" value="" />&nbsp;&nbsp;页</span>
                                     <input type="button" value="确定" class="btn-primary" />
                                 </ul>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div class="clear"></div>

@@ -9,6 +9,10 @@ var appListProduction = new Vue(
             loginId: null,
             loginIdUl: false,
             loginBtnUl: true,
+            init: {
+                id: getUrlParam('id'),
+                type: getUrlParam('type')
+            },
             detail: {
                 name: '探秘古道红枫，寻访仙谷奇缘',
                 description: '南黄古道+琼台仙谷3天2晚穿越之路',
@@ -27,7 +31,11 @@ var appListProduction = new Vue(
                     '../../img/side-image2.png',
                 ]
             },
-            currentTopIndex: 0
+            currentTopIndex: 0,
+            isFavourite: false
+        },
+        created: function () {
+
         },
         methods: {
             showLogin: function (message) {
@@ -50,6 +58,54 @@ var appListProduction = new Vue(
             sliderNext: function () {
                 var vm = this;
                 vm.showSliderNext && vm.currentTopIndex++;
+            },
+            get: function () {
+                var vm = this;
+                vm.init && vm.init.id && function () {
+                    var url = baseUrl + "production/getDetailsById?id=" + vm.init.id;
+                    axios.get(url).then(
+                        function (response) {
+                            console.log(response.data);
+                            response.data && (vm.detail = response.data);
+                        });
+                }();
+            },
+            collection: function () {
+                var vm = this;
+                //vm.isFavourite = !vm.isFavourite;
+                function add(id, type) {
+                    var url = baseUrl + 'favourite/add',
+                        parm = {
+                            id: id,
+                            type: type
+                        };
+                    axios.post(url, parm).then(
+                        function (response) {
+                            console.log(response.data);
+                            response.data && (vm.isFavourite = true);
+                        });
+                }
+                function remove(id, type) {
+                    var url = baseUrl + 'favourite/delete',
+                        parm = {
+                            id: id,
+                            type: type
+                        };
+                    axios.post(url, parm).then(
+                        function (response) {
+                            console.log(response.data);
+                            vm.isFavourite = false;
+                        });
+                }
+                if (vm.init && vm.init.id && vm.init.type) {
+                    vm.isFavourite ? remove(vm.init.id, vm.init.type) : add(vm.init.id, vm.init.type);
+                }
+            },
+            isCollection: function () {
+                var vm = this;
+                vm.init && vm.init.id && vm.init.type && function (id, type) {
+                    //TODO
+                }(vm.init.id, vm.init.type);
             }
         },
         computed: {
@@ -60,6 +116,10 @@ var appListProduction = new Vue(
             showSliderNext: function () {
                 var vm = this;
                 return vm.currentTopIndex < vm.detail.imgs.length - 2;
+            },
+            favouriteColor: function () {
+                var vm = this;
+                return vm.isFavourite ? '#FF0000' : '#414141';
             }
         }
     }
