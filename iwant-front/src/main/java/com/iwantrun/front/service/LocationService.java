@@ -11,6 +11,8 @@ import com.iwantrun.front.domain.SearchDictionary;
 import com.iwantrun.front.domain.Dictionary;
 import com.iwantrun.front.transfer.Message;
 import com.iwantrun.front.utils.JSONUtils;
+
+import net.minidev.json.JSONObject;
 @Service
 public class LocationService {
 	@Autowired
@@ -63,6 +65,19 @@ public class LocationService {
 		message.setRequestMethod(url);
 		message = template.postForEntity(url, message, Message.class).getBody();
 		
+		return message;
+	}
+	
+	public Message queryDetailById(String id, String token) {
+		JSONObject requestObj = new JSONObject();
+		requestObj.put("id", id);
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(requestObj.toJSONString());
+		String queryDetailById = environment.getProperty("application.location.queryDetailById");
+		String baseUrl = environment.getProperty("app.server");	
+		message.setRequestMethod(baseUrl+queryDetailById);
+		message = template.postForEntity(baseUrl+queryDetailById, message, Message.class).getBody();
 		return message;
 	}
 }

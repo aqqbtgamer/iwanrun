@@ -113,6 +113,10 @@ var appListCase = new Vue(
             	var vm=this;
             	vm.page = page;
             	vm.queryCaseByCondition(vm.page);
+            },
+            toDetails:function(id){
+            	console.log("v-on click toDetails :"+id);
+            	window.location.href = "./productdetail.html?type=case&id="+id ;
             }
         	
             

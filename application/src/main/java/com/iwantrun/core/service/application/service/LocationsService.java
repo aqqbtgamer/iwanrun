@@ -2,6 +2,7 @@ package com.iwantrun.core.service.application.service;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -32,6 +33,7 @@ import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.SearchDictionaryList;
 import com.iwantrun.core.service.application.intercepter.ControllInvokerIntercepter;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
+import com.iwantrun.core.service.utils.EntityDictionaryConfigUtils;
 import com.iwantrun.core.service.utils.JPADBUtils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
@@ -61,6 +63,9 @@ public class LocationsService {
     private Environment env;
 	@Autowired
 	private DictionaryDao dictionaryDao;
+	
+	@Autowired
+	private DictionaryService dictioanaryService;
 	
 	@Transactional
 	public boolean createLocations(Locations location,List<LocationAttachments> attachments,List<LocationTags> tags) {
@@ -148,6 +153,8 @@ public class LocationsService {
 		Optional<Locations> locationOP= locationDao.findById(id);
 		if(locationOP.isPresent()) {
 			Locations location = locationOP.get();
+			Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new Locations());
+			location = dictioanaryService.dictionaryFilter(location, dictionnaryMap);
 			List<LocationAttachments> listAttch  = attachmentsDao.findByLocationId(location.getId());
 			List<LocationTags> listTag = tagsDao.findByLocationId(location.getId());
 			JSONObject json = new JSONObject();

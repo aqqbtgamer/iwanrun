@@ -276,6 +276,7 @@ public class LocationsController {
 		message.setMessageBody(json);
 		return message;		
 	}
+	
 	public String locationListQuery(SearchDictionaryList queryVo) {
 		if( queryVo != null ) {
 			SearchDictionaryList vo = new SearchDictionaryList();

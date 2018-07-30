@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.iwantrun.core.service.application.annotation.DictionaryField;
 import com.iwantrun.core.service.utils.DictionaryConfigParams;
@@ -24,27 +25,42 @@ public class Locations {
 	private String name ;
 	
 	@Column(name="activity_type_code",nullable=false)
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_TYPE,aliasField="activeTypeCodeDesc")
 	private String activeTypeCode ;
+	
+	@Transient
+	private String activeTypeCodeDesc;
 	
 	@Column(name="group_number_limit")	
 	private String groupNumberLimit ;
 	
 	@Column(name="group_number_limit_code")
-	@DictionaryField(name=DictionaryConfigParams.LOCATION_DICTIONARY_NAME ,usedField=DictionaryConfigParams.LOCATION_GROUP_NUMBER_LIMIT_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.LOCATION_DICTIONARY_NAME ,usedField=DictionaryConfigParams.LOCATION_GROUP_NUMBER_LIMIT_TYPE,aliasField="groupNumberLimitCodeDesc")
 	private String groupNumberLimitCode ;
 	
+	@Transient
+	private String groupNumberLimitCodeDesc;
+	
 	@Column(name="activity_province_code")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_PROVINCE_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_PROVINCE_TYPE,aliasField="activityProvinceCodeDesc")
 	private String activityProvinceCode ;
 	
+	@Transient
+	private String activityProvinceCodeDesc;
+	
 	@Column(name="activity_city_code")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_CITY_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_CITY_TYPE,aliasField="activityCityCodeDesc")
 	private String activityCityCode ;
 	
+	@Transient
+	private String activityCityCodeDesc;
+	
 	@Column(name="activity_dist_code")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_DIST_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_DIST_TYPE,aliasField="activityDistCodeDesc")
 	private String activityDistCode ;
+	
+	@Transient
+	private String activityDistCodeDesc;
 	
 	@Column(name="location")
 	private String location ;
@@ -62,8 +78,11 @@ public class Locations {
 	private Date createTime;
 	
 	@Column(name="simulate_price_code")
-	@DictionaryField(name=DictionaryConfigParams.LOCATION_DICTIONARY_NAME ,usedField=DictionaryConfigParams.LOCATION_PRICE_TYPE)
-	private String simulatePriceCode ;
+	@DictionaryField(name=DictionaryConfigParams.LOCATION_DICTIONARY_NAME ,usedField=DictionaryConfigParams.LOCATION_PRICE_TYPE ,aliasField="simulatePriceCodeDesc")
+	private String simulatePriceCode ;	
+	
+	@Transient
+	private String simulatePriceCodeDesc;
 	
 	@Column(name="group_price_code")
 	private String groupPriceCode ;
@@ -265,7 +284,53 @@ public class Locations {
 	public void setSpecialTagsCode(String specialTagsCode) {
 		this.specialTagsCode = specialTagsCode;
 	}
-	
-	
+
+	public String getActiveTypeCodeDesc() {
+		return activeTypeCodeDesc;
+	}
+
+	public void setActiveTypeCodeDesc(String activeTypeCodeDesc) {
+		this.activeTypeCodeDesc = activeTypeCodeDesc;
+	}
+
+	public String getGroupNumberLimitCodeDesc() {
+		return groupNumberLimitCodeDesc;
+	}
+
+	public void setGroupNumberLimitCodeDesc(String groupNumberLimitCodeDesc) {
+		this.groupNumberLimitCodeDesc = groupNumberLimitCodeDesc;
+	}
+
+	public String getActivityProvinceCodeDesc() {
+		return activityProvinceCodeDesc;
+	}
+
+	public void setActivityProvinceCodeDesc(String activityProvinceCodeDesc) {
+		this.activityProvinceCodeDesc = activityProvinceCodeDesc;
+	}
+
+	public String getActivityCityCodeDesc() {
+		return activityCityCodeDesc;
+	}
+
+	public void setActivityCityCodeDesc(String activityCityCodeDesc) {
+		this.activityCityCodeDesc = activityCityCodeDesc;
+	}
+
+	public String getActivityDistCodeDesc() {
+		return activityDistCodeDesc;
+	}
+
+	public void setActivityDistCodeDesc(String activityDistCodeDesc) {
+		this.activityDistCodeDesc = activityDistCodeDesc;
+	}
+
+	public String getSimulatePriceCodeDesc() {
+		return simulatePriceCodeDesc;
+	}
+
+	public void setSimulatePriceCodeDesc(String simulatePriceCodeDesc) {
+		this.simulatePriceCodeDesc = simulatePriceCodeDesc;
+	}
 
 }

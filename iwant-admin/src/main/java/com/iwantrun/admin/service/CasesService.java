@@ -50,6 +50,7 @@ public class CasesService {
 			    "simulatePriceCode",
 			    "orderId",
 		        "mainImage",
+		        "descirbeText3",
 		        "imgManage[]",
 		        "_ue"
 				
@@ -162,6 +163,7 @@ public class CasesService {
 			    "simulatePriceCode",
 			    "orderId",
 		        "mainImage",
+		        "descirbeText3",
 		        "imgManage[]",
 		        "_ue"
 		});

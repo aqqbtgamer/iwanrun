@@ -2,6 +2,7 @@ package com.iwantrun.core.service.application.service;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -27,8 +28,10 @@ import com.iwantrun.core.service.application.domain.CaseAttachments;
 import com.iwantrun.core.service.application.domain.CaseTags;
 import com.iwantrun.core.service.application.domain.Cases;
 import com.iwantrun.core.service.application.domain.Dictionary;
+import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.SearchDictionaryList;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
+import com.iwantrun.core.service.utils.EntityDictionaryConfigUtils;
 import com.iwantrun.core.service.utils.JPADBUtils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
@@ -55,6 +58,8 @@ public class CasesService {
     private Environment env;
 	@Autowired
 	private DictionaryDao dictionaryDao;
+	@Autowired
+	private DictionaryService dictionaryService;
 	
 	@Transactional
 	public boolean createCase(Cases caseVo,List<CaseAttachments> attachments,List<CaseTags> tags) {
@@ -143,6 +148,8 @@ public class CasesService {
 			Cases caseVo = caseOP.get();
 			List<CaseAttachments> listAttch  = caseAttachmentsDao.findByCaseId(caseVo.getId());
 			List<CaseTags> listTag = caseTagsDao.findByCaseId(caseVo.getId());
+			Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new Cases());
+			caseVo = dictionaryService.dictionaryFilter(caseVo, dictionnaryMap);
 			JSONObject json = new JSONObject();
 			json.put("caseVo", JSONValue.toJSONString(caseVo));
 			json.put("listAttch", JSONValue.toJSONString(listAttch));

@@ -167,7 +167,12 @@
     margin-left: auto;
     display: table;
     vertical-align: top;
+    text-align:middle;
     border: 1px solid #979797;
+}
+
+.detail-content-area{
+	text-align:center
 }
 
 .left-detail{

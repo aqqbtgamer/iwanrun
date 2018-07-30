@@ -11,6 +11,8 @@ import com.iwantrun.front.domain.SearchDictionary;
 import com.iwantrun.front.domain.Dictionary;
 import com.iwantrun.front.transfer.Message;
 import com.iwantrun.front.utils.JSONUtils;
+
+import net.minidev.json.JSONObject;
 @Service
 public class CaseService {
 	@Autowired
@@ -58,6 +60,21 @@ public class CaseService {
 		Message message = new Message();
 		message.setMessageBody(param);
 		message.setRequestMethod(url);
+		message = template.postForEntity(url, message, Message.class).getBody();
+		
+		return message;
+	}
+	
+	public Message queryDetailById(String id,String token) {
+		String findByName = environment.getProperty("application.cases.queryDetailById");
+		String baseUrl = environment.getProperty("app.server");		
+		String url = baseUrl + findByName;
+		JSONObject requestObj = new JSONObject();
+		requestObj.put("id", id);
+		Message message = new Message();
+		message.setMessageBody(requestObj.toJSONString());
+		message.setRequestMethod(url);
+		message.setAccessToken("token");
 		message = template.postForEntity(url, message, Message.class).getBody();
 		
 		return message;

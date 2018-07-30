@@ -65,7 +65,7 @@ public class LocationController {
 	public String queryDetailsById(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		String token = CookieUtils.getLoginToken(request);
-		Message result = dictionaryService.queryDetailById(id, token);
+		Message result = locationService.queryDetailById(id, token);
 		if(result != null) {
 			return result.getMessageBody();
 		}else {

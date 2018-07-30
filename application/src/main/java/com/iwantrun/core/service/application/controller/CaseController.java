@@ -83,7 +83,8 @@ public class CaseController {
 					    "simulatePriceCode=>simulatePriceCode",
 					    "orderId=>orderId",
 						"descirbeText1=>_ue",
-						"descirbeText2=>mainImage"
+						"descirbeText2=>mainImage",
+						"descirbeText3=>descirbeText3"
 				});
 		EntityBeanUtils.beanCreateFromJson(Case, mappingRelation, object);
 		List<CaseAttachments> caseAttachments = new ArrayList<CaseAttachments>();
@@ -167,7 +168,8 @@ public class CaseController {
 					    "simulatePriceCode=>simulatePriceCode",
 					    "orderId=>orderId",
 						"descirbeText1=>_ue",
-						"descirbeText2=>mainImage"
+						"descirbeText2=>mainImage",
+						"descirbeText3=>descirbeText3"
 				});
 		EntityBeanUtils.beanCreateFromJson(casevo, mappingRelation, object);
 		List<CaseAttachments> caseAttachments = new ArrayList<CaseAttachments>();

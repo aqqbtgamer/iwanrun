@@ -31,7 +31,8 @@ const fields = new Array(
 	    'simulatePriceCode',
 	    'orderId',
         'mainImage',
-        'imgManage'
+        'imgManage',
+        'descirbeText3'
 	    
 	   
     );
@@ -112,6 +113,7 @@ function mappingData(result){
 		mappingTextItem("simulatePriceCode",caseData.simulatePriceCode);
 		
 		mappingTextItem("orderId",caseData.orderId);
+		mappingTextItem("descirbeText3",caseData.descirbeText3);
 		$("#mainImage").prop("src",caseData.descirbeText2);
 		ue.ready(function() {
 			ue.setContent(caseData.descirbeText1);
