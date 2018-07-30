@@ -210,7 +210,7 @@
                             </div>
                             <div class="case-detail-button">
                                 <div class="case-detail-button-wrapper">
-                                    <input type="button" class="btn-primary-big" value="查看方案" style="width: 10vw">
+                                    <input type="button" @click="routeToDetail(item.id)" class="btn-primary-big" value="查看方案" style="width: 10vw">
                                     <br>
                                     <br>
                                     <p class="saled"> {{item.saled}}</p>

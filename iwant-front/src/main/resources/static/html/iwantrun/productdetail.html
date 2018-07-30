@@ -12,6 +12,7 @@
     <script type="application/javascript" src="../../script/bluebird.min.js"></script>
     <script type="application/javascript" src="../../script/vue.min.js"></script>
     <script type="application/javascript" src="../../script/jquery.cookie.js"></script>
+    <script type="application/javascript" src="../../script/axios.min.js"></script>
     <title>我要跑-查看产品详情</title>
 </head>
 <body>
@@ -60,7 +61,7 @@
                     <p><span class="sub-text grey">No.{{detail.no}}</span> | <span class="sub-text">地区：{{detail.region}}&nbsp;&nbsp;类型：{{detail.type}}&nbsp;&nbsp;人数：{{detail.presonNum}}&nbsp;&nbsp;天数： {{detail.during}}&nbsp;&nbsp;行程：{{detail.route}} </span></p>
                 </div>
                 <div class="title-sub">
-                    <i class="iconfont icon-aixin font-icon-size1"></i>
+                    <i @click="collection" class="iconfont icon-aixin font-icon-size1" v-bind:style="{color:favouriteColor}"></i>
                     <i class="iconfont icon-fenxiang font-icon-size1"></i>
                 </div>
             </div>

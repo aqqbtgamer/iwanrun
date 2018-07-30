@@ -63,8 +63,20 @@ var appMyAccount = new Vue(
             changeAutoLogin: function () {
                 var vm = this;
                 vm.autoLogin = !vm.autoLogin;
+            },
+            GetNewsByPage: function () {
+                var vm = this;
+                var url = '../../site_message';
+                axios.get(url).then(
+                    function (response) {
+                        console.log(response.data);
+                        Array.isArray(response.data) && (vm.List=response.data);
+                    });
             }
-
+        },
+        created: function () {
+            var vm = this;
+            vm.GetNewsByPage();
         }
     }
 );

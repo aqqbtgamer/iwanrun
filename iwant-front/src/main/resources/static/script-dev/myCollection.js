@@ -29,7 +29,8 @@ var appMyAccount = new Vue(
                     location: '上海市',
                     activitytype: '跑步运动',
                     personNum: '50-150人',
-                    duration: '半天'
+                    duration: '半天',
+                    id: 1
                 }/*,
                 {
                     img: '../../img/list-location3.png',
@@ -62,7 +63,8 @@ var appMyAccount = new Vue(
                     activitytype: '跑步运动',
                     personNum: '50-150人',
                     duration: '半天',
-                    saled: '已售122份'
+                    saled: '已售122份',
+                    id: 9
                 }/*,
                 {
                     img: '../../img/list-location2.png',
@@ -108,7 +110,8 @@ var appMyAccount = new Vue(
                     activitytype: '跑步运动',
                     personNum: '50-150人',
                     duration: '半天',
-                    saled: '已售122份'
+                    saled: '已售122份',
+                    id: 10
                 }/*,
                 {
                     img: '../../img/list-product1.png',
@@ -145,49 +148,49 @@ var appMyAccount = new Vue(
                 }*/
             ]
         },
-        mounted: function(){
-        	var vm = this;
-        	this.queryCollectList('location');
-        	this.queryCollectList('product');
-        	this.queryCollectList('case');
+        mounted: function () {
+            var vm = this;
+            this.queryCollectList('location');
+            this.queryCollectList('product');
+            this.queryCollectList('case');
         },
         methods: {
-            queryCollectList:function(queryType){
-            	var vm = this;
-            	var url="../../favourite/query/" + queryType;
-            	//var param = {
-            	//	name: queryType	
-            	//};
-                
-            	//axios.post(url,param).then(
-                axios.get(url).then(
-            			function(response){
-            				console.log(response.data);
-            				var list = response.data;
-            				//if( list != ''){ 
-                                vm.locations = [{
-                                    img: '../../img/list-product1.png',
-                                    title: '探秘古道红枫，寻访仙谷奇缘——南黄古道+琼台仙谷3天2晚穿越之旅',
-                                    tips: ['隋代古刹', '仙谷奇缘', '古道红枫', '五星级酒店'],
-                                    price: '2000-2500元/人',
-                                    location: '上海市',
-                                    activitytype: '跑步运动',
-                                    personNum: '50-150人',
-                                    duration: '半天',
-                                    saled: '已售122份'
-                                }]
-                                //vm.products = vm.locations
-                                //vm.cases = vm.locations
+            queryCollectList: function (queryType) {
+                var vm = this;
+                var url = "../../favourite/query/" + queryType;
+                //var param = {
+                //	name: queryType	
+                //};
 
-            					// vm.criteria.activityProvinceCode=list.activityProvinceCode;
-            					// vm.criteria.activitytype=list.activitytype;
-            					// vm.criteria.specialTagsCode=list.specialTagsCode;
-            					// vm.criteria.personNum=list.personNum;
-            					// vm.criteria.duration=list.duration;
-            					// vm.criteria.orderSimulatePriceCode=list.orderSimulatePriceCode;
-            				//}
-            				
-            	})
+                //axios.post(url,param).then(
+                axios.get(url).then(
+                    function (response) {
+                        console.log(response.data);
+                        var list = response.data;
+                        //if( list != ''){ 
+                        vm.locations = [{
+                            img: '../../img/list-product1.png',
+                            title: '探秘古道红枫，寻访仙谷奇缘——南黄古道+琼台仙谷3天2晚穿越之旅',
+                            tips: ['隋代古刹', '仙谷奇缘', '古道红枫', '五星级酒店'],
+                            price: '2000-2500元/人',
+                            location: '上海市',
+                            activitytype: '跑步运动',
+                            personNum: '50-150人',
+                            duration: '半天',
+                            saled: '已售122份'
+                        }]
+                        //vm.products = vm.locations
+                        //vm.cases = vm.locations
+
+                        // vm.criteria.activityProvinceCode=list.activityProvinceCode;
+                        // vm.criteria.activitytype=list.activitytype;
+                        // vm.criteria.specialTagsCode=list.specialTagsCode;
+                        // vm.criteria.personNum=list.personNum;
+                        // vm.criteria.duration=list.duration;
+                        // vm.criteria.orderSimulatePriceCode=list.orderSimulatePriceCode;
+                        //}
+
+                    })
             },
             showLogin: function (message) {
                 console.log("v-on  click method :showLogin");
@@ -209,6 +212,10 @@ var appMyAccount = new Vue(
             tab: function ($event) {
                 var vm = this;
                 vm.showFlag = $event.target.name;
+            },
+            routeToDetail: function (id, type) {
+                var vm = this;
+                id && type && (window.location.href = './productdetail.html?type=' + type + '&id=' + id);
             }
         }
     }
