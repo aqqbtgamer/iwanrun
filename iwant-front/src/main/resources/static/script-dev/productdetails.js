@@ -8,7 +8,10 @@ const appProductDetailsConfig = {
 		},
 		case:{
 			dataUrl:"../../case/getDetailsById"
-		}
+        },
+        product: {
+            dataUrl: "../../production/getDetailsById"
+        }
 };
 const sildePageSize = 2 ;
 
@@ -38,7 +41,7 @@ var appProductDetails = new Vue(
 		         detailName:"",
 		         currentTopIndex: 0,
 		         pageSize:sildePageSize,
-		         favouriteColor:false
+                 isFavourite:false
 			},
 			created:function(){
 				var vm = this ;
@@ -117,7 +120,7 @@ var appProductDetails = new Vue(
 		            },
 		          collection: function () {
 		                var vm = this;
-		                //vm.isFavourite = !vm.isFavourite;
+		                vm.isFavourite = !vm.isFavourite;
 		                function add(id, type) {
 		                    var url = baseUrl + 'favourite/add',
 		                        parm = {
