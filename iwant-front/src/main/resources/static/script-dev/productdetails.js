@@ -120,7 +120,7 @@ var appProductDetails = new Vue(
 		            },
 		          collection: function () {
 		                var vm = this;
-		                vm.isFavourite = !vm.isFavourite;
+		                //vm.isFavourite = !vm.isFavourite;
 		                function add(id, type) {
 		                    var url = baseUrl + 'favourite/add',
 		                        parm = {
