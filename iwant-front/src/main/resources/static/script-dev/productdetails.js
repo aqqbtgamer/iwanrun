@@ -20,6 +20,10 @@ var appProductDetails = new Vue(
 				 loginIdUl:false,
 		         loginBtnUl:true,
 		         detailType:"搜索场地列表",
+		         init: {
+		                id: getUrlParam('id'),
+		                type: getUrlParam('type')
+		            },
 		         detail:{		        	 
 		        	 no:"",
 		        	 name:"",
@@ -29,12 +33,12 @@ var appProductDetails = new Vue(
 		        	 presonNum:"",
 		        	 during:"",
 		        	 mainImage:"",
-		        	 sildeImages:[],
-		        	 displayedSlideImages:[]	 
+		        	 sildeImages:[]
 		         },
 		         detailName:"",
 		         currentTopIndex: 0,
-		         pageSize:sildePageSize		         
+		         pageSize:sildePageSize,
+		         favouriteColor:false
 			},
 			created:function(){
 				var vm = this ;
@@ -75,7 +79,12 @@ var appProductDetails = new Vue(
 						vm.detail.during = locationDetail.dur;
 						vm.detail.mainImage = locationDetail.descirbeText2 ;
 						vm.detail.describContext = locationDetail.descirbeText1;
-						//var listAttch = $.parseJSON(result.listAttch);
+						var listAttch = $.parseJSON(result.listAttch);
+						if(listAttch != null && listAttch.length > 0){
+							for(var i=0 ; i< listAttch.length ; i++){
+								vm.detail.sildeImages.push(listAttch[i].filePath);
+							}
+						}	
 					}					
 					
 				}
@@ -105,7 +114,44 @@ var appProductDetails = new Vue(
 		          sliderNext: function () {
 		                var vm = this;
 		                vm.showSliderNext && vm.currentTopIndex++;
-		            }		            
+		            },
+		          collection: function () {
+		                var vm = this;
+		                //vm.isFavourite = !vm.isFavourite;
+		                function add(id, type) {
+		                    var url = baseUrl + 'favourite/add',
+		                        parm = {
+		                            id: id,
+		                            type: type
+		                        };
+		                    axios.post(url, parm).then(
+		                        function (response) {
+		                            console.log(response.data);
+		                            response.data && (vm.isFavourite = true);
+		                        });
+		                }
+		                function remove(id, type) {
+		                    var url = baseUrl + 'favourite/delete',
+		                        parm = {
+		                            id: id,
+		                            type: type
+		                        };
+		                    axios.post(url, parm).then(
+		                        function (response) {
+		                            console.log(response.data);
+		                            vm.isFavourite = false;
+		                        });
+		                }
+		                if (vm.init && vm.init.id && vm.init.type) {
+		                    vm.isFavourite ? remove(vm.init.id, vm.init.type) : add(vm.init.id, vm.init.type);
+		                }
+		            },
+		            isCollection: function () {
+		                var vm = this;
+		                vm.init && vm.init.id && vm.init.type && function (id, type) {
+		                    //TODO
+		                }(vm.init.id, vm.init.type);
+		            }
 		            
 			},
 			computed:{
@@ -116,6 +162,10 @@ var appProductDetails = new Vue(
 		            showSliderNext: function () {
 		                var vm = this;
 		                return vm.currentTopIndex < vm.detail.sildeImages.length - sildePageSize;
+		            },
+		            favouriteColor: function () {
+		                var vm = this;
+		                return vm.isFavourite ? '#FF0000' : '#414141';
 		            }
 		        }
 		}
