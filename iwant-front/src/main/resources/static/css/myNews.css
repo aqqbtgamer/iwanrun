@@ -207,7 +207,7 @@ input:focus{outline: none;}
 .account-box-line .sect-five{width: 7vw;}
 .table-head{border-bottom:1px solid #979797;padding-bottom: 1vw;margin-top: 2vw;}
 .detail-line{border-bottom: 1px solid #979797;}
-.detail-line .sect-two{color: #0121f2 !important;}
+/*.detail-line .sect-two{color: #0121f2 !important;}*/
 .account-box-line .table-body div{font-size: 1.2vw;color: #414141;line-height: 2vw;padding:0.8vw 0}
 .pagenation-bar{text-align: center;margin-top: 3vw;}
 ul.pagenation{display: inline-block;}
@@ -261,3 +261,25 @@ ul.pagenation li.active a{
 	color: #FF7E00;
 }
 
+.switchbtn {
+    width:auto;
+    height:auto;
+}
+
+.login-content {
+    padding:20px;
+}
+
+.word-break {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.login-content .word-break {
+    max-height:60vh;
+    overflow-y:auto;
+}
+
+.detailUnread div{
+    color: #0121f2 !important;
+}

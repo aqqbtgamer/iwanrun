@@ -78,26 +78,29 @@
                 <div class="accountMain">
                     <div class="accountTitle">
                         <span class="center-big margin-left">站内消息</span>
+                        <span class="center-big margin-left">
+                            <input @click="changeOnlyUnread" type="button" class="slider-button-item switchbtn" :value="onlyUnread?'全部':'未读'" />
+                        </span>
                     </div>
                     <div class="account-box-body">
-
-
-
                         <div class="account-box-line">
                             <div class="table-head">
                                 <div class="sect-one">时间</div>
                                 <div class="sect-two">回复用户</div>
                                 <div class="sect-three">消息内容</div>
                                 <div class="sect-four">查看状态</div>
-                                <div class="sect-five"></div>
+                                <div class="sect-five">订单</div>
                             </div>
                             <div class="table-body">
-                                <div class="detail-line" v-for="item in List">
-                                    <div class="sect-one">{{item.time}}</div>
-                                    <div class="sect-two">{{item.username}}</div>
-                                    <div class="sect-three">{{item.content}}</div>
-                                    <div class="sect-four">{{item.status?'已查看':'未查看'}}</div>
-                                    <div class="sect-five"><input type="button" value="查看详情" class="btn-primary" /></div>
+                                <div v-for="item in showList" @dblclick="show(item)" :class="item.blread?'detail-line':'detail-line detailUnread'">
+                                    <div class="sect-one">{{item.timestamp}}</div>
+                                    <div class="sect-two">{{item.from_user}}</div>
+                                    <div class="sect-three">{{maxSlice(item.message)}}</div>
+                                    <div class="sect-four">{{item.blread?'已读':'未读'}}</div>
+                                    <div class="sect-five">
+                                        <!--<input type="button" value="查看详情" class="btn-primary" />-->
+                                        <a>{{item.order_no}}</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +145,13 @@
                     </div>
                 </div>
             </div>
-
+            <div class="login-pannel" v-show="showDetail">
+                <div class="close-pannel"><i @click="close" class="iconfont-user1 icon-close"></i></div>
+                <div class="login-head"><h2>详细内容</h2></div>
+                <div class="login-content">
+                    <pre class="word-break">{{detail.message}}</pre>
+                </div>
+            </div>
         </div>
     </form>
     <script type="application/javascript" src="../../script-dev/myNews.js"></script>

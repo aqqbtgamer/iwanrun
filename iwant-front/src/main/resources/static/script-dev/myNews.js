@@ -21,30 +21,42 @@ var appMyAccount = new Vue(
             },
             List: [
                 {
-                    time: '2017年10月12日',
-                    username: '理查德',
-                    content: '怎么说怎么说怎么说',
-                    status: true
+                    id: 4,
+                    timestamp: '2017年10月12日',
+                    from_user: '理查德',
+                    message: '怎么说怎么说怎么说',
+                    blread: true,
+                    order_no: '100001'
                 },
                 {
-                    time: '2017年10月12日',
-                    username: '理查德',
-                    content: '怎么说怎么说怎么说',
-                    status: false
+                    id: 1,
+                    timestamp: '2017年10月12日',
+                    from_user: '理查德',
+                    message: '怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说怎么说11\r\n怎么说怎么说怎么说22\r\n怎么说怎么说怎么说\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n怎\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n怎',
+                    blread: false,
+                    order_no: '100001'
                 },
                 {
-                    time: '2017年10月12日',
-                    username: '理查德',
-                    content: '怎么说怎么说怎么说',
-                    status: true
+                    id: 2,
+                    timestamp: '2017年10月12日',
+                    from_user: '理查德',
+                    message: '怎么说怎么说怎么说',
+                    blread: true,
+                    order_no: '100001'
                 },
                 {
-                    time: '2017年10月12日',
-                    username: '理查德',
-                    content: '怎么说怎么说怎么说',
-                    status: false
+                    id: 3,
+                    timestamp: '2017年10月12日',
+                    from_user: '理查德',
+                    message: '怎么说怎么说怎么说',
+                    blread: false,
+                    order_no: '100001'
                 }
-            ]
+            ],
+            showList: [],
+            onlyUnread: true,
+            detail: {},
+            showDetail: false
         },
         methods: {
             showLogin: function (message) {
@@ -66,12 +78,54 @@ var appMyAccount = new Vue(
             },
             GetNewsByPage: function () {
                 var vm = this;
+                vm.setShowList();
                 var url = '../../site_message';
                 axios.get(url).then(
                     function (response) {
                         console.log(response.data);
-                        Array.isArray(response.data) && (vm.List=response.data);
+                        Array.isArray(response.data) && function () {
+                            vm.List = response.data;
+                            vm.setShowList();
+                        }();
                     });
+            },
+            read: function (item) {
+                var vm = this;
+                item.id && !item.blread && function () {
+                    var url = '../../site_message/state', parm = { msgid: item.id };
+                    axios.put(url, parm).then(
+                        function (response) {
+                            console.log(response.data);
+                            item.blread = true;
+                        });
+                }();
+            },
+            show: function (item) {
+                var vm = this;
+                vm.detail = item;
+                vm.showDetail = true;
+                vm.read(item);
+            },
+            close: function () {
+                var vm = this;
+                vm.showDetail = false;
+            },
+            changeOnlyUnread: function () {
+                var vm = this;
+                vm.onlyUnread = !vm.onlyUnread;
+                vm.setShowList();
+
+            },
+            setShowList: function () {
+                var vm = this;
+                !vm.onlyUnread ? (vm.showList = vm.List) : function () {
+                    vm.showList = vm.List.filter(function (f) {
+                        return !f.blread;
+                    });
+                }();
+            },
+            maxSlice: function (text) {
+                return text.length > 20 ? text.slice(0, 20) + '...' : text;
             }
         },
         created: function () {

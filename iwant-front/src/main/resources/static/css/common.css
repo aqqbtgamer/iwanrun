@@ -196,7 +196,8 @@ nav a:hover {
     top: 3vw;
     left: 26.56vw;
     width: 46.875vw;
-    height: 42vw;
+    /*height: 42vw;*/
+    height: 80vh;
     background-color: #FFFFFF;
     border: 1px solid #979797;
     border-radius: 8px;
