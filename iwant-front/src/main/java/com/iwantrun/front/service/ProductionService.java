@@ -12,6 +12,8 @@ import com.iwantrun.front.domain.Dictionary;
 import com.iwantrun.front.transfer.Message;
 import com.iwantrun.front.utils.CookieUtils;
 import com.iwantrun.front.utils.JSONUtils;
+
+import net.minidev.json.JSONObject;
 @Service
 public class ProductionService {
 	@Autowired
@@ -69,11 +71,13 @@ public class ProductionService {
 	public Message queryDetailById(String id,String token) {
 		String url = environment.getProperty("application.production.queryDetailById");
 		String baseUrl = environment.getProperty("app.server");
+		JSONObject requestObj = new JSONObject();
+		requestObj.put("id", id);
 		Message message = new Message();
-		message.setMessageBody(id);
-		message.setRequestMethod(url+baseUrl);
+		message.setMessageBody(requestObj.toString());
+		message.setRequestMethod(baseUrl+url);
 		message.setAccessToken(token);
-		message = template.postForEntity(url, message, Message.class).getBody();
+		message = template.postForEntity(baseUrl+url, message, Message.class).getBody();
 		return message;
 	}
 }

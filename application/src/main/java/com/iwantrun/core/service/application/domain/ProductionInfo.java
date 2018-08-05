@@ -71,7 +71,7 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 	private String orderGroupPrice;
 
 	@Column(name = "activity_province_code")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_TYPE)
+	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_PROVINCE_TYPE)
 	private String activityProvinceCode; // 产品省编码
 	
 	@Column(name = "activity_city_code", nullable = true)
