@@ -741,3 +741,14 @@ function verifyFieldsNotEmpty(valueArray){
 	)
 	return arrayResult ;
 }
+function parseDateStr(timeMills){
+	var date = new Date();
+	date.setTime(timeMills);
+	var year = date.getFullYear();
+	var month = date.getMonth()+1 ;
+	var dates = date.getDate();
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var seconds = date.getSeconds();
+	return year+"年"+month+"月"+dates+"日";
+}

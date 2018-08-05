@@ -57,4 +57,17 @@ public class OrdersService {
 		
 		return message;
 	}
+	public Message get(String param) {
+		String findByName = environment.getProperty("application.orders.get");
+		String baseUrl = environment.getProperty("app.server");
+		
+		String url = baseUrl + findByName;
+
+		Message message = new Message();
+		message.setMessageBody(param);
+		message.setRequestMethod(url);
+		message = template.postForEntity(url, message, Message.class).getBody();
+		
+		return message;
+	}
 }
