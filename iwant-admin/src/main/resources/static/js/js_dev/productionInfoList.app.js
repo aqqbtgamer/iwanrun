@@ -36,6 +36,11 @@ function fillPagesData(data){
 		var orderGroupPriceCode = list[index].orderGroupPriceCode;
 		var id = list[index].id;
 		
+		var activityType = list[index].activityTypeDesc;
+		var groupNumberRange = list[index].groupNumberRange;
+		var orderSimulatePriceRange = list[index].orderSimulatePriceRange;
+		var orderGroupPriceRange = list[index].orderGroupPriceRange;
+		
 		mainImageIcon = mainImageIcon == null ? '' : mainImageIcon;
 		groupNumberCode = groupNumberCode == null ? '' : groupNumberCode;
 		groupNumberCode += ("id=" + id);
@@ -57,19 +62,19 @@ function fillPagesData(data){
 				+ name
 				+ "</td>"
 				+ "<td>"
-				+ activityTypeCode
+				+ activityType
 				+ "</td>"
 				+ "<td>"
 				+ during
 				+ "</td>"
 				+ "<td>"
-				+ groupNumberCode
+				+ groupNumberRange
 				+ "</td>"
 				+ "<td>"
-				+ orderSimulatePriceCode
+				+ orderSimulatePriceRange
 				+ "</td>"
 				+ "<td>"
-				+ orderGroupPriceCode
+				+ orderGroupPriceRange
 				+ "</td>"
 				+ "<td> <a href='editProductionInfo.html?id="
 				+ id

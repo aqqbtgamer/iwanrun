@@ -92,6 +92,7 @@ public class ProductionInfoService {
 		if (!StringUtils.isEmpty(id)) {
 			Message message = new Message();
 			message.setMessageBody("{\"id\":" + id + "}");
+			message.setAccessToken(CookieUtils.getLoginToken(request));
 			String postUrl = env.getProperty("application.productionInfo.detail");
 			JSONObject obj = template.postForEntity(baseUrl + postUrl, message, JSONObject.class).getBody();
 			return obj.toJSONString();
