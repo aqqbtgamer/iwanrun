@@ -6,14 +6,18 @@ public class ProductionInfo {
 
 	private Integer id; // 系统主键
 	private Integer activityTypeCode; // 活动类型
+	private String activityTypeDesc; // 活动类型描述
 	private Integer during; // 活动天数
 	private Integer duringCode; // 活动天数范围，以下和此包含范围的属性，都需要关联数据字典表查询，都在数据字典那边维护
 	private Integer groupNumber; // 活动人数
 	private Integer groupNumberCode; // 活动人数范围
+	private String groupNumberRange; // 活动人数范围描述
 	private Integer priority; // 优先权重
 	private Integer status; // 状态 0-正常 1-下架'
 	private Integer orderSimulatePriceCode; // 订单人均参考报价范围
+	private String orderSimulatePriceRange; // 订单人均参考报价范围描述
 	private Integer orderGroupPriceCode; // 订单团体参考报价范围
+	private String orderGroupPriceRange; // 订单团体参考报价描述
 	private Integer activityProvinceCode; // 产品省编码
 	private Integer activityCityCode; // 产品市编码
 	private Integer activityDistCode; // 产品区编码
@@ -210,6 +214,38 @@ public class ProductionInfo {
 
 	public void setQrcode(String qrcode) {
 		this.qrcode = qrcode;
+	}
+
+	public String getGroupNumberRange() {
+		return groupNumberRange;
+	}
+
+	public void setGroupNumberRange(String groupNumberRange) {
+		this.groupNumberRange = groupNumberRange;
+	}
+
+	public String getOrderSimulatePriceRange() {
+		return orderSimulatePriceRange;
+	}
+
+	public void setOrderSimulatePriceRange(String orderSimulatePriceRange) {
+		this.orderSimulatePriceRange = orderSimulatePriceRange;
+	}
+
+	public String getOrderGroupPriceRange() {
+		return orderGroupPriceRange;
+	}
+
+	public void setOrderGroupPriceRange(String orderGroupPriceRange) {
+		this.orderGroupPriceRange = orderGroupPriceRange;
+	}
+
+	public String getActivityTypeDesc() {
+		return activityTypeDesc;
+	}
+
+	public void setActivityTypeDesc(String activityTypeDesc) {
+		this.activityTypeDesc = activityTypeDesc;
 	}
 
 }

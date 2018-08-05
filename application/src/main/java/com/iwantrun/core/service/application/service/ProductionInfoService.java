@@ -32,13 +32,13 @@ import com.iwantrun.core.service.application.dao.ProductionInfoDao;
 import com.iwantrun.core.service.application.dao.ProductionLocationRelationDao;
 import com.iwantrun.core.service.application.dao.ProductionTagsDao;
 import com.iwantrun.core.service.application.domain.Dictionary;
-import com.iwantrun.core.service.application.domain.LocationTags;
 import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.ProductionInfo;
 import com.iwantrun.core.service.application.domain.ProductionInfoAttachments;
 import com.iwantrun.core.service.application.domain.ProductionLocationRelation;
 import com.iwantrun.core.service.application.domain.ProductionTags;
 import com.iwantrun.core.service.application.domain.SearchDictionaryList;
+import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.ThumbnailatorUtils;
 
 @Service
@@ -115,6 +115,12 @@ public class ProductionInfoService {
 
 		Page<ProductionInfo> pageProductionInfo = productionInfoDao.findAll(example, page);
 		List<ProductionInfo> infos = pageProductionInfo.getContent();
+
+		String infosStr = JSONUtils.objToJSON(infos);
+
+		infos = JSONUtils.toList(infosStr, ProductionInfo.class);
+
+		System.out.println(infosStr);
 
 		// 封装产品的场地信息
 		for (ProductionInfo info : infos) {

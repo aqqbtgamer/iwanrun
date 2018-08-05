@@ -11,8 +11,13 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
+import org.springframework.util.StringUtils;
 
 import com.iwantrun.core.service.application.annotation.DictionaryField;
+import com.iwantrun.core.service.application.enums.ActivityType;
+import com.iwantrun.core.service.application.enums.GroupNumberRange;
+import com.iwantrun.core.service.application.enums.OrderGroupPriceRange;
+import com.iwantrun.core.service.application.enums.OrderSimulatePriceRange;
 import com.iwantrun.core.service.utils.DictionaryConfigParams;
 
 @Entity
@@ -112,6 +117,14 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 
 	@Transient
 	private Locations locations;
+	@Transient
+	private String activityTypeDesc;
+	@Transient
+	private String groupNumberRange;
+	@Transient
+	private String orderSimulatePriceRange; // 订单人均参考报价范围描述
+	@Transient
+	private String orderGroupPriceRange; // 订单团体参考报价描述
 
 	public Integer getId() {
 		return id;
@@ -154,10 +167,16 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 	}
 
 	public String getGroupNumber() {
+		if (StringUtils.isEmpty(groupNumber)) {
+			groupNumber = null;
+		}
 		return groupNumber;
 	}
 
 	public void setGroupNumber(String groupNumber) {
+		if (StringUtils.isEmpty(groupNumber)) {
+			groupNumber = null;
+		}
 		this.groupNumber = groupNumber;
 	}
 
@@ -336,7 +355,37 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 	public void setLocations(Locations locations) {
 		this.locations = locations;
 	}
-	
 
+	public String getActivityTypeDesc() {
+		return ActivityType.matches(activityTypeCode);
+	}
+
+	public String getGroupNumberRange() {
+		return GroupNumberRange.matches(groupNumberCode);
+	}
+
+	public void setGroupNumberRange(String groupNumberRange) {
+		this.groupNumberRange = groupNumberRange;
+	}
+
+	public String getOrderSimulatePriceRange() {
+		return OrderSimulatePriceRange.matches(orderSimulatePriceCode);
+	}
+
+	public void setOrderSimulatePriceRange(String orderSimulatePriceRange) {
+		this.orderSimulatePriceRange = orderSimulatePriceRange;
+	}
+
+	public String getOrderGroupPriceRange() {
+		return OrderGroupPriceRange.matches(orderGroupPriceCode);
+	}
+
+	public void setOrderGroupPriceRange(String orderGroupPriceRange) {
+		this.orderGroupPriceRange = orderGroupPriceRange;
+	}
+
+	public void setActivityTypeDesc(String activityTypeDesc) {
+		this.activityTypeDesc = activityTypeDesc;
+	}
 
 }

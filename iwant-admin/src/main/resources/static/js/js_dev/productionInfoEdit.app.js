@@ -1,5 +1,6 @@
 var uploadServer = '/iwant_admin/remote/fileupload';
 var submitUrl = '/iwant_admin/productionInfo/edit';
+const dictionaryUrl = "/iwant_admin/dictionary/getPages";
 
 var dataArr = new Array("name", "activityTypeCode", "during", "duringCode",
 	"location", "orderGroupPriceCode", "orderSimulatePriceCode",
@@ -9,6 +10,7 @@ var dataArr = new Array("name", "activityTypeCode", "during", "duringCode",
 
 $(document).ready(
     function(){
+    	getDictionaryPages(dictionaryUrl,dicionaryCallBack);
     	initPageData();// 设置产品详情数据
         bindUploadFile('mainImageUpload', uploadServer, 'mainImageLarge', singleDisplay);
         bindDataSubmitJSON('submitForm', dataArr, submitUrl, returnListPage);
@@ -16,6 +18,10 @@ $(document).ready(
         bindDeleteSelected("deleteAll");
     }
 );
+
+function dicionaryCallBack(result){
+	initDictionaryPage("dictionarys",result);
+}
 
 function returnListPage(result){
 	if(result == "failed"){
