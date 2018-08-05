@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import org.mockito.internal.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.iwantrun.core.constant.AdminApplicationConstants;
 import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
@@ -249,6 +252,18 @@ public class OrdersService {
 		String loginId = (String)requestObj.get("loginId");
 		Integer pageSize=Integer.parseInt(environment.getProperty("common.pageSize"));
 		List<Map<String,Object>> resultList = ordersDao.getOrdersByLoginId(jpqlExecute, pageSize, pageIndex, loginId);
+		for(Map<String,Object> map : resultList) {
+			String orderAdviserId = (String) map.get("orderAdviserId");
+			if( !StringUtils.isEmpty(orderAdviserId)) {
+				Integer orderAdviserIdInt = Integer.parseInt(orderAdviserId);
+				if(orderAdviserId != null) {
+					List<UserInfo> adviser = infoDao.findByLoginInfoId(orderAdviserIdInt);
+					if( adviser != null && adviser.get(0)!= null) {
+						map.put("orderAdviserName", adviser.get(0).getName());
+					}
+				}
+			}
+		}
 		Integer total = ordersDao.countAllWithOrdersByLoginId(jpql,loginId);
 		Pageable page =  PageRequest.of(pageIndex, pageSize, Sort.Direction.ASC, "id");
 		PageImpl<Map<String,Object>> result = new PageImpl<Map<String,Object>>(resultList, page, total);

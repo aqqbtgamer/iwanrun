@@ -24,6 +24,7 @@ var appListProduction = new Vue(
             nickname:'',
             headimg:'',
             list: [],
+            roleId:'',
             pageInfo:{
             	currentIndex:1,
             	totalPage:5,
@@ -37,6 +38,7 @@ var appListProduction = new Vue(
     				vm.getOrderListByLoginId(1);
     				vm.getUserInfo();
     				vm.msgWindow=false;
+    				vm.findByLoginId();
     			}
         	}
         },
@@ -105,7 +107,29 @@ var appListProduction = new Vue(
             	})
             },
             queryDetail:function(item){
-            	window.location.href="./myorder.html?id="+item.id;
+            	var vm = this;
+            	var roleId =vm.roleId;
+            	if( roleId==1){
+            		window.location.href="./myorder.html?id="+item.id;
+            	}
+            	if( roleId==2){
+            		window.location.href="./myorderUpload.html?id="+item.id;
+            	}
+            },
+            findByLoginId:function(){
+            	var vm = this;
+            	var url = "../../purchaserAccount/findMixedByLoginId";
+            	var loginId = vm.loginId;
+            	if( loginId != ''){
+            		axios.post(url,{loginId:loginId}).then(
+                			function(response){
+                				console.log(response.data);
+                				var data = response.data;
+                				if( data != ''){
+                					vm.roleId = data.loginInfo.sysRoleId;
+                				}
+                	})
+            	}
             }
         },
         created:function(){

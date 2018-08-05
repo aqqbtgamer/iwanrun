@@ -31,7 +31,7 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 	
 	Logger logger = LoggerFactory.getLogger(OrdersDao.class);
 	
-	String QUERY_ORDERS_WITH_USER_INFO_SQL =" select orders.id ,login.id as loginId, info.id as infoId ,info.name,"
+	String QUERY_ORDERS_WITH_USER_INFO_SQL =" select orders.id ,orders.order_adviser_id as orderAdviserId ,login.id as loginId, info.id as infoId ,info.name,"
 			+ " login.mobile_number as mobileNumber, orders.order_no as orderNo,orders.create_time as createTime,orders.order_status_code as orderStatusCode "
 			+ "from biz_orders orders left outer join  sys_login_info login on orders.order_owner_id = login.id left join sys_user_info info "
 			+ "on login.id = info.login_info_id where 1=1 "  ;  
@@ -40,7 +40,7 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 			+ "from biz_orders orders left outer join  sys_login_info login on orders.order_owner_id = login.id left join sys_user_info info "
 			+ "on login.id = info.login_info_id where 1=1 "  ; 
 	
-	String QUERY_ORDERS_WITH_USER_ASSIGNER_INFO_SQL = " select orders.id ,login.id as loginId, info.id as infoId ,info.name,"
+	String QUERY_ORDERS_WITH_USER_ASSIGNER_INFO_SQL = " select orders.id ,orders.order_adviser_id as orderAdviserId ,login.id as loginId, info.id as infoId ,info.name,"
 			+ " login.mobile_number as mobileNumber, orders.order_no as orderNo,orders.create_time as createTime,orders.order_status_code as orderStatusCode "
 			+ "from biz_orders orders left outer join  sys_login_info login on orders.order_owner_id = login.id left join sys_user_info info "
 			+ "on login.id = info.login_info_id left join sys_login_info assign on orders.order_adviser_id = assign.id left join sys_login_info assignInfo  "
@@ -61,6 +61,8 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 				Map<String,Object> result = new HashMap<String,Object>();
 				int index = 0 ;
 				result.put("id", objArray[index] == null ? null:objArray[index].toString());
+				index ++ ;
+				result.put("orderAdviserId", objArray[index] == null ? null:objArray[index].toString());
 				index ++ ;
 				result.put("loginId", objArray[index] == null ? null:objArray[index].toString());
 				index ++ ;

@@ -1,5 +1,7 @@
 package com.iwantrun.front.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.iwantrun.front.service.PurchaserAccountService;
 import com.iwantrun.front.transfer.Message;
 import com.iwantrun.front.transfer.PurchaserAccountRequest;
+import com.iwantrun.front.utils.JSONUtils;
 
 /**
  * 
@@ -104,5 +107,13 @@ public class PurchaserAccountController {
 	@ResponseBody
 	public String findMixedByLoginId(HttpServletRequest request) {
 		return service.findMixedByLoginId(request);
+	}
+	@RequestMapping("findByLoginId")
+	@ResponseBody
+	public String findByLoginId(@RequestBody String param) {
+		@SuppressWarnings("rawtypes")
+		Map map = JSONUtils.jsonToMap(param);
+		String loginId=(String) map.get("loginId");
+		return service.findByLoginId(loginId);
 	}
 }
