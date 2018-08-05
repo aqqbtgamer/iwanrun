@@ -1,6 +1,7 @@
 package com.iwantrun.core.service.application.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,5 +22,5 @@ public interface  UserAccountDao extends JpaRepository<UserAccount,Integer>,JpaS
 	
 	public List<UserAccount> findByUsernameAndRole(String username,Integer roleId);
 
-	public List<UserAccount> findByUsername(String username);
+	public Optional<UserAccount> findByUsername(String username);
 }

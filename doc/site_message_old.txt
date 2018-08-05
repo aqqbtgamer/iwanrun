@@ -1,0 +1,38 @@
+front:          prefix=iwantrun
+application:    prefix=application
+
+用户：
+    1) 发站内消息（发出咨询）
+        PUT http://ip:port/{prefix}/site_message                <1>
+        Request: {message: "xxx"}
+    2）查询自己发送的站内消息 （回显咨询）
+        GET http://ip:port/{prefix}/site_message/myself         <2>
+        Response: [{timestamp: "xxx", message: "xxx", ...}
+    3）查咨询师发送给自己的站内消息 （查看回复）
+        GET http://ip:port/{prefix}/site_message
+        Response: [{timestamp: "xxx", message: "xxx", ...}      <3>
+咨询师：
+    1）向指定用户发送消息 （回复功能）
+        PUT http://ip:port/{prefix}/site_message                <1>
+        Request: {message: "xxx"}
+    2）查询咨询师发出的消息（回复回显）
+        GET http://ip:port/{prefix}/site_message/myself         <2>
+        Response: [{timestamp: "xxx", message: "xxx", ...}
+    3）查询所有用户发出的消息（查看咨询）
+        GET http://ip:port/{prefix}/site_message                <3>
+        Response: [{timestamp: "xxx", message: "xxx", ...}   
+
+    Request Data: {
+        "to_user": string,
+        "message": string,
+        "order_no": string
+    }
+    
+    Response Data: [{
+        "timestamp": string,
+        "message": string,
+        "from_user": string,
+        "blread": boolean,
+        "order_no": string
+    }]
+        
