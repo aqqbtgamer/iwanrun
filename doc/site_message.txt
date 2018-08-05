@@ -3,12 +3,12 @@ application:    prefix=application
 
 咨询师/用户：
     1）查询全部或未读消息
-        GET http://ip:port/{prefix}/site_message/{all|unread} 
-        // POST
-        // Request Data: {
-        //     pageIndex: integer,
-        //     pageSize: integer,
-        // }
+        POST http://ip:port/{prefix}/site_message/query
+        Request Data: {
+            type: {all|unread}
+            // pageIndex: integer, << 预留，未用
+            // pageSize: integer,  << 预留，未用
+        }
         Response Data: [{
             "msgid": string
             "timestamp": string,
@@ -17,10 +17,33 @@ application:    prefix=application
             "order_no": string  <optional>
         }]
     2）修改消息为已读状态
-        PUT http://ip:port/{prefix}/site_message/state 
+        POST http://ip:port/{prefix}/site_message/update
         Request Data: {
             "msgid": string
         }
-        Response: success
+        Response: success | {other error message}
     
-        
+    3）发送消息给某用户
+        POST http://ip:port/{prefix}/site_message/add
+        Request Data: {
+            "user_id": string,  // login_id
+            "message": string,
+            "order_no": string  <optional>
+        }
+        Response: success | {other error message}
+    
+        Example:
+        POST http://127.0.0.1:8088/iwantrun/site_message/add
+        {
+            "user_id": "18018018018",
+            "message": "Hello 1111!",
+            "order_no": "00001"
+        }
+
+后端：    
+    端需要给某用户发送站内通知消息时可以调用这个接口：
+    - fromUserId 暂时只作记录用，可以不填; 
+    - orderNo 也是可选的，可以不填
+    public String addSiteMessage(String fromUserId, String toUserId, String message, String orderNo)
+    public String addSiteMessage(String toUserId, String message)
+    

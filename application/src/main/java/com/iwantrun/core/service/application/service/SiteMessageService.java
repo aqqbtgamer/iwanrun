@@ -30,7 +30,7 @@ public class SiteMessageService {
     @Autowired
     private PurchaserAccountDao purchaserAccountDao;
 
-    private String addSiteMessage(String fromUserId, String toUserId, String message, String orderNo) {
+    public String addSiteMessage(String fromUserId, String toUserId, String message, String orderNo) {
         SiteMessage siteMessage = new SiteMessage();
         if (null == fromUserId || fromUserId.isEmpty()) {
             fromUserId = "system";
@@ -50,6 +50,10 @@ public class SiteMessageService {
 
         siteMessageDao.save(siteMessage);
         return "success";
+    }
+
+    public String addSiteMessage(String toUserId, String message) {
+        return addSiteMessage("", toUserId, message, "");
     }
 
     public JSONArray getSiteMessage(JSONObject request, String userid) {
