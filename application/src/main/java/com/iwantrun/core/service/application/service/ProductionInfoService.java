@@ -3,6 +3,7 @@ package com.iwantrun.core.service.application.service;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,7 @@ import com.iwantrun.core.service.application.domain.ProductionInfoAttachments;
 import com.iwantrun.core.service.application.domain.ProductionLocationRelation;
 import com.iwantrun.core.service.application.domain.ProductionTags;
 import com.iwantrun.core.service.application.domain.SearchDictionaryList;
+import com.iwantrun.core.service.utils.EntityDictionaryConfigUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.ThumbnailatorUtils;
 
@@ -61,6 +63,9 @@ public class ProductionInfoService {
 	private DictionaryDao dictionaryDao;
 	@Autowired
 	private ProductionTagsDao productionTagsDao;
+	
+	@Autowired
+	private DictionaryService dictioanaryService;
 	
 	/**
 	 * 查询产品信息 按照多个查询条件查询产品
@@ -140,6 +145,23 @@ public class ProductionInfoService {
 	public ProductionInfo findById(Integer id) {
 		Optional<ProductionInfo> productionInfoOpt = productionInfoDao.findById(id);
 		ProductionInfo info = productionInfoOpt.get();
+		if (info != null) {
+			ProductionLocationRelation pLocationRelation = pLocationRelationDao.findByProductionId(info.getId());
+			if (pLocationRelation != null) {
+				Optional<Locations> locationsOpt = locationsDao.findById(pLocationRelation.getLocationId());
+				if (locationsOpt != null) {
+					info.setLocations(locationsOpt.get());
+				}
+			}
+		}
+		return info;
+	}
+	
+	public ProductionInfo getDetailById(Integer id) {
+		Optional<ProductionInfo> productionInfoOpt = productionInfoDao.findById(id);
+		ProductionInfo info = productionInfoOpt.get();
+		Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new ProductionInfo());
+		dictioanaryService.dictionaryFilter(info, dictionnaryMap);
 		if (info != null) {
 			ProductionLocationRelation pLocationRelation = pLocationRelationDao.findByProductionId(info.getId());
 			if (pLocationRelation != null) {

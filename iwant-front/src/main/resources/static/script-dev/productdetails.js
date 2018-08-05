@@ -88,6 +88,18 @@ var appProductDetails = new Vue(
 								vm.detail.sildeImages.push(listAttch[i].filePath);
 							}
 						}	
+					}else{
+						vm.detailTyp="搜索产品列表";
+						var productionDetail = result ;
+						vm.detail.no = productionDetail.id;
+						vm.detail.description = productionDetail.descirbeText3;
+						vm.detail.name = productionDetail.name ;
+						vm.detail.region = productionDetail.activityProvinceCode +"|" +productionDetail.activityCityCode +"|"+ productionDetail.activityDistCode;
+						vm.detail.type = productionDetail.activityTypeCode ;
+						vm.detail.presonNum = productionDetail.groupNumberRange;
+						vm.detail.during = productionDetail.dur;
+						vm.detail.mainImage = productionDetail.mainImageLarge;
+						vm.detail.describContext = productionDetail.descirbeText1;						
 					}					
 					
 				}

@@ -122,6 +122,21 @@ public class ProductionInfoController {
 		}
 		return productionInfoService.findById(id.intValue());
 	}
+	
+	
+	@RequestMapping("/application/productionInfo/getDetailById")
+	public Message getDetailById(@RequestBody Message message) {
+		JSONObject body = (JSONObject) JSONValue.parse(message.getMessageBody());
+		Number id = body.getAsNumber("id");
+		if (id == null) {
+			return null;
+		}
+		ProductionInfo infoResult = productionInfoService.getDetailById(id.intValue());
+		message.setMessageBody(JSONValue.toJSONString(infoResult));
+		return message;
+	}
+	
+	
 
 	/**
 	 * 收藏产品 将当前产品加入到【我的收藏】中
