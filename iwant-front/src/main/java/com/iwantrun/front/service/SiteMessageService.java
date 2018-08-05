@@ -13,6 +13,22 @@ public class SiteMessageService {
     @Autowired
     private RestTemplate template;
 
+    public Message forwardRequestService(String reqUrl, String param, String token) {
+        String frontPrefix = environment.getProperty("server.servlet.context-path");
+        String appPrefix = environment.getProperty("application.servlet.context-path");
+        String baseUrl = environment.getProperty("app.server");
+
+        String url = baseUrl + appPrefix + reqUrl.substring(frontPrefix.length());
+
+        Message message = new Message();
+        message.setAccessToken(token);
+        message.setMessageBody(param);
+        message.setRequestMethod(url);
+        message = template.postForEntity(url, message, Message.class).getBody();
+
+        return message;
+    }
+
     public Message sendSiteMessage(String param, String token) {
         String findByName = environment.getProperty("application.siteMessage");
         String baseUrl = environment.getProperty("app.server");
@@ -28,8 +44,8 @@ public class SiteMessageService {
         return message;
     }
 
-    public Message getSiteMessageToMe(String token) {
-        String findByName = environment.getProperty("application.siteMessage.tome");
+    public Message getSiteMessage(String token, String type) {
+        String findByName = environment.getProperty("application.siteMessage");
         String baseUrl = environment.getProperty("app.server");
 
         String url = baseUrl + findByName;
@@ -37,6 +53,7 @@ public class SiteMessageService {
         Message message = new Message();
         message.setAccessToken(token);
         message.setRequestMethod(url);
+        message.setMessageBody(type);
         message = template.postForEntity(url, message, Message.class).getBody();
 
         return message;

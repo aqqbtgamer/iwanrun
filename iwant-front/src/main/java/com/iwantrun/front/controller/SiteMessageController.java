@@ -2,6 +2,7 @@ package com.iwantrun.front.controller;
 
 import com.iwantrun.front.service.DictionaryService;
 import com.iwantrun.front.service.FavouriteService;
+import com.iwantrun.front.service.ForwardService;
 import com.iwantrun.front.service.SiteMessageService;
 import com.iwantrun.front.transfer.Message;
 import com.iwantrun.front.utils.CookieUtils;
@@ -13,14 +14,29 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class SiteMessageController {
     @Autowired
-    private SiteMessageService service;
+    private ForwardService service;
 
-    @PutMapping("site_message")
-    @PostMapping("site_message")
+    @PostMapping("site_message/{query|add|update}")
+    //@PostMapping("site_message/add")
+    //@PostMapping("site_message/update")
     public String sendSiteMessage(HttpServletRequest request, @RequestBody String param) {
+        return service.forwardRequest(request, param);
+    }
+/*
+    public String updateState(HttpServletRequest request, @RequestBody String param) {
+        return service.forwardRequest(request, param);
+    }
+
+    public String addSiteMessage(HttpServletRequest request, @RequestBody String param) {
+        return service.forwardRequest(request, param);
+    }
+*/
+/*
+    @GetMapping("site_message/{type:all|unread}")
+    public String getSiteMessageToMe(HttpServletRequest request, @PathVariable String type) {
         try {
             String token = CookieUtils.getLoginToken(request);
-            Message result = service.sendSiteMessage(param, token);
+            Message result = service.getSiteMessage(token, type);
             if( result != null) {
                 return result.getMessageBody();
             }
@@ -29,21 +45,6 @@ public class SiteMessageController {
         }
         return null;
     }
-
-    @GetMapping("site_message")
-    public String getSiteMessageToMe(HttpServletRequest request) {
-        try {
-            String token = CookieUtils.getLoginToken(request);
-            Message result = service.getSiteMessageToMe(token);
-            if( result != null) {
-                return result.getMessageBody();
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return null;
-    }
-
     @GetMapping("site_message/myself")
     public String getSiteMessageMyself(HttpServletRequest request) {
         try {
@@ -57,4 +58,5 @@ public class SiteMessageController {
         }
         return null;
     }
+*/
 }

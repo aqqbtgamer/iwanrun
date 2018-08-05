@@ -79,8 +79,8 @@ var appMyAccount = new Vue(
             GetNewsByPage: function () {
                 var vm = this;
                 vm.setShowList();
-                var url = '../../site_message';
-                axios.get(url).then(
+                var url = '../../site_message/query', parm = {"type": "all"};
+                axios.post(url, parm).then(
                     function (response) {
                         console.log(response.data);
                         Array.isArray(response.data) && function () {
@@ -91,9 +91,9 @@ var appMyAccount = new Vue(
             },
             read: function (item) {
                 var vm = this;
-                item.id && !item.blread && function () {
-                    var url = '../../site_message/state', parm = { msgid: item.id };
-                    axios.put(url, parm).then(
+                item.msgid && !item.blread && function () {
+                    var url = '../../site_message/update', parm = { msgid: item.msgid };
+                    axios.post(url, parm).then(
                         function (response) {
                             console.log(response.data);
                             item.blread = true;
