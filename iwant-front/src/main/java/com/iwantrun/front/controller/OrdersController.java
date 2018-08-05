@@ -43,4 +43,17 @@ public class OrdersController {
 		return null;
 		
 	} 
+	@RequestMapping("/get")
+	@ResponseBody
+	public String getOrderById(@RequestBody String param) {
+
+		try {
+			Message result = orderService.get(param);//查询出公共字典所有数据
+			return result.getMessageBody();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	} 
 }

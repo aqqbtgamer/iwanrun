@@ -103,29 +103,19 @@ var appListProduction = new Vue(
                 				}
             				}
             	})
+            },
+            queryDetail:function(item){
+            	window.location.href="./myorder.html?id="+item.id;
             }
         },
         created:function(){
         	var vm = this;
-        	if(vm.loginId != ''){
-        		vm.pageHandler(1);
-            	vm.getOrderListByLoginId(1);
-        	}else{
-        		vm.msgWindow=true;
-        	}
+
+
         }
     }
 );
 function showLoginId(loginId, opt){
-	var vm = appListProduction;
-	vm.mask = false;
-	vm.loginId = loginId;
-	vm.loginIdUl = true;
-	vm.loginBtnUl = false;
-	
-	if(opt == 'login'){
-//		initData();
-	}
 }
 function clearLoginId() {
     var vm = appListProduction;

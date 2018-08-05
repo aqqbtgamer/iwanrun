@@ -122,8 +122,8 @@ public class OrdersService {
 				//fetch adviser 
 				Integer orderAdviserId = order.getOrderAdviserId();
 				if(orderAdviserId != null) {
-					Optional<PurchaserAccount> adviser = purchaseDao.findById(orderAdviserId);
-					resultMap.put("adviserAccount", adviser.get());
+					List<UserInfo> adviser = infoDao.findByLoginInfoId(orderAdviserId);
+					resultMap.put("adviserAccount", adviser.get(0));
 				}
 				//fetch orders attachment 
 				List<OrderAttachments> caseDraft = ordersAttacgDao.findByOrderIdAndPagePath(id, AdminApplicationConstants.CASE_DRAFT);

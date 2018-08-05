@@ -116,7 +116,7 @@
                                     <div class="sect-three"> {{item.orderStatusCodeString}}</div>
                                     <div class="sect-four">{{item.name}}</div>
                                     <div class="sect-five">
-                                        <input type="button" value="查看详情" class="btn-primary" />
+                                        <input type="button" value="查看详情" class="btn-primary" @click="queryDetail(item)"/>
                                     </div>
                                 </div>
                             </div>

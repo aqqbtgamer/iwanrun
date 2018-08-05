@@ -92,6 +92,7 @@ input:focus{outline: none;}
 .active-item a{
     background-color:#414141;
     color: white !important;
+    text-decoration:none;
 }
 .accountTitle{
     width: 100%;
@@ -204,7 +205,7 @@ input:focus{outline: none;}
 }
 
 .account-box-line .table-head div,.account-box-line .table-body div{display: inline-block;}
-.account-box-line .sect-one{width: 22vw;word-break:break-all}
+.account-box-line .sect-one{width: 21vw;word-break:break-all}
 .account-box-line .sect-two{width: 15vw;}
 .account-box-line .sect-three{width: 10vw;}
 .account-box-line .sect-four{width: 12vw;}
