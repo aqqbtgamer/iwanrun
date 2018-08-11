@@ -22,7 +22,6 @@ import com.iwantrun.core.constant.AdminApplicationConstants;
 import com.iwantrun.core.service.application.config.DictionaryPageConfig;
 import com.iwantrun.core.service.application.dao.DictionaryDao;
 import com.iwantrun.core.service.application.domain.Dictionary;
-import com.iwantrun.core.service.application.domain.SearchDictionaryArray;
 import com.mysql.jdbc.StringUtils;
 
 @Service
@@ -165,6 +164,11 @@ public class DictionaryService {
 						Integer codeInt = Integer.parseInt(code);
 						Map<Integer,String> codeValueMap = propertyCodeValueMap.get(property);
 						String value = codeValueMap.get(codeInt);
+
+						if (value == null) {
+							value = "";
+						}
+
 						if(!StringUtils.isNullOrEmpty(alaisMap.get(property.concat(AdminApplicationConstants.DICTIONARY_FIELD_ALAIS)))) {
 							PropertyUtils.setProperty(t, alaisMap.get(property.concat(AdminApplicationConstants.DICTIONARY_FIELD_ALAIS)), value);
 						}else {

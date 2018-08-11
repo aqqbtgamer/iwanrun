@@ -57,7 +57,7 @@ var appProductDetails = new Vue(
 						vm.detailType = "搜索场地列表";
 						vm.detail.no = locationDetail.id ;
 						vm.detail.name =  locationDetail.name;
-						vm.detail.description =  locationDetail.descirbeText3 ;
+						vm.detail.description =  null2Blank(locationDetail.descirbeText3) ;
 						vm.detail.region = locationDetail.activityProvinceCodeDesc +"|" +locationDetail.activityCityCodeDesc +"|"+ locationDetail.activityDistCodeDesc;
 						vm.detail.type = locationDetail.activeTypeCodeDesc ;
 						vm.detail.presonNum = locationDetail.groupNumberLimitCodeDesc;
@@ -75,7 +75,7 @@ var appProductDetails = new Vue(
 						var locationDetail = $.parseJSON(result.caseVo) ;
 						vm.detail.no = locationDetail.id ;
 						vm.detail.name =  locationDetail.name;
-						vm.detail.description =  locationDetail.descirbeText3 ;
+						vm.detail.description =  null2Blank(locationDetail.descirbeText3) ;
 						vm.detail.region = locationDetail.activityProvinceCode +"|" +locationDetail.activityCityCode +"|"+ locationDetail.activityDistCode;
 						vm.detail.type = locationDetail.activityProvinceCode ;
 						vm.detail.presonNum = locationDetail.groupNumber;
@@ -92,7 +92,7 @@ var appProductDetails = new Vue(
 						vm.detailTyp="搜索产品列表";
 						var productionDetail = result ;
 						vm.detail.no = productionDetail.id;
-						vm.detail.description = productionDetail.descirbeText3;
+						vm.detail.description = null2Blank(productionDetail.descirbeText3);
 						vm.detail.name = productionDetail.name ;
 						vm.detail.region = productionDetail.activityProvinceCode +"|" +productionDetail.activityCityCode +"|"+ productionDetail.activityDistCode;
 						vm.detail.type = productionDetail.activityTypeCode ;
@@ -132,6 +132,12 @@ var appProductDetails = new Vue(
 		            },
 		          collection: function () {
 		                var vm = this;
+		          		//是否登录
+		                var login = (vm.loginId);
+		            	if(!login){
+		            		vm.showLogin(0);
+		            		return;
+		            	}
 		                //vm.isFavourite = !vm.isFavourite;
 		                function add(id, type) {
 		                    var url = baseUrl + 'favourite/add',

@@ -1059,4 +1059,7 @@ function fileUpload(contentId,url,callback) {
     	return year+"-"+month+"-"+dates+" "+hours+":"+minutes+":"+seconds
     }
     
+    function null2Blank(field){
+		return field == null ? "" : field;
+	}
     

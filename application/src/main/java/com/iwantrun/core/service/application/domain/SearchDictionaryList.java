@@ -3,28 +3,28 @@ package com.iwantrun.core.service.application.domain;
 import java.util.List;
 
 public class SearchDictionaryList {
-	
+
 	private String pageIndex;
-	
+
 	private Integer pageSize;
-	
-	private List<String> activityProvinceCode;//地区
-	
-	private List<String> activitytype;//活动类型
-	
-	private List<String> companytype;//企业类型
-	
-	private List<String> personNum;//人数
-	
-	private List<Integer> duration;//天数
-	
+
+	private Integer status;
+
+	private List<String> activityProvinceCode;// 地区
+
+	private List<String> activitytype;// 活动类型
+
+	private List<String> companytype;// 企业类型
+
+	private List<String> personNum;// 人数
+
+	private List<Integer> duration;// 天数
+
 	private List<String> locationTypeCode;// 场地类型
-	
-	private List<Integer> specialTagsCode;//特色关键词
-	
+
+	private List<Integer> specialTagsCode;// 特色关键词
+
 	private List<Integer> orderSimulatePriceCode;// 订单人均参考报价范围
-	
-	
 
 	public Integer getPageSize() {
 		return pageSize;
@@ -105,8 +105,12 @@ public class SearchDictionaryList {
 	public void setOrderSimulatePriceCode(List<Integer> orderSimulatePriceCode) {
 		this.orderSimulatePriceCode = orderSimulatePriceCode;
 	}
-	
-	
-	
 
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 }

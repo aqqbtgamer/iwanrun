@@ -63,10 +63,10 @@ public class ProductionInfoService {
 	private DictionaryDao dictionaryDao;
 	@Autowired
 	private ProductionTagsDao productionTagsDao;
-	
+
 	@Autowired
 	private DictionaryService dictioanaryService;
-	
+
 	/**
 	 * 查询产品信息 按照多个查询条件查询产品
 	 */
@@ -121,10 +121,10 @@ public class ProductionInfoService {
 		Page<ProductionInfo> pageProductionInfo = productionInfoDao.findAll(example, page);
 		List<ProductionInfo> infos = pageProductionInfo.getContent();
 
+		Map<String, Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new ProductionInfo());
+		dictioanaryService.dictionaryFilter(infos, dictionnaryMap);
+
 		String infosStr = JSONUtils.objToJSON(infos);
-
-		infos = JSONUtils.toList(infosStr, ProductionInfo.class);
-
 		System.out.println(infosStr);
 
 		// 封装产品的场地信息
@@ -156,11 +156,11 @@ public class ProductionInfoService {
 		}
 		return info;
 	}
-	
+
 	public ProductionInfo getDetailById(Integer id) {
 		Optional<ProductionInfo> productionInfoOpt = productionInfoDao.findById(id);
 		ProductionInfo info = productionInfoOpt.get();
-		Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new ProductionInfo());
+		Map<String, Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new ProductionInfo());
 		dictioanaryService.dictionaryFilter(info, dictionnaryMap);
 		if (info != null) {
 			ProductionLocationRelation pLocationRelation = pLocationRelationDao.findByProductionId(info.getId());
@@ -185,26 +185,27 @@ public class ProductionInfoService {
 
 	/**
 	 * 编辑产品信息 编辑修改产品信息
-	 * @param attachmentses 
-	 * @return 
-	 * @return 
+	 * 
+	 * @param attachmentses
+	 * @return
+	 * @return
 	 */
 	@Transactional
 	@Modifying
 	public boolean edit(ProductionInfo param, List<ProductionInfoAttachments> attachmentses) {
-		if(param != null) {
-			if(param.getStatus() == null) {
+		if (param != null) {
+			if (param.getStatus() == null) {
 				param.setStatus(0);
 			}
 			productionInfoDao.save(param);
-			if(attachmentses!=null) {
+			if (attachmentses != null) {
 				for (ProductionInfoAttachments attachments : attachmentses) {
 					pAttachmentsDao.save(attachments);
 				}
 			}
-			
+
 		}
-		
+
 		return true;
 	}
 
@@ -221,22 +222,22 @@ public class ProductionInfoService {
 	 */
 	@Transactional
 	public boolean add(ProductionInfo info, List<ProductionInfoAttachments> attachmentses) {
-		if(info != null) {
-			
+		if (info != null) {
+
 			info.setStatus(0);
 			info.setCreateTime(new Date());
 			info.setShiftTime(new Date());
-			
+
 			ProductionInfo savedInfo = productionInfoDao.saveAndFlush(info);
-			if(savedInfo==null) {
+			if (savedInfo == null) {
 				return false;
 			}
-			if(CollectionUtils.isNotEmpty(attachmentses)) {
+			if (CollectionUtils.isNotEmpty(attachmentses)) {
 				for (ProductionInfoAttachments attachments : attachmentses) {
 					attachments.setProductionId(savedInfo.getId());
 				}
-				List<ProductionInfoAttachments>  savedAttachments = pAttachmentsDao.saveAll(attachmentses);
-				if(CollectionUtils.isEmpty(savedAttachments)) {
+				List<ProductionInfoAttachments> savedAttachments = pAttachmentsDao.saveAll(attachmentses);
+				if (CollectionUtils.isEmpty(savedAttachments)) {
 					return false;
 				}
 			}
@@ -244,39 +245,41 @@ public class ProductionInfoService {
 		}
 		return false;
 	}
+
 	/**
 	 * 生成主图缩略图
 	 * 
 	 * @param mainImageLarge
 	 *            主图全路径
-	 * @param request 
-	 * @return 
+	 * @param request
+	 * @return
 	 * @throws IOException
 	 */
 	public String thumbnailator(String mainImageLarge, HttpServletRequest request) throws IOException {
-		String imageIconPath=ThumbnailatorUtils.thumbnailator(mainImageLarge);
-		if(imageIconPath!=null) {
-			String contextPath=request.getContextPath();
-			String url=request.getRequestURL().toString();
-			String basePath=url.split(contextPath)[0]+contextPath;
-			return basePath+imageIconPath;
+		String imageIconPath = ThumbnailatorUtils.thumbnailator(mainImageLarge);
+		if (imageIconPath != null) {
+			String contextPath = request.getContextPath();
+			String url = request.getRequestURL().toString();
+			String basePath = url.split(contextPath)[0] + contextPath;
+			return basePath + imageIconPath;
 		}
 		return null;
 	}
 
 	/**
 	 * 校验数据完整性
-	 * @param info 
+	 * 
+	 * @param info
 	 * @return
 	 */
 	public boolean validateData(ProductionInfo info) {
-		if(StringUtils.isEmpty(info.getName())) {
+		if (StringUtils.isEmpty(info.getName())) {
 			return false;
 		}
-		if(StringUtils.isEmpty(info.getActivityTypeCode())) {
+		if (StringUtils.isEmpty(info.getActivityTypeCode())) {
 			return false;
 		}
-		if(StringUtils.isEmpty(info.getDuring())) {
+		if (StringUtils.isEmpty(info.getDuring())) {
 			return false;
 		}
 		return true;
@@ -285,26 +288,29 @@ public class ProductionInfoService {
 	public void edit(ProductionInfo param) {
 		edit(param, null);
 	}
-	public PageImpl<ProductionInfo> queryProductionByDictListConditionPageable
-	(SearchDictionaryList vo,String pageIndex){	
-//		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
-		Integer pageSize=null;
-		if(vo!= null && vo.getPageSize() != null) {
-			pageSize = vo.getPageSize() ;
-		}else {
-			pageSize=Integer.parseInt(environment.getProperty("common.pageSize"));
+
+	public PageImpl<ProductionInfo> queryProductionByDictListConditionPageable(SearchDictionaryList vo,
+			String pageIndex) {
+		// Integer pageSize =
+		// Integer.parseInt(environment.getProperty("common.pageSize"));
+		Integer pageSize = null;
+		if (vo != null && vo.getPageSize() != null) {
+			pageSize = vo.getPageSize();
+		} else {
+			pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
 		}
-		int pageIndexInt =  pageIndex == null ? 1:Integer.parseInt(pageIndex)+1 ;
-		Pageable page =  PageRequest.of(pageIndexInt-1, pageSize, Sort.Direction.ASC, "id");
-		Long totalNum = productionInfoDao.countByMutipleParams(vo,jpqlExecute);
-		List<ProductionInfo> content = productionInfoDao.findByMutipleParams(vo,jpqlExecute,pageSize,pageIndexInt);
-		for( ProductionInfo loVo :content) {
+		int pageIndexInt = pageIndex == null ? 1 : Integer.parseInt(pageIndex) + 1;
+		Pageable page = PageRequest.of(pageIndexInt - 1, pageSize, Sort.Direction.ASC, "id");
+		Long totalNum = productionInfoDao.countByMutipleParams(vo, jpqlExecute);
+		List<ProductionInfo> content = productionInfoDao.findByMutipleParams(vo, jpqlExecute, pageSize, pageIndexInt);
+		for (ProductionInfo loVo : content) {
 			List<ProductionTags> listTag = productionTagsDao.findByProductionId(loVo.getId());
-			if(listTag!= null && listTag.size() >0 ) {
-				String[] tips =new String[listTag.size()];
-				for( int i=0;i< listTag.size();i++ ) {
-					Dictionary dic = dictionaryDao.findByFiledNameCode(String.valueOf(listTag.get(i).getTagsType()),"production",listTag.get(i).getTagsCode());
-					tips[i]=dic.getValue();
+			if (listTag != null && listTag.size() > 0) {
+				String[] tips = new String[listTag.size()];
+				for (int i = 0; i < listTag.size(); i++) {
+					Dictionary dic = dictionaryDao.findByFiledNameCode(String.valueOf(listTag.get(i).getTagsType()),
+							"production", listTag.get(i).getTagsCode());
+					tips[i] = dic.getValue();
 				}
 				loVo.setTips(tips);
 			}

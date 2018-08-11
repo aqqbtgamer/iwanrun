@@ -29,26 +29,20 @@ function fillPagesData(data){
 	$.each(list, function(index, n) {
 		var mainImageIcon = list[index].mainImageIcon;
 		var name = list[index].name;
-		var activityTypeCode = list[index].activityTypeCode;
 		var during = list[index].during;
-		var groupNumberCode = list[index].groupNumberCode;
-		var orderSimulatePriceCode = list[index].orderSimulatePriceCode;
-		var orderGroupPriceCode = list[index].orderGroupPriceCode;
 		var id = list[index].id;
 		
-		var activityType = list[index].activityTypeDesc;
-		var groupNumberRange = list[index].groupNumberRange;
-		var orderSimulatePriceRange = list[index].orderSimulatePriceRange;
-		var orderGroupPriceRange = list[index].orderGroupPriceRange;
+		var activityType = list[index].activityTypeCode;
+		var groupNumber = list[index].groupNumber;
+		var orderSimulatePrice = list[index].orderSimulatePrice;
+		var orderGroupPrice = list[index].orderGroupPrice;
 		
-		mainImageIcon = mainImageIcon == null ? '' : mainImageIcon;
-		groupNumberCode = groupNumberCode == null ? '' : groupNumberCode;
-		groupNumberCode += ("id=" + id);
-		orderSimulatePriceCode = orderSimulatePriceCode == null ? ''
-				: orderSimulatePriceCode;
-		orderGroupPriceCode = orderGroupPriceCode == null ? ''
-				: orderGroupPriceCode;
-
+		mainImageIcon = null2Blank(mainImageIcon);
+		activityType = null2Blank(activityType);
+		groupNumber = null2Blank(groupNumber);
+		orderSimulatePrice = null2Blank(orderSimulatePrice);
+		orderGroupPrice = null2Blank(orderGroupPrice);
+		
 		var rowTr = document.createElement('tr');
 		// 找到html的tr节点
 		rowTr.className = "node";
@@ -68,13 +62,13 @@ function fillPagesData(data){
 				+ during
 				+ "</td>"
 				+ "<td>"
-				+ groupNumberRange
+				+ groupNumber
 				+ "</td>"
 				+ "<td>"
-				+ orderSimulatePriceRange
+				+ orderSimulatePrice
 				+ "</td>"
 				+ "<td>"
-				+ orderGroupPriceRange
+				+ orderGroupPrice
 				+ "</td>"
 				+ "<td> <a href='editProductionInfo.html?id="
 				+ id

@@ -22,11 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iwantrun.core.service.application.annotation.NeedTokenVerify;
 import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
-import com.iwantrun.core.service.application.dao.LocationTagsDao;
 import com.iwantrun.core.service.application.dao.ProductionTagsDao;
 import com.iwantrun.core.service.application.domain.Dictionary;
-import com.iwantrun.core.service.application.domain.LocationTags;
-import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.ProductionInfo;
 import com.iwantrun.core.service.application.domain.ProductionTags;
 import com.iwantrun.core.service.application.domain.SearchDictionaryList;
@@ -73,9 +70,9 @@ public class ProductionInfoController {
 		String sortFlag = body.getAsString("sortFlag");
 
 		ProductionInfo param = new ProductionInfo();
-		
+
 		param.setStatus(0);
-		
+
 		if (null != activityTypeCode) {
 			param.setActivityTypeCode(activityTypeCode.toString());
 		}
@@ -97,7 +94,7 @@ public class ProductionInfoController {
 		if (pageSize == null || pageSize.intValue() < 0) {
 			pageSize = 10;
 		}
-		
+
 		Pageable page;
 		if (StringUtils.isEmpty(sortFlag)) {
 			page = PageRequest.of(pageNum.intValue(), pageSize.intValue());
@@ -122,8 +119,7 @@ public class ProductionInfoController {
 		}
 		return productionInfoService.findById(id.intValue());
 	}
-	
-	
+
 	@RequestMapping("/application/productionInfo/getDetailById")
 	public Message getDetailById(@RequestBody Message message) {
 		JSONObject body = (JSONObject) JSONValue.parse(message.getMessageBody());
@@ -135,8 +131,6 @@ public class ProductionInfoController {
 		message.setMessageBody(JSONValue.toJSONString(infoResult));
 		return message;
 	}
-	
-	
 
 	/**
 	 * 收藏产品 将当前产品加入到【我的收藏】中
@@ -181,15 +175,15 @@ public class ProductionInfoController {
 		try {
 			if (infoRequest.getInfo() != null) {
 				ProductionInfo info = infoRequest.getInfo();
-				//数据校验
-				boolean validated=productionInfoService.validateData(info);
-				if(validated) {
+				// 数据校验
+				boolean validated = productionInfoService.validateData(info);
+				if (validated) {
 					// 生成主图缩略图
 					String iconPath = productionInfoService.thumbnailator(info.getMainImageLarge(), request);
 					info.setMainImageIcon(iconPath);
-					
+
 					boolean updateResult = productionInfoService.add(info, infoRequest.getAttachments());
-					
+
 					if (updateResult) {
 						response.setMessageBody(String.valueOf(info.getId()));
 						return response;
@@ -202,7 +196,7 @@ public class ProductionInfoController {
 		response.setMessageBody("failed");
 		return response;
 	}
-	
+
 	/**
 	 * 添加产品 保存产品信息
 	 */
@@ -214,25 +208,25 @@ public class ProductionInfoController {
 		response.setRequestMethod(message.getRequestMethod());
 
 		ProductionInfoRequest infoRequest = JSONUtils.jsonToObj(message.getMessageBody(), ProductionInfoRequest.class);
-		
+
 		try {
 			if (infoRequest.getInfo() != null) {
 				ProductionInfo info = infoRequest.getInfo();
-				//数据校验
-				boolean validated=productionInfoService.validateData(info);
-				if(validated) {
-					String imageLarge=info.getMainImageLarge();
-					if(!StringUtils.isEmpty(imageLarge)) {
+				// 数据校验
+				boolean validated = productionInfoService.validateData(info);
+				if (validated) {
+					String imageLarge = info.getMainImageLarge();
+					if (!StringUtils.isEmpty(imageLarge)) {
 						ProductionInfo saved = productionInfoService.findById(info.getId());
-						if(!imageLarge.equals(saved.getMainImageLarge())) {
+						if (!imageLarge.equals(saved.getMainImageLarge())) {
 							// 生成主图缩略图
 							String iconPath = productionInfoService.thumbnailator(info.getMainImageLarge(), request);
 							info.setMainImageIcon(iconPath);
 						}
 					}
-					
+
 					boolean updateResult = productionInfoService.edit(info, infoRequest.getAttachments());
-					
+
 					if (updateResult) {
 						response.setMessageBody(String.valueOf(info.getId()));
 						return response;
@@ -242,11 +236,11 @@ public class ProductionInfoController {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		
+
 		response.setMessageBody("failed");
 		return response;
 	}
-	
+
 	/**
 	 * 添加产品 保存产品信息
 	 */
@@ -256,26 +250,32 @@ public class ProductionInfoController {
 		Message response = new Message();
 		response.setAccessToken(message.getAccessToken());
 		response.setRequestMethod(message.getRequestMethod());
-		
+
 		ProductionInfo info = JSONUtils.jsonToObj(message.getMessageBody(), ProductionInfo.class);
-		if(info != null && info.getId() != null) {
+		if (info != null && info.getId() != null) {
 			int num = productionInfoService.unShift(info);
 			response.setMessageBody(String.valueOf(num));
 		}
-		
+
 		return response;
 	}
+
 	@RequestMapping("/application/production/queryProdutionByCondition")
 	public Message queryCaseByCondition(@RequestBody Message message) {
 		String dataJson = message.getMessageBody();
-		SearchDictionaryList queryVo =JSONUtils.jsonToObj(dataJson, SearchDictionaryList.class);
+		SearchDictionaryList queryVo = JSONUtils.jsonToObj(dataJson, SearchDictionaryList.class);
+		queryVo.setStatus(0);
 		String json = productionListQuery(queryVo);
 		message.setMessageBody(json);
-		return message;		
+		return message;
 	}
+
 	public String productionListQuery(SearchDictionaryList queryVo) {
-		if( queryVo != null ) {
+		if (queryVo != null) {
 			SearchDictionaryList vo = new SearchDictionaryList();
+
+			vo.setStatus(queryVo.getStatus());
+
 			List<String> activityProvinceCode = new ArrayList<>();
 			List<String> activitytype = new ArrayList<>();
 			List<Integer> duration = new ArrayList<>();
@@ -283,47 +283,49 @@ public class ProductionInfoController {
 			List<Integer> orderSimulatePriceCode = new ArrayList<>();
 			List<Integer> specialTagsCode = new ArrayList<>();
 			List<String> activityProvinceCodeArray = queryVo.getActivityProvinceCode();
-			if(activityProvinceCodeArray != null && activityProvinceCodeArray.size() > 0) {
+			if (activityProvinceCodeArray != null && activityProvinceCodeArray.size() > 0) {
 				activityProvinceCode = dictionaryService.dictionaryParamSwitchString(activityProvinceCodeArray);
 				vo.setActivityProvinceCode(activityProvinceCode);
 			}
 			List<String> activitytypeArray = queryVo.getActivitytype();
-			if(activitytypeArray != null && activitytypeArray.size() > 0) {
+			if (activitytypeArray != null && activitytypeArray.size() > 0) {
 				activitytype = dictionaryService.dictionaryParamSwitchString(activitytypeArray);
 				vo.setActivitytype(activitytype);
 			}
-			
+
 			List<Integer> durationArray = queryVo.getDuration();
-			if(durationArray != null && durationArray.size() > 0) {
+			if (durationArray != null && durationArray.size() > 0) {
 				duration = dictionaryService.dictionaryParamSwitch(durationArray);
 				vo.setDuration(duration);
 			}
 			List<String> personNumArray = queryVo.getPersonNum();
-			if(personNumArray != null && personNumArray.size() > 0) {
+			if (personNumArray != null && personNumArray.size() > 0) {
 				personNum = dictionaryService.dictionaryParamSwitchString(personNumArray);
 				vo.setPersonNum(personNum);
 			}
 			List<Integer> specialTagsCodArray = queryVo.getSpecialTagsCode();
-			if(specialTagsCodArray != null && specialTagsCodArray.size() > 0) {
+			if (specialTagsCodArray != null && specialTagsCodArray.size() > 0) {
 				specialTagsCode = dictionaryService.dictionaryParamSwitch(specialTagsCodArray);
-				List<ProductionTags> locationTagList = productionTagsDao.findByTagsCodes(specialTagsCode,jpqlExecute);
-				for(ProductionTags tag : locationTagList) {
+				List<ProductionTags> locationTagList = productionTagsDao.findByTagsCodes(specialTagsCode, jpqlExecute);
+				for (ProductionTags tag : locationTagList) {
 					specialTagsCode.add(tag.getProductionId());
 				}
 				vo.setSpecialTagsCode(specialTagsCode);
 			}
 			List<Integer> orderSimulatePriceCodeArray = queryVo.getOrderSimulatePriceCode();
-			if(orderSimulatePriceCodeArray != null && orderSimulatePriceCodeArray.size() > 0) {
+			if (orderSimulatePriceCodeArray != null && orderSimulatePriceCodeArray.size() > 0) {
 				orderSimulatePriceCode = dictionaryService.dictionaryParamSwitch(orderSimulatePriceCodeArray);
 				vo.setOrderSimulatePriceCode(orderSimulatePriceCode);
 			}
 			vo.setPageSize(queryVo.getPageSize());
-			PageImpl<ProductionInfo> result = productionInfoService.queryProductionByDictListConditionPageable( vo, queryVo.getPageIndex());
-			Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new ProductionInfo());
+			PageImpl<ProductionInfo> result = productionInfoService.queryProductionByDictListConditionPageable(vo,
+					queryVo.getPageIndex());
+			Map<String, Dictionary> dictionnaryMap = EntityDictionaryConfigUtils
+					.getDictionaryMaping(new ProductionInfo());
 			dictionaryService.dictionaryFilter(result.getContent(), dictionnaryMap);
 			return PageDataWrapUtils.page2JsonNoCopy(result);
 		}
 		return "";
-		
-	} 
+
+	}
 }

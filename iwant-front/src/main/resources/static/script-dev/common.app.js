@@ -20,6 +20,7 @@
 //---------------------------------- lrApp Template Start ---------------------------------------
 var lrTemplate = ""+
 	'<div id="lrPannel">'+
+			'<div id="dialog" v-if="loginWindow | registerWindow" style="z-index: 100;"></div>'+
     		'<div id="login-pannel" class="login-pannel" v-if="loginWindow" v-cloak id="loginWindow">'+
                 '<div id="close-pannel" class="close-pannel">'+
                     '<i class="iconfont-user1 icon-close" @click="closeLogin"></i>'+
@@ -751,4 +752,7 @@ function parseDateStr(timeMills){
 	var minutes = date.getMinutes();
 	var seconds = date.getSeconds();
 	return year+"年"+month+"月"+dates+"日";
+}
+function null2Blank(field){
+	return field == null ? "" : field;
 }

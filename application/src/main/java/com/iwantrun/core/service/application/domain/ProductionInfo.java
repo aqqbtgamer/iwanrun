@@ -30,23 +30,23 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 	private Integer id; // 系统主键
 
 	@Column(name = "activity_type_code", nullable = false)
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_TYPE)
+	@DictionaryField(name = DictionaryConfigParams.COMMON_DICTIONARY_NAME, usedField = DictionaryConfigParams.COMMON_ACTIVITY_TYPE)
 	private String activityTypeCode; // 活动类型
 
 	@Column(name = "during", nullable = false)
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_PERIOD_TYPE,aliasField="dur")
+	@DictionaryField(name = DictionaryConfigParams.COMMON_DICTIONARY_NAME, usedField = DictionaryConfigParams.COMMON_ACTIVITY_PERIOD_TYPE, aliasField = "dur")
 	private Integer during; // 活动天数
-	
+
 	@Transient
-	private String dur; 
+	private String dur;
 
 	@Column(name = "during_code")
 	private Integer duringCode; // 活动天数范围
 
 	@Column(name = "group_number")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_ACTIVITY_PERSON_NUMBER_TYPE)
+	@DictionaryField(name = DictionaryConfigParams.COMMON_DICTIONARY_NAME, usedField = DictionaryConfigParams.COMMON_ACTIVITY_PERSON_NUMBER_TYPE)
 	private String groupNumber; // 活动人数
-	
+
 	@Column(name = "group_number_code")
 	private Integer groupNumberCode; // 活动人数范围
 
@@ -57,31 +57,30 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 	private Integer status; // 状态 0-正常 1-下架'
 
 	@Column(name = "order_simulate_price_code")
-	@DictionaryField(name=DictionaryConfigParams.PRODUCTION_DICTIONARY_NAME ,usedField=DictionaryConfigParams.PRODUCTION_SINGEL_PRICE_LIMIT_TYPE,aliasField="orderSimulatePrice")
+	@DictionaryField(name = DictionaryConfigParams.PRODUCTION_DICTIONARY_NAME, usedField = DictionaryConfigParams.PRODUCTION_SINGEL_PRICE_LIMIT_TYPE, aliasField = "orderSimulatePrice")
 	private Integer orderSimulatePriceCode; // 订单人均参考报价范围
-	
+
 	@Transient
 	private String orderSimulatePrice;
 
 	@Column(name = "order_group_price_code")
-	@DictionaryField(name=DictionaryConfigParams.PRODUCTION_DICTIONARY_NAME ,usedField=DictionaryConfigParams.PRODUCTION_GROUP_PRICE_LIMIT_TYPE,aliasField="orderGroupPrice")
+	@DictionaryField(name = DictionaryConfigParams.PRODUCTION_DICTIONARY_NAME, usedField = DictionaryConfigParams.PRODUCTION_GROUP_PRICE_LIMIT_TYPE, aliasField = "orderGroupPrice")
 	private Integer orderGroupPriceCode; // 订单团体参考报价范围
-	
+
 	@Transient
 	private String orderGroupPrice;
 
 	@Column(name = "activity_province_code")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_PROVINCE_TYPE)
+	@DictionaryField(name = DictionaryConfigParams.COMMON_DICTIONARY_NAME, usedField = DictionaryConfigParams.COMMON_PROVINCE_TYPE)
 	private String activityProvinceCode; // 产品省编码
-	
+
 	@Column(name = "activity_city_code", nullable = true)
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_CITY_TYPE)
+	@DictionaryField(name = DictionaryConfigParams.COMMON_DICTIONARY_NAME, usedField = DictionaryConfigParams.COMMON_CITY_TYPE)
 	private String activityCityCode; // 产品市编码
 
 	@Column(name = "activity_dist_code")
-	@DictionaryField(name=DictionaryConfigParams.COMMON_DICTIONARY_NAME ,usedField=DictionaryConfigParams.COMMON_DIST_TYPE)
+	@DictionaryField(name = DictionaryConfigParams.COMMON_DICTIONARY_NAME, usedField = DictionaryConfigParams.COMMON_DIST_TYPE)
 	private String activityDistCode; // 产品区编码
-	
 
 	@Column(name = "shift_time", nullable = false)
 	private Date shiftTime; // 上架时间
@@ -112,7 +111,7 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 
 	@Column(name = "qrcode")
 	private String qrcode; // 二维码信息地址
-	
+
 	private String[] tips;
 
 	@Transient
