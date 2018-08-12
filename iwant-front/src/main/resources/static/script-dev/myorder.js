@@ -117,7 +117,15 @@ var appMyAccount = new Vue(
                 				}
             				}
             	})
+            },
+            schemeFileUpload:function($event){
+            	var vm = this;
+            	var url = "/iwantrun/remote/fileupload";
+            	var file = $event.target.files[0];
+            	fileUpload('uploadedSchemeFile',url,null,file);
+            	
             }
+            
             
         }
     }
