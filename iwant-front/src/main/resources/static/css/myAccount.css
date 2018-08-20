@@ -259,7 +259,7 @@ img {
 	cursor: pointer;
 	background: #727272;
 }
-.msg-pannel {
+/* .msg-pannel {
 	top: 40%;
     left: 48%;
     width: 22%;
@@ -272,7 +272,7 @@ img {
 	text-align: center;
 	position: fixed;
 	border-radius: 5px;
-}
+} */
 .msg-close-pannel {
 	margin-right: 0.33vw;
     margin-top: 0.1vw;

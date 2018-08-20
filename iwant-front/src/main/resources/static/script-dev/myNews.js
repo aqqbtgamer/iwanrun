@@ -11,6 +11,8 @@ var appMyAccount = new Vue(
             autoLogin: false,
             loginTitle: '用户登录',
             loginId: '18018336171',
+            loginBtnUl: true,
+            loginIdUl: false,
             loginToken: 'uuixooppasyytvdbftrraskm',
             loginRole: { id: 1, role: '采购方' },
             account: {
@@ -135,3 +137,11 @@ var appMyAccount = new Vue(
     }
 );
 console.log("Vue 脚本绑定渲染完成..............");
+
+function showLoginId(loginId) {
+    var vm = appMyAccount;
+    vm.mask = false;
+    vm.loginId = loginId;
+    vm.loginIdUl = true;
+    vm.loginBtnUl = false;
+}
