@@ -1,0 +1,22 @@
+front:          prefix=iwantrun
+application:    prefix=application
+
+用户：
+    1) 查询交易
+        POST http://ip:port/{prefix}/trade_status/query <1>
+        Request Body: {id: "all|num", ""}
+        Response: [{id: "xxx", "modify_time", "status": "1", "user_info": ""}, ...]
+    2）创建交易状态
+        POST http://ip:port/{prefix}/trade_status/add             
+        Request Body: {id: "xxx", ""}
+        Response: { ...}
+    3）删除交易状态
+        POST http://ip:port/{prefix}/trade_status/delete        
+        Request: {id: "xxx"}
+        Response: { ...}
+    4）编辑交易状态
+        POST http://ip:port/{prefix}/trade_status/update                     
+        Request Body: {id: "xxx", status: ""}
+        Response: { ...}
+
+    status：0. 提交 1. 正在定制中 2. 正在实施

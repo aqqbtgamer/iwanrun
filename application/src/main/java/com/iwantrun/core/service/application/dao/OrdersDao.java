@@ -191,4 +191,10 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 		Object raw = rawResult.get(0);
 		return AdminApplicationConstants.MAPPER_FOR_INTEGER.apply(raw);
 	}
+
+	default List<Map<String,Object>> getOrders(JPQLEnableRepository repository,int pageSize,int pageIndex){
+		String sql = QUERY_ORDERS_WITH_USER_INFO_SQL;
+		List<Object[]> rawResult = (List<Object[]>)repository.findByNativeSqlPage(sql, pageIndex, pageSize);
+		return rawResult.stream().map(MAPPER_MIXED_ORDER).collect(Collectors.toList());
+	}
 }
