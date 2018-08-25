@@ -112,19 +112,21 @@
                         <div class="account-box-line">
                             <div class="file-img">
                                 <img src="../../img/file_img.jpg" width="100%" />
-                                <input type="file" name="uploadedSchemeFile" id="uploadedSchemeFile" @change="schemeFileUpload"/>
+                                <input type="file" name="uploadedSchemeFile" id="uploadedSchemeFile" @change="schemeFileUpload($event)"/>
                             </div>
                             <p class="file-txt">初步方案尚未上传，请耐心等待 </p>
                         </div>
                         <div class="account-box-line">
                             <div class="file-img">
                                 <img src="../../img/file_img.jpg" width="100%" />
+                                <input type="file" name="uploadedAppointFile" id="uploadedAppointFile" @change="appointFileUpload($event)"/>
                             </div>
                             <p class="file-txt">合作意向书尚未上传，请耐心等待 </p>
                         </div>
                         <div class="account-box-line">
                             <div class="file-img">
                                 <img src="../../img/file_img.jpg" width="100%" />
+                                <input type="file" name="uploadedProjectFile" id="uploadedProjectFile" @change="projectFileUpload($event)"/>
                             </div>
                             <p class="file-txt">项目汇总 ( 案例 ) 尚未上传，请耐心等待 </p>
                         </div>

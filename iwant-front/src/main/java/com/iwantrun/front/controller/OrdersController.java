@@ -56,4 +56,30 @@ public class OrdersController {
 		return null;
 		
 	} 
+	@RequestMapping("/saveFileOrderAttach")
+	@ResponseBody
+	public String saveFileOrderAttach(@RequestBody String param) {
+
+		try {
+			Message result = orderService.saveFileOrderAttach(param);//查询出公共字典所有数据
+			return result.getMessageBody();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	} 
+	@RequestMapping("/orderResultClick")
+	@ResponseBody
+	public String orderResultClick(@RequestBody String param) {
+
+		try {
+			Message result = orderService.orderResultClick(param);//查询出公共字典所有数据
+			return result.getMessageBody();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	} 
 }

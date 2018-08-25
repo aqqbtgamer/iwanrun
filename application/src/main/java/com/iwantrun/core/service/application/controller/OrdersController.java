@@ -117,4 +117,20 @@ public class OrdersController {
 		message.setMessageBody(result);
 		return message;
 	}
+	@RequestMapping("saveFileOrderAttach")
+	public Message saveFileOrderAttach(@RequestBody Message message) {
+		String requestJson = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJson);
+		String res = orderService.saveFileOrderAttach(requestObj);
+		message.setMessageBody(res);
+		return message;
+	}
+	@RequestMapping("orderResultClick")
+	public Message orderResultClick(@RequestBody Message message) {
+		String requestJson = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJson);
+		String res = orderService.orderResultClick(requestObj);
+		message.setMessageBody(res);
+		return message;
+	}
 }

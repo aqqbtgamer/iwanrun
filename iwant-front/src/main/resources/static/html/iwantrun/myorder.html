@@ -109,23 +109,24 @@
                                 <input type="button" class="order-message" :value="'咨询师：'+adviserAccount.name">
                             </div>
                         </div>
-                        <div class="account-box-line">
-                            <a href="">
-                                <div class="account-box-left">
-                                    <img src="../../img/myOrder_ico1.jpg" />
-                                    <div class="account-box-left-txt">
-                                        <p>初步方案.pdf</p>
-                                        <span>点击可下载附件</span>
-                                    </div>
-                                </div>
-                            </a>
+                        <div class="account-box-line" v-for="item in caseDraft">
+	                        	<a :href="item.filePath" download="item.fileName">
+	                                <div class="account-box-left">
+	                                    <img src="../../img/myOrder_ico1.jpg" />
+	                                    <div class="account-box-left-txt">
+	                                        <p>初步方案.pdf</p>
+	                                        <span>点击可下载附件</span>
+	                                    </div>
+	                                </div>
+	                            </a>
+                            
                             <div class="account-button-right">
                                 <input type="button" value="联系咨询师" class="btn-primary">
                                 <p class="right-button-txt">更新与3天12小时前</p>
                             </div>
                         </div>
-                        <div class="account-box-line">
-                            <a href="">
+                        <div class="account-box-line"  v-for="item in appointment">
+	                        	<a :href="item.filePath" download="item.fileName">
                                 <div class="account-box-left">
                                     <img src="../../img/myOrder_ico2.jpg" />
                                     <div class="account-box-left-txt">
@@ -135,13 +136,13 @@
                                 </div>
                             </a>
                             <div class="account-button-right">
-                                <input type="button" value="下载原意向书" class="btn-primary">
-                                <input type="button" value="重新上传" class="btn-primary">
-                                <p class="right-button-txt">等待审核</p>
+<!--                                 <input type="button" value="下载原意向书" class="btn-primary"> -->
+<!--                                 <input type="button" value="重新上传" class="btn-primary"> -->
+<!--                                 <p class="right-button-txt">等待审核</p> -->
                             </div>
                         </div>
-                        <div class="account-box-line">
-                            <a href="">
+                        <div class="account-box-line" v-for="item in projectConclude">
+	                        	<a :href="item.filePath" download="item.fileName">
                                 <div class="account-box-left">
                                     <img src="../../img/myOrder_ico3.jpg" />
                                     <div class="account-box-left-txt">
@@ -150,9 +151,9 @@
                                     </div>
                                 </div>
                             </a>
-                            <div class="account-button-right">
-                                <input type="button" value="同意结项" class="btn-primary">
-                                <input type="button" value="不同意结项" class="btn-primary">
+                            <div class="account-button-right" v-if="resultBtn">
+                                <input type="button" value="同意结项" class="btn-primary" @click="orderResultClick(3)">
+                                <input type="button" value="不同意结项" class="btn-primary" @click="orderResultClick(4)">
                                 <p class="right-button-txt">更新与3天12小时前</p>
                             </div>
                         </div>
