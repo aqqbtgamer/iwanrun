@@ -711,14 +711,18 @@ function getSMSCodeBack(data) {
 	}
 }
 
-function logout() {
-    $.cookie('accessToken', null);
-    $.cookie('loginId', null);
-
-    lrApp.account = {};
-
-    //当前页 账号信息清理 TODO
-    clearLoginId && typeof (clearLoginId) === 'function' && clearLoginId();
+function logoutCommon(logoutBack) {
+    var url = baseUrl + "purchaserAccount/logout";	
+    
+    if(!logoutBack){
+    	logoutBack = function(){
+	    	lrApp.account = {};
+	    	// 当前页 账号信息清理 TODO
+	    	clearLoginId && typeof (clearLoginId) === 'function' && clearLoginId();
+    	}
+    }
+    
+    $http.post(url, {}, logoutBack);
 }
 
 

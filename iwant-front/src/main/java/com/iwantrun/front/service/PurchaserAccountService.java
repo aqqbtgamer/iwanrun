@@ -189,6 +189,16 @@ public class PurchaserAccountService {
 	}
 
 	/**
+	 * 登出
+	 * 
+	 * @param response
+	 */
+	public void logout(HttpServletResponse response) {
+		CookieUtils.addCookie(null, CookieConstants.COOKIE_ACCESS_TOKEN_KEY, null, response);
+		CookieUtils.addCookie(null, CookieConstants.COOKIE_LOGIN_ID_KEY, null, response);
+	}
+
+	/**
 	 * 采购用户-用户个人信息-增加和修改
 	 * 
 	 * @param param
