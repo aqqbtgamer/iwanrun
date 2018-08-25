@@ -3,9 +3,12 @@ application:    prefix=application
 
 用户：
     1) 查询交易
-        POST http://ip:port/{prefix}/trade_status/query <1>
-        Request Body: {id: "all|num", ""}
+        POST http://ip:port/{prefix}/trade_status/query
+        Request Body: {}
         Response: [{id: "xxx", "modify_time", "status": "1", "user_info": ""}, ...]
+        
+        id 是订单号（debug用），user_info 用户信息，
+        status: 0,"已提交", 1,"定制中", 2 "实施中", modify_time 时间
     2）创建交易状态
         POST http://ip:port/{prefix}/trade_status/add             
         Request Body: {id: "xxx", ""}

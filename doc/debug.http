@@ -1,0 +1,17 @@
+# query trade/order
+POST http://127.0.0.1:8088/iwantrun/trade_status/query HTTP/1.1
+content-type: application/json
+
+{}
+
+###
+POST http://139.196.228.29:8088/iwantrun/trade_status/query HTTP/1.1
+content-type: application/json
+
+{
+    "id": "all"
+}
+
+
+###
+GET http://127.0.0.1:8088/iwantrun/html/iwantrun/myAccount.html
