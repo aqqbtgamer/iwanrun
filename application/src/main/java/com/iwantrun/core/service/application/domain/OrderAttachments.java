@@ -98,6 +98,22 @@ public class OrderAttachments {
 	public void setUploader(Integer uploader) {
 		this.uploader = uploader;
 	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
 	
 	
 }

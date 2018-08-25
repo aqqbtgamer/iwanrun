@@ -115,13 +115,18 @@ var appProductDetails = new Vue(
 		                lrApp.showLogin(message);
 		            },
 		          logout:function(){
-		        	  var vm = this ;
-		        	  vm.loginId = null ;
-		        	  vm.loginIdUl = false ;
-		        	  vm.loginBtnUl = true ;
-		        	  $.cookie('accessToken',null,{path:"/"});
-		        	  $.cookie('loginId', null,{path:"/"});
-		        	  lrApp.account = {};
+		        		var vm = this ;
+		        		
+		        	  	var logoutBack = function(){
+					    	vm.loginId = null ;
+			        		vm.loginIdUl = false ;
+			        		vm.loginBtnUl = true ;
+			        		//$.cookie('accessToken',null,{path:"/"});
+			        		//$.cookie('loginId', null,{path:"/"});
+			        		lrApp.account = {};
+    					}
+    					
+    					logoutCommon(logoutBack);
 		          },
 		          sliderPre: function () {
 		                var vm = this;

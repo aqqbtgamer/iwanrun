@@ -63,17 +63,18 @@ var appMyAccount = new Vue(
         methods: {
             showLogin: function (message) {
                 console.log("v-on  click method :showLogin");
-                var vm = this
+                /*var vm = this
                 vm.mask = true;
                 vm.loginWindow = true;
-                vm.loginTitle = message;
+                vm.loginTitle = message;*/
+                lrApp.showLogin(message);
             },
-            closeLogin: function () {
+            /*closeLogin: function () {
                 console.log("v-on  click method :closeLogin");
                 var vm = this;
                 vm.mask = false;
                 vm.loginWindow = false;
-            },
+            },*/
             changeAutoLogin: function () {
                 var vm = this;
                 vm.autoLogin = !vm.autoLogin;

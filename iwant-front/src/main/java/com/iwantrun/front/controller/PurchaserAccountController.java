@@ -28,6 +28,18 @@ public class PurchaserAccountController {
 	private PurchaserAccountService service;
 
 	/**
+	 * 登出
+	 * 
+	 * @param purchaser
+	 * @return String
+	 */
+	@RequestMapping("/logout")
+	@ResponseBody
+	public void logout(HttpServletResponse response) {
+		service.logout(response);
+	}
+
+	/**
 	 * 采购用户修改密码
 	 * 
 	 * @param purchaser
