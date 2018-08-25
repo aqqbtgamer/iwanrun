@@ -1,0 +1,4 @@
+1. 系统初始化：
+    CREATE DATABASE IF NOT EXISTS iwantrun_db DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+    grant all privileges on *.* to iwantrun_user@localhost identified by 'abc123ABC';
+    flush privileges;
