@@ -24,6 +24,9 @@ var appMyAccount = new Vue(
             appointment:{},
             projectConclude:{},
             resultBtn:true,
+            schemeMsgTxt:"初步方案尚未上传，请耐心等待",
+            appointMsgTxt:"合作意向书尚未上传，请耐心等待 ",
+            projectMsgTxt:"项目汇总 ( 案例 ) 尚未上传，请耐心等待",
             order: {
                 orderid: '40020171014',
                 createdate: '2017年10月12日',
@@ -46,18 +49,32 @@ var appMyAccount = new Vue(
                 ]
             }
         },
-        created:function(){
-        	var vm = this;
-        	vm.getOrderInfo();
-        	
-        	
-        },
+        
         watch:{
         	loginId:function(newVal,oldVal){
         		var vm = this;
     			if( oldVal != newVal){
     				vm.getUserInfo();
+    				vm.getOrderInfo();
     				vm.msgWindow=false;
+    			}
+        	},
+        	caseDraft:function(newVal,oldVal){
+        		var vm = this;
+    			if( newVal != undefined && newVal.length >0){
+    				vm.schemeMsgTxt="初步方案已上传";
+    			}
+        	},
+        	appointment:function(newVal,oldVal){
+        		var vm = this;
+    			if( newVal != undefined && newVal.length >0){
+    				vm.appointMsgTxt="合作意向书已上传";
+    			}
+        	},
+        	projectConclude:function(newVal,oldVal){
+        		var vm = this;
+    			if(  newVal != undefined && newVal.length >0){
+    				vm.projectMsgTxt="项目汇总 ( 案例 ) 已上传";
     			}
         	}
         },
@@ -135,10 +152,10 @@ var appMyAccount = new Vue(
             				}
             	})
             },
-            schemeFileUpload:function($event){
+            schemeFileUpload:function(){
             	var vm = this;
             	var url = "/iwantrun/remote/fileupload";
-            	var file = $event.target.files[0];
+            	var file = $("#uploadedSchemeFile").prop('files')[0];
             	var call = function(param){
             		vm.saveFileOrderAttach(param,'case_draft');
             	}
@@ -165,26 +182,35 @@ var appMyAccount = new Vue(
             	fileUpload('uploadedProjectFile',url,call,file);
             	
             },
-//            appointmentFileUpload:function($event){
-//            	var vm = this;
-//            	var url = "/iwantrun/remote/fileupload";
-//            	var file = $event.target.files[0];
-//            	var call = function(param){
-//            		vm.saveFileOrderAttach(param,'appointment');
-//            	}
-//            	fileUpload('uploadedSchemeFile',url,call,file);
-//            	
-//            },
-//            projectFileUpload:function($event){
-//            	var vm = this;
-//            	var url = "/iwantrun/remote/fileupload";
-//            	var file = $event.target.files[0];
-//            	var call = function(param){
-//            		vm.saveFileOrderAttach(param,'project_conclude');
-//            	}
-//            	fileUpload('uploadedSchemeFile',url,call,file);
-//            	
-//            },
+            schemeFileImgClick:function(){
+            	var vm = this;
+            	if(vm.loginId==''){
+            		vm.msgWindow=true;
+            		vm.msgText="请重新登录";
+            	}else{
+            		$("#uploadedSchemeFile").click();
+            	}
+            },
+            appointFileImgClick:function(){
+            	var vm = this;
+            	if(vm.loginId==''){
+            		vm.msgWindow=true;
+            		vm.msgText="请重新登录";
+            	}else{
+            		$("#uploadedAppointFile").click();
+            	}
+            	
+            },
+            projectFileImgClick:function(){
+            	var vm = this;
+            	if(vm.loginId==''){
+            		vm.msgWindow=true;
+            		vm.msgText="请重新登录";
+            	}else{
+            		$("#uploadedProjectFile").click();
+            	}
+            	
+            },
             saveFileOrderAttach:function(filePath,pagePath){
             	var vm = this;
             	if(filePath != ''){
@@ -195,7 +221,16 @@ var appMyAccount = new Vue(
                 				var data = response.data;
                 				vm.msgWindow=true;
                 				if( data == 'success'){
-                					vm.msgText="上传成功";
+                					vm.msgText="上传成功";//  
+                					if(pagePath=='case_draft'){
+                						vm.schemeMsgTxt="初步方案已上传";
+                					}
+                					if(pagePath=='appointment'){
+                						vm.appointMsgTxt="合作意向书已上传";
+                					}
+                					if(pagePath=='project_conclude'){
+                						vm.projectMsgTxt="项目汇总 ( 案例 ) 已上传";
+                					}
                 				}else{
                 					vm.msgText="上传失败";
                 				}
