@@ -65,6 +65,9 @@ public class PurchaserAccountController {
 	@RequestMapping("/register")
 	@ResponseBody
 	public Message register(HttpServletRequest request, @RequestBody PurchaserAccountRequest purchaser) {
+		// 是注册
+		purchaser.setRegister(true);
+
 		Message result = service.getVaidateSMSCodeResult(request, purchaser);
 		if (result != null) {
 			return result;

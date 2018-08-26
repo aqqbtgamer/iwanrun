@@ -110,14 +110,19 @@ public class PurchaserAccountService {
 	 */
 	public String validateSMSCodeParam(HttpServletRequest request, PurchaserAccountRequest purchaser) {
 		PurchaserAccount account = purchaser.getAccount();
+		String loginId = account.getLoginId();
+		String mobileNumber = loginId;
 
-		String dbAccountJSON = findByLoginId(account.getLoginId());
-		if (StringUtils.isEmpty(dbAccountJSON)) {
-			return "账号不存在";
+		// 非注册时，再进行账号存在校验
+		if (!purchaser.isRegister()) {
+			String dbAccountJSON = findByLoginId(loginId);
+			if (StringUtils.isEmpty(dbAccountJSON)) {
+				return "账号不存在";
+			}
+			PurchaserAccount dbAccount = JSONUtils.jsonToObj(dbAccountJSON, PurchaserAccount.class);
+			mobileNumber = dbAccount.getMobileNumber();
 		}
 
-		PurchaserAccount dbAccount = JSONUtils.jsonToObj(dbAccountJSON, PurchaserAccount.class);
-		String mobileNumber = dbAccount.getMobileNumber();
 		String smsCode = purchaser.getSmsCode();
 		return validateSMSCodeParam(mobileNumber, smsCode, request);
 	}
