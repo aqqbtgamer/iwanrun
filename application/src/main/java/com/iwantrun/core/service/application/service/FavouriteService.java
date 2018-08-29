@@ -73,7 +73,16 @@ public class FavouriteService {
      * @param caseType
      * @return
      */
-    public List<FavouriteCase> queryFavouriteCase(String userId, String caseType) {
+    public List<Favourite> queryFavourite(String userId, String caseType, int caseId) {
+        if (caseId >= 0) {
+            List<Favourite> favouriteList = new ArrayList<>();
+            Favourite favourite = favouriteDao.findCase(userId, caseType, caseId);
+            favouriteList.add(favourite);
+            return favouriteList;
+        }
+
+        return favouriteDao.findAllByUserId(userId);
+            /*
         List<FavouriteCase> favouriteCaseList = new ArrayList<>();
         List<Favourite> favouriteList = favouriteDao.findAllByUserId(userId);
         favouriteList.forEach(favourite -> {
@@ -84,7 +93,6 @@ public class FavouriteService {
             FavouriteCase favouriteCase = new FavouriteCase();
             favouriteCase.setType(caseType);
             favouriteCase.setFavouriteId(favourite.getCaseId());
-            /*
             if (caseType.equals("case")) {
                 Cases cases = casesDao.getOne(favourite.getCaseId());
 
@@ -106,10 +114,8 @@ public class FavouriteService {
 
                 favouriteCaseList.add(favouriteCase);
             }
-            */
         });
-
-        return favouriteCaseList;
+            */
     }
 
     public boolean doseFavouritExists(String userId, String caseType, int caseId) {

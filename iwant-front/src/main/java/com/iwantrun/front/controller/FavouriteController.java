@@ -2,6 +2,7 @@ package com.iwantrun.front.controller;
 
 import com.iwantrun.front.service.DictionaryService;
 import com.iwantrun.front.service.FavouriteService;
+import com.iwantrun.front.service.ForwardService;
 import com.iwantrun.front.transfer.Message;
 import com.iwantrun.front.utils.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +12,25 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("favourite")
+//@RequestMapping("favourite")
 public class FavouriteController {
     @Autowired
     private DictionaryService dictionaryService;
     @Autowired
-    private FavouriteService service;
+    private ForwardService service;
+    //private FavouriteService service;
 
+    @PostMapping("favourite/{query|add|delete}")
+    //@PostMapping("site_message/add")
+    //@PostMapping("site_message/update")
+    public String sendMessage(HttpServletRequest request, @RequestBody String param) {
+        return service.forwardRequest(request, param);
+    }
+
+    /*
     @SuppressWarnings("rawtypes")
     @RequestMapping("/query/{type:case|product|location}")
-    public String queryFavourite(HttpServletRequest request, @PathVariable String type) {
+    public String queryFavourite(HttpServletRequest request, @PathVariable String type, @RequestBody String param) {
         try {
             String token = CookieUtils.getLoginToken(request);
             Message result = service.queryFavouriteList(type, token); //查询收藏
@@ -61,4 +71,5 @@ public class FavouriteController {
         }
         return null;
     }
+    */
 }
