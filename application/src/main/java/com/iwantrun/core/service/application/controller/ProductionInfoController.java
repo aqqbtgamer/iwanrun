@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,14 +27,18 @@ import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
 import com.iwantrun.core.service.application.dao.ProductionTagsDao;
 import com.iwantrun.core.service.application.domain.Dictionary;
 import com.iwantrun.core.service.application.domain.ProductionInfo;
+import com.iwantrun.core.service.application.domain.ProductionInfoAttachments;
 import com.iwantrun.core.service.application.domain.ProductionTags;
 import com.iwantrun.core.service.application.domain.SearchDictionaryList;
 import com.iwantrun.core.service.application.service.DictionaryService;
 import com.iwantrun.core.service.application.service.ProductionInfoService;
 import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.application.transfer.ProductionInfoRequest;
+import com.iwantrun.core.service.utils.EntityBeanUtils;
 import com.iwantrun.core.service.utils.EntityDictionaryConfigUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
+import com.iwantrun.core.service.utils.ListUpdateUtils;
+import com.iwantrun.core.service.utils.MappingGenerateUtils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
 import net.minidev.json.JSONObject;
@@ -111,13 +117,13 @@ public class ProductionInfoController {
 	 */
 	@RequestMapping("/application/productionInfo/detail")
 	@NeedTokenVerify
-	public ProductionInfo detail(@RequestBody Message message) {
+	public String detail(@RequestBody Message message) {
 		JSONObject body = (JSONObject) JSONValue.parse(message.getMessageBody());
 		Number id = body.getAsNumber("id");
 		if (id == null) {
 			return null;
 		}
-		return productionInfoService.findById(id.intValue());
+		return productionInfoService.findByIdWithAttach(id.intValue());
 	}
 
 	@RequestMapping("/application/productionInfo/getDetailById")
@@ -182,7 +188,25 @@ public class ProductionInfoController {
 					String iconPath = productionInfoService.thumbnailator(info.getMainImageLarge(), request);
 					info.setMainImageIcon(iconPath);
 
-					boolean updateResult = productionInfoService.add(info, infoRequest.getAttachments());
+					List<ProductionInfoAttachments> attachmentses = new ArrayList<>();
+
+					Map<String, String> mappingRelation0 = MappingGenerateUtils
+							.generateMappingRelation(new String[] { "filePath=>bean" });
+
+					EntityBeanUtils.listBeanCreateFromJson(attachmentses, mappingRelation0, info.getImgManage(),
+							ProductionInfoAttachments.class);
+
+					Function<String, String> fun = s -> {
+						int index = s.lastIndexOf("/");
+						return s.substring(index + 1);
+					};
+
+					BiFunction<String, Integer, String> biFun = (value, index) -> value + "-" + index;
+					ListUpdateUtils.updateListProperty(attachmentses, new String[] { "filePath=>fileName" },
+							new Function[] { fun }, new String[] { "pagePath==sideImage" },
+							(BiFunction<String, Integer, String>[]) new BiFunction[] { biFun });
+
+					boolean updateResult = productionInfoService.add(info, attachmentses);
 
 					if (updateResult) {
 						response.setMessageBody(String.valueOf(info.getId()));
@@ -203,6 +227,68 @@ public class ProductionInfoController {
 	@RequestMapping("/application/productionInfo/edit")
 	@NeedTokenVerify
 	public Message edit(@RequestBody Message message, HttpServletRequest request) {
+		Message response = new Message();
+		response.setAccessToken(message.getAccessToken());
+		response.setRequestMethod(message.getRequestMethod());
+
+		ProductionInfoRequest infoRequest = JSONUtils.jsonToObj(message.getMessageBody(), ProductionInfoRequest.class);
+
+		try {
+			if (infoRequest.getInfo() != null) {
+				ProductionInfo info = infoRequest.getInfo();
+				// 数据校验
+				boolean validated = productionInfoService.validateData(info);
+				if (validated) {
+					String imageLarge = info.getMainImageLarge();
+					if (!StringUtils.isEmpty(imageLarge)) {
+						ProductionInfo saved = productionInfoService.findById(info.getId());
+						if (!imageLarge.equals(saved.getMainImageLarge())) {
+							// 生成主图缩略图
+							String iconPath = productionInfoService.thumbnailator(info.getMainImageLarge(), request);
+							info.setMainImageIcon(iconPath);
+						}
+					}
+
+					List<ProductionInfoAttachments> attachmentses = new ArrayList<>();
+
+					Map<String, String> mappingRelation0 = MappingGenerateUtils
+							.generateMappingRelation(new String[] { "filePath=>bean" });
+
+					EntityBeanUtils.listBeanCreateFromJson(attachmentses, mappingRelation0, info.getImgManage(),
+							ProductionInfoAttachments.class);
+
+					Function<String, String> fun = s -> {
+						int index = s.lastIndexOf("/");
+						return s.substring(index + 1);
+					};
+
+					BiFunction<String, Integer, String> biFun = (value, index) -> value + "-" + index;
+					ListUpdateUtils.updateListProperty(attachmentses, new String[] { "filePath=>fileName" },
+							new Function[] { fun }, new String[] { "pagePath==sideImage" },
+							(BiFunction<String, Integer, String>[]) new BiFunction[] { biFun });
+
+					boolean updateResult = productionInfoService.edit(info, attachmentses);
+
+					if (updateResult) {
+						response.setMessageBody(String.valueOf(info.getId()));
+						return response;
+					}
+				}
+			}
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+
+		response.setMessageBody("failed");
+		return response;
+	}
+
+	/**
+	 * 添加产品 保存产品信息
+	 */
+	// @RequestMapping("/application/productionInfo/edit")
+	// @NeedTokenVerify
+	public Message editOld(@RequestBody Message message, HttpServletRequest request) {
 		Message response = new Message();
 		response.setAccessToken(message.getAccessToken());
 		response.setRequestMethod(message.getRequestMethod());
