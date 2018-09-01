@@ -133,8 +133,12 @@ public class ProductionInfoController {
 		if (id == null) {
 			return null;
 		}
-		ProductionInfo infoResult = productionInfoService.getDetailById(id.intValue());
-		message.setMessageBody(JSONValue.toJSONString(infoResult));
+		// ProductionInfo infoResult =
+		// productionInfoService.getDetailById(id.intValue());
+		// message.setMessageBody(JSONValue.toJSONString(infoResult));
+
+		String result = productionInfoService.findByIdWithAttach(id.intValue());
+		message.setMessageBody(result);
 		return message;
 	}
 

@@ -100,7 +100,13 @@ var appProductDetails = new Vue(
 						vm.detail.presonNum = productionDetail.groupNumberRange;
 						vm.detail.during = productionDetail.dur;
 						vm.detail.mainImage = productionDetail.mainImageLarge;
-						vm.detail.describContext = productionDetail.descirbeText1;						
+						vm.detail.describContext = productionDetail.descirbeText1;		
+						var listAttch = $.parseJSON(result.listAttch);
+						if(listAttch != null && listAttch.length > 0){
+							for(var i=0 ; i< listAttch.length ; i++){
+								vm.detail.sildeImages.push(listAttch[i].filePath);
+							}
+						}	
 					}					
 					
 				}
