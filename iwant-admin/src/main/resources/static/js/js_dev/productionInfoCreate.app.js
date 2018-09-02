@@ -30,7 +30,9 @@ $(document).ready(
     				"mainImageLarge",
     				'imgManage'
             ),
-            submitUrl,returnListPage);
+        submitUrl,returnListPage);
+        
+        bindUploadFile('uploadedProductionInfoImages',uploadServer,'imgManage',mutipleDisplay);
         bindSeclectAll("checkAll");
         bindDeleteSelected("deleteAll");
         bindAssignToDictionary("activityCityCode","activityProvinceCode");

@@ -64,4 +64,15 @@ public class JSONTest {
 		map=JSONUtils.toMap(str, Integer.class);
 		System.out.println(map);
 	}
+
+	@Test
+	public void testArray() throws Exception {
+		String[] strArr = { "213" };
+		List<String> list = new ArrayList<>();
+		list.add("list");
+		String json = JSONUtils.objToJSON(list);
+		System.out.println(json);
+		JSONArray arr = JSONUtils.jsonToObj(json, JSONArray.class);
+		System.out.println(arr);
+	}
 }

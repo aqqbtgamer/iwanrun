@@ -20,6 +20,8 @@ import com.iwantrun.core.service.application.enums.OrderGroupPriceRange;
 import com.iwantrun.core.service.application.enums.OrderSimulatePriceRange;
 import com.iwantrun.core.service.utils.DictionaryConfigParams;
 
+import net.minidev.json.JSONArray;
+
 @Entity
 @Table(name = "biz_productions")
 public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
@@ -124,6 +126,8 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 	private String orderSimulatePriceRange; // 订单人均参考报价范围描述
 	@Transient
 	private String orderGroupPriceRange; // 订单团体参考报价描述
+	@Transient
+	private JSONArray imgManage;
 
 	public Integer getId() {
 		return id;
@@ -385,6 +389,14 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 
 	public void setActivityTypeDesc(String activityTypeDesc) {
 		this.activityTypeDesc = activityTypeDesc;
+	}
+
+	public JSONArray getImgManage() {
+		return imgManage;
+	}
+
+	public void setImgManage(JSONArray imgManage) {
+		this.imgManage = imgManage;
 	}
 
 }

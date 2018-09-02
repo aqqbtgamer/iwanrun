@@ -14,6 +14,7 @@ $(document).ready(
     	initPageData();// 设置产品详情数据
         bindUploadFile('mainImageUpload', uploadServer, 'mainImageLarge', singleDisplay);
         bindDataSubmitJSON('submitForm', dataArr, submitUrl, returnListPage);
+        bindUploadFile('uploadedProductionInfoImages',uploadServer,'imgManage',mutipleDisplay);
         bindSeclectAll("checkAll");
         bindDeleteSelected("deleteAll");
     }
@@ -85,6 +86,15 @@ function initPageData(){
 function fillPageDatas(data) {
 	setUEData(data);// 设置UE编辑器内容
 	
+	//设置附件
+	var imgs = data.listAttch ? JSON.parse(data.listAttch) : null;;
+	if(imgs != null && imgs.length > 0){
+		for(var i = 0; i<imgs.length ; i++){
+			mutipleDisplay('imgManage',imgs[i].filePath);
+		}		
+	}
+	
+	//填充一般数据
 	for (var i = 0; i < dataArr.length; i++) {
 		var name = dataArr[i];
 		var val = data[name];
