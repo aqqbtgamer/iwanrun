@@ -56,6 +56,7 @@ const modifyFields = new Array(
 
 $(document).ready(
 		function(){
+			loadCommonTabs();
 			bindUploadFile('uploadedLocationImages',uploadServer,'imgManage',mutipleDisplay);
 			dictionaryItemsInit(dictionaryName,dictionaryCodeUrl);
 			bindSelectRole("role","submitForm");

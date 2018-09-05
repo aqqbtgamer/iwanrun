@@ -19,6 +19,7 @@ var dictionaryName = getUrlParam('name');
 
 $(document).ready(
 		function(){
+			loadCommonTabs();
 			getDictionaryPages(dictionaryUrl,dicionaryCallBack);
 			getDictinaryPageTabs(dictionaryName,dictionaryTabsUrl,dictionaryTabCallBack);
 		}

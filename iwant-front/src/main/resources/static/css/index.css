@@ -1,10 +1,46 @@
 .banner {
+	position:relative;
     width: 94vw;
+    height:48vw;
     margin-left: auto;
     margin-right: auto;
     /*background-color: crimson;*/
     /*height:160px;*/
     overflow: hidden;
+}
+
+.banner-list{
+	position:absolute;
+	z-index:1;
+	width:940vw;
+	height:48vw;
+}
+
+.banner-point{
+	position:absolute;
+	z-index:2;
+	width:24vw;
+	left:41vw;
+	bottom:7vw;
+}
+
+.point{
+	 margin-right: 1vw;
+     width: 1.5vw;
+     height: 1.5vw;
+     border-radius: 50%;
+     float: left;
+     background-color: #979797;
+}
+
+
+.banner-list img{
+	float:left;
+	width:94vw;
+}
+
+.on{
+    background-color: #ffffff;
 }
 
 .display-bar {

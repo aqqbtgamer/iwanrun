@@ -10,6 +10,7 @@ var dataArr = new Array("name", "activityTypeCode", "during", "duringCode",
 
 $(document).ready(
     function(){
+    	loadCommonTabs();
     	getDictionaryPages(dictionaryUrl,dicionaryCallBack);
     	initPageData();// 设置产品详情数据
         bindUploadFile('mainImageUpload', uploadServer, 'mainImageLarge', singleDisplay);

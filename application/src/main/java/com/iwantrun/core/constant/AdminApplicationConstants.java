@@ -32,4 +32,8 @@ public interface AdminApplicationConstants {
 			};
 
 	String SITE_ADMIN_USER = "admin";
+	
+	String Add_SUCCESS_RESULT = "success" ;
+	
+	String Add_FAIL_RESULT = "fail" ;
 }

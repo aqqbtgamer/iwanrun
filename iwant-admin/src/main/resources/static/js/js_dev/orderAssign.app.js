@@ -51,6 +51,7 @@ var callObj = {
 
 $(document).ready(
 		function(){
+			loadCommonTabs();
 			getDictionaryPages(dictionaryUrl,dicionaryCallBack);
 			var callData = new Object();
 			callData.role = "2";

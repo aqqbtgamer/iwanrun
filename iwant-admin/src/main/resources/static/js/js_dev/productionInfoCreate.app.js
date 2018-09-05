@@ -11,6 +11,7 @@ $(document).ready(
     function(){
         //initUE();
     	showSidebar('产品管理');
+    	loadCommonTabs();
     	dictionaryItemsInit(dictionaryName,dictionaryCodeUrl);
         bindUploadFile('mainImageUpload',uploadServer,'mainImageLarge',singleDisplay);
         bindDataSubmitJSON('submitForm',

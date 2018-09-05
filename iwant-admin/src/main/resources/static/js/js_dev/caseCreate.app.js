@@ -42,6 +42,7 @@ const modifyTitle = "修改案例";
 $(document).ready(
     function(){    	
     	initUE();
+    	loadCommonTabs();
     	dictionaryItemsInit(dictionaryName,dictionaryCodeUrl);
         bindUploadFile('mainImageUpload',uploadServer,'mainImage',singleDisplay);
         bindUploadFile('uploadedLocationImages',uploadServer,'imgManage',mutipleDisplay);

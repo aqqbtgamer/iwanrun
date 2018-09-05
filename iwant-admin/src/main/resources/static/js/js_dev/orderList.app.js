@@ -43,6 +43,7 @@ var callObj = {
 
 $(document).ready(		
 		function(){
+			loadCommonTabs();
 			getDictionaryPages(dictionaryUrl,dicionaryCallBack);
 			initDataPicker(dateFieldsArray);
 			callObj.call = function(tr){
