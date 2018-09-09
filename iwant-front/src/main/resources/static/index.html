@@ -71,7 +71,7 @@
                 </div>
             </div>
             <!--新闻及合作伙伴-->
-            <div id="content-box-partner">
+            <div id="content-box-partner" v-show="news.length>0">
                 <div id="content-header-partner" class="content-header-production">
                     <div id="content-head-label0" class="content-head-label">
                         <label class="labelcenter">新闻及合作伙伴</label>
@@ -83,10 +83,10 @@
                 </div>
                 <div class="content-body-production">
                     <div class="content-table-partner">
-                        <div class="partner-btn-left">
+                        <div class="partner-btn-left" :style="{'visibility':newsIndex>0?'inherit':'hidden'}">
                             <a href="javascrpit:;" @click="preNews"><img src="img/arrow_left.jpg" alt=""></a>
                         </div>
-                        <div class="partner-btn-right">
+                        <div class="partner-btn-right" :style="{'visibility':newsIndex<news.length-4?'inherit':'hidden'}">
                             <a href="javascrpit:;" @click="nextNews"><img src="img/arrow_right.jpg" alt=""></a>
                         </div>
                         <div class="normal-partner">
@@ -119,7 +119,7 @@
             </div>
 
             <!--交易快讯-->
-            <div>
+            <div v-show="trades.length>0">
                 <div class="content-header-production">
                     <div class="content-head-label">
                         <label class="labelcenter">交易快讯</label>
@@ -131,14 +131,14 @@
                 </div>
                 <div class="content-body-production">
                     <div class="content-table-partner">
-                        <div class="partner-btn-left">
-                            <a href="javascrpit:;" @click="preNews"><img src="img/arrow_left.jpg" alt=""></a>
+                        <div class="partner-btn-left" :style="{'visibility':tradeIndex>0?'inherit':'hidden'}">
+                            <a href="javascrpit:;" @click="preTrade"><img src="img/arrow_left.jpg" alt=""></a>
                         </div>
-                        <div class="partner-btn-right">
-                            <a href="javascrpit:;" @click="nextNews"><img src="img/arrow_right.jpg" alt=""></a>
+                        <div class="partner-btn-right" :style="{'visibility':tradeIndex<trades.length-4?'inherit':'hidden'}">
+                            <a href="javascrpit:;" @click="nextTrade"><img src="img/arrow_right.jpg" alt=""></a>
                         </div>
                         <div class="normal-partner">
-                            <div class="normal-item-p" v-for="(item,index) in news" v-show="index>=newsIndex && index<=newsIndex+3">
+                            <div class="normal-item-p" v-for="(item,index) in trades" v-show="index>=tradeIndex && index<=tradeIndex+3">
                                 <div class="partner-time">
                                     {{item.time}}
                                 </div>

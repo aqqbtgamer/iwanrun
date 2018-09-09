@@ -182,13 +182,20 @@ var appProductDetails = new Vue(
                   isCollection: function () {
                       var vm = this;
                       vm.init && vm.init.id && vm.init.type && function (id, type) {
-                          //TODO
-                          //var url = baseUrl + "favourite/query/" + vm.init.type;
-                          //axios.post(url).then(
-                          //    function (response) {
-                          //        console.log(response.data);
-                          //        response.data && (vm.detail = response.data);
-                          //    });
+                          var url = baseUrl + "favourite/query",
+                              parm = {
+                                  type: vm.init.type,
+                                  id: vm.init.id
+                              };
+                          axios.post(url, parm).then(function (response) {
+                              console.log(response.data);
+                              //TODO
+                                  //response.data && function () {
+                                  //    if (Array.isArray(response.data) && response.data.length===1) {
+
+                                  //    }
+                                  //};
+                              });
                       }(vm.init.id, vm.init.type);
                   }
 			},

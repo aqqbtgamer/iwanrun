@@ -107,18 +107,22 @@ var appIndex = new Vue(
                     { time: '2018-06-24', content: '，达到了很好的效果。' }
                 ],
                 newsIndex: 0,
-                orders: [],
-                orderinfo: {
-                    speed: 50,
-                    interval: false,
-
-                }
+                trades: [
+                    { time: '2018-06-18', content: '138****8888购买了88888套餐。' },
+                    { time: '2018-06-19', content: '138****8888购买了88888套餐。。。' },
+                    { time: '2018-06-20', content: '138****8888购买了88888套餐近门的轰趴集合了更多的互动好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
+                    { time: '2018-06-21', content: '138****8888购买了88888套餐近期热门的轰多的互动好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
+                    { time: '2018-06-23', content: '138****8888购买了88888套餐好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
+                    { time: '2018-06-24', content: '138****8888购买了88888套餐，达到了很好的效果。' }
+                ],
+                tradeIndex: 0
 			},
 			created: function(){
 	        	var vm = this;
 	        	vm.queryProdutionByCondition('1');
 	        	vm.queryLocationByCondition('1');
-	        	vm.queryCaseByCondition("1");
+                vm.queryCaseByCondition("1");
+                vm.queryLatestOrders();
 	        },
 			methods : {
 				showLogin : function(flag) {
@@ -196,9 +200,19 @@ var appIndex = new Vue(
                 },
                 queryLatestOrders: function () {
                     var vm = this, url = "trade_status/query";
-                    axios.post(url, param).then(function (response) {
-
+                    axios.post(url, {}).then(function (response) {
+                        Array.isArray(response.data) && response.data.length > 0 && function () {
+                            vm.trades = response.data;
+                        };
                     });
+                },
+                preTrade: function () {
+                    var vm = this;
+                    vm.tradeIndex > 0 && vm.tradeIndex--;
+                },
+                nextTrade: function () {
+                    var vm = this;
+                    Array.isArray(vm.trades) && vm.tradeIndex < vm.trades.length - 4 && vm.tradeIndex++;
                 }
 			}
 		});

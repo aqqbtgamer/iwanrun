@@ -66,14 +66,14 @@
                 </div>
             </div>
             <div class="side-main-image">
-                <div class="slide-main-left center">
-                    <div class="center">
+                <div class="slide-main-left center" v-show="detail.sildeImages>0">
+                    <div class="center" :style="{'visibility':currentTopIndex>0?'inherit':'hidden'}">
                         <i @click="sliderPre" class="iconfont  font-icon-size1bold icon-shangjiantou"></i>
                     </div>
                     <div class="side-image slide-gap" v-for="(item,index) in detail.sildeImages" v-show="index>=currentTopIndex &&index<=currentTopIndex+1">
                         <img :src="item" alt="">
                     </div>
-                    <div class="center slide-gap">
+                    <div class="center slide-gap" :style="{'visibility':currentTopIndex<detail.sildeImages.length-2?'inherit':'hidden'}">
                         <i @click="sliderNext" class="iconfont font-icon-size1bold icon-xiajiantou"></i>
                     </div>
                 </div>
