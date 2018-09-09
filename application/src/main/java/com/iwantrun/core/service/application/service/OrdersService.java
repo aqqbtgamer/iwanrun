@@ -250,23 +250,76 @@ public class OrdersService {
 		int pageIndex =  (int)requestObj.get("pageIndex");
 		String loginId = (String)requestObj.get("loginId");
 		Integer pageSize=Integer.parseInt(environment.getProperty("common.pageSize"));
-		List<Map<String,Object>> resultList = ordersDao.getOrdersByLoginId(jpqlExecute, pageSize, pageIndex, loginId);
-		for(Map<String,Object> map : resultList) {
-			String orderAdviserId = (String) map.get("orderAdviserId");
-			if( !StringUtils.isEmpty(orderAdviserId)) {
-				Integer orderAdviserIdInt = Integer.parseInt(orderAdviserId);
-				if(orderAdviserId != null) {
-					List<UserInfo> adviser = infoDao.findByLoginInfoId(orderAdviserIdInt);
-					if( adviser != null && adviser.get(0)!= null) {
-						map.put("orderAdviserName", adviser.get(0).getName());
+		PurchaserAccount dbAccount = purchaseDao.findByLoginId(loginId);
+		String sql = "";
+		if(dbAccount != null) {
+			Integer role = dbAccount.getSysRoleId();
+			if( role == 1) {//采购方
+				sql = " and login.login_id='" + loginId + "'";;
+			}else {//咨询师
+				sql = "  and orders.order_adviser_id='" + dbAccount.getId() +"'";
+			}
+			List<Map<String,Object>> resultList = ordersDao.getOrdersByLoginId(jpqlExecute, pageSize, pageIndex, sql);
+			for(Map<String,Object> map : resultList) {
+				String orderAdviserId = (String) map.get("orderAdviserId");
+				if( !StringUtils.isEmpty(orderAdviserId)) {
+					Integer orderAdviserIdInt = Integer.parseInt(orderAdviserId);
+					if(orderAdviserId != null) {
+						List<UserInfo> adviser = infoDao.findByLoginInfoId(orderAdviserIdInt);
+						if( adviser != null && adviser.get(0)!= null) {
+							map.put("orderAdviserName", adviser.get(0).getName());
+						}
 					}
 				}
 			}
+			Integer total = ordersDao.countAllWithOrdersByLoginId(jpql,sql);
+			Pageable page =  PageRequest.of(pageIndex, pageSize, Sort.Direction.ASC, "id");
+			PageImpl<Map<String,Object>> result = new PageImpl<Map<String,Object>>(resultList, page, total);
+			return PageDataWrapUtils.page2JsonNoCopy(result);
 		}
-		Integer total = ordersDao.countAllWithOrdersByLoginId(jpql,loginId);
-		Pageable page =  PageRequest.of(pageIndex, pageSize, Sort.Direction.ASC, "id");
-		PageImpl<Map<String,Object>> result = new PageImpl<Map<String,Object>>(resultList, page, total);
-		return PageDataWrapUtils.page2JsonNoCopy(result);
+		return "";
 	}
+	public String saveFileOrderAttach(JSONObject requestObj) {
+		Integer orderId = (Integer)requestObj.get("orderId");
+		String loginId = (String)requestObj.get("loginId");
+		String filePath = (String)requestObj.get("filePath");
+		String pagePath = (String)requestObj.get("pagePath");
+		if(orderId!=0 && !StringUtils.isEmpty(loginId) && !StringUtils.isEmpty(filePath)) {
+			List<OrderAttachments> caseDraft = ordersAttacgDao.findByOrderIdAndPagePath(orderId, pagePath);
+			OrderAttachments orderAttach = new OrderAttachments();
+			orderAttach.setOrderId(orderId);
+			int start = filePath.lastIndexOf("/");
+			int end = filePath.indexOf(".");
+			String fileName = filePath.substring(start+1, end);
+			orderAttach.setFileName(fileName);
+			orderAttach.setFilePath(filePath);
+			orderAttach.setPagePath(pagePath);
+			if( !caseDraft.isEmpty() ) {//已存在就修改
+				orderAttach.setId(caseDraft.get(0).getId());
+			}else {
+				orderAttach.setCreateTime(new Date());
+			}
+			ordersAttacgDao.saveAndFlush(orderAttach);
+			return "success";
 
+		}
+		return "failed";
+	}
+	public String orderResultClick(JSONObject requestObj) {
+		Integer orderId = (Integer)requestObj.get("orderId");
+		Integer resultCode = (Integer)requestObj.get("resultCode");
+		if( orderId != 0) {
+			Optional<Orders>  ordersOp = ordersDao.findById(orderId);
+			if(ordersOp.isPresent()) {
+				Orders order = ordersOp.get();
+				if( order != null ) {
+					order.setOrderStatusCode(resultCode);
+					ordersDao.saveAndFlush(order);//更新状态
+					return "success";
+				}
+				
+			}
+		}
+		return "failed";
+	}
 }

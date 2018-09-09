@@ -3,7 +3,8 @@ application:    prefix=application
 
 用户：
     1) 查询收藏
-        GET http://ip:port/{prefix}/favourite/query/{case|product|location} <1>
+        POST http://ip:port/{prefix}/favourite/query/                        <1>
+        Request Body: {type: "{case|product|location}", id: "{all|num}"}
         Response: [{type: "", id: "xxx", ...}, ...]
     2）添加收藏
         POST http://ip:port/{prefix}/favourite/add                          <2>

@@ -10,10 +10,16 @@ var appMyAccount = new Vue(
             loginWindow: false,
             autoLogin: false,
             loginTitle: '用户登录',
-            loginId: '18018336171',
+            loginId: '',
+            loginBtnUl: true,
+            loginIdUl: false,
             loginToken: 'uuixooppasyytvdbftrraskm',
             loginRole: { id: 1, role: '采购方' },
             showFlag: 'location',
+            nickname:'',
+            headimg:'',
+            msgText:"请重新登录",
+            msgWindow:false,
             account: {
                 headimg: '../../img/accountImage.png',
                 nickname: '用户001',
@@ -148,21 +154,35 @@ var appMyAccount = new Vue(
                 }*/
             ]
         },
+        created:function(){
+        	var vm = this;
+        	if(vm.loginId != ''){
+        		
+        	}else{
+        		vm.msgWindow=true;
+        	}
+
+
+        },
         mounted: function () {
             var vm = this;
             this.queryCollectList('location');
             this.queryCollectList('product');
             this.queryCollectList('case');
         },
+        watch:{
+        	loginId:function(newVal,oldVal){
+        		var vm = this;
+    			if( oldVal != newVal){
+    				vm.getUserInfo();
+    				vm.msgWindow=false;
+    			}
+        	}
+        },
         methods: {
             queryCollectList: function (queryType) {
                 var vm = this;
                 var url = "../../favourite/query/" + queryType;
-                //var param = {
-                //	name: queryType	
-                //};
-
-                //axios.post(url,param).then(
                 axios.get(url).then(
                     function (response) {
                         console.log(response.data);
@@ -194,16 +214,16 @@ var appMyAccount = new Vue(
             },
             showLogin: function (message) {
                 console.log("v-on  click method :showLogin");
-                var vm = this
+                /*var vm = this
                 vm.mask = true;
                 vm.loginWindow = true;
-                vm.loginTitle = message;
+                vm.loginTitle = message;*/
+                lrApp.showLogin(message);
             },
-            closeLogin: function () {
-                console.log("v-on  click method :closeLogin");
-                var vm = this;
-                vm.mask = false;
-                vm.loginWindow = false;
+            closeMsgWindow: function(){
+            	var vm = this;
+                vm.msgWindow = false;
+                vm.msgText = '';
             },
             changeAutoLogin: function () {
                 var vm = this;
@@ -216,8 +236,45 @@ var appMyAccount = new Vue(
             routeToDetail: function (id, type) {
                 var vm = this;
                 id && type && (window.location.href = './productdetail.html?type=' + type + '&id=' + id);
-            }
+            },
+            getUserInfo:function(){
+            	var vm = this;
+            	var url = "../../purchaserAccount/findMixedByLoginId";
+            	axios.post(url).then(
+            			function(response){
+            				console.log(response.data.content);
+            				var data = response.data;
+            				if( data != ''){
+            					var headImgs = data.headImgs;
+                				var info = data.userInfo;
+                				if(info != '' && info != undefined){
+                					vm.nickname = info.name+'，您好';
+                				}
+                				if (headImgs != '' && headImgs != undefined && headImgs.length > 0) {
+                					vm.headimg = headImgs[0].filePath;
+                				}
+            				}
+            	})
+            },
         }
     }
 );
+function showLoginId(loginId, opt){
+	var vm = appMyAccount;
+	vm.mask = false;
+	vm.loginId = loginId;
+	vm.loginIdUl = true;
+	vm.loginBtnUl = false;
+	
+	if(opt == 'login'){
+//		initData();
+	}
+}
+function clearLoginId() {
+    var vm = appMyAccount;
+    vm.loginId = '';
+    vm.loginIdUl = false;
+    vm.loginBtnUl = true;
+}
 console.log("Vue 脚本绑定渲染完成..............");
+

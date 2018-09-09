@@ -5,7 +5,8 @@ public enum TradeStatus {
 	OPENED(0,"已提交"),
 	ASSIGNED(1,"定制中"),
 	EXECUTING(2,"实施中"),
-	COMPLETED(3,"已完成")
+	COMPLETED(3,"已完成"),
+	COMPLETED_UPDATE(4,"修改")
 	;
 	private int id ;
 	

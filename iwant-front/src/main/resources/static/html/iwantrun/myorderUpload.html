@@ -56,7 +56,7 @@
                             <li class="li-right"><a href="#" @click="showLogin(0)">用户登录</a></li>
                         </ul>
                         <ul v-if="loginIdUl">
-                            <li class="li-right" style="margin-left: 0.5vw;"><a href="javascript:void(0);" onclick="logout()">退出</a></li>
+                            <li class="li-right" style="margin-left: 0.5vw;"><a href="javascript:void(0);" onclick="logoutCommon()">退出</a></li>
                             <li class="li-right" style="margin-left: 0.5vw;"><a href="#">欢迎您：{{loginId}}</a></li>
                         </ul>
                     </nav>
@@ -111,22 +111,24 @@
                         </div>
                         <div class="account-box-line">
                             <div class="file-img">
-                                <img src="../../img/file_img.jpg" width="100%" />
-                                <input type="file" name="uploadedSchemeFile" id="uploadedSchemeFile" @change="schemeFileUpload"/>
+                                <img src="../../img/file_img.jpg" width="100%"  @click="schemeFileImgClick"/>
+                                <input type="file" style="opacity: 0" name="uploadedSchemeFile" id="uploadedSchemeFile" @change="schemeFileUpload()"/>
                             </div>
-                            <p class="file-txt">初步方案尚未上传，请耐心等待 </p>
+                            <p class="file-txt" >{{schemeMsgTxt}} </p>
                         </div>
                         <div class="account-box-line">
                             <div class="file-img">
-                                <img src="../../img/file_img.jpg" width="100%" />
+                                <img src="../../img/file_img.jpg" width="100%" @click="appointFileImgClick"/>
+                                <input type="file" style="opacity: 0"  name="uploadedAppointFile" id="uploadedAppointFile" @change="appointFileUpload($event)"/>
                             </div>
-                            <p class="file-txt">合作意向书尚未上传，请耐心等待 </p>
+                            <p class="file-txt">{{appointMsgTxt}}</p>
                         </div>
                         <div class="account-box-line">
                             <div class="file-img">
-                                <img src="../../img/file_img.jpg" width="100%" />
+                                <img src="../../img/file_img.jpg" width="100%" @click="projectFileImgClick"/>
+                                <input type="file" style="opacity: 0" name="uploadedProjectFile" id="uploadedProjectFile" @change="projectFileUpload($event)"/>
                             </div>
-                            <p class="file-txt">项目汇总 ( 案例 ) 尚未上传，请耐心等待 </p>
+                            <p class="file-txt">{{projectMsgTxt}} </p>
                         </div>
                          <div class="account-box-line2">
                             <h2>需求概要</h2>
@@ -219,6 +221,7 @@
 			</div>
         </div>
     </form>
+    <div id="lrPannel"></div>
     <script type="application/javascript" src="../../script-dev/common.app.js"></script>
     <script type="application/javascript" src="../../script-dev/myorder.js"></script>
 </body>

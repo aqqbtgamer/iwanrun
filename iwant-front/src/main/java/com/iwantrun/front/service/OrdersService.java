@@ -70,4 +70,30 @@ public class OrdersService {
 		
 		return message;
 	}
+	public Message saveFileOrderAttach(String param) {
+		String findByName = environment.getProperty("application.orders.saveFileOrderAttach");
+		String baseUrl = environment.getProperty("app.server");
+		
+		String url = baseUrl + findByName;
+
+		Message message = new Message();
+		message.setMessageBody(param);
+		message.setRequestMethod(url);
+		message = template.postForEntity(url, message, Message.class).getBody();
+		
+		return message;
+	}
+	public Message orderResultClick(String param) {
+		String findByName = environment.getProperty("application.orders.orderResultClick");
+		String baseUrl = environment.getProperty("app.server");
+		
+		String url = baseUrl + findByName;
+
+		Message message = new Message();
+		message.setMessageBody(param);
+		message.setRequestMethod(url);
+		message = template.postForEntity(url, message, Message.class).getBody();
+		
+		return message;
+	}
 }

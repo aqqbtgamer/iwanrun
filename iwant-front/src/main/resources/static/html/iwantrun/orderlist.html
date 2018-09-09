@@ -58,7 +58,7 @@
                             <li class="li-right"><a href="#" @click="showLogin(0)">用户登录</a></li>
                         </ul>
                         <ul v-if="loginIdUl">
-                            <li class="li-right" style="margin-left: 0.5vw;"><a href="javascript:void(0);" onclick="logout()">退出</a></li>
+                            <li class="li-right" style="margin-left: 0.5vw;"><a href="javascript:void(0);" onclick="logoutCommon()">退出</a></li>
                             <li class="li-right" style="margin-left: 0.5vw;"><a href="#">欢迎您：{{loginId}}</a></li>
                         </ul>
                     </nav>
@@ -164,11 +164,13 @@
                     </div>
                 </div>
             </div>
-            <div class="msg-pannel" v-if="msgWindow" v-cloak>
+            <div id="dialog" v-if="msgWindow"></div>
+            <!-- 信息提示框 -->
+			<div class="msg-pannel" v-if="msgWindow" v-cloak>
 				<div id="close-pannel" class="msg-close-pannel">
 					<i class="iconfont-user1 icon-close" style="font-size: 1.07vw;" @click="closeMsgWindow"></i>
 				</div>
-				<div class="login-head" style="font-size: 1.625vw;">
+				<div class="login-head" style="font-size: 1.325vw;">
 					<h2>提示信息</h2>
 				</div>
 				<div class="msg-text-pannel">

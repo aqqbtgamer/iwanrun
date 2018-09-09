@@ -6,6 +6,7 @@ import com.iwantrun.front.utils.JSONUtils;
 public class PurchaserAccountRequest {
 	private String sessionId;
 	private String smsCode;
+	private boolean register;
 	/**
 	 * 是否是短信登录
 	 */
@@ -51,5 +52,13 @@ public class PurchaserAccountRequest {
 	}
 	public void setAutoLogin(boolean autoLogin) {
 		this.autoLogin = autoLogin;
+	}
+
+	public boolean isRegister() {
+		return register;
+	}
+
+	public void setRegister(boolean register) {
+		this.register = register;
 	}
 }

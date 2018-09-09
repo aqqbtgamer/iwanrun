@@ -29,10 +29,6 @@ public class FavouriteCase {
         this.favouriteId = favouriteId;
     }
 
-    public String getActivityType() {
-        return activityType;
-    }
-
     public String getImage() {
         return image;
     }
@@ -73,7 +69,7 @@ public class FavouriteCase {
         this.location = location;
     }
 
-    public String getActiviTytype() {
+    public String getActivityType() {
         return activityType;
     }
 

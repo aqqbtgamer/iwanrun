@@ -1,6 +1,7 @@
 const dictionaryUrl = "/iwant_admin/dictionary/getPages";
 
 $(document).ready(function() {
+	loadCommonTabs();
 	loadListData(null, fillPagesData);// 加载列表数据
 	wrapCustomerItems();
 	getDictionaryPages(dictionaryUrl,dicionaryCallBack);

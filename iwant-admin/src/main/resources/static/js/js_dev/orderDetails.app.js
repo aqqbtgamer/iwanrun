@@ -28,6 +28,7 @@ var callObj = {
 
 $(document).ready(
 		function(){
+			loadCommonTabs();
 			getDictionaryPages(dictionaryUrl,dicionaryCallBack);
 			cleanTabs();
 			var requestObj = new Object();

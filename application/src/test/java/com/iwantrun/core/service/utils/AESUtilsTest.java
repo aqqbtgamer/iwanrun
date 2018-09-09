@@ -26,4 +26,55 @@ public class AESUtilsTest {
 		System.out.println(match.matches());
 		
 	}
+	
+	@Test
+	public void testMain() {
+		System.out.println(lengthOfLongestSubstring(""));
+	}
+	
+	
+	 public int lengthOfLongestSubstring(String s) {
+	        int max = 0 ;
+	        int length = s.length();
+	        char[] c = s.toCharArray();
+	        for(int startIndex = 0;startIndex < length ; startIndex++){
+	            int remainMaxLength = length - startIndex ;
+	            if(remainMaxLength < max){
+	                break ;
+	            }
+	            char[] tryMax = new char[remainMaxLength] ;
+	        LoopI:  for(int i = 0; i<remainMaxLength ; i++){
+	                char test = c[i+startIndex] ;
+	                if(i-1 >= 0){
+	                	boolean duplicate = false ;
+	                    for(int m = 0 ; m<= i-1 ; m++){
+	                        if(tryMax[m] == test){	                         
+	                            break LoopI;
+	                        }
+	                    }
+	                    if(!duplicate) {
+	                    	tryMax[i] = test ;
+	                    }
+	                }else{
+	                    tryMax[i] = test ;
+	                }
+	            }
+	            boolean end = false ;
+	           for(int i = 0 ; i < tryMax.length ; i++) {
+	        	   if(tryMax[i] == 0) {
+	        		   if(i > max) {
+	        			   max = i ;	        			   
+	        		   }
+	        		   end = true ;
+        			   break;
+	        	   }
+	           }
+	           if(!end) {
+	        	   if(tryMax.length > max) {
+	        		   max = tryMax.length;
+	        	   }
+	           }
+	        }
+	        return max ;
+	    }
 }

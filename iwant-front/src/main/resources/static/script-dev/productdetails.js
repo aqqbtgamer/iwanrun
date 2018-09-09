@@ -91,6 +91,7 @@ var appProductDetails = new Vue(
 					}else{
 						vm.detailTyp="搜索产品列表";
 						var productionDetail = result ;
+						locationNull2Blank(productionDetail);
 						vm.detail.no = productionDetail.id;
 						vm.detail.description = null2Blank(productionDetail.descirbeText3);
 						vm.detail.name = productionDetail.name ;
@@ -99,7 +100,13 @@ var appProductDetails = new Vue(
 						vm.detail.presonNum = productionDetail.groupNumberRange;
 						vm.detail.during = productionDetail.dur;
 						vm.detail.mainImage = productionDetail.mainImageLarge;
-						vm.detail.describContext = productionDetail.descirbeText1;						
+						vm.detail.describContext = productionDetail.descirbeText1;		
+						var listAttch = $.parseJSON(result.listAttch);
+						if(listAttch != null && listAttch.length > 0){
+							for(var i=0 ; i< listAttch.length ; i++){
+								vm.detail.sildeImages.push(listAttch[i].filePath);
+							}
+						}	
 					}					
 					
 				}
@@ -114,13 +121,18 @@ var appProductDetails = new Vue(
 		                lrApp.showLogin(message);
 		            },
 		          logout:function(){
-		        	  var vm = this ;
-		        	  vm.loginId = null ;
-		        	  vm.loginIdUl = false ;
-		        	  vm.loginBtnUl = true ;
-		        	  $.cookie('accessToken',null,{path:"/"});
-		        	  $.cookie('loginId', null,{path:"/"});
-		        	  lrApp.account = {};
+		        		var vm = this ;
+		        		
+		        	  	var logoutBack = function(){
+					    	vm.loginId = null ;
+			        		vm.loginIdUl = false ;
+			        		vm.loginBtnUl = true ;
+			        		//$.cookie('accessToken',null,{path:"/"});
+			        		//$.cookie('loginId', null,{path:"/"});
+			        		lrApp.account = {};
+    					}
+    					
+    					logoutCommon(logoutBack);
 		          },
 		          sliderPre: function () {
 		                var vm = this;
@@ -205,3 +217,18 @@ function showLoginId(loginId){
 	vm.loginBtnUl = false;
 }
 
+function locationNull2Blank(locationDetail){
+	var province = locationDetail.activityProvinceCode;
+	var city = locationDetail.activityCityCode;
+	var dist = locationDetail.activityDistCode;
+	
+	if(province == null){
+		locationDetail.activityProvinceCode = '';
+	}
+	if(city == null){
+		locationDetail.activityCityCode = '';
+	}
+	if(dist == null){
+		locationDetail.activityDistCode = '';
+	}
+}

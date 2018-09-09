@@ -20,6 +20,13 @@ var appMyAccount = new Vue(
             loginBtnUl : true,
             loginIdUl: false,
             adviserAccount:{},
+            caseDraft:{},
+            appointment:{},
+            projectConclude:{},
+            resultBtn:true,
+            schemeMsgTxt:"初步方案尚未上传，请耐心等待",
+            appointMsgTxt:"合作意向书尚未上传，请耐心等待 ",
+            projectMsgTxt:"项目汇总 ( 案例 ) 尚未上传，请耐心等待",
             order: {
                 orderid: '40020171014',
                 createdate: '2017年10月12日',
@@ -42,18 +49,32 @@ var appMyAccount = new Vue(
                 ]
             }
         },
-        created:function(){
-        	var vm = this;
-        	vm.getOrderInfo();
-        	
-        	
-        },
+        
         watch:{
         	loginId:function(newVal,oldVal){
         		var vm = this;
     			if( oldVal != newVal){
     				vm.getUserInfo();
+    				vm.getOrderInfo();
     				vm.msgWindow=false;
+    			}
+        	},
+        	caseDraft:function(newVal,oldVal){
+        		var vm = this;
+    			if( newVal != undefined && newVal.length >0){
+    				vm.schemeMsgTxt="初步方案已上传";
+    			}
+        	},
+        	appointment:function(newVal,oldVal){
+        		var vm = this;
+    			if( newVal != undefined && newVal.length >0){
+    				vm.appointMsgTxt="合作意向书已上传";
+    			}
+        	},
+        	projectConclude:function(newVal,oldVal){
+        		var vm = this;
+    			if(  newVal != undefined && newVal.length >0){
+    				vm.projectMsgTxt="项目汇总 ( 案例 ) 已上传";
     			}
         	}
         },
@@ -89,6 +110,19 @@ var appMyAccount = new Vue(
             					vm.order.activityStart=parseDateStr(vm.order.activityStart);
             					vm.order.createTime=parseDateStr(vm.order.createTime);
             					vm.adviserAccount=data.adviserAccount;
+            					if(data.orders.orderStatusCode==3){
+            						vm.resultBtn=false;
+            					}
+            					if( data.caseDraft != ''){
+            						vm.caseDraft = data.caseDraft;
+            					}
+            					if( data.appointment != ''){
+            						vm.appointment = data.appointment;
+            					}
+            					if( data.projectConclude != ''){
+            						vm.projectConclude = data.projectConclude;
+            					}
+            					
             				}
             				
             				
@@ -118,15 +152,109 @@ var appMyAccount = new Vue(
             				}
             	})
             },
-            schemeFileUpload:function($event){
+            schemeFileUpload:function(){
+            	var vm = this;
+            	var url = "/iwantrun/remote/fileupload";
+            	var file = $("#uploadedSchemeFile").prop('files')[0];
+            	var call = function(param){
+            		vm.saveFileOrderAttach(param,'case_draft');
+            	}
+            	fileUpload('uploadedSchemeFile',url,call,file);
+            	
+            },
+            appointFileUpload:function($event){
             	var vm = this;
             	var url = "/iwantrun/remote/fileupload";
             	var file = $event.target.files[0];
-            	fileUpload('uploadedSchemeFile',url,null,file);
+            	var call = function(param){
+            		vm.saveFileOrderAttach(param,'appointment');
+            	}
+            	fileUpload('uploadedAppointFile',url,call,file);
             	
-            }
-            
-            
+            },
+            projectFileUpload:function($event){
+            	var vm = this;
+            	var url = "/iwantrun/remote/fileupload";
+            	var file = $event.target.files[0];
+            	var call = function(param){
+            		vm.saveFileOrderAttach(param,'project_conclude');
+            	}
+            	fileUpload('uploadedProjectFile',url,call,file);
+            	
+            },
+            schemeFileImgClick:function(){
+            	var vm = this;
+            	if(vm.loginId==''){
+            		vm.msgWindow=true;
+            		vm.msgText="请重新登录";
+            	}else{
+            		$("#uploadedSchemeFile").click();
+            	}
+            },
+            appointFileImgClick:function(){
+            	var vm = this;
+            	if(vm.loginId==''){
+            		vm.msgWindow=true;
+            		vm.msgText="请重新登录";
+            	}else{
+            		$("#uploadedAppointFile").click();
+            	}
+            	
+            },
+            projectFileImgClick:function(){
+            	var vm = this;
+            	if(vm.loginId==''){
+            		vm.msgWindow=true;
+            		vm.msgText="请重新登录";
+            	}else{
+            		$("#uploadedProjectFile").click();
+            	}
+            	
+            },
+            saveFileOrderAttach:function(filePath,pagePath){
+            	var vm = this;
+            	if(filePath != ''){
+            		var url = "../../orders/saveFileOrderAttach";
+            		var orderId = vm.order.id;
+                	axios.post(url,{orderId:orderId,loginId:vm.loginId,filePath:filePath,pagePath:pagePath}).then(
+                			function(response){
+                				var data = response.data;
+                				vm.msgWindow=true;
+                				if( data == 'success'){
+                					vm.msgText="上传成功";//  
+                					if(pagePath=='case_draft'){
+                						vm.schemeMsgTxt="初步方案已上传";
+                					}
+                					if(pagePath=='appointment'){
+                						vm.appointMsgTxt="合作意向书已上传";
+                					}
+                					if(pagePath=='project_conclude'){
+                						vm.projectMsgTxt="项目汇总 ( 案例 ) 已上传";
+                					}
+                				}else{
+                					vm.msgText="上传失败";
+                				}
+                	})
+            	}
+            },
+            orderResultClick:function(resultCode){
+            	var vm = this;
+        		var url = "../../orders/orderResultClick";
+        		var orderId = vm.order.id;
+            	axios.post(url,{orderId:orderId,resultCode:resultCode}).then(
+            			function(response){
+            				var data = response.data;
+            				if( data == 'success'){
+            					vm.msgWindow=true;
+            					vm.msgText="操作成功";
+            					vm.resultBtn=false;
+            				}else{
+            					vm.msgWindow=true;
+            					vm.msgText="操作失败";
+            				}
+            				
+            	})
+            },
         }
     }
 );

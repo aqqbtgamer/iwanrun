@@ -44,12 +44,17 @@ var appListProduction = new Vue(
             },
             logout: function () {
                 var vm = this;
-                vm.loginId = null;
-                vm.loginIdUl = false;
-                vm.loginBtnUl = true;
-                $.cookie('accessToken', null, { path: "/" });
-                $.cookie('loginId', null, { path: "/" });
-                lrApp.account = {};
+                
+                var logoutBack = function(){
+			    	vm.loginId = null;
+	                vm.loginIdUl = false;
+	                vm.loginBtnUl = true;
+	                //$.cookie('accessToken', null, { path: "/" });
+	                //$.cookie('loginId', null, { path: "/" });
+	                lrApp.account = {};
+    			}
+           		
+    			logoutCommon(logoutBack);
             },
             sliderPre: function () {
                 var vm = this;

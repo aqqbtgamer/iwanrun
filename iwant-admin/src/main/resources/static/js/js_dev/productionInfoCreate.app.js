@@ -11,6 +11,7 @@ $(document).ready(
     function(){
         //initUE();
     	showSidebar('产品管理');
+    	loadCommonTabs();
     	dictionaryItemsInit(dictionaryName,dictionaryCodeUrl);
         bindUploadFile('mainImageUpload',uploadServer,'mainImageLarge',singleDisplay);
         bindDataSubmitJSON('submitForm',
@@ -30,7 +31,9 @@ $(document).ready(
     				"mainImageLarge",
     				'imgManage'
             ),
-            submitUrl,returnListPage);
+        submitUrl,returnListPage);
+        
+        bindUploadFile('uploadedProductionInfoImages',uploadServer,'imgManage',mutipleDisplay);
         bindSeclectAll("checkAll");
         bindDeleteSelected("deleteAll");
         bindAssignToDictionary("activityCityCode","activityProvinceCode");

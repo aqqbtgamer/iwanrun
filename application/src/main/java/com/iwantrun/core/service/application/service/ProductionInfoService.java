@@ -43,6 +43,9 @@ import com.iwantrun.core.service.utils.EntityDictionaryConfigUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.ThumbnailatorUtils;
 
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
+
 @Service
 public class ProductionInfoService {
 	@Autowired
@@ -153,8 +156,30 @@ public class ProductionInfoService {
 					info.setLocations(locationsOpt.get());
 				}
 			}
+
 		}
 		return info;
+	}
+
+	public String findByIdWithAttach(Integer id) {
+		Optional<ProductionInfo> productionInfoOpt = productionInfoDao.findById(id);
+		ProductionInfo info = productionInfoOpt.get();
+		if (info != null) {
+			ProductionLocationRelation pLocationRelation = pLocationRelationDao.findByProductionId(info.getId());
+			if (pLocationRelation != null) {
+				Optional<Locations> locationsOpt = locationsDao.findById(pLocationRelation.getLocationId());
+				if (locationsOpt != null) {
+					info.setLocations(locationsOpt.get());
+				}
+			}
+			List<ProductionInfoAttachments> listAttch = pAttachmentsDao.findByProductionId(id);
+			
+			String resultStr=JSONUtils.objToJSON(info);
+			JSONObject jsonObject=JSONUtils.jsonToObj(resultStr, JSONObject.class);
+			jsonObject.put("listAttch",JSONValue.toJSONString(listAttch));
+			return JSONValue.toJSONString(jsonObject);
+		}
+		return null;
 	}
 
 	public ProductionInfo getDetailById(Integer id) {
@@ -194,12 +219,30 @@ public class ProductionInfoService {
 	@Modifying
 	public boolean edit(ProductionInfo param, List<ProductionInfoAttachments> attachmentses) {
 		if (param != null) {
+			Integer productionId = param.getId();
+
+			Optional<ProductionInfo> dbProductionOpt = productionInfoDao.findById(productionId);
+			ProductionInfo dbProduction = dbProductionOpt.get();
+
 			if (param.getStatus() == null) {
 				param.setStatus(0);
 			}
+
+			if (param.getMainImageIcon() == null) {
+				param.setMainImageIcon(dbProduction.getMainImageIcon());
+			}
+
 			productionInfoDao.save(param);
+
+			ProductionInfoAttachments deletedParam = new ProductionInfoAttachments();
+			deletedParam.setProductionId(productionId);
+			List<ProductionInfoAttachments> deletedEntities = pAttachmentsDao.findByProductionId(productionId);
+
+			pAttachmentsDao.deleteAll(deletedEntities);
+
 			if (attachmentses != null) {
 				for (ProductionInfoAttachments attachments : attachmentses) {
+					attachments.setProductionId(productionId);
 					pAttachmentsDao.save(attachments);
 				}
 			}

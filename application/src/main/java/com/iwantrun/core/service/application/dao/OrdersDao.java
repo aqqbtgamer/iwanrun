@@ -179,16 +179,22 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 		return sql ;
 	}
 	@SuppressWarnings("unchecked")
-	default List<Map<String,Object>> getOrdersByLoginId(JPQLEnableRepository repository,int pageSize,int pageIndex,String loginId){
-		 String sql = QUERY_ORDERS_WITH_USER_INFO_SQL+QUERY_BY_LOGIN_ID+loginId+"'";
+	default List<Map<String,Object>> getOrdersByLoginId(JPQLEnableRepository repository,int pageSize,int pageIndex,String loginIdSql){
+		 String sql = QUERY_ORDERS_WITH_USER_INFO_SQL +loginIdSql;
 		 List<Object[]> rawResult = (List<Object[]>)repository.findByNativeSqlPage(sql, pageIndex, pageSize);
 			return rawResult.stream().map(MAPPER_MIXED_ORDER).collect(Collectors.toList());
 	}
 	@SuppressWarnings("unchecked")
-	default Integer countAllWithOrdersByLoginId(JPQLEnableRepository repository,String loginId) {	
-		String sql = COUNT_ORDERS_WITH_USER_INFO_SQL+QUERY_BY_LOGIN_ID+loginId+"'";
+	default Integer countAllWithOrdersByLoginId(JPQLEnableRepository repository,String loginIdSql) {	
+		String sql = COUNT_ORDERS_WITH_USER_INFO_SQL+loginIdSql;
 		List<Object> rawResult = repository.findByNativeSqlPage(sql);
 		Object raw = rawResult.get(0);
 		return AdminApplicationConstants.MAPPER_FOR_INTEGER.apply(raw);
+	}
+
+	default List<Map<String,Object>> getOrders(JPQLEnableRepository repository,int pageSize,int pageIndex){
+		String sql = QUERY_ORDERS_WITH_USER_INFO_SQL;
+		List<Object[]> rawResult = (List<Object[]>)repository.findByNativeSqlPage(sql, pageIndex, pageSize);
+		return rawResult.stream().map(MAPPER_MIXED_ORDER).collect(Collectors.toList());
 	}
 }
