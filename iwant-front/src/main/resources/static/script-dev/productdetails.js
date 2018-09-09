@@ -166,14 +166,19 @@ var appProductDetails = new Vue(
 		                if (vm.init && vm.init.id && vm.init.type) {
 		                    vm.isFavourite ? remove(vm.init.id, vm.init.type) : add(vm.init.id, vm.init.type);
 		                }
-		            },
-		            isCollection: function () {
-		                var vm = this;
-		                vm.init && vm.init.id && vm.init.type && function (id, type) {
-		                    //TODO
-		                }(vm.init.id, vm.init.type);
-		            }
-		            
+                  },
+                  isCollection: function () {
+                      var vm = this;
+                      vm.init && vm.init.id && vm.init.type && function (id, type) {
+                          //TODO
+                          //var url = baseUrl + "favourite/query/" + vm.init.type;
+                          //axios.post(url).then(
+                          //    function (response) {
+                          //        console.log(response.data);
+                          //        response.data && (vm.detail = response.data);
+                          //    });
+                      }(vm.init.id, vm.init.type);
+                  }
 			},
 			computed:{
 		            showSliderPre: function () {

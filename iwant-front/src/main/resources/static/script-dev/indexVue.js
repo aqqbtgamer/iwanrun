@@ -96,7 +96,23 @@ var appIndex = new Vue(
 					id : 1,
 					img : 'img/case6.png',
 					isBig : true
-				} ]
+                }],
+                news: [
+                    { time: '2018-06-18', content: '轰趴集合了更多的互动好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
+                    { time: '2018-06-19', content: '门的轰趴集合了更多的互动好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
+                    { time: '2018-06-20', content: '近门的轰趴集合了更多的互动好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
+                    { time: '2018-06-21', content: '近期热门的轰多的互动好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
+                    { time: '2018-06-22', content: '近期热门的轰更多的互动好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
+                    { time: '2018-06-23', content: '好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
+                    { time: '2018-06-24', content: '，达到了很好的效果。' }
+                ],
+                newsIndex: 0,
+                orders: [],
+                orderinfo: {
+                    speed: 50,
+                    interval: false,
+
+                }
 			},
 			created: function(){
 	        	var vm = this;
@@ -170,6 +186,20 @@ var appIndex = new Vue(
                 				
                 	})
                 },
+                preNews: function () {
+                    var vm = this;
+                    vm.newsIndex > 0 && vm.newsIndex--;
+                },
+                nextNews: function () {
+                    var vm = this;
+                    Array.isArray(vm.news) && vm.newsIndex < vm.news.length - 4 && vm.newsIndex++;
+                },
+                queryLatestOrders: function () {
+                    var vm = this, url = "trade_status/query";
+                    axios.post(url, param).then(function (response) {
+
+                    });
+                }
 			}
 		});
 
