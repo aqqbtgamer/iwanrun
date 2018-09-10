@@ -32,6 +32,7 @@ const modifyFields2 = new Array(
 
 $(document).ready(
 		function(){
+			loadCommonTabs();
 			getDictionaryPages(dictionaryUrl,dicionaryCallBack);
 			if(isModify == "true"){
 				console.log("修改页面 加载server数据");

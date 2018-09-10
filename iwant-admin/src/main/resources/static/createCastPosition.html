@@ -6,7 +6,7 @@
     <meta name="description" content="Reflect Template" />
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <link rel="icon" href="images/icon/favicon.ico" type="image/x-icon">
-    <title>我要跑-后台管理首页</title>
+    <title>我要跑-首页轮播配置</title>
     <link rel="stylesheet" href="css/style_all.css" type="text/css" media="screen" />
 
 
@@ -36,6 +36,16 @@
     <script type='text/javascript' src='js/custom.js'></script>
     <script type="text/javascript" src="js/js_dev/common.app.js"></script>
 	<script type="text/javascript" src="js/js_dev/dictionary.app.js"></script>
+	<style type="text/css">
+	 	.imgUploadManager .imgManage li {
+	 		width:260px;
+	 	}
+	
+		.imgUploadManager .imgManage li img, .imgUploadManager .imgManage li .img{
+		width:240px;
+		height:180px;
+		}
+	</style>
 </head>
 
 <body>
@@ -74,80 +84,42 @@
 
         <div id="main">
             <div id="content">
-                <h2 class="jquery_tab_title">订单指派:</h2>
-                <table class="form_h" id="submitForm1"> 
-                	  <tr>
-                	  			<th><label>手机号码(模糊查询)</label></th>
-                	  			<td>
-                	  				<input class="input-small" type="text"  name="mobileNumber" id="mobileNumber" />
-                	  			</td>
-                	  		</tr>
-                	  		<tr>
-                	  			<th><label>姓名(模糊查询)</label></th>
-                	  			<td>
-                	  				<input class="input-small" type="text"  name="name" id="name" />
-                	  			</td>
-                	  		</tr>
-                	  		<tr>
-                	  			<th><label>用户名(精确匹配)</label></th>
-                	  			<td>
-                	  				<input class="input-small" type="text"  name="loginId" id="loginId" />
-                	  			</td>
-                	  		</tr>
-                	  		<tr>
-                	  			<td>
-                	  				<button  class="button" id="queryCondtion">查询</button>
-                	  			</td>
-                	  			<td>
-                	  				<button  class="button" id="assignOrder">指派</button>
-                	  			</td>
-                	  		</tr>         
+                <h2 class="jquery_tab_title">首页轮播图管理</h2>
+                <table class="form_h">
                    
-                   
-                </table>
-                
-              <table class="table_liquid datalist" cellspacing="0" id="userTable">
-                   
-                    <thead>
                     <tr>
-                        <th></th>
-                        <th>姓名</a></th>
-                        <th>角色</th>
-                        <th>用户名</th>
-                        <th>手机号码</th>
-                        <th>微信</th>
-                        <th>审核状态</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="7">
-                            <div class="pagination" id="pagination">
-
-                            </div>
+                        <th class="vat">首页轮播图(10张以内)</th>
+                        <td class="imgUploadManager">
+                            <input type="file" name="uploadedLocationImages" id="uploadedLocationImages"/>
+                            <label><input type="checkbox" class="checkAll" id="checkAll"/>全选</label>
+                            <label><button class="delAll" id="deleteAll">删除</button></label>
+                            <ul class="imgManage" id="imgManage" name="imgManage">
+                               
+                            </ul>
                         </td>
                     </tr>
-                    </tfoot>
+                     <tr>
+                        <th></th>
+                        <td>
+                            <input class="button" id="submitForm" type="button" value="设置"/>
+                        </td>
+                    </tr>              
                 </table>
-             </div>   
+            </div>
             <!--end content-->
 
         </div><!--end main-->
 
         <div id="sidebar">
             <ul class="nav">
-                <li><a class="headitem item1" href="#">基础管理</a>
+                 <li><a class="headitem item1" href="#">基础管理</a>
                     <ul id="commontabs"><!-- ul items without this class get hiddden by jquery-->
-                      
+                                 
                     </ul>
                 </li>
                 <li><a class="headitem item2" href="#">系统配置</a>
                     <ul id="dictionarys">
-                       
+                      
                     </ul>
                 </li>
                 <li><a class="headitem item4" href="#">编辑</a>
@@ -193,5 +165,5 @@
 
 </body>
 
-<script type="text/javascript" src="js/js_dev/orderAssign.app.js"></script>
+<script type="text/javascript" src="js/js_dev/castPostCreate.app.js"></script>
 </html>

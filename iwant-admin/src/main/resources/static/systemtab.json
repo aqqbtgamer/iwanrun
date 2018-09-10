@@ -1,0 +1,11 @@
+{
+"tabList":[
+ {"tabName":"场地管理","tabLink":"./locationlist.html"},
+ {"tabName":"产品管理","tabLink":"./productionInfoList.html"},
+ {"tabName":"案例管理","tabLink":"./casesList.html"},
+ {"tabName":"用户管理","tabLink":"./userlist.html"},
+ {"tabName":"管理员管理","tabLink":"./adminList.html"},
+ {"tabName":"交易管理","tabLink":"./orderList.html"},
+ {"tabName":"首页轮播管理","tabLink":"./createCastPosition.html"}
+]
+}

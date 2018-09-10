@@ -32,6 +32,7 @@ const modifyTitle = "修改场地";
 $(document).ready(
     function(){    	
     	initUE();
+    	loadCommonTabs();
     	dictionaryItemsInit(dictionaryName,dictionaryCodeUrl);
         bindUploadFile('mainImageUpload',uploadServer,'mainImage',singleDisplay);
         bindUploadFile('uploadedLocationImages',uploadServer,'imgManage',mutipleDisplay);

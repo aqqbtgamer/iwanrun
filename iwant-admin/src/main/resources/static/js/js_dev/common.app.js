@@ -1063,3 +1063,22 @@ function fileUpload(contentId,url,callback) {
 		return field == null ? "" : field;
 	}
     
+    function loadCommonTabs(){
+    	$.getJSON("systemtab.json" ,function(json){
+    		var ul = $("ul.nav li").eq(0).find("ul");
+    		var tabList = json.tabList ;
+        	for(var i = 0 ; i< tabList.length ; i++){
+        		var li = $("<li></li>");
+        		var link = $("<a></a>").html(tabList[i].tabName).attr("name",tabList[i].tabName);
+        		li.append(link);
+        		link.prop("href",tabList[i].tabLink);
+        		ul.append(li);
+        	}
+    	})
+    }
+    
+    function filterNameFromPath(filePath){
+    	var index = filePath.lastIndexOf("/");
+    	return filePath.slice(index+1);
+    }
+    

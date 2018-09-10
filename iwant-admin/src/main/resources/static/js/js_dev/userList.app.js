@@ -35,6 +35,7 @@ const queryField = new Array(
 
 $(document).ready(
     function(){
+    	loadCommonTabs();
         getDictionaryPages(dictionaryUrl,dicionaryCallBack);
         pageDataInit("userTable","pagination",dataInitUrl,dataDeleteUrl,dataModifyUrl,columns);
         bindSelectAll("selectAll","userTable");

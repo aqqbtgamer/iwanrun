@@ -18,6 +18,7 @@ const columns = new Array(
 
 $(document).ready(
     function(){
+    	loadCommonTabs();
     	getDictionaryPages(dictionaryUrl,dicionaryCallBack);
         wrapCustomerItems();
     }
