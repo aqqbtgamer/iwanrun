@@ -124,6 +124,9 @@ var appMyAccount = new Vue(
             				var list = response.data;
             				if( list != ''){
             					vm.productionList=list.content;
+            					for(var i = 0 ; i<vm.productionList.length ; i++){
+            						vm.productionList[i].selected = false ;
+            					}
             					vm.productionMaxPage=list.pageInfo.totalpage;//最大页数
             					if(vm.productionCurrentPage==vm.productionMaxPage){
             						vm.productionNext=false;
