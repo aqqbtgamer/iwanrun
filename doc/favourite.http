@@ -1,56 +1,56 @@
-@host = 127.0.0.1:8088
-#@host = 139.196.228.29:8088
+#@host = 127.0.0.1:8088
+@host = 139.196.228.29:8088
 
 ### query case all
-POST  http://127.0.0.1:8088/iwantrun/favourite/query
+POST  http://{{host}}/iwantrun/favourite/query
 content-type: application/json
 
 {"type": "case", "id": "all"}
 
 ### query product all
-POST  http://127.0.0.1:8088/iwantrun/favourite/query
+POST  http://{{host}}/iwantrun/favourite/query
 content-type: application/json
 
 {"type": "product", "id": "all"}
 
 ### query product 0
-POST  http://127.0.0.1:8088/iwantrun/favourite/query
+POST  http://{{host}}/iwantrun/favourite/query
 content-type: application/json
 
 {"type": "product", "id": "0"}
 
 ### 
-POST  http://127.0.0.1:8088/iwantrun/favourite/add
+POST  http://{{host}}/iwantrun/favourite/add
 content-type: application/json
 
 {"type": "case", "id": "0"}
 
 ###
-POST  http://127.0.0.1:8088/iwantrun/favourite/add
+POST  http://{{host}}/iwantrun/favourite/add
 content-type: application/json
 
 {"type": "case", "id": "1"}
 
 ###
-POST  http://127.0.0.1:8088/iwantrun/favourite/add
+POST  http://{{host}}/iwantrun/favourite/add
 content-type: application/json
 
 {"type": "product", "id": "0"}
 
 ###
-POST  http://127.0.0.1:8088/iwantrun/favourite/add
+POST  http://{{host}}/iwantrun/favourite/add
 content-type: application/json
 
 {"type": "product", "id": "2"}
 
 ###
-POST  http://127.0.0.1:8088/iwantrun/favourite/add
+POST  http://{{host}}/iwantrun/favourite/add
 content-type: application/json
 
 {"type": "product", "id": "2"}
 
 ###
-POST  http://127.0.0.1:8088/iwantrun/favourite/delete
+POST  http://{{host}}/iwantrun/favourite/delete
 content-type: application/json
 
 {"type": "product", "id": "2"}
