@@ -10,6 +10,7 @@ import com.iwantrun.core.service.application.service.FavouriteService;
 import com.iwantrun.core.service.application.transfer.FavouriteCase;
 import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.application.transfer.PageDomianRequest;
+import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
 import com.iwantrun.core.service.utils.EntityDictionaryConfigUtils;
 import com.iwantrun.core.service.utils.JPADBUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
@@ -39,6 +40,13 @@ public class FavouriteController {
     @Autowired
     private DictionaryService dictionaryService;
 
+    private String getLoginIdFromAccessToken(JSONObject accessToken) {
+        String login_id = accessToken.getAsString("currentUser");
+        if (null == login_id) {
+            login_id = "000";
+        }
+        return login_id;
+    }
     //@NeedTokenVerify
     //@RequestMapping("/application/favourite/queryFavourite")
     @PostMapping("favourite/query")
@@ -46,7 +54,7 @@ public class FavouriteController {
         String dataJson = message.getMessageBody();
         JSONObject object = (JSONObject) JSONValue.parse(dataJson);
         JSONObject accessToken =(JSONObject) JSONValue.parse(message.getAccessToken());
-        String login_id = accessToken.getAsString("currentUser");
+        String login_id = getLoginIdFromAccessToken(accessToken);
         int caseID = -1;
         String reqId = object.getAsString("id");
         if (null != reqId && !reqId.isEmpty() && !"all".equals(reqId)) {
@@ -67,7 +75,7 @@ public class FavouriteController {
         String dataJson = message.getMessageBody();
         JSONObject object = (JSONObject) JSONValue.parse(dataJson);
         JSONObject accessToken =(JSONObject) JSONValue.parse(message.getAccessToken());
-        String login_id = accessToken.getAsString("currentUser");
+        String login_id = getLoginIdFromAccessToken(accessToken);
 
         String caseType = object.getAsString("type");
         Integer caseId = object.getAsNumber("id").intValue();
@@ -78,6 +86,7 @@ public class FavouriteController {
         favourite.setCaseId(caseId);
 
         favouriteService.addFavourite(favourite);
+        message.setMessageBody("success");
         return message;
     }
 
@@ -88,7 +97,7 @@ public class FavouriteController {
         String dataJson = message.getMessageBody();
         JSONObject object = (JSONObject) JSONValue.parse(dataJson);
         JSONObject accessToken =(JSONObject) JSONValue.parse(message.getAccessToken());
-        String login_id = accessToken.getAsString("currentUser");
+        String login_id = getLoginIdFromAccessToken(accessToken);
 
         String caseType = object.getAsString("type");
         Integer caseId = object.getAsNumber("id").intValue();
@@ -99,6 +108,7 @@ public class FavouriteController {
         favourite.setCaseId(caseId);
 
         favouriteService.delFavourite(favourite);
+        message.setMessageBody("success");
         return message;
     }
 }

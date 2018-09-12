@@ -210,10 +210,11 @@ nav a:hover {
     left: 26.56vw;
     width: 46.875vw;
     /*height: 42vw;*/
-    height: 80vh;
+    height: 90vh;
     background-color: #FFFFFF;
     border: 1px solid #979797;
     border-radius: 8px;
+    overflow-y:auto;
 }
 
 .login-head {

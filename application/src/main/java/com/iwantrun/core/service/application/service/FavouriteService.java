@@ -41,7 +41,7 @@ public class FavouriteService {
         if (null != favourite_old) {
             body.setDescription("Error: exists " + favourite_old.toString());
             logger.error("exists {}", favourite_old);
-            return null;
+            return body;
         }
 
         favouriteDao.save(favourite);
@@ -81,7 +81,14 @@ public class FavouriteService {
             return favouriteList;
         }
 
-        return favouriteDao.findAllByUserId(userId);
+        List<Favourite> result = favouriteDao.findAllByUserId(userId);
+        List<Favourite> favouriteList = new ArrayList<>();
+        for (Favourite favourite: result) {
+            if (caseType.equals(favourite.getCaseType())) {
+                favouriteList.add(favourite);
+            }
+        }
+        return favouriteList;
             /*
         List<FavouriteCase> favouriteCaseList = new ArrayList<>();
         List<Favourite> favouriteList = favouriteDao.findAllByUserId(userId);

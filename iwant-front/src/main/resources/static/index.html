@@ -70,6 +70,88 @@
                     <input type="button" value="我们如何工作？" class="btn-primary">
                 </div>
             </div>
+            <!--新闻及合作伙伴-->
+            <div id="content-box-partner" v-show="news.length>0">
+                <div id="content-header-partner" class="content-header-production">
+                    <div id="content-head-label0" class="content-head-label">
+                        <label class="labelcenter">新闻及合作伙伴</label>
+                    </div>
+                    <div id="content-head-link0" class="content-head-link">
+                        <a href="#" class="content-link-a">查看更多</a>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="content-body-production">
+                    <div class="content-table-partner">
+                        <div class="partner-btn-left" :style="{'visibility':newsIndex>0?'inherit':'hidden'}">
+                            <a href="javascrpit:;" @click="preNews"><img src="img/arrow_left.jpg" alt=""></a>
+                        </div>
+                        <div class="partner-btn-right" :style="{'visibility':newsIndex<news.length-4?'inherit':'hidden'}">
+                            <a href="javascrpit:;" @click="nextNews"><img src="img/arrow_right.jpg" alt=""></a>
+                        </div>
+                        <div class="normal-partner">
+                            <div class="normal-item-p" v-for="(item,index) in news" v-show="index>=newsIndex && index<=newsIndex+3">
+                                <div class="partner-time">
+                                    {{item.time}}
+                                </div>
+                                <div class="partner-coontent">
+                                    {{item.content}}
+                                </div>
+                            </div>
+                            <!--  <div class="clear"></div>-->
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                    <div class="content-table-partner">
+                        <div class="partner-logo">
+                            <a href="javascrpit:;"><img src="img/partner_img_01.jpg" alt=""></a>
+                            <a href="javascrpit:;"><img src="img/partner_img_02.jpg" alt=""></a>
+                            <a href="javascrpit:;"><img src="img/partner_img_03.jpg" alt=""></a>
+                            <a href="javascrpit:;"><img src="img/partner_img_04.jpg" alt=""></a>
+                            <a href="javascrpit:;"><img src="img/partner_img_05.jpg" alt=""></a>
+                            <a href="javascrpit:;"><img src="img/partner_img_06.jpg" alt=""></a>
+                            <a href="javascrpit:;"><img src="img/partner_img_07.jpg" alt=""></a>
+                            <a href="javascrpit:;"><img src="img/partner_img_08.jpg" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--交易快讯-->
+            <div v-show="trades.length>0">
+                <div class="content-header-production">
+                    <div class="content-head-label">
+                        <label class="labelcenter">交易快讯</label>
+                    </div>
+                    <div class="content-head-link">
+                        <a href="#" class="content-link-a">查看更多</a>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="content-body-production">
+                    <div class="content-table-partner">
+                        <div class="partner-btn-left" :style="{'visibility':tradeIndex>0?'inherit':'hidden'}">
+                            <a href="javascrpit:;" @click="preTrade"><img src="img/arrow_left.jpg" alt=""></a>
+                        </div>
+                        <div class="partner-btn-right" :style="{'visibility':tradeIndex<trades.length-4?'inherit':'hidden'}">
+                            <a href="javascrpit:;" @click="nextTrade"><img src="img/arrow_right.jpg" alt=""></a>
+                        </div>
+                        <div class="normal-partner">
+                            <div class="normal-item-p" v-for="(item,index) in trades" v-show="index>=tradeIndex && index<=tradeIndex+3">
+                                <div class="partner-time">
+                                    {{item.time}}
+                                </div>
+                                <div class="partner-coontent">
+                                    {{item.content}}
+                                </div>
+                            </div>
+                            <!--  <div class="clear"></div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="content-box-production">
                 <div id="content-header-production" class="content-header-production">
                     <div id="content-head-label" class="content-head-label">

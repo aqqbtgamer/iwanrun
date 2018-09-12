@@ -34,7 +34,7 @@ public class TradeStatusService {
     private UserInfoDao infoDao ;
     public JSONArray getTradeStatus(JSONObject request, String userid) {
         JSONArray result = new JSONArray();
-        List<Map<String,Object>> resultList = ordersDao.getOrders(jpql, 10, 0);
+        List<Map<String,Object>> resultList = ordersDao.getOrders(jpql, 10, 1);
 
         for(Map<String,Object> map : resultList) {
             String orderAdviserId = (String) map.get("orderAdviserId");

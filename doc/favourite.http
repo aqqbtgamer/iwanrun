@@ -1,26 +1,6 @@
 @host = 127.0.0.1:8088
 #@host = 139.196.228.29:8088
 
-# query trade/order
-# @name trade
-POST http://{{host}}/iwantrun/trade_status/query HTTP/1.1
-content-type: application/json
-
-{}
-
-###
-POST http://139.196.228.29:8088/iwantrun/trade_status/query HTTP/1.1
-content-type: application/json
-
-{
-    "id": "all"
-}
-
-
-###
-GET http://127.0.0.1:8088/iwantrun/html/iwantrun/myAccount.html
-
-
 ### query case all
 POST  http://127.0.0.1:8088/iwantrun/favourite/query
 content-type: application/json
