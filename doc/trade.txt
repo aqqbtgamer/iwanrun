@@ -5,7 +5,7 @@ application:    prefix=application
     1) 查询交易
         POST http://ip:port/{prefix}/trade_status/query
         Request Body: {}
-        Response: [{id: "xxx", "modify_time", "status": "1", "user_info": ""}, ...]
+        Response: [{"loginId":"18918765456","modifyTime":"2018-08-12 15:25:33.0","createTime":"2018-08-12 15:25:33.0","name":"李XXX","orderStatusCode":1,"id":1}, ...]
         
         id 是订单号（debug用），user_info 用户信息，
         status: 0,"已提交", 1,"定制中", 2 "实施中", modify_time 时间

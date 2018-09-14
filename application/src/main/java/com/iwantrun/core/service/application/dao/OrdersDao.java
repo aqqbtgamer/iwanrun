@@ -202,7 +202,7 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 	}
 
 	String QUERY_RECENT_ORDERS_WITH_USER_INFO_SQL =
-			"SELECT orders.id, login.loginId, info.name, orders.modifyTime, orders.orderStatusCode" +
+			"SELECT orders.id, login.loginId, info.name, orders.createTime, orders.modifyTime, orders.orderStatusCode" +
 			" FROM Orders orders" +
 			" INNER JOIN PurchaserAccount login ON orders.orderOwnerId = login.id" +
 			" LEFT JOIN UserInfo info ON login.id = info.loginInfoId" +

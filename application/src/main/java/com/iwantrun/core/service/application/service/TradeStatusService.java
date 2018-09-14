@@ -53,10 +53,14 @@ public class TradeStatusService {
         Function<Object[], JSONObject> MAPPER_MIXED_ORDER =
                 objArray -> {
                     JSONObject jsonObject = new JSONObject();
-                    String[] keyList = {"id", "loginId", "name", "modifyTime", "orderStatusCode"};
+                    String[] keyList = {"id", "loginId", "name", "createTime", "modifyTime", "orderStatusCode"};
                     for (int i = 0; i < keyList.length; i++) {
                         Object object = objArray[i];
-                        jsonObject.put(keyList[i], object);
+                        if (keyList[i].endsWith("Time")) {
+                            jsonObject.put(keyList[i], null == object ? null: object.toString());
+                        } else {
+                            jsonObject.put(keyList[i], object);
+                        }
                     }
                     return jsonObject;
                 };
