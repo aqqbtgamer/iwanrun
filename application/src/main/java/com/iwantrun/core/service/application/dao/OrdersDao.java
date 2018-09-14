@@ -14,6 +14,8 @@ import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.iwantrun.core.constant.AdminApplicationConstants;
@@ -26,6 +28,7 @@ import com.iwantrun.core.service.utils.NativeSQLUtils;
 import com.mysql.jdbc.StringUtils;
 
 import net.minidev.json.JSONObject;
+import org.springframework.data.jpa.repository.Query;
 
 public interface OrdersDao extends JpaRepository<Orders, Integer> {
 	
@@ -197,4 +200,14 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 		List<Object[]> rawResult = (List<Object[]>)repository.findByNativeSqlPage(sql, pageIndex, pageSize);
 		return rawResult.stream().map(MAPPER_MIXED_ORDER).collect(Collectors.toList());
 	}
+
+	String QUERY_RECENT_ORDERS_WITH_USER_INFO_SQL =
+			"SELECT orders.id, login.loginId, info.name, orders.modifyTime, orders.orderStatusCode" +
+			" FROM Orders orders" +
+			" INNER JOIN PurchaserAccount login ON orders.orderOwnerId = login.id" +
+			" LEFT JOIN UserInfo info ON login.id = info.loginInfoId" +
+			" WHERE 1 =1" +
+			" ORDER BY orders.modifyTime";
+	@Query(value = QUERY_RECENT_ORDERS_WITH_USER_INFO_SQL)
+	Page<Object[]> getRecentOrders(Pageable pageable);
 }
