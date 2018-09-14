@@ -63,8 +63,8 @@ public class FavouriteController {
         String caseType = object.getAsString("type");
 
         //List<FavouriteCase> favouriteCaseList = favouriteService.queryFavouriteCase(login_id, caseType, caseID);
-        List<Favourite> favouriteList = favouriteService.queryFavourite(login_id, caseType, caseID);
-        message.setMessageBody(JSONUtils.objToJSON(favouriteList));
+        String resultJson = favouriteService.findByExample(object,login_id);
+        message.setMessageBody(resultJson);
         return message;
     }
 
