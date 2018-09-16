@@ -132,13 +132,13 @@
                 <div class="content-body-production">
                     <div class="content-table-partner">
                         <div class="partner-btn-left" :style="{'visibility':tradeIndex>0?'inherit':'hidden'}">
-                            <a href="javascrpit:;" @click="preTrade"><img src="img/arrow_left.jpg" alt=""></a>
+                            <a href="javascrpit:;" @click="preTrade"><img style="margin-top:2vw;" src="img/arrow_left.jpg" alt=""></a>
                         </div>
                         <div class="partner-btn-right" :style="{'visibility':tradeIndex<trades.length-4?'inherit':'hidden'}">
-                            <a href="javascrpit:;" @click="nextTrade"><img src="img/arrow_right.jpg" alt=""></a>
+                            <a href="javascrpit:;" @click="nextTrade"><img style="margin-top:2vw;" src="img/arrow_right.jpg" alt=""></a>
                         </div>
-                        <div class="normal-partner">
-                            <div class="normal-item-p" v-for="(item,index) in trades" v-show="index>=tradeIndex && index<=tradeIndex+3">
+                        <div class="normal-partner" style="height:auto;">
+                            <div class="normal-item-p" style="height:auto;" v-for="(item,index) in trades" v-show="index>=tradeIndex && index<=tradeIndex+3">
                                 <div class="partner-time">
                                     {{item.time}}
                                 </div>

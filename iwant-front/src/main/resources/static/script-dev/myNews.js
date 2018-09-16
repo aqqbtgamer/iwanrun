@@ -86,22 +86,22 @@ var appMyAccount = new Vue(
                 axios.post(url, parm).then(
                     function (response) {
                         console.log(response.data);
-                        Array.isArray(response.data) && function () {
+                        Array.isArray(response.data) && (function () {
                             vm.List = response.data;
                             vm.setShowList();
-                        }();
+                        })();
                     });
             },
             read: function (item) {
                 var vm = this;
-                item.msgid && !item.blread && function () {
+                item.msgid && !item.blread && (function () {
                     var url = '../../site_message/update', parm = { msgid: item.msgid };
                     axios.post(url, parm).then(
                         function (response) {
                             console.log(response.data);
                             item.blread = true;
                         });
-                }();
+                })();
             },
             show: function (item) {
                 var vm = this;
