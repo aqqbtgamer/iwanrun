@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.application.service;
 
+import com.iwantrun.core.service.application.controller.SMSCodeController;
 import com.iwantrun.core.service.application.dao.*;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
 import com.iwantrun.core.service.application.domain.TradeStatus;
@@ -7,19 +8,25 @@ import com.iwantrun.core.service.application.domain.UserInfo;
 import com.iwantrun.core.service.utils.JSONUtils;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static com.iwantrun.core.service.utils.RequestUtils.JSONGetString;
 
 @Service
 public class TradeStatusService {
+    private static final Logger logger = LoggerFactory.getLogger(TradeStatusService.class);
+
     @Autowired
     //private TradeStatusDao TradeStatusDao;
     private OrdersDao ordersDao;
@@ -32,7 +39,64 @@ public class TradeStatusService {
 
     @Autowired
     private UserInfoDao infoDao ;
+
     public JSONArray getTradeStatus(JSONObject request, String userid) {
+        JSONArray resultArray = new JSONArray();
+
+        Pageable pageable = PageRequest.of(0, 20/*, Sort.Direction.DESC, "id" */);
+        Page<Object[]> pageResult = ordersDao.getRecentOrders(pageable);
+        logger.info("pageResult {}", pageResult.toString());
+
+        List<Object[]> rawResult = pageResult.getContent();
+        logger.info("rawResult {}", rawResult);
+
+        Function<Object[], JSONObject> MAPPER_MIXED_ORDER =
+                objArray -> {
+                    JSONObject jsonObject = new JSONObject();
+                    String[] keyList = {"id", "loginId", "name", "createTime", "modifyTime", "orderStatusCode"};
+                    for (int i = 0; i < keyList.length; i++) {
+                        Object object = objArray[i];
+                        if (keyList[i].endsWith("Time")) {
+                            jsonObject.put(keyList[i], null == object ? null: object.toString());
+                        } else {
+                            jsonObject.put(keyList[i], object);
+                        }
+                    }
+                    return jsonObject;
+                };
+        List<JSONObject> resultList = rawResult.stream().map(
+                MAPPER_MIXED_ORDER
+            ).collect(Collectors.toList());
+
+        for(JSONObject jsonObject : resultList) {
+            resultArray.appendElement(jsonObject);
+        }
+
+/*
+        for(Map<String,Object> map : resultList) {
+            String orderAdviserId = (String) map.get("orderAdviserId");
+            if( !StringUtils.isEmpty(orderAdviserId)) {
+                Integer orderAdviserIdInt = Integer.parseInt(orderAdviserId);
+                if(orderAdviserId != null) {
+                    List<UserInfo> adviser = infoDao.findByLoginInfoId(orderAdviserIdInt);
+                    if( adviser != null && adviser.get(0)!= null) {
+                        JSONObject member = new JSONObject();
+
+                        member.put("id", map.get("orderNo"));
+                        member.put("user_info", adviser.get(0).getName());
+                        member.put("status", map.get("orderStatusCode"));
+                        member.put("modify_time", map.get("modifyTime").toString());
+                        result.add(member);
+                    }
+                }
+            }
+        }
+*/
+        logger.info("resultArray {}", resultArray);
+        return resultArray;
+    }
+
+    public JSONArray getTradeStatus2(JSONObject request, String userid) {
         JSONArray result = new JSONArray();
         List<Map<String,Object>> resultList = ordersDao.getOrders(jpql, 10, 1);
 

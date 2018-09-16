@@ -1,5 +1,19 @@
-1. 系统初始化：
+﻿1. 系统初始化：
     CREATE DATABASE IF NOT EXISTS iwantrun_db DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
     grant all privileges on *.* to iwantrun_user@localhost identified by 'abc123ABC';
     flush privileges;
-    
+
+2. mysql -u woyaopao -p -h 'rm-uf682enqkl12888u2.mysql.rds.aliyuncs.com'
+Woyaopao2016!
+use woyaopao_b2b;
+   
+insert into biz_orders (id, order_owner_id, order_no, create_time, modify_time, order_status_code) values(1, 1, "0001", '2018-08-12 15:25:33', '2018-08-12 15:25:33', 1);
+insert into biz_orders (id, order_owner_id, order_no, create_time, modify_time, order_status_code) values(3, 1, "0003", '2018-08-12 17:25:33', '2018-08-13 17:25:33', 1);
+insert into sys_user_info(id, login_info_id, name) values(1, 1, "李XXX")
+
+SELECT orders.id, login.id AS loginId, info.name, orders.modify_time AS modifyTime, orders.order_status_code AS orderStatusCode
+    FROM biz_orders orders
+    INNER JOIN sys_login_info login ON orders.order_owner_id = login.id
+    LEFT JOIN sys_user_info info ON login.id = info.login_info_id
+    WHERE 1 =1
+    LIMIT 1 , 30   

@@ -68,6 +68,9 @@ public class Locations {
 	@Column(name="priority")
 	private int priority;
 	
+	@Column(name="duration")
+	private String duration;
+	
 	@Column(name="status",nullable=false)
 	private int status;
 	
@@ -331,6 +334,14 @@ public class Locations {
 
 	public void setSimulatePriceCodeDesc(String simulatePriceCodeDesc) {
 		this.simulatePriceCodeDesc = simulatePriceCodeDesc;
+	}
+
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
 	}
 
 }
