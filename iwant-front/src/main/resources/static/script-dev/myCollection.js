@@ -164,16 +164,16 @@ var appMyAccount = new Vue(
 
 
         },
-        mounted: function () {
-            var vm = this;
-            if(vm.loginId != ''){
-            	this.queryCollectList('location');
-                this.queryCollectList('product');
-                this.queryCollectList('case');
-        	}else{
-        		vm.msgWindow=true;
-        	}
-        },
+//        mounted: function () {
+//            var vm = this;
+//            if(vm.loginId != ''){
+//            	vm.queryCollectList('location');
+//            	vm.queryCollectList('product');
+//            	vm.queryCollectList('case');
+//        	}else{
+//        		vm.msgWindow=true;
+//        	}
+//        },
         watch:{
         	loginId:function(newVal,oldVal){
         		var vm = this;
@@ -191,7 +191,16 @@ var appMyAccount = new Vue(
                 axios.post(url,{type:queryType}).then(
                     function (response) {
                         console.log(response.data);
-                        vm.locations = response.data.content;
+                        if(queryType=='location'){
+                        	vm.locations = response.data.content;
+                        }
+                        if(queryType=='product'){
+                        	vm.products = response.data.content;
+                        }
+                        if(queryType=='case'){
+                        	vm.cases = response.data.content;
+                        }
+                        
                         //if( list != ''){ 
 //                        vm.locations = [{
 //                            img: '../../img/list-product1.png',
@@ -237,6 +246,7 @@ var appMyAccount = new Vue(
             tab: function ($event) {
                 var vm = this;
                 vm.showFlag = $event.target.name;
+                vm.queryCollectList($event.target.name);
             },
             routeToDetail: function (id, type) {
                 var vm = this;

@@ -159,13 +159,13 @@
                             <div class="list-case-item" v-for="item in products">
                                 <div class="list-case-item-left">
                                     <div class="wrapper">
-                                        <img :src="item.img" alt="list-case1.png">
+                                        <img :src="item.descirbeText2" alt="list-case1.png">
                                     </div>
                                 </div>
                                 <div class="list-case-item-right">
                                     <div class="list-case-item-line">
                                         <div class="list-case-item-table-top">
-                                            <p class="case-title">{{item.title}}</p>
+                                            <p class="case-title">{{item.name}}</p>
                                             <p style="margin-top: 0.84vw">
                                                 <span v-for="tip in item.tips" class="case-tip" style="margin-right:5px;">{{tip}}</span>
                                             </p>
@@ -185,13 +185,13 @@
                                                 <div class="case-detail-desc">
                                                     <div class="case-detail-row">
                                                         <div class="case-detail-col">
-                                                            <p>地区：{{item.location}} </p>
+                                                            <p>地区：{{item.activityProvinceCode}} </p>
                                                         </div>
                                                         <div class="case-detail-col">
                                                             <p> 类型：{{item.activitytype}} </p>
                                                         </div>
                                                         <div class="case-detail-col">
-                                                            <p>人数：{{item.personNum}}</p>
+                                                            <p>人数：{{item.groupNumberLimitCode}}</p>
                                                         </div>
                                                         <div class="case-detail-col">
                                                             <p>天数：{{item.duration}} </p>
@@ -222,14 +222,14 @@
                             <div class="list-case-item" v-for="item in cases">
                                 <div class="list-case-item-left">
                                     <div class="wrapper">
-                                        <img :src="item.img" alt="list-case1.png">
+                                        <img :src="item.descirbeText2" alt="list-case1.png">
                                     </div>
                                 </div>
                                 <div class="list-case-item-right">
                                     <div class="list-case-item-line">
                                         <div class="list-case-item-table-top">
                                             <p class="case-title">
-                                                {{item.title}}
+                                                {{item.name}}
                                             </p>
                                             <p style="margin-top: 0.84vw">
                                                 <span class="case-tip" style="margin-right:5px;" v-for="tip in item.tips">{{tip}}</span>
@@ -250,13 +250,13 @@
                                                 <div class="case-detail-desc">
                                                     <div class="case-detail-row">
                                                         <div class="case-detail-col">
-                                                            <p>地区：{{item.location}} </p>
+                                                            <p>地区：{{item.activityProvinceCode}} </p>
                                                         </div>
                                                         <div class="case-detail-col">
                                                             <p> 类型：{{item.activitytype}} </p>
                                                         </div>
                                                         <div class="case-detail-col">
-                                                            <p>人数：{{item.personNum}}</p>
+                                                            <p>人数：{{item.groupNumberLimitCode}}</p>
                                                         </div>
                                                         <div class="case-detail-col">
                                                             <p>天数：{{item.duration}} </p>
