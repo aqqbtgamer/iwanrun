@@ -190,6 +190,7 @@ public class OrdersService {
 				if(TradeStatus.OPENED.getId() == order.getOrderStatusCode()) {
 					EntityBeanUtils.copyEntityBeanValuesFromJSON(requestObj, order);
 					order.setOrderStatusCode(TradeStatus.ASSIGNED.getId());
+					order.setModifyTime(new Date());
 					ordersDao.save(order);
 					resultBody.setSuccessful(true);
 					resultBody.setDescription("指派订单成功");
@@ -216,6 +217,7 @@ public class OrdersService {
 		if(ordersOp.isPresent()) {
 			Orders order = ordersOp.get();
 			order.setOrderStatusCode(TradeStatus.CLOSED.getId());
+			order.setModifyTime(new Date());
 			ordersDao.save(order);
 		}
 		resultBody.setSuccessful(true);
@@ -300,6 +302,13 @@ public class OrdersService {
 				orderAttach.setCreateTime(new Date());
 			}
 			ordersAttacgDao.saveAndFlush(orderAttach);
+			Optional<Orders> orderOp = ordersDao.findById(orderId);
+			if(orderOp.isPresent()) {
+				Orders order  = orderOp.get();
+				order.setModifyTime(new Date());
+				ordersDao.save(order);
+			}
+			
 			return "success";
 
 		}

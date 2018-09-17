@@ -1,0 +1,338 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no">
+    <link rel="icon" href="../../img/icon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../css/globalReset.css">
+    <link rel="stylesheet" href=" ../../css/common.css">
+    <link rel="stylesheet" href="../../css/iconfont.css">
+    <link rel="stylesheet" href="../../css/myCollection.css">
+    <script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="application/javascript" src="../../script/jquery.cookie.js"></script>
+    <script type="application/javascript" src="../../script/vue.min.js"></script>
+    <title>个人中心</title>
+    <script type="application/javascript" src="../../script/axios.min.js"></script>
+</head>
+<body>
+    <form action="">
+        <div id="container" class="container">
+            <div id="common-header" class="common-head">
+                <div id="icon" class="icon-flow">
+                    <img src="../../img/logo.png" alt="logo.png" width="100%">
+                </div>
+                <div id="location-selector" class="location-selector">
+                    <select class="location-selector-item">
+                        <option>上海 </option>
+                    </select>
+                </div>
+                <div id="url-nav" class="class-nav">
+                    <nav class="navbar">
+                        <ul>
+                            <li class="tail-li-left"><a href="../../index.html">首页</a></li>
+                            <li class="tail-li-left"><a href="./listproduction.html">找产品</a></li>
+                            <li class="tail-li-left"><a href="./listlocation.html">看场地</a></li>
+                            <li class="tail-li-left"><a href="./listcase.html">看案例</a></li>
+                            <li class="tail-li-left"><a href="./myAccount.html" class="active-link">个人中心</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div id="url-login" class="class-login-nav">
+                    <nav class="navbar">
+                        <ul v-if="loginBtnUl">
+                            <li class="li-right"><a href="#" @click="showLogin(1)">咨询师登录</a></li>
+                            <li class="li-right"><a href="#" @click="showLogin(0)">用户登录</a></li>
+                        </ul>
+                        <ul v-if="loginIdUl">
+                            <li class="li-right"><a href="#">欢迎您：{{loginId}}</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div id="accountBody" class="accountBody">
+                <div class="leftAccount">
+                    <div class="account-image">
+                        <img :src="headimg" alt="">
+                    </div>
+                    <div class="name-desc">
+                        <span class="name-desc-font">
+                        {{nickname}}
+                        </span>
+                    </div>
+                    <div class="select-cell-first-child">
+                        <p class="center-item ">
+                            <a href="./orderlist.html" style="text-decoration:none;color:#414141;">我的订单</a>
+                        </p>
+                    </div>
+                    <div class="select-cell">
+                        <p class="center-item active-item">
+                            <a href="./myCollection.html">我的收藏</a>
+                        <p>
+                    </div>
+                    <div class="select-cell">
+                        <p class="center-item">
+                            <a href="./myNews.html">站内消息</a>
+                        </p>
+                    </div>
+                    <div class="select-cell">
+                        <p class="center-item">
+                            <a href="./myAccount.html">个人信息</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="accountMain">
+                    <div class="accountTitle">
+                        <span class="center-big margin-left">我的收藏</span>
+                    </div>
+                    <div class="account-box-body">
+                        <div class="coll-tab">
+                            <a href="javascript:;" @click="tab" name="location" :class="{'coll-actives':showFlag==='location'}">收藏场地</a>
+                            <a href="javascript:;" @click="tab" name="product" :class="{'coll-actives':showFlag==='product'}">收藏产品</a>
+                            <a href="javascript:;" @click="tab" name="case" :class="{'coll-actives':showFlag==='case'}">收藏案例</a>
+                        </div>
+
+                        <div class="account-box-line coll-cont collect-tab" name="location" v-show="showFlag==='location'" style="margin-top: 1vw;">
+                            <div class="list-case-item" v-for="item in locations">
+                                <div class="list-case-item-left">
+                                    <div class="wrapper">
+                                        <img :src="item.descirbeText2" alt="list-case1.png">
+                                    </div>
+                                </div>
+                                <div class="list-case-item-right">
+                                    <div class="list-case-item-line">
+                                        <div class="list-case-item-table-top">
+                                            <p class="case-title">{{item.name}}</p>
+                                            <p style="margin-top: 0.84vw">
+                                                <span v-for="tip in item.tips" class="case-tip" style="margin-right:5px;">{{tip}}</span>
+                                            </p>
+                                        </div>
+                                        <div class="case-detail-button">
+                                            <div class="case-detail-button-wrapper">
+                                                <input @click="routeToDetail(item.id,'location')" type="button" class="btn-primary-big" value="查看详情">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-case-item-line">
+                                        <div class="list-case-item-table-bottom">
+                                            <div class="case-details-content">
+                                                <div class="case-details-up">
+                                                    <p class="case-price-hint">{{item.price}}</p>
+                                                </div>
+                                                <div class="case-detail-desc">
+                                                    <div class="case-detail-row">
+                                                        <div class="case-detail-col">
+                                                            <p>地区：{{item.activityProvinceCode}} </p>
+                                                        </div>
+                                                        <div class="case-detail-col">
+                                                            <p> 类型：{{item.activitytype}} </p>
+                                                        </div>
+                                                        <div class="case-detail-col">
+                                                            <p>人数：{{item.groupNumberLimitCode}}</p>
+                                                        </div>
+                                                        <div class="case-detail-col">
+                                                            <p>天数：{{item.duration}} </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="pagenation-bar">
+                                <ul class="pagenation">
+                                    <li class="active">1</li>
+                                    <li>2</li>
+                                    <li>3</li>
+                                    <li>4</li>
+                                    <li>5</li>
+                                    <li>6</li>
+                                    <li>></li>
+                                    <span>到&nbsp;&nbsp;<input type="text" value="" />&nbsp;&nbsp;页</span>
+                                    <input type="button" value="确定" class="btn-primary" />
+                                </ul>
+                            </div>-->
+                        </div>
+                        <div class="account-box-line coll-cont collect-tab" name="product" v-show="showFlag==='product'" style="margin-top: 1vw;">
+                            <div class="list-case-item" v-for="item in products">
+                                <div class="list-case-item-left">
+                                    <div class="wrapper">
+                                        <img :src="item.img" alt="list-case1.png">
+                                    </div>
+                                </div>
+                                <div class="list-case-item-right">
+                                    <div class="list-case-item-line">
+                                        <div class="list-case-item-table-top">
+                                            <p class="case-title">{{item.title}}</p>
+                                            <p style="margin-top: 0.84vw">
+                                                <span v-for="tip in item.tips" class="case-tip" style="margin-right:5px;">{{tip}}</span>
+                                            </p>
+                                        </div>
+                                        <div class="case-detail-button">
+                                            <div class="case-detail-button-wrapper">
+                                                <input @click="routeToDetail(item.id,'product')" type="button" class="btn-primary-big" value="查看详情">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-case-item-line">
+                                        <div class="list-case-item-table-bottom">
+                                            <div class="case-details-content">
+                                                <div class="case-details-up">
+                                                    <p class="case-price-hint">{{item.price}}</p>
+                                                </div>
+                                                <div class="case-detail-desc">
+                                                    <div class="case-detail-row">
+                                                        <div class="case-detail-col">
+                                                            <p>地区：{{item.location}} </p>
+                                                        </div>
+                                                        <div class="case-detail-col">
+                                                            <p> 类型：{{item.activitytype}} </p>
+                                                        </div>
+                                                        <div class="case-detail-col">
+                                                            <p>人数：{{item.personNum}}</p>
+                                                        </div>
+                                                        <div class="case-detail-col">
+                                                            <p>天数：{{item.duration}} </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="pagenation-bar">
+                                <ul class="pagenation">
+                                    <li class="active">1</li>
+                                    <li>2</li>
+                                    <li>3</li>
+                                    <li>4</li>
+                                    <li>5</li>
+                                    <li>6</li>
+                                    <li>></li>
+                                    <span>到&nbsp;&nbsp;<input type="text" value="" />&nbsp;&nbsp;页</span>
+                                    <input type="button" value="确定" class="btn-primary" />
+                                </ul>
+                            </div>-->
+                        </div>
+                        <div class="account-box-line coll-cont collect-tab" name="case" v-show="showFlag==='case'" style="margin-top: 1vw;">
+                            <div class="list-case-item" v-for="item in cases">
+                                <div class="list-case-item-left">
+                                    <div class="wrapper">
+                                        <img :src="item.img" alt="list-case1.png">
+                                    </div>
+                                </div>
+                                <div class="list-case-item-right">
+                                    <div class="list-case-item-line">
+                                        <div class="list-case-item-table-top">
+                                            <p class="case-title">
+                                                {{item.title}}
+                                            </p>
+                                            <p style="margin-top: 0.84vw">
+                                                <span class="case-tip" style="margin-right:5px;" v-for="tip in item.tips">{{tip}}</span>
+                                            </p>
+                                        </div>
+                                        <div class="case-detail-button">
+                                            <div class="case-detail-button-wrapper">
+                                                <input @click="routeToDetail(item.id,'case')" type="button" class="btn-primary-big" value="查看详情">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-case-item-line">
+                                        <div class="list-case-item-table-bottom">
+                                            <div class="case-details-content">
+                                                <div class="case-details-up">
+                                                    <p class="case-price-hint">{{item.price}}</p>
+                                                </div>
+                                                <div class="case-detail-desc">
+                                                    <div class="case-detail-row">
+                                                        <div class="case-detail-col">
+                                                            <p>地区：{{item.location}} </p>
+                                                        </div>
+                                                        <div class="case-detail-col">
+                                                            <p> 类型：{{item.activitytype}} </p>
+                                                        </div>
+                                                        <div class="case-detail-col">
+                                                            <p>人数：{{item.personNum}}</p>
+                                                        </div>
+                                                        <div class="case-detail-col">
+                                                            <p>天数：{{item.duration}} </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--<div class="pagenation-bar">
+                                <ul class="pagenation">
+                                    <li class="active">1</li>
+                                    <li>2</li>
+                                    <li>3</li>
+                                    <li>4</li>
+                                    <li>5</li>
+                                    <li>6</li>
+                                    <li>></li>
+                                    <span>到&nbsp;&nbsp;<input type="text" value="" />&nbsp;&nbsp;页</span>
+                                    <input type="button" value="确定" class="btn-primary" />
+                                </ul>
+                            </div>-->
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="common-tail-bg">
+                        <div id="common-tail" class="common-tail">
+                            <div id="tail-nav" class="tail-nav">
+                                <nav>
+                                    <ul>
+                                        <li class="tail-li-left"><a href="#">关于我们</a></li>
+                                        <li class="tail-li-left"><a href="#">加入我们</a></li>
+                                        <li class="tail-li-left"><a href="#">联系我们</a></li>
+                                        <li class="tail-li-left"><a href="#">条款</a></li>
+                                        <li class="tail-li-left " style="margin-right: 0"><a href="#">网站导航</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div id="icon-connect" class="icon-connect">
+                                <p>
+                                    <i class="iconfont icon-facebookfacebook52 clickIcon" style="font-size: 2vw"></i>
+                                    <i class="iconfont icon-twitter3 clickIcon" style="font-size: 2vw"></i>
+                                    <i class="iconfont icon-weixin-copy clickIcon" style="font-size: 2vw"></i>
+                                    <i class="iconfont icon-weibo clickIcon" style="font-size: 2vw"></i>
+                                </p>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+             <div id="dialog" v-if="msgWindow"></div>
+            <!-- 信息提示框 -->
+			<div class="msg-pannel" v-if="msgWindow" v-cloak>
+				<div id="close-pannel" class="msg-close-pannel">
+					<i class="iconfont-user1 icon-close" style="font-size: 1.07vw;" @click="closeMsgWindow"></i>
+				</div>
+				<div class="login-head" style="font-size: 1.325vw;">
+					<h2>提示信息</h2>
+				</div>
+				<div class="msg-text-pannel">
+					<span>{{msgText}}</span>
+				</div>
+				<div class="msg-btn-pannel">
+					<input type="button" value="确 认" class="msg-show-button" @click="closeMsgWindow">
+				</div>
+			</div>
+        </div>
+    </form>
+    <div id="lrPannel"></div>
+    <script type="application/javascript" src="../../script-dev/common.app.js"></script>
+    <script type="application/javascript" src="../../script-dev/myCollection.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="滚动,漂浮层,php,jquery" />
+    <meta name="description" content="Helloweba演示平台，演示XHTML、CSS、jquery、PHP案例和示例" />
+    <title>jQuery实现浮动层跟随页面滚动效果</title>
+    <link rel="stylesheet" type="text/css" href="../css/main.css" />
+    <style type="text/css">
+        #main{height:2000px}
+        .demo{width:180px; height:250px; margin:10px; border:2px solid #ccc; background:#eee; padding:10px; }
+        #demo1{position:relative; margin-top:-290px;}
+        #demo2{position:absolute; margin-top:156px; right:10px;}
+        .demo a{text-decoration:underline; cursor:pointer}
+        .demo h3{font-size:14px}
+        .demo p{line-height:20px}
+    </style>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.cookie.js"></script>
+    <script type="text/javascript" src="jquery.scroll-follow.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#demo1").scrollFollow({
+                offset: 156
+            });
+            $("#demo2").scrollFollow({
+                speed:1000,
+//offset: 156,
+//relativeTo:"bottom",
+                killSwitch: "switchlink",
+                onText: '取消滚动',
+                offText: '开启滚动'
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div id="demo1" class="demo">
+    <img src="pic.jpg" align="" />
+    <h3>Demo 1</h3>
+    <p>滚动鼠标滚轮或者拖动浏览器的滚动条看看。</p>
+</div>
+<div id="demo2" class="demo">
+    <img src="pic1.jpg" align="" />
+    <h3>Demo 2</h3>
+    <p>你可以通过点击下面的链接来开启和关闭浮动层的跟随滚动效果。</p>
+    <p><a id="switchlink">启动开关</a></p>
+</div>
+<div id="header">
+    <div id="logo"><h1><a href="http://www.helloweba.com" title="返回helloweba首页">helloweba</a></h1></div>
+</div>
+
+
+<div id="main">
+    <h2 class="top_title"><a href="http://www.helloweba.com/view-blog-85.html">jQuery实现浮动层跟随页面滚动效果</a></h2>
+</div>
+<div id="footer">
+    <p>Powered by helloweba.com 允许转载、修改和使用本站的DEMO，但请注明出处：<a href="http://www.helloweba.com">www.helloweba.com</a></p>
+</div>
+<p id="stat"><script type="text/javascript" src="http://js.tongji.linezing.com/1870888/tongji.js"></script></p>
+
+</body>
+</html>

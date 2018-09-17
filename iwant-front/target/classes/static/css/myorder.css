@@ -1,0 +1,292 @@
+.container{
+    width: auto;
+}
+
+img{
+    width: 100%;
+}
+input:focus{outline: none;}
+.t_c{text-align: center;}
+.accountBody{
+    width: 94vw;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: top;
+}
+
+.leftAccount{
+    float: left;
+    width: 16.667vw;
+    height: 41.667vw;
+    background: #E9E2E2;
+    border: 1px solid #979797;
+    border-radius: 0.417vw;
+}
+
+.accountMain{
+    margin-left: 1.406vw;
+    float: right;
+    display: inline-block;
+    width: 75.8vw;
+}
+
+.account-image{
+    width: 10.416vw;
+    height:10.416vw ;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:2.656vw;
+    overflow: hidden;
+}
+
+.name-desc{
+    width: 100%;
+    text-align: center;
+    margin-top: 0.94vw;
+}
+
+.name-desc-font{
+    font-size: 1.56vw;
+    color: #414141;
+}
+
+.select-cell {
+    background-color: white;
+    border-bottom: 1px solid #979797;
+    width: 100%;
+    height: 4.11vw;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.select-cell-first-child{
+    background-color: white;
+    border-top: 1px solid #979797;
+    border-bottom: 1px solid #979797;
+    width: 100%;
+    height: 4.11vw;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 2.24vw;
+    cursor: pointer;
+}
+
+.select-cell:hover{
+    background-color:#979797;
+}
+
+.active-item{
+    background-color:#414141;
+    color: white !important;
+}
+
+.select-cell-first-child:hover:not(.active-item){
+    background-color:#979797;
+}
+
+.center-item{
+    line-height: 4.11vw;
+    font-size: 1.56vw;
+    color: #414141;
+}
+.active-item a{
+    background-color:#414141;
+    color: white !important;
+    text-decoration:none;
+}
+.accountTitle{
+    width: 100%;
+    height: 4.167vw;
+    background-color: #FF7E00;
+    border: 1px solid white;
+    border-radius: 0.417vw 0.417vw 0 0;
+}
+
+.account-box-body{
+    width: 99.9%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -1px;
+    height: 120vw;
+    background-color: white;
+    border-top: 1px solid white;
+    border-right: 1px solid #979797;
+    border-left: 1px solid #979797;
+    border-bottom: 1px solid #979797;
+    border-bottom-left-radius: 0.417vw;
+    border-bottom-right-radius: 0.417vw;
+    margin-bottom: 20vm;
+}
+
+.center-big{
+    line-height: 4.167vw;
+    color: #fff;
+    font-weight: bold;
+    font-size: 2vw;
+}
+
+.margin-left{
+    margin-left: 4.375vw;
+}
+
+.account-box-line{
+    width: 67.71vw;
+    height:18vw ;
+    margin-left:2.84vw;
+    border-bottom: 1px solid #979797;
+}
+
+.account-box-line2{
+    width: 67.71vw;
+    height:12.97vw ;
+    margin-left:2.84vw;
+    text-align: center;
+}
+.account-box-line2 h2{font-size: 2vw; margin:2vw}
+.account-box-line2 label{width: 10vw;background: #e9e2e2;display: inline-block;line-height: 3vw;border-radius: 0.5vw;}
+.account-box-line2 input{display: inline-block;height: 2.5vw;line-height: 2.5vw;margin-top: -2vw;border-radius: 0.5vw;border:1px solid #ddd;font-size: 1vw;}
+.input-left{background: #e9e2e2;font-size: 1.4vw;padding:1px;text-align: center;width: 10vw;}
+.input-right{width: 25vw;margin-left: 1vw;}
+.form-left{width:34.5vw;height: 13.1vw; float: left;}
+.form-left p{height: 3vw;margin:1vw 0;}
+.form-left input{width:19.8vw;float: left;margin-left: 1vw;margin-top: 0;padding:0.2vw 1vw}
+.form-left label{float: left;}
+
+.form-right{width:33vw;height: 13.1vw; float: left;}
+.form-right p{height: 3vw;margin:1vw 0;}
+.form-right input{width:19.8vw;float: left;margin-left: 1vw;margin-top: 0;padding:0.2vw 1vw}
+.form-right label{float: left;}
+.form-bottom{float: left;width: 100%;height: 23vw;}
+.form-bottom p{text-align: left;}
+.form-bottom label{text-align: center;float: left;}
+.form-bottom textarea{
+    width: 54.4vw;
+    margin-left: 0.9vw;
+    float: left;
+    height: 20vw;
+    border-radius: 0.5vw;
+    font-size: 1.1vw;
+    padding:1vw;font-family: PingFangSC-Regular, sans-serif;}
+.form-bottom textarea:focus{outline: none;}
+.account-box-first{
+    margin-top: 2.08vw;
+    height: 12vw;
+}
+
+.account-box-img{
+    float: left;
+    margin-left:1.33vw;
+    margin-top: 0.39vw;
+    width: 10.416vw;
+    height:10.416vw;
+    overflow: hidden;
+}
+
+.account-box-content{
+    float: left;
+    margin-top:0.39vw;
+    margin-left: 1.667vw;
+}
+
+.font-40px-black{
+    font-size: 1.6vw;
+    color: #414141;
+    font-weight:300;
+}
+
+.font-30-black1{
+    opacity: 0.6;
+    font-size: 1.56vw;
+    color: #414141
+}
+
+/*.btn-black{
+    width:7.81vw;
+    height:2.6vw;
+    background: #414141;
+    border-radius: 0.21vw;
+    outline: none;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #414141;
+    color:#FFFFFF;
+    font-family:PingFangSC-Regular, sans-serif;
+    font-size: 1.25vw;
+    margin-top: 1.35vw;
+}
+
+.btn-black:hover{
+    background-color: #818181;
+}*/
+
+.order-message{background: none;line-height: 2.4vw;border:1px solid #ddd;border-radius: 0.4vw;padding:0 1vw;font-size: 1.2vw;color: #414141;}
+
+.account-box-left{
+    float: left;
+    margin-top: 3vw;
+    margin-left: 3vw;
+    border-radius: 1vw;
+    border:1px solid #ddd;
+    overflow: hidden;
+    width: 30vw;
+    height: 12vw;
+}
+.account-box-left img{width: 6vw;margin:3vw 2vw 3vw 5vw;float: left;}
+.account-box-left .account-box-left-txt{float: left;line-height: 2.5vw;margin:3vw 0;color: #666;text-align: right;width: 11vw;}
+.account-box-left .account-box-left-txt span{color: #999;font-size: 0.9vw;}
+.right-button-txt{text-align: center;font-size: 1.1vw;}
+
+.account-button-right{
+    float: right;
+    margin-top: 4.5vw;
+    margin-right: 3.7vw;
+    width: 20vw;
+}
+.account-button-right input{margin-bottom: 1vw;}
+
+.btn-primary{
+    width:18vw;
+    height:2.6vw;
+    background: #FF7E00;
+    border-radius: 0.21vw;
+    outline: none;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #FF7E00;
+    color:#FFFFFF;
+    font-family:PingFangSC-Regular, sans-serif;
+    font-size: 1.25vw;
+}
+
+.btn-primary:hover{
+    background-color: #ffc114;
+}
+
+.activediv{
+    background-color: #414141;
+}
+.activity-nonmil {
+    background-color: white;
+}
+
+
+.right-back{
+	float: right;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	padding: 0.5vw 1vw;
+	margin: 0.7vw;
+	color: #FFFFFF;
+	cursor: pointer;
+}
+.margin-right{
+	 margin-right: 3vw;
+}
+.right-back:hover{
+	background: #fff;
+	color: #FF7E00;
+}
+
+.file-img{width: 27vw;margin:2vw 20vw}
+.file-txt{text-align: center;font-size: 1.4vw;}

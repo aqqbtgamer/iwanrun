@@ -1,0 +1,293 @@
+img {
+    width: 100%;
+}
+
+.accountBody {
+    width: 94vw;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: top;
+}
+
+.leftAccount {
+    float: left;
+    width: 16.667vw;
+    height: 41.667vw;
+    background: #E9E2E2;
+    border: 1px solid #979797;
+    border-radius: 0.417vw;
+}
+
+.accountMain {
+    margin-left: 1.406vw;
+    float: right;
+    display: inline-block;
+    width: 75.8vw;
+}
+
+.account-image {
+    width: 10.416vw;
+    height: 10.416vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2.656vw;
+    overflow: hidden;
+}
+
+.name-desc {
+    width: 100%;
+    text-align: center;
+    margin-top: 0.94vw;
+}
+
+.name-desc-font {
+    font-size: 1.56vw;
+    color: #414141;
+}
+
+.select-cell {
+    background-color: white;
+    border-bottom: 1px solid #979797;
+    width: 100%;
+    height: 4.11vw;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.select-cell-first-child {
+    background-color: white;
+    border-top: 1px solid #979797;
+    border-bottom: 1px solid #979797;
+    width: 100%;
+    height: 4.11vw;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 2.24vw;
+    cursor: pointer;
+}
+
+.select-cell:hover {
+    background-color: #979797;
+}
+
+#accountBody a{ 
+    text-decoration:none;
+    color: #414141;
+} 
+
+.active-item {
+    background-color: #414141;
+    color: white !important;
+}
+
+.select-cell-first-child:hover:not(.active-item) {
+    background-color: #979797;
+}
+
+.center-item {
+    line-height: 4.11vw;
+    font-size: 1.56vw;
+    color: #414141;
+}
+
+.accountTitle {
+    width: 100%;
+    height: 4.167vw;
+    background-color: #FF7E00;
+    border: 1px solid white;
+    border-radius: 0.417vw 0.417vw 0 0;
+}
+
+.account-box-body {
+    width: 99.9%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -1px;
+    /*height: 55.83vw;*/
+    background-color: white;
+    border-top: 1px solid white;
+    border-right: 1px solid #979797;
+    border-left: 1px solid #979797;
+    border-bottom: 1px solid #979797;
+    border-bottom-left-radius: 0.417vw;
+    border-bottom-right-radius: 0.417vw;
+}
+
+
+.center-big {
+    line-height: 4.167vw;
+    color: #414141;
+    font-weight: bold;
+    font-size: 2vw;
+}
+
+.margin-left {
+    margin-left: 4.375vw;
+}
+
+.account-box-line {
+    width: 67.71vw;
+    height: 12.97vw;
+    margin-left: 2.84vw;
+    border-bottom: 1px solid #979797;
+}
+
+.account-box-line2 {
+    width: 67.71vw;
+    height: 12.97vw;
+    margin-left: 2.84vw;
+}
+
+.account-box-first {
+    margin-top: 2.08vw;
+}
+
+.account-box-img {
+    float: left;
+    margin-left: 1.33vw;
+    margin-top: 0.39vw;
+    width: 10.416vw;
+    height: 10.416vw;
+    overflow: hidden;
+}
+
+.account-box-content {
+    float: left;
+    margin-top: 0.39vw;
+    margin-left: 1.667vw;
+}
+
+.font-40px-black {
+    font-size: 2.08vw;
+    color: #414141;
+    font-weight: bold;
+}
+
+.font-30-black1 {
+    opacity: 0.6;
+    font-size: 1.56vw;
+    color: #414141
+}
+
+.btn-black {
+    width: 7.81vw;
+    height: 2.6vw;
+    background: #414141;
+    border-radius: 0.21vw;
+    outline: none;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #414141;
+    color: #FFFFFF;
+    font-family: PingFangSC-Regular, sans-serif;
+    font-size: 1.25vw;
+    margin-top: 1.35vw;
+}
+
+    .btn-black:hover {
+        background-color: #818181;
+    }
+
+.account-box-left {
+    float: left;
+    margin-top: 3.15vw;
+    margin-left: 1.8vw;
+}
+
+.account-button-right {
+    float: right;
+    margin-top: 4.82vw;
+    margin-right: 3.7vw;
+}
+
+.btn-primary {
+    width: 6.77vw;
+    height: 2.6vw;
+    background: #FF7E00;
+    border-radius: 0.21vw;
+    outline: none;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #FF7E00;
+    color: #FFFFFF;
+    font-family: PingFangSC-Regular, sans-serif;
+    font-size: 1.25vw;
+}
+
+    .btn-primary:hover {
+        background-color: #ffc114;
+    }
+
+.activediv {
+    background-color: #414141;
+}
+
+.activity-nonmil {
+    background-color: white;
+}
+
+.leftAccount .select-cell-first-child .center-item a {
+    text-decoration: none;
+    color: black;
+}
+
+.username-input .user-input input {
+    height: 40px;
+}
+
+.username-input .user-input select {
+    height: 40px;
+}
+
+.msg-show-button {
+	width: 30%;
+	background: #818181;
+	height: 100%;
+	border-radius: 0.42vw;
+	outline: none;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px solid #979797;
+	color: #FFFFFF;
+	font-family: PingFangSC-Regular, sans-serif;
+	font-size: 1.38vw;
+	font-weight: bold;
+}
+
+.msg-show-button:hover {
+	cursor: pointer;
+	background: #727272;
+}
+/* .msg-pannel {
+	top: 40%;
+    left: 48%;
+    width: 22%;
+    height: auto;
+    padding: 8px;
+    border: 5px solid #E8E9F7;
+    background-color: white;
+    z-index: 1002;
+    overflow: auto;
+	text-align: center;
+	position: fixed;
+	border-radius: 5px;
+} */
+.msg-close-pannel {
+	margin-right: 0.33vw;
+    margin-top: 0.1vw;
+    text-align: right;
+    color:#979797;
+}
+.msg-close-pannel:hover {
+	cursor: pointer;
+	color: #727272;
+}
+.msg-text-pannel {
+	margin-top: 5.8%; 
+	color: red; 
+	font-size: 1.01rem;
+}
+.msg-btn-pannel {
+	margin-top: 6.9%;
+}
