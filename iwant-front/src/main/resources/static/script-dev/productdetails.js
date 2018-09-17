@@ -113,7 +113,9 @@ var appProductDetails = new Vue(
 				callback.error = function(errorMsg){
 					console.log("result from server :" +errorMsg)
 				}
-				$http_form.post(dataUrl,callback);
+                $http_form.post(dataUrl, callback);
+
+                $.cookie('loginId') && vm.isCollectioned(); 
 			},
 			methods:{
 				 showLogin: function (message) {
@@ -179,24 +181,21 @@ var appProductDetails = new Vue(
 		                    vm.isFavourite ? remove(vm.init.id, vm.init.type) : add(vm.init.id, vm.init.type);
 		                }
                   },
-                  isCollection: function () {
+                  isCollectioned: function () {
                       var vm = this;
-                      vm.init && vm.init.id && vm.init.type && function (id, type) {
+                      vm.init && vm.init.id && vm.init.type && (function (id, type) {
                           var url = baseUrl + "favourite/query",
                               parm = {
-                                  type: vm.init.type,
-                                  id: vm.init.id
+                                  type: type,
+                                  id: id
                               };
                           axios.post(url, parm).then(function (response) {
                               console.log(response.data);
-                              //TODO
-                                  //response.data && function () {
-                                  //    if (Array.isArray(response.data) && response.data.length===1) {
-
-                                  //    }
-                                  //};
-                              });
-                      }(vm.init.id, vm.init.type);
+                              response.data && (function () {
+                                  vm.isCollection = true;
+                              })();
+                          });
+                      })(vm.init.id, vm.init.type);
                   }
 			},
 			computed:{

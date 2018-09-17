@@ -2,56 +2,77 @@
 #@host = 139.196.228.29:8088
 
 ### query case all
-POST  http://127.0.0.1:8088/iwantrun/favourite/query
+POST  http://{{host}}/iwantrun/favourite/query
 content-type: application/json
 
 {"type": "case", "id": "all"}
 
 ### query product all
-POST  http://127.0.0.1:8088/iwantrun/favourite/query
+POST  http://{{host}}/iwantrun/favourite/query
 content-type: application/json
 
 {"type": "product", "id": "all"}
 
 ### query product 0
-POST  http://127.0.0.1:8088/iwantrun/favourite/query
+POST  http://{{host}}/iwantrun/favourite/query
 content-type: application/json
 
 {"type": "product", "id": "0"}
 
 ### 
-POST  http://127.0.0.1:8088/iwantrun/favourite/add
+POST  http://{{host}}/iwantrun/favourite/add
 content-type: application/json
 
 {"type": "case", "id": "0"}
 
 ###
-POST  http://127.0.0.1:8088/iwantrun/favourite/add
+POST  http://{{host}}/iwantrun/favourite/add
 content-type: application/json
 
 {"type": "case", "id": "1"}
 
 ###
-POST  http://127.0.0.1:8088/iwantrun/favourite/add
+POST  http://{{host}}/iwantrun/favourite/add
 content-type: application/json
 
 {"type": "product", "id": "0"}
 
 ###
-POST  http://127.0.0.1:8088/iwantrun/favourite/add
+POST  http://{{host}}/iwantrun/favourite/add
 content-type: application/json
 
 {"type": "product", "id": "2"}
 
 ###
-POST  http://127.0.0.1:8088/iwantrun/favourite/add
+POST  http://{{host}}/iwantrun/favourite/add
+content-type: application/json
+
+{type: "product", id: "2"}
+
+###
+POST  http://{{host}}/iwantrun/favourite/delete
 content-type: application/json
 
 {"type": "product", "id": "2"}
 
 ###
-POST  http://127.0.0.1:8088/iwantrun/favourite/delete
+POST  http://{{host}}/iwantrun/favourite/add
 content-type: application/json
+Cookie: _at8083=ZDNmNTFlMDAwYjI1MDFhNzQyNWE2MDhlMTAwYjJjYzk0YTlmMDA0NQ%3D%3D; accessToken=DBpGYjGCS1moV9uToJf0Qtk7Hw9tIzcHGA66nQDrpDzkeDFfPUYevv1ikD4Xk9mzuyfFcS/Kp4ZFgabzj2MgzISreFzGcfimb0RlYK2n8Fl5KbUPS9NhWU+nGugV7ra6MJfPi/S5nqc3Sbat1wmrww==; loginId=18918765456
 
 {"type": "product", "id": "2"}
+
+###
+POST  http://{{host}}/iwantrun/favourite/query
+content-type: application/json
+Cookie: JSESSIONID=C903E92320A175606B213181553E4624; accessToken=DBpGYjGCS1moV9uToJf0Qtk7Hw9tIzcHGA66nQDrpDyuIqmkFIht4zC5Bbu30Myp37PIq03IT4vNXLEjAbIxfmlXtgYdb1ILWxR2oly3C9V5KbUPS9NhWU+nGugV7ra6whJ6Sq884wT7FNhmPOTU2A==; loginId=18918765456
+
+{"type": "product", "id": "all"}
+
+###
+POST  http://{{host}}/iwantrun/trade_status/query
+content-type: application/json
+Cookie: JSESSIONID=C903E92320A175606B213181553E4624; accessToken=DBpGYjGCS1moV9uToJf0Qtk7Hw9tIzcHGA66nQDrpDyuIqmkFIht4zC5Bbu30Myp37PIq03IT4vNXLEjAbIxfmlXtgYdb1ILWxR2oly3C9V5KbUPS9NhWU+nGugV7ra6whJ6Sq884wT7FNhmPOTU2A==; loginId=18918765456
+
+{}
 
