@@ -84,7 +84,7 @@ var lrTemplate = ""+
                 '<div id="login-button" class="login-button">'+
                     '<input @click="login" type="button" value="登 录" class="sms-login-button">'+
                 '</div>'+
-                '<div id="join-account-login" class="join-account-login">'+
+                /*'<div id="join-account-login" class="join-account-login">'+
                     '<div id="join-account-left" class="join-account-left">'+
                         '<p>其他账号登录</p>'+
                     '</div>'+
@@ -93,7 +93,7 @@ var lrTemplate = ""+
                         '<i class="iconfont icon-weixin-copy clickIcon"></i>'+
                         '<i class="iconfont icon-weibo clickIcon"></i>'+
                     '</div>'+
-                '</div>'+
+                '</div>'+*/
             '</div>'+
             '<div id="register-pannel" class="login-pannel" v-if="registerWindow" v-cloak>'+
                 '<div class="close-pannel">'+
@@ -606,7 +606,13 @@ function validatePwd(password, rePassword) {
 	}
 	
 //	var regex = new RegExp('(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}', 'g');
-	var regex = new RegExp('^([a-zA-Z]+.*[0-9]+.*[!@#$%^&*]+)|([a-zA-Z]+.*[!@#$%^&*]+.*[0-9]+)|([0-9]+.*[!@#$%^&*]+.*[a-zA-Z]+)|([0-9]+.*[a-zA-Z]+.*[!@#$%^&*]+)|([!@#$%^&*]+.*[a-zA-Z]+.*[0-9]+)|([!@#$%^&*]+.*[0-9]+.*[a-zA-Z]+)$', 'g');
+//	var regex = new RegExp('^([a-zA-Z]+.*[0-9]+.*[!@#$%^&*]+)|([a-zA-Z]+.*[!@#$%^&*]+.*[0-9]+)|([0-9]+.*[!@#$%^&*]+.*[a-zA-Z]+)|([0-9]+.*[a-zA-Z]+.*[!@#$%^&*]+)|([!@#$%^&*]+.*[a-zA-Z]+.*[0-9]+)|([!@#$%^&*]+.*[0-9]+.*[a-zA-Z]+)$', 'g');
+	var regex = new RegExp('^([a-zA-Z]+.*[0-9]+.*[~`@#$%^&*\\-_=+|\?/()<>\\[\\]{}\",.;\'!]+)' +
+			'|([a-zA-Z]+.*[~`@#$%^&*\\-_=+|\?/()<>\\[\\]{}\",.;\'!]+.*[0-9]+)' +
+			'|([0-9]+.*[~`@#$%^&*\\-_=+|\?/()<>\\[\\]{}\",.;\'!]+.*[a-zA-Z]+)' +
+			'|([0-9]+.*[a-zA-Z]+.*[~`@#$%^&*\\-_=+|\?/()<>\\[\\]{}\",.;\'!]+)' +
+			'|([~`@#$%^&*\\-_=+|\?/()<>\\[\\]{}\",.;\'!]+.*[a-zA-Z]+.*[0-9]+)' +
+			'|([~`@#$%^&*\\-_=+|\?/()<>\\[\\]{}\",.;\'!]+.*[0-9]+.*[a-zA-Z]+)$', 'g');
 	var correct = regex.test(password);
 	if (!correct) {
 		return '密码格式不正确，请重新输入';

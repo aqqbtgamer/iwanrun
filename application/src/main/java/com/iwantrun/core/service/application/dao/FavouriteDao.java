@@ -58,6 +58,24 @@ public interface FavouriteDao extends JpaRepository<Favourite, Integer>,JpaSpeci
     String COUNT_LOCATION_FAVOU="select count(*) "+
     		" from biz_favourite favourite " + 
     		" left outer join biz_locations location on location.id=favourite.case_id  where 1=1 and favourite.case_type='location' ";
+    String QUERY_PRODUCT_FAVOU="select favourite.case_id as caseId,favourite.case_type as caseType,favourite.user_id as userId ,"+ 
+    		"product.id as id,product.activity_province_code as activityProvinceCode,product.activity_type_code  as activitytype," + 
+    		"product.group_number_code as groupNumberLimitCode,product.during as duration," + 
+    		"product.main_image_large as descirbeText2,product.order_simulate_price_code as price,product.name as name,product.tips  " + 
+    		" from biz_favourite favourite " + 
+    		" left outer join biz_productions product on product.id=favourite.case_id  where 1=1 and favourite.case_type='product'";
+    String COUNT_PRODUCT_FAVOU="select count(*) "+
+    		" from biz_favourite favourite " + 
+    		" left outer join biz_productions product on product.id=favourite.case_id  where 1=1 and favourite.case_type='product' ";
+    String QUERY_CASE_FAVOU="select favourite.case_id as caseId,favourite.case_type as caseType,favourite.user_id as userId ,"+ 
+    		"cases.id as id,cases.activity_province_code as activityProvinceCode,cases.activity_city_code  as activitytype," + 
+    		"cases.group_number as groupNumberLimitCode,cases.during as duration," + 
+    		"cases.descirbe_text2 as descirbeText2,cases.simulate_price_code as price,cases.name as name,cases.tips  " + 
+    		" from biz_favourite favourite " + 
+    		" left outer join biz_cases cases on cases.id=favourite.case_id  where 1=1 and favourite.case_type='case'";
+    String COUNT_CASE_FAVOU="select count(*) "+
+    		" from biz_favourite favourite " + 
+    		" left outer join biz_cases cases on cases.id=favourite.case_id  where 1=1 and favourite.case_type='case' ";
     
     Function<Object[],Map<String,Object>> MAPPER_MIXED_FAVOU =
 			objArray -> {
@@ -91,19 +109,37 @@ public interface FavouriteDao extends JpaRepository<Favourite, Integer>,JpaSpeci
 			};	
 	default List<Map<String,Object>> findAllWithFavouritePaged(Favourite vo,JPQLEnableRepository repository,int pageSize,int pageIndex){
 		@SuppressWarnings("unchecked")
-		String sql = QUERY_LOCATION_FAVOU;
+		String sql = "";
 		if( vo!= null && !StringUtils.isEmpty(vo.getUserId()) ) {
-			sql =  sql.concat(" and favourite.user_id = '"+vo.getUserId()+"'");
+			if( "location".equals(vo.getCaseType()) ) {
+				sql =  QUERY_LOCATION_FAVOU.concat(" and favourite.user_id = '"+vo.getUserId()+"'");
+			}
+			if( "product".equals(vo.getCaseType()) ) {
+				sql =  QUERY_PRODUCT_FAVOU.concat(" and favourite.user_id = '"+vo.getUserId()+"'");
+			}
+			if( "case".equals(vo.getCaseType()) ) {
+				sql =  QUERY_CASE_FAVOU.concat(" and favourite.user_id = '"+vo.getUserId()+"'");
+			}
 		}
+		
 		List<Object[]> rawResult = (List<Object[]>)repository.findByNativeSqlPage(sql, pageIndex, pageSize);
 		return rawResult.stream().map(MAPPER_MIXED_FAVOU).collect(Collectors.toList());
 	}
 	
 	default Integer countAllWithFavourite(Favourite vo,JPQLEnableRepository repository) {			
 		@SuppressWarnings("unchecked")
-		String sql = COUNT_LOCATION_FAVOU;
+		String sql = "";
 		if( vo!= null && !StringUtils.isEmpty(vo.getUserId()) ) {
-			sql =  sql.concat(" and favourite.user_id = "+vo.getUserId());
+			if( "location".equals(vo.getCaseType()) ) {
+				sql =  COUNT_LOCATION_FAVOU.concat(" and favourite.user_id = '"+vo.getUserId()+"'");
+			}
+			if( "product".equals(vo.getCaseType()) ) {
+				sql =  COUNT_PRODUCT_FAVOU.concat(" and favourite.user_id = '"+vo.getUserId()+"'");
+			}
+			if( "case".equals(vo.getCaseType()) ) {
+				sql =  COUNT_CASE_FAVOU.concat(" and favourite.user_id = '"+vo.getUserId()+"'");
+			}
+			
 		}
 		List<Object> rawResult = repository.findByNativeSqlPage(sql);
 		Object raw = rawResult.get(0);
