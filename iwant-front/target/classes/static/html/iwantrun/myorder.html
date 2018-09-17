@@ -106,7 +106,7 @@
                                 <input type="button" class="order-message" :value="'订单编号：'+order.orderNo">
                                 <input type="button" class="order-message" :value="'创建日期：'+order.createTime">
                                 <input type="button" class="order-message" :value="order.orderStatus">
-                                <input type="button" class="order-message" :value="'咨询师：'+adviserAccount.name">
+                                <input type="button" class="order-message" v-if="adviserAccount!=null" :value="'咨询师：'+adviserAccount.name">
                             </div>
                         </div>
                         <div class="account-box-line" v-for="item in caseDraft">

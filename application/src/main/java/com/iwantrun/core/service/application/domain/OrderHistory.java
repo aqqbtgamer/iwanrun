@@ -1,5 +1,7 @@
 package com.iwantrun.core.service.application.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,6 +33,9 @@ public class OrderHistory {
 	
 	@Column(name="if_change_by_admin")
 	private Integer ifChangeByAdmin;
+	
+	@Column(name="change_time")
+	private Date changeTime ;
 
 	public int getId() {
 		return id;
@@ -79,4 +84,22 @@ public class OrderHistory {
 	public void setChange_by(Integer change_by) {
 		this.change_by = change_by;
 	}
+
+	public Integer getIfChangeByAdmin() {
+		return ifChangeByAdmin;
+	}
+
+	public void setIfChangeByAdmin(Integer ifChangeByAdmin) {
+		this.ifChangeByAdmin = ifChangeByAdmin;
+	}
+
+	public Date getChangeTime() {
+		return changeTime;
+	}
+
+	public void setChangeTime(Date changeTime) {
+		this.changeTime = changeTime;
+	}
+	
+	
 }

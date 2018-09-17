@@ -14,6 +14,7 @@ public class Md5UtilsTest {
 		System.out.println(md5Salt);
 		System.out.println(md5Salt.length());
 		assertTrue(Md5Utils.verify(password, md5Salt));
+		System.out.println(Md5Utils.verify("Aqq37217$","11732a568164e34167b7f617206845899711c71b2884010b"));;
 	}
 
 }
