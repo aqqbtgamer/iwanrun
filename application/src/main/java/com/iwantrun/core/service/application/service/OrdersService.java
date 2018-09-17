@@ -187,7 +187,7 @@ public class OrdersService {
 			if(ordersOp.isPresent()) {
 				//get all params except id 
 				Orders order = ordersOp.get();
-				if(TradeStatus.OPENED.getId() == order.getOrderStatusCode()) {
+				if(TradeStatus.OPENED.getId() == order.getOrderStatusCode()||TradeStatus.CLOSED.getId() == order.getOrderStatusCode()) {
 					EntityBeanUtils.copyEntityBeanValuesFromJSON(requestObj, order);
 					order.setOrderStatusCode(TradeStatus.ASSIGNED.getId());
 					ordersDao.save(order);
@@ -195,7 +195,7 @@ public class OrdersService {
 					resultBody.setDescription("指派订单成功");
 				}else {
 					resultBody.setSuccessful(false);
-					resultBody.setDescription("只有已提交状态的订单可以指派");
+					resultBody.setDescription("只有已提交或已关闭状态的订单可以指派");
 				}				
 			}else {
 				resultBody.setSuccessful(false);
