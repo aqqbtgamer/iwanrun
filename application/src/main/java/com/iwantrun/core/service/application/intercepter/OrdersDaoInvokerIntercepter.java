@@ -50,6 +50,8 @@ public class OrdersDaoInvokerIntercepter {
 	
 	private static final String closeInfo = "管理员关闭订单 ";
 	
+	private static final String carryFinishedInfo = "咨询师#{mobileNumber}上传案例文件 ";
+	
 	@Pointcut("execution (* com.iwantrun.core.service.application.dao.OrdersDao.*(..))")	
 	public void methodPointCut() {}
 	
@@ -120,6 +122,11 @@ public class OrdersDaoInvokerIntercepter {
 					else if(TradeStatus.CLOSED.getId() == order.getOrderStatusCode()) {
 						history.setChange_by(null);
 						history.setChangeInfo(closeInfo);	
+						history.setIfChangeByAdmin(1);		
+					}
+					else if(TradeStatus.CARRYINGFINISHED.getId() == order.getOrderStatusCode()) {
+						history.setChange_by(null);
+						history.setChangeInfo(carryFinishedInfo);	
 						history.setIfChangeByAdmin(1);		
 					}
 				}				
