@@ -305,8 +305,21 @@ public class OrdersService {
 			ordersAttacgDao.saveAndFlush(orderAttach);
 			Optional<Orders> orderOp = ordersDao.findById(orderId);
 			if(orderOp.isPresent()) {
+				Integer orderStatusCode=null;
+				if("case_draft".equals(pagePath)) {
+					orderStatusCode=2;
+				}
+				if("appointment".equals(pagePath)) {
+					orderStatusCode=4;
+				}
+				if("project_conclude".equals(pagePath)) {
+					orderStatusCode=8;
+				}
 				Orders order  = orderOp.get();
 				order.setModifyTime(new Date());
+				if( orderStatusCode!= null) {
+					order.setOrderStatusCode(orderStatusCode);
+				}
 				ordersDao.save(order);
 			}
 			

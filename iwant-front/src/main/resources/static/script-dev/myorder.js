@@ -154,33 +154,51 @@ var appMyAccount = new Vue(
             },
             schemeFileUpload:function(){
             	var vm = this;
-            	var url = "/iwantrun/remote/fileupload";
-            	var file = $("#uploadedSchemeFile").prop('files')[0];
-            	var call = function(param){
-            		vm.saveFileOrderAttach(param,'case_draft');
+            	var status = vm.order.orderStatusCode;
+            	if(status == 1){
+            		var url = "/iwantrun/remote/fileupload";
+                	var file = $("#uploadedSchemeFile").prop('files')[0];
+                	var call = function(param){
+                		vm.saveFileOrderAttach(param,'case_draft');
+                	}
+                	fileUpload('uploadedSchemeFile',url,call,file);
+            	}else{
+            		vm.msgWindow=true;
+            		vm.msgText="请先指派咨询师";
             	}
-            	fileUpload('uploadedSchemeFile',url,call,file);
+            	
             	
             },
             appointFileUpload:function($event){
             	var vm = this;
-            	var url = "/iwantrun/remote/fileupload";
-            	var file = $event.target.files[0];
-            	var call = function(param){
-            		vm.saveFileOrderAttach(param,'appointment');
+            	var status = vm.order.orderStatusCode;
+            	if(status == 3){
+	            	var url = "/iwantrun/remote/fileupload";
+	            	var file = $event.target.files[0];
+	            	var call = function(param){
+	            		vm.saveFileOrderAttach(param,'appointment');
+	            	}
+	            	fileUpload('uploadedAppointFile',url,call,file);
+            	}else{
+            		vm.msgWindow=true;
+            		vm.msgText="初步方案需用户同意";
             	}
-            	fileUpload('uploadedAppointFile',url,call,file);
             	
             },
             projectFileUpload:function($event){
             	var vm = this;
-            	var url = "/iwantrun/remote/fileupload";
-            	var file = $event.target.files[0];
-            	var call = function(param){
-            		vm.saveFileOrderAttach(param,'project_conclude');
+            	var status = vm.order.orderStatusCode;
+            	if(status == 5){
+	            	var url = "/iwantrun/remote/fileupload";
+	            	var file = $event.target.files[0];
+	            	var call = function(param){
+	            		vm.saveFileOrderAttach(param,'project_conclude');
+	            	}
+	            	fileUpload('uploadedProjectFile',url,call,file);
+            	}else{
+            		vm.msgWindow=true;
+            		vm.msgText="合作意向书需用户同意";
             	}
-            	fileUpload('uploadedProjectFile',url,call,file);
-            	
             },
             schemeFileImgClick:function(){
             	var vm = this;

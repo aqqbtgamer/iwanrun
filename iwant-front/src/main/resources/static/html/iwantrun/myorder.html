@@ -122,7 +122,8 @@
                             
                             <div class="account-button-right">
                                 <input type="button" value="联系咨询师" class="btn-primary">
-                                <p class="right-button-txt">更新与3天12小时前</p>
+                                <input type="button" v-if="order.orderStatusCode==2" value="同意初步方案" class="btn-primary" @click="orderResultClick(3)">
+<!--                                 <p class="right-button-txt">更新与3天12小时前</p> -->
                             </div>
                         </div>
                         <div class="account-box-line"  v-for="item in appointment">
@@ -136,6 +137,7 @@
                                 </div>
                             </a>
                             <div class="account-button-right">
+                            <input type="button" value="同意合作意向书" v-if="order.orderStatusCode==4" class="btn-primary" @click="orderResultClick(5)">
 <!--                                 <input type="button" value="下载原意向书" class="btn-primary"> -->
 <!--                                 <input type="button" value="重新上传" class="btn-primary"> -->
 <!--                                 <p class="right-button-txt">等待审核</p> -->
@@ -151,10 +153,10 @@
                                     </div>
                                 </div>
                             </a>
-                            <div class="account-button-right" v-if="resultBtn">
-                                <input type="button" value="同意结项" class="btn-primary" @click="orderResultClick(3)">
-                                <input type="button" value="不同意结项" class="btn-primary" @click="orderResultClick(4)">
-                                <p class="right-button-txt">更新与3天12小时前</p>
+                            <div class="account-button-right" v-if="order.orderStatusCode==8">
+                                <input type="button" value="同意结项" class="btn-primary" @click="orderResultClick(6)">
+                                <input type="button" value="不同意结项" class="btn-primary" @click="orderResultClick(7)">
+<!--                                 <p class="right-button-txt">更新与3天12小时前</p> -->
                             </div>
                         </div>
                         <div class="account-box-line2">
