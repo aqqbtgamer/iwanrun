@@ -3,11 +3,14 @@ package com.iwantrun.core.service.application.enums;
 public enum TradeStatus {
 	CLOSED(-1,"已关闭"),
 	OPENED(0,"已提交"),
-	ASSIGNED(1,"定制中"),
-	EXECUTING(2,"实施中"),
-	COMPLETED(3,"已完成"),
-	COMPLETED_UPDATE(4,"修改")
-	;
+	ASSIGNED(1,"已指派"),
+	EXECUTING(2,"定制中"),
+	COMPLETED(3,"草案通过"),
+	COMPLETED_UPDATE(4,"意向确认中"),
+	CARRYING(5,"实施中"),
+	FINSHED(6,"已结项"),
+	UNFINISHED(7,"未结项");
+	
 	private int id ;
 	
 	private String name ;
