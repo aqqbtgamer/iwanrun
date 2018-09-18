@@ -9,7 +9,9 @@ public enum TradeStatus {
 	COMPLETED_UPDATE(4,"意向确认中"),
 	CARRYING(5,"实施中"),
 	FINSHED(6,"已结项"),
-	UNFINISHED(7,"未结项");
+	UNFINISHED(7,"未结项"),
+	CARRYINGFINISHED(8,"待结项");
+	;
 	
 	private int id ;
 	

@@ -36,13 +36,19 @@ public class OrdersDaoInvokerIntercepter {
 	
 	private static final String assignInfo = "管理员指派订单给咨询师 #{mobileNumber}";
 	
-	private static final String executeInfo = "咨询师 #{mobileNumber}更新了订单 ";
+	private static final String executeInfo = "咨询师 #{mobileNumber}更新了订单 ";		
 	
-	private static final String completeInfo = "用户 #{mobileNumber} 同意草案 订单实施中 ";
+	private static final String completeInfo = "用户 #{mobileNumber} 同意草案  ";	
 	
-	private static final String finishedInfo = "用户#{mobileNumber}同意结项 ";
+	private static final String updateInfo = "咨询师#{mobileNumber}上传意向书 ";
 	
-	private static final String updateInfo = "用户#{mobileNumber}不同意结项 ";
+	private static final String carryInfo = "用户#{mobileNumber}同意意向书  订单实施中 ";
+	
+	private static final String finishInfo = "用户#{mobileNumber}同意结项 ";
+	
+	private static final String unFinishInfo = "用户#{mobileNumber}不同意结项 ";
+	
+	private static final String closeInfo = "管理员关闭订单 ";
 	
 	@Pointcut("execution (* com.iwantrun.core.service.application.dao.OrdersDao.*(..))")	
 	public void methodPointCut() {}
@@ -80,25 +86,41 @@ public class OrdersDaoInvokerIntercepter {
 						history.setChange_by(null);
 						history.setChangeInfo(assignInfo);	
 						history.setIfChangeByAdmin(1);					
-					}else if(TradeStatus.ASSIGNED.getId() == order.getOrderStatusCode() && order.getOrderStatusCode() == history.getBeforeStatusCode()) {
-						history.setChange_by(order.getOrderAdviserId());
-						history.setChangeInfo(executeInfo);	
-						history.setIfChangeByAdmin(0);
-					}					
+					}			
 					else if(TradeStatus.EXECUTING.getId() == order.getOrderStatusCode()) {
 						history.setChange_by(order.getOrderAdviserId());
-						history.setChangeInfo(completeInfo);	
+						history.setChangeInfo(executeInfo);	
 						history.setIfChangeByAdmin(0);		
 					}
 					else if(TradeStatus.COMPLETED.getId() == order.getOrderStatusCode()) {
 						history.setChange_by(order.getOrderOwnerId());
-						history.setChangeInfo(finishedInfo);	
+						history.setChangeInfo(completeInfo);	
 						history.setIfChangeByAdmin(0);		
 					}
 					else if(TradeStatus.COMPLETED_UPDATE.getId() == order.getOrderStatusCode()) {
-						history.setChange_by(order.getOrderOwnerId());
+						history.setChange_by(order.getOrderAdviserId());
 						history.setChangeInfo(updateInfo);	
 						history.setIfChangeByAdmin(0);		
+					}
+					else if(TradeStatus.CARRYING.getId() == order.getOrderStatusCode()) {
+						history.setChange_by(order.getOrderAdviserId());
+						history.setChangeInfo(carryInfo);	
+						history.setIfChangeByAdmin(0);		
+					}
+					else if(TradeStatus.FINSHED.getId() == order.getOrderStatusCode()) {
+						history.setChange_by(order.getOrderAdviserId());
+						history.setChangeInfo(finishInfo);	
+						history.setIfChangeByAdmin(0);		
+					}
+					else if(TradeStatus.UNFINISHED.getId() == order.getOrderStatusCode()) {
+						history.setChange_by(order.getOrderAdviserId());
+						history.setChangeInfo(unFinishInfo);	
+						history.setIfChangeByAdmin(0);		
+					}
+					else if(TradeStatus.CLOSED.getId() == order.getOrderStatusCode()) {
+						history.setChange_by(null);
+						history.setChangeInfo(closeInfo);	
+						history.setIfChangeByAdmin(1);		
 					}
 				}				
 			}
