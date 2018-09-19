@@ -121,7 +121,7 @@
 	                            </a>
                             
                             <div class="account-button-right">
-                                <input type="button" value="联系咨询师" class="btn-primary">
+                                <input type="button" value="联系咨询师" class="btn-primary" @click="showSiteMsgWindow()">
                                 <input type="button" v-if="order.orderStatusCode==2" value="同意初步方案" class="btn-primary" @click="orderResultClick(3)">
 <!--                                 <p class="right-button-txt">更新与3天12小时前</p> -->
                             </div>
@@ -246,6 +246,27 @@
 				</div>
 				<div class="msg-btn-pannel">
 					<input type="button" value="确 认" class="msg-show-button" @click="closeMsgWindow">
+				</div>
+			</div>
+			<div id="dialog" style="z-index: 100;" v-if="siteMsgWindow || msgWindow"></div>
+			<div id="siteMsg" v-if="siteMsgWindow">
+				<div id="loginWindow" class="login-pannel"
+					style="height: 26.8vw; width: 38vw; left: 36vw; top: 8.6vw;">
+					<div id="close-pannel" class="close-pannel" @click="closeSiteMsgWindow">
+						<i class="iconfont-user1 icon-close"></i>
+					</div>
+					<div id="login-head" class="login-head" style="font-size: 2.125vw;">
+						<h2>请输入联系内容</h2>
+					</div>
+					<div id="username-input" class="username-input"
+						style="height: 10vw;">
+						<!-- textare-->
+						<textarea  style="width: 100%; height: 100%; font-size: 1.625vw;" v-model="siteMsgText"></textarea>
+					</div>
+					<div id="login-button" class="login-button"
+						style="margin-top: 2vw; height: 3.17vw; width: 21.25vw;">
+						<input type="button" value="提 交" class="sms-login-button" @click="siteMsgAdd()">
+					</div>
 				</div>
 			</div>
         </div>

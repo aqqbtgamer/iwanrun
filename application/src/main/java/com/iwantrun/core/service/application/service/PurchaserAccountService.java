@@ -462,6 +462,7 @@ public class PurchaserAccountService {
 		if (CollectionUtils.isEmpty(dbUserInfos)) {
 			dbUserInfo = new UserInfo();
 			dbUserInfo.setLoginInfoId(loginInfoId);
+			dbUserInfo.setName(loginId);
 			// 数据库没有Info信息，先保存
 			dbUserInfo = infoDao.saveAndFlush(dbUserInfo);
 		} else {

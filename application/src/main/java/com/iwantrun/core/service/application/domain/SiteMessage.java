@@ -1,11 +1,21 @@
 package com.iwantrun.core.service.application.domain;
 
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="biz_site_message")
 public class SiteMessage {
+
+	public static final String HAS_READ = "1";
+	public static final String NO_READ = "1";
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +33,11 @@ public class SiteMessage {
     @Column(name="order_no",nullable=false)
     private String orderNo;
 
-    @Column(name="blread",nullable=false)
-    private boolean blRead = false;
-
     @Column(name="create_time")
     private Date createTime;
+
+	@Column(name = "is_read", nullable = false)
+	private String isRead;
 
     public Integer getId() {
         return id;
@@ -70,12 +80,8 @@ public class SiteMessage {
     }
 
     public boolean isBlRead() {
-        return blRead;
-    }
-
-    public void setBlRead(boolean blRead) {
-        this.blRead = blRead;
-    }
+		return HAS_READ.equals(isRead);
+	}
 
     public Date getCreateTime() {
         return createTime;
@@ -84,4 +90,13 @@ public class SiteMessage {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+	public String getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(String isRead) {
+		this.isRead = isRead;
+	}
+
 }
