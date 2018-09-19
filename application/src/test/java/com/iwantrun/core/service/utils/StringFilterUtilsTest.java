@@ -10,5 +10,11 @@ public class StringFilterUtilsTest {
 				"VuwngRnMmxjjLY8qDoVdhd1oleJUItNafUqikA1AagGMxOUdqD1uKCtHLtEcDGM/6ulCAFh0ZQ==");
 		System.out.println(AESUtils.decode(s));
 	}
+	
+	@Test
+	public void testMask() {
+		String testS = "18018336171" ;
+		System.out.println(StringFilterUtils.maskString(3, 4, testS));
+	}
 
 }

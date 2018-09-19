@@ -2,10 +2,14 @@ package com.iwantrun.core.service.application.service;
 
 import com.iwantrun.core.service.application.controller.SMSCodeController;
 import com.iwantrun.core.service.application.dao.*;
+import com.iwantrun.core.service.application.domain.Orders;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
 import com.iwantrun.core.service.application.domain.TradeStatus;
 import com.iwantrun.core.service.application.domain.UserInfo;
+import com.iwantrun.core.service.utils.DateFormatUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
+import com.iwantrun.core.service.utils.StringFilterUtils;
+
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
@@ -17,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -26,6 +31,8 @@ import static com.iwantrun.core.service.utils.RequestUtils.JSONGetString;
 @Service
 public class TradeStatusService {
     private static final Logger logger = LoggerFactory.getLogger(TradeStatusService.class);
+    
+    private static final String mobileReplace ="#{mobileNumber}";
 
     @Autowired
     //private TradeStatusDao TradeStatusDao;
@@ -35,15 +42,52 @@ public class TradeStatusService {
     private JPQLEnableRepository jpql;
 
     @Autowired
-    private PurchaserAccountDao purchaserAccountDao;
-
-    @Autowired
     private UserInfoDao infoDao ;
+    
+    @Autowired
+    private OrderHistoryDao historyDao ;
+    
+    @Autowired
+    private PurchaserAccountDao loginDao ;
 
     public JSONArray getTradeStatus(JSONObject request, String userid) {
         JSONArray resultArray = new JSONArray();
-
-        Pageable pageable = PageRequest.of(0, 20/*, Sort.Direction.DESC, "id" */);
+        
+        List<Object[]> queryedHistory = historyDao.queryOrderHistory();
+        Function<Object[],JSONObject> objectToJsonFun =
+        		objArray ->{
+        			JSONObject jsonObject = new JSONObject();
+        			jsonObject.put("id", objArray[0]);
+        			jsonObject.put("orderId", objArray[1]);
+        			String changeInfo = (String)objArray[2];
+        			String mobileNumber = (String)objArray[5];
+        			if(mobileNumber != null && changeInfo != null) {
+        				mobileNumber = StringFilterUtils.maskString(3, 4, mobileNumber);
+            			changeInfo = changeInfo.replace(mobileReplace, mobileNumber);
+        			}
+        			if(mobileNumber == null && changeInfo != null && changeInfo.contains(mobileReplace)) {
+        				int orderId = (Integer)objArray[1];
+        				Optional<Orders> order = ordersDao.findById(orderId);
+        				if(order.isPresent()) {
+        					int adviserId = order.get().getOrderAdviserId();
+        					Optional<PurchaserAccount> adviser = loginDao.findById(adviserId);
+        					if(adviser.isPresent()) {
+        						mobileNumber = StringFilterUtils.maskString(3, 4, adviser.get().getMobileNumber());
+        						changeInfo = changeInfo.replace(mobileReplace, mobileNumber);
+        					}
+        				}
+        			}
+        			jsonObject.put("mobile", mobileNumber);
+        			jsonObject.put("changeInfo", changeInfo);
+        			Timestamp changeTime = (Timestamp)objArray[4];
+        			Date changeDate = new Date();
+        			changeDate.setTime(changeTime.getTime());
+        			jsonObject.put("changeTime", DateFormatUtils.formatDate(changeDate, null));
+        			return jsonObject;
+        		};
+        		
+        List<JSONObject> resultItemList = queryedHistory.stream().map(objectToJsonFun).collect(Collectors.toList());
+       /* Pageable pageable = PageRequest.of(0, 20, Sort.Direction.DESC, "id" );
         Page<Object[]> pageResult = ordersDao.getRecentOrders(pageable);
         logger.info("pageResult {}", pageResult.toString());
 
@@ -70,7 +114,7 @@ public class TradeStatusService {
 
         for(JSONObject jsonObject : resultList) {
             resultArray.appendElement(jsonObject);
-        }
+        }*/
 
 /*
         for(Map<String,Object> map : resultList) {
@@ -91,10 +135,13 @@ public class TradeStatusService {
                 }
             }
         }
-*/
-        logger.info("resultArray {}", resultArray);
-        return resultArray;
-    }
+*/    
+		for (JSONObject item : resultItemList) {
+			resultArray.add(item);
+		}
+		logger.info("resultArray {}", resultArray);
+		return resultArray;
+	}
 
     public JSONArray getTradeStatus2(JSONObject request, String userid) {
         JSONArray result = new JSONArray();

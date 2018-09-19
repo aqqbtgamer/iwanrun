@@ -107,14 +107,7 @@ var appIndex = new Vue(
                     { time: '2018-06-24', content: '，达到了很好的效果。' }
                 ],
                 newsIndex: 0,
-                trades: [
-                    { time: '2018-06-18', content: '138****8888购买了88888套餐。' },
-                    { time: '2018-06-19', content: '138****8888购买了88888套餐。。。' },
-                    { time: '2018-06-20', content: '185****1121关闭了订单' },
-                    { time: '2018-06-21', content: '185****1121关闭了订单' },
-                    { time: '2018-06-23', content: '185****1121关闭了订单' },
-                    { time: '2018-06-24', content: '138****8888购买了88888套餐，达到了很好的效果。' }
-                ],
+                trades: [],
                 tradeIndex: 0
 			},
 			created: function(){
@@ -201,26 +194,14 @@ var appIndex = new Vue(
                 queryLatestOrders: function () {
                     var vm = this, url = "trade_status/query";
                     axios.post(url, {}).then(function (response) {
-                        Array.isArray(response.data) && response.data.length > 0 && (function () {
-                            var message = {
-                                '-1': '关闭了订单',
-                                '0': '创建了订单',
-                                '1': '订单定制中',
-                                '2': '订单实施中'
-                            };
-                            var arr = [];
-                            for (var i = 0; i < response.data.length; i++) {
-                                var phNum = response.data[i].loginId;
-                                phNum.length === 11 && (function () {
-                                    var phone = phNum.substr(0, 3) + "****" + phNum.substr(7);
-                                    arr.push({
-                                        time: response.data[i].createTime,
-                                        content: phone + message['' + response.data[i].orderStatusCode]
-                                    });
-                                })();
+                        if(Array.isArray(response.data) && response.data.length > 0){
+                        	for (var i = 0; i < response.data.length; i++) {
+                                var tradeStatus = new Object();
+                                tradeStatus.time = response.data[i].changeTime ;
+                                tradeStatus.content = response.data[i].changeInfo ;
+                                vm.trades.push(tradeStatus);
                             }
-                            vm.trades = arr;
-                        })();
+                        } 
                     });
                 },
                 preTrade: function () {

@@ -84,7 +84,7 @@ public class OrdersDaoInvokerIntercepter {
 						history.setChange_by(order.getOrderOwnerId());
 						history.setChangeInfo(createInfo);	
 						history.setIfChangeByAdmin(0);					
-					}else if(TradeStatus.ASSIGNED.getId() == order.getOrderStatusCode() && order.getOrderStatusCode() != history.getBeforeStatusCode()  ) {
+					}else if(TradeStatus.ASSIGNED.getId() == order.getOrderStatusCode()) {
 						history.setChange_by(null);
 						history.setChangeInfo(assignInfo);	
 						history.setIfChangeByAdmin(1);					
