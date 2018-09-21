@@ -24,6 +24,7 @@ import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
@@ -42,8 +43,11 @@ public class WebSiteNewsController {
 	@RequestMapping("findAll")
 	public Message findAll(@RequestBody Message message) {
 		List<WebSiteNews> allNews = newService.queryWebSiteNews();
-		String responseBody = JSONUtils.objToJSON(allNews);
-		message.setMessageBody(responseBody);
+		JSONArray newsArray = new JSONArray();
+		for(WebSiteNews news: allNews) {
+			newsArray.add(PageDataWrapUtils.simpleBeanCopy(news));
+		}		
+		message.setMessageBody(newsArray.toJSONString());
 		return message;
 	}
 	
@@ -89,8 +93,7 @@ public class WebSiteNewsController {
 	}
 	
 	
-	@RequestMapping("queryByCondition")
-	@NeedTokenVerify
+	@RequestMapping("queryByCondition")	
 	public Message queryByCondition(@RequestBody Message message) {
 		try {
 			String dataJson = message.getMessageBody();		

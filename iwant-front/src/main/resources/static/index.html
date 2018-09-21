@@ -104,15 +104,8 @@
 
                     <div class="clear"></div>
                     <div class="content-table-partner">
-                        <div class="partner-logo">
-                            <a href="javascrpit:;"><img src="img/partner_img_01.jpg" alt=""></a>
-                            <a href="javascrpit:;"><img src="img/partner_img_02.jpg" alt=""></a>
-                            <a href="javascrpit:;"><img src="img/partner_img_03.jpg" alt=""></a>
-                            <a href="javascrpit:;"><img src="img/partner_img_04.jpg" alt=""></a>
-                            <a href="javascrpit:;"><img src="img/partner_img_05.jpg" alt=""></a>
-                            <a href="javascrpit:;"><img src="img/partner_img_06.jpg" alt=""></a>
-                            <a href="javascrpit:;"><img src="img/partner_img_07.jpg" alt=""></a>
-                            <a href="javascrpit:;"><img src="img/partner_img_08.jpg" alt=""></a>
+                        <div class="partner-logo" >
+                            <a v-for="(item,index) in partners" :href="item.url" ><img :src="item.logoPath" alt=""></a>                         
                         </div>
                     </div>
                 </div>

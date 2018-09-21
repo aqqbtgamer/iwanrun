@@ -6,32 +6,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iwantrun.admin.service.WebSiteNewsService;
+import com.iwantrun.admin.service.WebSiteCooperativeLogoService;
 
 @RestController
-@RequestMapping("websiteNews")
-public class WebSiteNewsController {
+@RequestMapping("webSiteCooperativeLogo")
+public class WebSiteCooperativeLogoController {
 	
 	@Autowired
-	private WebSiteNewsService newsService ;
+	private WebSiteCooperativeLogoService logoService ;
 	
 	@RequestMapping("add")
 	public String addAll(HttpServletRequest request) {
-		return newsService.add(request);
+		return logoService.add(request);
 	}
 	
 	@RequestMapping("findAll")
 	public String findAll(HttpServletRequest request) {
-		return newsService.findAll(request);
+		return logoService.findAll(request);
 	}
 	
 	@RequestMapping("delete")
 	public String delete(HttpServletRequest request) {
-		return newsService.delete(request);
+		return logoService.delete(request);
 	}
 	
 	@RequestMapping("query")
 	public String queryByCondition(HttpServletRequest request) {
-		return newsService.queryByCondition(request);
+		return logoService.query(request);
 	}
+
 }

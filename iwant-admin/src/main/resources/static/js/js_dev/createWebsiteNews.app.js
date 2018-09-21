@@ -10,6 +10,7 @@ const fields = new Array(
 $(document).ready(
 		function(){
 			loadCommonTabs();
+			getDictionaryPages(dictionaryUrl,dicionaryCallBack);
 			bindDataVerifySubmit("submitButton","submitForm",fields,submitUrl,returnListPage);			
 		}
 );	
@@ -21,4 +22,8 @@ function returnListPage(result){
 	}else{
 		window.location.href="websiteNewsList.html";
 	}
+}
+
+function dicionaryCallBack(result){
+	initDictionaryPage("dictionarys",result);
 }

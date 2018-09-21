@@ -455,7 +455,7 @@ function fileUpload(contentId,url,callback) {
                      		property = property[propertyNames[k]];
                      	}                    	
                      }
-                     td.text(property);
+                     td.html(property);
                      tr.append(td);                    
                  }
                  if(callObj != null){

@@ -18,7 +18,8 @@ var appIndex = new Vue(
                 news: [],
                 newsIndex: 0,
                 trades: [],
-                tradeIndex: 0
+                tradeIndex: 0,
+                partners:[]
 			},
 			created: function(){
 	        	var vm = this;
@@ -26,6 +27,7 @@ var appIndex = new Vue(
 	        	vm.queryLocationByCondition('1');
                 vm.queryCaseByCondition("1");
                 vm.queryLatestOrders();
+                vm.queryPartners();
                 vm.queryLatestNews();
 	        },
 			methods : {
@@ -114,6 +116,20 @@ var appIndex = new Vue(
                             }
                         } 
                     });
+                },
+                queryPartners:function(){
+                	var vm  = this ;
+                	url = "webSiteCooperativeLogo/query";
+                	 axios.post(url, {}).then(function (response) {
+                         if(Array.isArray(response.data) && response.data.length > 0){
+                         	for (var i = 0; i < response.data.length; i++) {
+                                 var partner = new Object();
+                                 partner.url = "http://"+response.data[i].url ;
+                                 partner.logoPath = response.data[i].logoPath ;
+                                 vm.partners.push(partner);
+                             }
+                         } 
+                     });
                 },
                 queryLatestNews:function(){
                 	var vm  = this ;

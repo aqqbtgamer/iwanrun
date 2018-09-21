@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content="Reflect Template" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <link rel="icon" href="images/icon/favicon.ico" type="image/x-icon">
+    <title>我要跑-后台管理首页</title>
+    <link rel="stylesheet" href="css/style_all.css" type="text/css" media="screen" />
+
+
+
+    <!-- to choose another color scheme uncomment one of the foloowing stylesheets and wrap styl1.css into a comment -->
+    <link rel="stylesheet" href="css/style8.css" type="text/css" media="screen" />
+
+    <link rel="stylesheet" href="css/jquery-ui.css" type="text/css" media="screen" />
+
+    <link rel="stylesheet" href="ueditor1_4_3_3-utf8-jsp/utf8-jsp/themes/default/css/ueditor.css" type="text/css" media="screen" />
+
+    <link rel="stylesheet" href="css/css_dev/style_dev_all.css">
+
+    <!--Internet Explorer Trancparency fix-->
+    <!--[if IE 6]>
+    <script src="js/ie6pngfix.js"></script>
+    <script>
+        DD_belatedPNG.fix('#head, a, a span, img, .message p, .click_to_close, .ie6fix');
+    </script>
+    <![endif]-->
+
+   
+    <script type='text/javascript' src='js/all-ck.js'></script>
+    <script type='text/javascript' src="js/jquery.cookie.js"></script>
+   <script type="text/javascript" src="ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.config.js"></script>
+    <script type="text/javascript" src="ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.all.js"></script>
+    <script type='text/javascript' src='js/custom.js'></script>
+    <script type="text/javascript" src="js/js_dev/common.app.js"></script>
+	<script type="text/javascript" src="js/js_dev/dictionary.app.js"></script>
+</head>
+
+<body>
+<div id="top">
+    <div id="head">
+        <h1 class="logo">
+            <a href="home.html"></a>
+        </h1>
+        <div class="head_memberinfo">
+            <div class="head_memberinfo_logo">
+                <span>1</span>
+                <img src="images/unreadmail.png" alt=""/>
+            </div>
+
+            <span class='memberinfo_span'>
+                       欢迎 <a href="">管理员</a>
+                   </span>
+
+            <span class='memberinfo_span'>
+                    <a href="">设置</a>
+                </span>
+
+            <span>
+                    <a href="login.html">登出</a>
+                </span>
+
+            <span class='memberinfo_span2'>
+                    <a href="">1 条私信</a>
+                </span>
+        </div>
+        <!--end head_memberinfo-->
+
+    </div>
+    <!--end head-->
+    <div id="bg_wrapper">
+
+        <div id="main">
+            <div id="content">
+                <h2 class="jquery_tab_title">新增合作方</h2>
+                <table class="form_h" id="submitForm">
+                  <tr>
+                	  			<th><label>名称<span class="requierd">*</span></label></th>
+                	  			<td>
+                	  				<input class="input-small" type="text"  name="name" id="name" />
+                	  			</td>
+                	 </tr>
+                	  <tr>
+                	  			<th><label>链接地址<span class="requierd">*</span></label></th>
+                	  			<td>
+                	  				<input class="input-big" type="text"  name="url" id="url" />
+                	  			</td>
+                	 </tr>
+                	<tr>
+                        <th>上传logo</th>
+                        <td><input type="file" id="mainImageUpload"/></td>
+                    </tr>
+                     <tr>
+                        <th>合作方logo</th>
+                        <td width="120"><img width="100%" src="images/1210000.jpg" alt="images/1210000.jpg" id="logoPath" name="logoPath"/></td>
+                    </tr>
+                
+                    <tr>
+                        <th></th>
+                        <td>
+                            <input class="button" id="submitButton" type="button" value="提交"/>
+                        </td>
+                    </tr>
+                    <tr>
+                       <th id="hidden_value">
+                       
+                       </th>
+                       <td></td>
+                    </tr>
+                </table>
+            </div>
+            <!--end content-->
+
+        </div><!--end main-->
+
+        <div id="sidebar">
+            <ul class="nav">
+                <li><a class="headitem item1" href="#">基础管理</a>
+                    <ul id="commontabs"><!-- ul items without this class get hiddden by jquery-->
+                       
+                    </ul>
+                </li>
+                <li><a class="headitem item2" href="#">系统配置</a>
+                    <ul id="dictionarys">
+                       
+                    </ul>
+                </li>
+                <li><a class="headitem item4" href="#">编辑</a>
+                    <ul>
+                        <li><a href="#">编辑日志</a></li>
+                        <li><a href="#">编辑页面</a></li>
+                        <li><a href="#">编辑链接</a></li>
+                        <li><a href="#">编辑菜单元素</a></li>
+                    </ul>
+                </li>
+                <li><a class="headitem item5" href="#">站点搜索</a>
+                    <ul>
+                        <li><a href="#">基础搜索</a></li>
+                        <li><a href="#">高级搜索</a></li>
+                        <li><a href="#">搜索设置</a></li>
+                    </ul>
+                </li>
+                <li><a class="headitem item6" href="#">已删除项目</a>
+                    <ul>
+                        <li><a href="#">内容</a></li>
+                        <li><a href="#">图片</a></li>
+                        <li><a href="#">音频</a></li>
+                        <li><a href="#">视频</a></li>
+                        <li><a href="#">PDF</a></li>
+                        <li><a href="#">脚本</a></li>
+                        <li><a href="#">其他</a></li>
+                    </ul>
+                </li>
+            </ul><!--end subnav-->
+
+
+
+        </div>
+        <!--end sidebar-->
+
+    </div><!--end bg_wrapper-->
+
+    <div id="footer" style="color: #fff;text-align: center">
+
+    </div><!--end footer-->
+
+</div><!-- end top -->
+
+</body>
+
+<script type="text/javascript" src="js/js_dev/createWebSiteCooperativeLogo.app.js"></script>
+</html>
