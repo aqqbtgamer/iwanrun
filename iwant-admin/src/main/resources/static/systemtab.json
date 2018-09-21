@@ -6,6 +6,7 @@
  {"tabName":"用户管理","tabLink":"./userlist.html"},
  {"tabName":"管理员管理","tabLink":"./adminList.html"},
  {"tabName":"交易管理","tabLink":"./orderList.html"},
- {"tabName":"首页轮播管理","tabLink":"./createCastPosition.html"}
+ {"tabName":"首页轮播管理","tabLink":"./createCastPosition.html"},
+ {"tabName":"首页新闻管理","tabLink":"./websiteNewsList.html"}
 ]
 }

@@ -12,100 +12,10 @@ var appIndex = new Vue(
 				loginId : '18018336171',
 				loginBtnUl : true,
                 loginIdUl: false,
-				productIndexList : [ {
-					id : 1,
-					img : 'img/normalpd1.png',
-					text : '长沙南区10公里员工慢跑',
-					price : '288/人'
-				}, {
-					id : 2,
-					img : 'img/normalpd2.png',
-					text : '南湖水上龙舟游',
-					price : '388/人'
-				}, {
-					id : 2,
-					img : 'img/normalpd2.png',
-					text : '南湖水上龙舟游',
-					price : '388/人'
-				}, {
-					id : 2,
-					img : 'img/normalpd2.png',
-					text : '南湖水上龙舟游',
-					price : '388/人'
-				}, {
-					id : 2,
-					img : 'img/normalpd2.png',
-					text : '南湖水上龙舟游',
-					price : '388/人'
-				}, {
-					id : 2,
-					img : 'img/normalpd2.png',
-					text : '南湖水上龙舟游',
-					price : '388/人'
-				}, {
-					id : 2,
-					img : 'img/normalpd2.png',
-					text : '南湖水上龙舟游',
-					price : '388/人'
-				}, {
-					id : 2,
-					img : 'img/normalpd2.png',
-					text : '南湖水上龙舟游',
-					price : '388/人'
-				}],
-				locationIndexList : [
-						{
-							id : 1,
-							img : 'img/location1.png',
-							text : '夏日清凉专场 | 水上球类运动',
-							long_text : 'You may of heard fast growing companies require motivated and healthy employees that communicate efficiently. Clearly it’s easier than ever to speak to one another online but we’ve found that doesn’t create meaningful relationships.'
-						},
-						{
-							id : 1,
-							img : 'img/location1.png',
-							text : '夏日清凉专场 | 水上球类运动',
-							long_text : 'You may of heard fast growing companies require motivated and healthy employees that communicate efficiently. Clearly it’s easier than ever to speak to one another online but we’ve found that doesn’t create meaningful relationships.'
-						},
-						{
-							id : 1,
-							img : 'img/location1.png',
-							text : '夏日清凉专场 | 水上球类运动',
-							long_text : 'You may of heard fast growing companies require motivated and healthy employees that communicate efficiently. Clearly it’s easier than ever to speak to one another online but we’ve found that doesn’t create meaningful relationships.'
-						} ],
-				caseIndexList : [ {
-					id : 1,
-					img : 'img/case1.png',
-					isBig : true
-				}, {
-					id : 1,
-					img : 'img/case2.png',
-					isBig : false
-				}, {
-					id : 1,
-					img : 'img/case3.png',
-					isBig : false
-				}, {
-					id : 1,
-					img : 'img/case4.png',
-					isBig : false
-				}, {
-					id : 1,
-					img : 'img/case5.png',
-					isBig : false
-				}, {
-					id : 1,
-					img : 'img/case6.png',
-					isBig : true
-                }],
-                news: [
-                    { time: '2018-06-18', content: '轰趴集合了更多的互动好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
-                    { time: '2018-06-19', content: '门的轰趴集合了更多的互动好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
-                    { time: '2018-06-20', content: '近门的轰趴集合了更多的互动好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
-                    { time: '2018-06-21', content: '近期热门的轰多的互动好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
-                    { time: '2018-06-22', content: '近期热门的轰更多的互动好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
-                    { time: '2018-06-23', content: '好玩的元素，让员工人人参与，让领导与员工互动，达到了很好的效果。' },
-                    { time: '2018-06-24', content: '，达到了很好的效果。' }
-                ],
+				productIndexList : [ ],
+				locationIndexList : [],
+				caseIndexList : [],
+                news: [],
                 newsIndex: 0,
                 trades: [],
                 tradeIndex: 0
@@ -116,6 +26,7 @@ var appIndex = new Vue(
 	        	vm.queryLocationByCondition('1');
                 vm.queryCaseByCondition("1");
                 vm.queryLatestOrders();
+                vm.queryLatestNews();
 	        },
 			methods : {
 				showLogin : function(flag) {
@@ -203,6 +114,21 @@ var appIndex = new Vue(
                             }
                         } 
                     });
+                },
+                queryLatestNews:function(){
+                	var vm  = this ;
+                	url = "websiteNews/query";
+                	 axios.post(url, {}).then(function (response) {
+                         if(Array.isArray(response.data) && response.data.length > 0){
+                         	for (var i = 0; i < response.data.length; i++) {
+                                 var news = new Object();
+                                 news.time = response.data[i].newsDate ;
+                                 news.content = response.data[i].newsContent ;
+                                 vm.news.push(news);
+                             }
+                         } 
+                     });
+                	
                 },
                 preTrade: function () {
                     var vm = this;

@@ -8,10 +8,12 @@
     <link rel="stylesheet" href=" ../../css/common.css">
     <link rel="stylesheet" href="../../css/iconfont.css">
     <link rel="stylesheet" href="../../css/myNews.css">
+    <link href="../../css/zpageNav.css" rel="stylesheet" />
     <script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
     <script type="application/javascript" src="../../script/jquery.cookie.js"></script>
     <script type="application/javascript" src="../../script/vue.min.js"></script>
     <script type="application/javascript" src="../../script/axios.min.js"></script>
+    <script type="application/javascript" src="../../script/zpageNav.js"></script>
     <title>个人中心</title>
 </head>
 <body>
@@ -53,10 +55,10 @@
             <div id="accountBody" class="accountBody">
                 <div class="leftAccount">
                     <div class="account-image">
-                        <img src="../../img/accountImage.png" alt="">
+                        <img :src="headimg" alt="">
                     </div>
                     <div class="name-desc">
-                        <span class="name-desc-font">用户001, 您好</span>
+                        <span class="name-desc-font">{{nickname}}</span>
                     </div>
                     <div class="select-cell select-cell-first-child">
                         <p class="center-item">
@@ -83,32 +85,37 @@
                     <div class="accountTitle">
                         <span class="center-big margin-left">站内消息</span>
                         <span class="center-big margin-left">
-                            <input @click="changeOnlyUnread" type="button" class="slider-button-item switchbtn" :value="onlyUnread?'全部':'未读'" />
+                            <input @click="changeOnlyUnread" type="button" class="slider-button-item switchbtn" :value="isRead==''?'全部':'未读'" />
                         </span>
                     </div>
                     <div class="account-box-body">
                         <div class="account-box-line">
                             <div class="table-head">
-                                <div class="sect-one">时间</div>
-                                <div class="sect-two">回复用户</div>
+                                <!-- <div class="sect-two">回复用户</div> -->
+                                <div class="sect-two" style="width: 12.6vw">订单号</div>
                                 <div class="sect-three">消息内容</div>
+                                <div class="sect-one" style="width: 16vw">时间</div>
                                 <div class="sect-four">查看状态</div>
-                                <div class="sect-five">订单</div>
                             </div>
                             <div class="table-body">
                                 <div v-for="item in showList" @dblclick="show(item)" :class="item.blread?'detail-line':'detail-line detailUnread'">
-                                    <div class="sect-one">{{item.timestamp}}</div>
-                                    <div class="sect-two">{{item.from_user}}</div>
-                                    <div class="sect-three">{{maxSlice(item.message)}}</div>
-                                    <div class="sect-four">{{item.blread?'已读':'未读'}}</div>
-                                    <div class="sect-five">
+                                    <!-- <div class="sect-two">{{item.from_user}}</div> -->
+                                    <div class="sect-two" style="width: 12.6vw">
                                         <!--<input type="button" value="查看详情" class="btn-primary" />-->
-                                        <a>{{item.order_no}}</a>
+                                        <a>{{orderNoSlice(item.order_no)}}</a>
                                     </div>
+                                    <div class="sect-three">{{maxSlice(item.message)}}</div>
+                                     <div class="sect-one" style="width: 16vw">{{item.timestamp}}</div>
+                                    <div class="sect-four">{{item.blread?'已读':'未读'}}</div>
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="pagenation-bar">
+						<div class="wrap" id="wrap">
+							<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total" 
+								v-bind:max-page="maxPage" v-on:pagehandler="pageHandler"> 
+							</zpagenav>
+						</div>
+						<!--<div class="pagenation-bar">
                             <ul class="pagenation">
                                 <li class="active">1</li>
                                 <li>2</li>
@@ -156,6 +163,22 @@
                     <pre class="word-break">{{detail.message}}</pre>
                 </div>
             </div>
+            <div id="dialog" v-if="msgWindow"></div>
+            <!-- 信息提示框 -->
+			<div class="msg-pannel" v-if="msgWindow" v-cloak>
+				<div id="close-pannel" class="msg-close-pannel">
+					<i class="iconfont-user1 icon-close" style="font-size: 1.07vw;" @click="closeMsgWindow"></i>
+				</div>
+				<div class="login-head" style="font-size: 1.325vw;">
+					<h2>提示信息</h2>
+				</div>
+				<div class="msg-text-pannel">
+					<span>{{msgText}}</span>
+				</div>
+				<div class="msg-btn-pannel">
+					<input type="button" value="确 认" class="msg-show-button" @click="closeMsgWindow">
+				</div>
+			</div>
         </div>
     </form>
     <div id="lrPannel"></div>

@@ -254,6 +254,8 @@ function fileUpload(contentId,url,callback) {
                 }
             )
             return imgArray ;
+        }else if(collect.prop("nodeName").toLowerCase() =="textarea"){
+        	return  collect.val();
         }
     }
     
@@ -996,7 +998,7 @@ function fileUpload(contentId,url,callback) {
     				if($("#"+id).attr("verify") != null){
     					var val = $("#"+id).val() ;
     					if(val != null && val != ""){
-    						if(!verifyFormat(val,$("#"+id).attr("verify"))){
+    						if(!verifyFormat(val,$("#"+id).attr("verify"),$("#"+id).attr("extra"))){
     							$("#"+id).addClass("verifyFailed");
     							result = false;
     						}else{
@@ -1010,13 +1012,15 @@ function fileUpload(contentId,url,callback) {
     	return result ;
     }
     
-    function verifyFormat(val,format){
+    function verifyFormat(val,format,extra){
     	if(format == "email"){
     		return verifyEmail(val);
     	}else if(format == "phone"){
     		return verifyPhone(val);
     	}else if(format == "password"){
     		return verifyPassword(val);
+    	}else if(format="lengthless"){
+    		return verifyLengthLess(val,extra);
     	}
     }
     
@@ -1033,8 +1037,15 @@ function fileUpload(contentId,url,callback) {
     		return passwordReg.test(val);
     	}else{
     		return false;
+    	}    	
+    }
+    
+    function verifyLengthLess(val,limit){
+    	if(val.length > parseInt(limit)){
+    		return false;
+    	}else{
+    		return true ;
     	}
-    	
     }
     
     function initDataPicker(fieldArray,options){

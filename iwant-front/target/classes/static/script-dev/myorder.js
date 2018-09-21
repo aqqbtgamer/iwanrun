@@ -6,6 +6,9 @@ var appMyAccount = new Vue(
     {
         el: "#container",
         data: {
+        	siteMsgWindow: false,
+        	siteMsgText:'',
+        	adviserLoginAccount:{},
             mask: false,
             loginWindow: false,
             autoLogin: false,
@@ -94,6 +97,32 @@ var appMyAccount = new Vue(
                 vm.msgWindow = false;
                 vm.msgText = '';
             },
+            closeSiteMsgWindow: function(){
+            	var vm = this;
+                vm.siteMsgWindow = false;
+                vm.siteMsgText = '';
+            },
+            showSiteMsgWindow: function(){
+            	var vm = this;
+                vm.siteMsgWindow = true;
+            },
+            siteMsgAdd:function(){
+				var vm = this;
+				var data = {};
+				data.message = vm.siteMsgText;
+				data.order_no = vm.order.orderNo;
+				data.user_id = vm.adviserLoginAccount.loginId;
+            	axios.post("../../site_message/add", data).then(function(result) {
+            		var data = result.data;
+            		vm.msgWindow=true;
+            		vm.closeSiteMsgWindow();
+            		if(data == 'success'){
+            			vm.msgText="提交成功";
+            		}else{
+            			vm.msgText="提交失败";
+            		}
+				});
+            },
             changeAutoLogin: function () {
                 var vm = this;
                 vm.autoLogin = !vm.autoLogin;
@@ -110,6 +139,7 @@ var appMyAccount = new Vue(
             					vm.order.activityStart=parseDateStr(vm.order.activityStart);
             					vm.order.createTime=parseDateStr(vm.order.createTime);
             					vm.adviserAccount=data.adviserAccount;
+            					vm.adviserLoginAccount=data.adviserLoginAccount;
             					if(data.orders.orderStatusCode==3){
             						vm.resultBtn=false;
             					}
@@ -272,7 +302,7 @@ var appMyAccount = new Vue(
             				}
             				
             	})
-            },
+            }
         }
     }
 );

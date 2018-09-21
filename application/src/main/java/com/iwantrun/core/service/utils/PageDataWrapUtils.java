@@ -64,7 +64,7 @@ public class PageDataWrapUtils {
 				Object value = beanMap.get(property);
 				if(value != null) {
 					if(value instanceof Date) {
-						Date date = new Date();
+						Date date = (Date)value;
 						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						obj.put(property, format.format(date));
 					}else if(value instanceof String || value instanceof Integer || value instanceof Long){
