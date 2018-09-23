@@ -1,12 +1,27 @@
 var uploadServer = '/iwant_admin/remote/fileupload';
 var submitUrl = '/iwant_admin/productionInfo/edit';
 const dictionaryUrl = "/iwant_admin/dictionary/getPages";
+const dictionaryCodeUrl = "/iwant_admin/dictionary/findByCode";
+const dictionaryName ="production";
 
-var dataArr = new Array("name", "activityTypeCode", "during", "duringCode",
+/*var dataArr = new Array("name", "activityTypeCode", "during", "duringCode",
 	"location", "orderGroupPriceCode", "orderSimulatePriceCode",
 	"groupNumber", "groupNumberCode", "priority", "activityProvinceCode",
 	"activityCityCode", "activityDistCode", "mainImageLarge", 'imgManage'
 );
+*/
+var dataArr = new Array("name", "activityTypeCode", "during", 
+	"location", "orderGroupPriceCode", "orderSimulatePriceCode",
+	"groupNumber", "priority", "activityProvinceCode",
+	"activityCityCode", "activityDistCode", "mainImageLarge", 'imgManage'
+);
+
+/**
+ * 页面完成后，需要手动进行省份的change，不然当前省份，比如上海，也会把其它省份下的市显示出来
+ */
+window.onload = function() {
+	$("#activityProvinceCode").change();
+}
 
 $(document).ready(
     function(){
@@ -18,8 +33,14 @@ $(document).ready(
         bindUploadFile('uploadedProductionInfoImages',uploadServer,'imgManage',mutipleDisplay);
         bindSeclectAll("checkAll");
         bindDeleteSelected("deleteAll");
+        
+    	dictionaryItemsInit(dictionaryName,dictionaryCodeUrl);
+        bindAssignToDictionary("activityCityCode","activityProvinceCode");
+        bindAssignToDictionary("activityDistCode","activityCityCode");
     }
 );
+
+
 
 function dicionaryCallBack(result){
 	initDictionaryPage("dictionarys",result);

@@ -7,6 +7,14 @@ var submitUrl = '/iwant_admin/productionInfo/add';
 const dictionaryUrl = "/iwant_admin/dictionary/getPages";
 const dictionaryCodeUrl = "/iwant_admin/dictionary/findByCode";
 const dictionaryName ="production";
+
+/**
+ * 页面完成后，需要手动进行省份的change，不然当前省份，比如上海，也会把其它省份下的市显示出来
+ */
+window.onload = function() {
+	$("#activityProvinceCode").change();
+}
+
 $(document).ready(
     function(){
         //initUE();

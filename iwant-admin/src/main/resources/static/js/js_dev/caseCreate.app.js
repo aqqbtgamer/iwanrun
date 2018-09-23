@@ -38,6 +38,12 @@ const fields = new Array(
     );
 const modifyTitle = "修改案例";
 
+/**
+ * 页面完成后，需要手动进行省份的change，不然当前省份，比如上海，也会把其它省份下的市显示出来
+ */
+window.onload = function() {
+	$("#activityProvinceCode").change();
+}
 
 $(document).ready(
     function(){    	

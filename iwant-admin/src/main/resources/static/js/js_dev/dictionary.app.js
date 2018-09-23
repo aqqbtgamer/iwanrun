@@ -98,6 +98,7 @@ function bindAssignToDictionary(bindId,assignId){
                     		var option = $("<option>").val(ret[i].code).attr("dbId",ret[i].id).text(ret[i].value);
                     		$("#"+bindId).append(option);
                     	}
+                    	$("#"+bindId).change();
                     },
 	    			error:function(XMLHttpRequest ,error,exception){
 	                    console.log("提交到"+dictionaryAssign+"失败,原因是: "+ exception.toString());
