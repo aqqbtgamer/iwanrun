@@ -40,6 +40,10 @@ var appIndex = new Vue(
         },
        
         methods: {
+        	toOrderSubmit : function() {
+				var vm = this;
+				window.location.href = "./ordersubmit.html"
+            },
             showLogin: function (flag) {
             	lrApp.showLogin(flag);
             },

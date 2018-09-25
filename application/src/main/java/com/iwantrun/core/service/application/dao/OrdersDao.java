@@ -55,7 +55,9 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 			+ "on assign.id = assignInfo.login_id where 1=1 ";
 	
 	
-	String ORDERBY_DESC = "order by orders.id asc";
+	String ORDERBY_DESC = "order by orders.id asc";  
+	
+	String ORDERBY_TIME = "order by orders.create_time desc";
 	
 	String QUERY_BY_LOGIN_ID=" and login.login_id='";
 	
@@ -183,7 +185,7 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 	}
 	@SuppressWarnings("unchecked")
 	default List<Map<String,Object>> getOrdersByLoginId(JPQLEnableRepository repository,int pageSize,int pageIndex,String loginIdSql){
-		 String sql = QUERY_ORDERS_WITH_USER_INFO_SQL +loginIdSql;
+		 String sql = QUERY_ORDERS_WITH_USER_INFO_SQL +loginIdSql + ORDERBY_TIME;
 		 List<Object[]> rawResult = (List<Object[]>)repository.findByNativeSqlPage(sql, pageIndex, pageSize);
 			return rawResult.stream().map(MAPPER_MIXED_ORDER).collect(Collectors.toList());
 	}
