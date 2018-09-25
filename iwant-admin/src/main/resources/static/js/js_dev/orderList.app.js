@@ -84,7 +84,8 @@ $(document).ready(
 					                dataType: "text",
 					                cache: false,
 					                success: function (result) {					                	
-					                	parentTr.find("td:eq(4)").text("已关闭");  
+//					                	parentTr.find("td:eq(4)").text("已关闭"); 
+					                	 window.location.reload();
 					                },
 					                error:function(XMLHttpRequest ,error,exception){
 					                    console.log("提交到"+orderCloseUrl+"失败,原因是: "+ error.toString());					           
@@ -96,8 +97,11 @@ $(document).ready(
 				});
 				td.append(linkDetail);
 				td.append("/");
-				td.append(linkAssign);
-				td.append("/");
+				var orderStatusDescTr = $(tr).find("td:eq(4)").text();
+				if(orderStatusDescTr != "已关闭"){
+					td.append(linkAssign);
+					td.append("/");
+				}
 				td.append(linkClose);
 				tr.append(td);
 			};

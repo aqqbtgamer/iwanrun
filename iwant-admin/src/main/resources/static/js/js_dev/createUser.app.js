@@ -166,8 +166,10 @@ function mappingData(result){
 		for(var i = 0 ; i<attachList.length; i++){
 			mutipleDisplay('imgManage',attachList[i].filePath);
 		}
-	}	
-	var button = $("<input>").attr("type","button").attr("value","审核通过").attr("disabled",true);
+	}
+	if(purchaseAccount.sysRoleId == 1){//采购方
+		var button = $("<input>").attr("type","button").attr("value","审核通过").attr("disabled",true);
+	}
 	if(purchaseAccount != null && userInfo != null && attachList != null && attachList.length > 0){
 		if(purchaseAccount.sysRoleId == 1 && userInfo.companyName != null && userInfo.companyName !=""){
 			button.attr("disabled",false).addClass("button");
