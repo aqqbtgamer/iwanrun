@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: iwant-front
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: WXP22
+Built-By: sanny
 Implementation-Vendor-Id: com.iwantrun.front
-Build-Jdk: 1.8.0_101
+Build-Jdk: 1.8.0_121
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/iwant-front
 Created-By: Maven Integration for Eclipse

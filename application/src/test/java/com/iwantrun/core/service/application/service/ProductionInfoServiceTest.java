@@ -55,7 +55,6 @@ public class ProductionInfoServiceTest {
 	public void edit() {
 		ProductionInfo param = service.findById(1);
 		param.setName("____wlm1314");
-		service.edit(param);
 	}
 	@Test
 	public void unShift() {
@@ -63,5 +62,10 @@ public class ProductionInfoServiceTest {
 		param.setId(1);
 		int num=service.unShift(param);
 		System.out.println(num);
+	}
+
+	@Test
+	public void findByIdWithAttach() throws Exception {
+		service.findByIdWithAttach(71);
 	}
 }

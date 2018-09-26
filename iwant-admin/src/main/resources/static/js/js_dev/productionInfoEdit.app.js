@@ -10,7 +10,7 @@ const dictionaryName ="production";
 	"activityCityCode", "activityDistCode", "mainImageLarge", 'imgManage'
 );
 */
-var dataArr = new Array("name", "activityTypeCode", "during", 
+var dataArr = new Array("name", "specialTagsCode", "activityTypeCode", "during", 
 	"location", "orderGroupPriceCode", "orderSimulatePriceCode",
 	"groupNumber", "priority", "activityProvinceCode",
 	"activityCityCode", "activityDistCode", "mainImageLarge", 'imgManage'
@@ -116,6 +116,14 @@ function fillPageDatas(data) {
 		}		
 	}
 	
+	var specialTags = $.parseJSON(data.listTag);
+	if(specialTags != null && specialTags.length > 0){
+		var tagsArray = new Array();
+		for(var i = 0 ; i< specialTags.length ; i++){
+			tagsArray.push(specialTags[i].tagsCode);
+		}
+		mappingCheckItem("specialTagsCode",tagsArray);
+	}
 	//填充一般数据
 	for (var i = 0; i < dataArr.length; i++) {
 		var name = dataArr[i];
@@ -125,6 +133,8 @@ function fillPageDatas(data) {
 			fillItem(ele, val);
 		}
 	}
+	
+	
 }
 function setUEData(data) {
 	var descirbeText1 = data.descirbeText1 == null ? '' : data.descirbeText1;

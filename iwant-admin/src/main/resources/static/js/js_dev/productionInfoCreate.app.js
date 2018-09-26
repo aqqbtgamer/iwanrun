@@ -24,6 +24,7 @@ $(document).ready(
         bindUploadFile('mainImageUpload',uploadServer,'mainImageLarge',singleDisplay);
         bindDataSubmitJSON('submitForm',
             new Array("name",
+            		'specialTagsCode',
     				"activityTypeCode",
     				"during",
     				"duringCode",

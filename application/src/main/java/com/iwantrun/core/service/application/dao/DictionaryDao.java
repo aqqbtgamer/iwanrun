@@ -1,6 +1,5 @@
 package com.iwantrun.core.service.application.dao;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Example;
@@ -32,5 +31,7 @@ public interface DictionaryDao extends JpaRepository<Dictionary, Integer>,JpaSpe
 		 }
 				
 	}
+
+	Optional<Dictionary> findByCode(int code);
 
 }

@@ -1,10 +1,23 @@
 package com.iwantrun.core.service.application.service;
 
+import static com.iwantrun.core.service.utils.DictionaryConfigParams.COMMON_ACTIVITY_PERIOD_TYPE;
+import static com.iwantrun.core.service.utils.DictionaryConfigParams.COMMON_ACTIVITY_PERSON_NUMBER_TYPE;
+import static com.iwantrun.core.service.utils.DictionaryConfigParams.COMMON_ACTIVITY_TYPE;
+import static com.iwantrun.core.service.utils.DictionaryConfigParams.COMMON_CITY_TYPE;
+import static com.iwantrun.core.service.utils.DictionaryConfigParams.COMMON_DICTIONARY_NAME;
+import static com.iwantrun.core.service.utils.DictionaryConfigParams.COMMON_DIST_TYPE;
+import static com.iwantrun.core.service.utils.DictionaryConfigParams.COMMON_PROVINCE_TYPE;
+import static com.iwantrun.core.service.utils.DictionaryConfigParams.PRODUCTION_DICTIONARY_NAME;
+import static com.iwantrun.core.service.utils.DictionaryConfigParams.PRODUCTION_GROUP_PRICE_LIMIT_TYPE;
+import static com.iwantrun.core.service.utils.DictionaryConfigParams.PRODUCTION_SINGEL_PRICE_LIMIT_TYPE;
+
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
@@ -48,8 +61,6 @@ import net.minidev.json.JSONValue;
 
 @Service
 public class ProductionInfoService {
-	@Autowired
-	private Environment env;
 	@Autowired
 	private ProductionInfoDao productionInfoDao;
 	@Autowired
@@ -172,14 +183,73 @@ public class ProductionInfoService {
 					info.setLocations(locationsOpt.get());
 				}
 			}
+
 			List<ProductionInfoAttachments> listAttch = pAttachmentsDao.findByProductionId(id);
-			
-			String resultStr=JSONUtils.objToJSON(info);
-			JSONObject jsonObject=JSONUtils.jsonToObj(resultStr, JSONObject.class);
-			jsonObject.put("listAttch",JSONValue.toJSONString(listAttch));
+
+			String resultStr = JSONUtils.objToJSON(info);
+			JSONObject jsonObject = JSONUtils.jsonToObj(resultStr, JSONObject.class);
+			jsonObject.put("listAttch", JSONValue.toJSONString(listAttch));
+
+			List<ProductionTags> tags = productionTagsDao.findByProductionId(id);
+			jsonObject.put("listTag", JSONValue.toJSONString(tags));
+
+			// 设置相关的字典数据
+			setInfoDic(info, jsonObject);
+
 			return JSONValue.toJSONString(jsonObject);
 		}
 		return null;
+	}
+
+	/**
+	 * 设置相关的字典数据
+	 * 
+	 * @param info
+	 * @param jsonObject
+	 */
+	private void setInfoDic(ProductionInfo info, JSONObject jsonObject) {
+
+		Map<String, Object> map = new HashMap<>();
+
+		String pCode = info.getActivityProvinceCode();
+		String cCode = info.getActivityCityCode();
+		String dCode = info.getActivityDistCode();
+		String tCode = info.getActivityTypeCode();
+		Integer duringCode = info.getDuring();
+		String gnCode = info.getGroupNumber();
+		Integer ospCode = info.getOrderSimulatePriceCode();
+		Integer ogpCode = info.getOrderGroupPriceCode();
+
+		String common = COMMON_DICTIONARY_NAME;
+
+		map.put("provinceName_" + common + "_" + COMMON_PROVINCE_TYPE, pCode);
+		map.put("cityName_" + common + "_" + COMMON_CITY_TYPE, cCode);
+		map.put("distName_" + common + "_" + COMMON_DIST_TYPE, dCode);
+		map.put("activityTypeName_" + common + "_" + COMMON_ACTIVITY_TYPE, tCode);
+		map.put("duringRange_" + common + "_" + COMMON_ACTIVITY_PERIOD_TYPE, duringCode);
+		map.put("groupNumberRange_" + common + "_" + COMMON_ACTIVITY_PERSON_NUMBER_TYPE, gnCode);
+		map.put("orderSimulatePriceRange_" + PRODUCTION_DICTIONARY_NAME + "_" + PRODUCTION_SINGEL_PRICE_LIMIT_TYPE,
+				ospCode);
+		map.put("orderGroupPriceRange_" + PRODUCTION_DICTIONARY_NAME + "_" + PRODUCTION_GROUP_PRICE_LIMIT_TYPE,
+				ogpCode);
+
+		Set<String> set = map.keySet();
+		for (String key : set) {
+			Object value = map.get(key);
+			if (value != null) {
+				String[] keyArr = key.split("_");
+				Integer code;
+				String filedId = keyArr[2];
+				if (value instanceof String) {
+					code = Integer.valueOf(value + "");
+				} else {
+					code = (Integer) value;
+				}
+				Dictionary d = dictioanaryService.findByCondition(filedId, keyArr[1], Integer.valueOf(code));
+				if (d != null)
+					jsonObject.put(keyArr[0], d.getValue());
+			}
+		}
 	}
 
 	public ProductionInfo getDetailById(Integer id) {
@@ -212,12 +282,14 @@ public class ProductionInfoService {
 	 * 编辑产品信息 编辑修改产品信息
 	 * 
 	 * @param attachmentses
+	 * @param tagsList
 	 * @return
 	 * @return
 	 */
 	@Transactional
 	@Modifying
-	public boolean edit(ProductionInfo param, List<ProductionInfoAttachments> attachmentses) {
+	public boolean edit(ProductionInfo param, List<ProductionInfoAttachments> attachmentses,
+			List<ProductionTags> tagsList) {
 		if (param != null) {
 			Integer productionId = param.getId();
 
@@ -247,6 +319,14 @@ public class ProductionInfoService {
 				}
 			}
 
+			List<ProductionTags> dbPTags = productionTagsDao.findByProductionId(productionId);
+			productionTagsDao.deleteAll(dbPTags);
+
+			for (ProductionTags productionTags : tagsList) {
+				productionTags.setProductionId(productionId);
+			}
+			productionTagsDao.saveAll(tagsList);
+
 		}
 
 		return true;
@@ -262,9 +342,12 @@ public class ProductionInfoService {
 
 	/**
 	 * 创建新的产品 上架新的产品信息 保存产品附件
+	 * 
+	 * @param tagsList
 	 */
 	@Transactional
-	public boolean add(ProductionInfo info, List<ProductionInfoAttachments> attachmentses) {
+	public boolean add(ProductionInfo info, List<ProductionInfoAttachments> attachmentses,
+			List<ProductionTags> tagsList) {
 		if (info != null) {
 
 			info.setStatus(0);
@@ -283,6 +366,12 @@ public class ProductionInfoService {
 				if (CollectionUtils.isEmpty(savedAttachments)) {
 					return false;
 				}
+			}
+			if (CollectionUtils.isNotEmpty(tagsList)) {
+				for (ProductionTags productionTags : tagsList) {
+					productionTags.setProductionId(savedInfo.getId());
+				}
+				productionTagsDao.saveAll(tagsList);
 			}
 			return true;
 		}
@@ -326,10 +415,6 @@ public class ProductionInfoService {
 			return false;
 		}
 		return true;
-	}
-
-	public void edit(ProductionInfo param) {
-		edit(param, null);
 	}
 
 	public PageImpl<ProductionInfo> queryProductionByDictListConditionPageable(SearchDictionaryList vo,

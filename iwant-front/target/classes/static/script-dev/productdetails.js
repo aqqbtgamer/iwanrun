@@ -6,7 +6,7 @@ const appProductDetailsConfig = {
 		location:{
 			dataUrl:"../../location/getDetailsById"
 		},
-		case:{
+		casea:{
 			dataUrl:"../../case/getDetailsById"
         },
         product: {
@@ -95,10 +95,10 @@ var appProductDetails = new Vue(
 						vm.detail.no = productionDetail.id;
 						vm.detail.description = null2Blank(productionDetail.descirbeText3);
 						vm.detail.name = productionDetail.name ;
-						vm.detail.region = productionDetail.activityProvinceCode +"|" +productionDetail.activityCityCode +"|"+ productionDetail.activityDistCode;
-						vm.detail.type = productionDetail.activityTypeCode ;
+						vm.detail.region = productionDetail.provinceName +"|" +productionDetail.cityName +"|"+ productionDetail.distName;
+						vm.detail.type = productionDetail.activityTypeName ;
 						vm.detail.presonNum = productionDetail.groupNumberRange;
-						vm.detail.during = productionDetail.dur;
+						vm.detail.during = productionDetail.duringRange;
 						vm.detail.mainImage = productionDetail.mainImageLarge;
 						vm.detail.describContext = productionDetail.descirbeText1;		
 						var listAttch = $.parseJSON(result.listAttch);

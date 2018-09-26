@@ -129,6 +129,9 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 	@Transient
 	private JSONArray imgManage;
 
+	@Transient
+	private JSONArray specialTagsCode;
+
 	public Integer getId() {
 		return id;
 	}
@@ -399,4 +402,11 @@ public class ProductionInfo extends JpaRepositoriesAutoConfiguration {
 		this.imgManage = imgManage;
 	}
 
+	public JSONArray getSpecialTagsCode() {
+		return specialTagsCode;
+	}
+
+	public void setSpecialTagsCode(JSONArray specialTagsCode) {
+		this.specialTagsCode = specialTagsCode;
+	}
 }
