@@ -247,5 +247,4 @@ public class ProductionInfo {
 	public void setActivityTypeDesc(String activityTypeDesc) {
 		this.activityTypeDesc = activityTypeDesc;
 	}
-
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +35,7 @@ import com.iwantrun.core.service.application.service.DictionaryService;
 import com.iwantrun.core.service.application.service.ProductionInfoService;
 import com.iwantrun.core.service.application.transfer.Message;
 import com.iwantrun.core.service.application.transfer.ProductionInfoRequest;
+import com.iwantrun.core.service.utils.DictionaryConfigParams;
 import com.iwantrun.core.service.utils.EntityBeanUtils;
 import com.iwantrun.core.service.utils.EntityDictionaryConfigUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
@@ -41,6 +43,7 @@ import com.iwantrun.core.service.utils.ListUpdateUtils;
 import com.iwantrun.core.service.utils.MappingGenerateUtils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
@@ -173,6 +176,7 @@ public class ProductionInfoController {
 	/**
 	 * 添加产品 保存产品信息
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/application/productionInfo/add")
 	@NeedTokenVerify
 	public Message add(@RequestBody Message message, HttpServletRequest request) {
@@ -210,7 +214,19 @@ public class ProductionInfoController {
 							new Function[] { fun }, new String[] { "pagePath==sideImage" },
 							(BiFunction<String, Integer, String>[]) new BiFunction[] { biFun });
 
-					boolean updateResult = productionInfoService.add(info, attachmentses);
+					JSONArray tags = info.getSpecialTagsCode();
+					Map<String, String> mappingRelation1 = MappingGenerateUtils
+							.generateMappingRelation(new String[] { "tagsCode=>bean" });
+					List<ProductionTags> tagsList = new ArrayList<ProductionTags>();
+					EntityBeanUtils.listBeanCreateFromJson(tagsList, mappingRelation1, tags, ProductionTags.class);
+
+					Supplier<Integer> tagsTypeSupplier = () -> {
+						return DictionaryConfigParams.PRODUCTION_TAGS_TYPE;
+					};
+					ListUpdateUtils.updateListPropertyWithSupplier(tagsList, new String[] { "tagsType" },
+							new Supplier[] { tagsTypeSupplier });
+
+					boolean updateResult = productionInfoService.add(info, attachmentses, tagsList);
 
 					if (updateResult) {
 						response.setMessageBody(String.valueOf(info.getId()));
@@ -228,6 +244,7 @@ public class ProductionInfoController {
 	/**
 	 * 添加产品 保存产品信息
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/application/productionInfo/edit")
 	@NeedTokenVerify
 	public Message edit(@RequestBody Message message, HttpServletRequest request) {
@@ -271,7 +288,19 @@ public class ProductionInfoController {
 							new Function[] { fun }, new String[] { "pagePath==sideImage" },
 							(BiFunction<String, Integer, String>[]) new BiFunction[] { biFun });
 
-					boolean updateResult = productionInfoService.edit(info, attachmentses);
+					JSONArray tags = info.getSpecialTagsCode();
+					Map<String, String> mappingRelation1 = MappingGenerateUtils
+							.generateMappingRelation(new String[] { "tagsCode=>bean" });
+					List<ProductionTags> tagsList = new ArrayList<ProductionTags>();
+					EntityBeanUtils.listBeanCreateFromJson(tagsList, mappingRelation1, tags, ProductionTags.class);
+
+					Supplier<Integer> tagsTypeSupplier = () -> {
+						return DictionaryConfigParams.PRODUCTION_TAGS_TYPE;
+					};
+					ListUpdateUtils.updateListPropertyWithSupplier(tagsList, new String[] { "tagsType" },
+							new Supplier[] { tagsTypeSupplier });
+
+					boolean updateResult = productionInfoService.edit(info, attachmentses, tagsList);
 
 					if (updateResult) {
 						response.setMessageBody(String.valueOf(info.getId()));
@@ -315,7 +344,7 @@ public class ProductionInfoController {
 						}
 					}
 
-					boolean updateResult = productionInfoService.edit(info, infoRequest.getAttachments());
+					boolean updateResult = productionInfoService.edit(info, infoRequest.getAttachments(), null);
 
 					if (updateResult) {
 						response.setMessageBody(String.valueOf(info.getId()));
