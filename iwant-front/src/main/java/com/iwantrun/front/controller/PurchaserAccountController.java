@@ -131,4 +131,9 @@ public class PurchaserAccountController {
 		String loginId=(String) map.get("loginId");
 		return service.findByLoginId(loginId);
 	}
+	
+	@RequestMapping("getWeixinLoginUrl")
+	public String getWeixinLoginUrl(HttpServletRequest request) {
+		return service.getWeixinLoginUrl();
+	}
 }

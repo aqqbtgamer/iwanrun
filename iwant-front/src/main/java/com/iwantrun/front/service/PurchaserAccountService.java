@@ -267,4 +267,9 @@ public class PurchaserAccountService {
 		Message response = template.postForEntity(url, message, Message.class).getBody();
 		return response.getMessageBody();
 	}
+
+	public String getWeixinLoginUrl() {			
+		String baseUrl = environment.getProperty("application.weixinOpenAccount.baseUrl");
+		return baseUrl;
+	}
 }

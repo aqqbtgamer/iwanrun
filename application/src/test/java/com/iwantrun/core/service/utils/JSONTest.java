@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.utils;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,4 +76,14 @@ public class JSONTest {
 		JSONArray arr = JSONUtils.jsonToObj(json, JSONArray.class);
 		System.out.println(arr);
 	}
+	
+	@Test
+	public void testMianshi() {
+			URL[] urls = sun.misc.Launcher.getBootstrapClassPath().getURLs();
+			for (int i = 0; i < urls.length; i++) {
+				System.out.println(urls[i].toExternalForm());
+			}
+			System.out.println(System.getProperty("sun.boot.class.path"));
+
+			}
 }

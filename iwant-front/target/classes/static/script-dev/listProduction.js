@@ -40,7 +40,10 @@ var appListProduction = new Vue(
         },
 
         methods: {
-
+        	toOrderSubmit : function() {
+				var vm = this;
+				window.location.href = "./ordersubmit.html"
+            },
             showLogin: function (message) {
                 console.log("v-on  click method :showLogin");
                 lrApp.showLogin(message);

@@ -84,16 +84,16 @@ var lrTemplate = ""+
                 '<div id="login-button" class="login-button">'+
                     '<input @click="login" type="button" value="登 录" class="sms-login-button">'+
                 '</div>'+
-                /*'<div id="join-account-login" class="join-account-login">'+
+                '<div id="join-account-login" class="join-account-login">'+
                     '<div id="join-account-left" class="join-account-left">'+
                         '<p>其他账号登录</p>'+
                     '</div>'+
                     '<div class="join-account-right">'+
-                        '<i class="iconfont icon-facebookfacebook52 clickIcon"></i>'+
-                        '<i class="iconfont icon-weixin-copy clickIcon"></i>'+
-                        '<i class="iconfont icon-weibo clickIcon"></i>'+
+                       // '<i class="iconfont icon-facebookfacebook52 clickIcon"></i>'+
+                        '<i class="iconfont icon-weixin-copy clickIcon" @click="weixingLogin()"></i>'+
+                       // '<i class="iconfont icon-weibo clickIcon"></i>'+
                     '</div>'+
-                '</div>'+*/
+                '</div>'+
             '</div>'+
             '<div id="register-pannel" class="login-pannel" v-if="registerWindow" v-cloak>'+
                 '<div class="close-pannel">'+
@@ -492,6 +492,9 @@ var lrApp=new Vue({
 		changeMessageLogin : function() {
 			var vm = this;
 			vm.messageLogin = !vm.messageLogin;
+        },
+        weixingLogin:function(){
+        	console.log("v-on  click method :weixingLogin");
         }
 	}
 
@@ -753,15 +756,17 @@ function verifyFieldsNotEmpty(valueArray){
 	return arrayResult ;
 }
 function parseDateStr(timeMills){
-	var date = new Date();
-	date.setTime(timeMills);
-	var year = date.getFullYear();
-	var month = date.getMonth()+1 ;
-	var dates = date.getDate();
-	var hours = date.getHours();
-	var minutes = date.getMinutes();
-	var seconds = date.getSeconds();
-	return year+"年"+month+"月"+dates+"日";
+	if(timeMills != 	undefined){
+		var date = new Date();
+		date.setTime(timeMills);
+		var year = date.getFullYear();
+		var month = date.getMonth()+1 ;
+		var dates = date.getDate();
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+		var seconds = date.getSeconds();
+		return year+"年"+month+"月"+dates+"日";
+	}
 }
 function null2Blank(field){
 	return field == null ? "" : field;
