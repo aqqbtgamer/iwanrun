@@ -31,26 +31,11 @@ var appMyAccount = new Vue(
             appointMsgTxt:"合作意向书尚未上传，请耐心等待 ",
             projectMsgTxt:"项目汇总 ( 案例 ) 尚未上传，请耐心等待",
             order: {
-                orderid: '40020171014',
-                createdate: '2017年10月12日',
-                status: '已完成',
-                orderType:'户外拓展',
-                location:'浙西大峡谷',
-                duration:'2天',
-                simulatedPrice:'800元/人',
-                other:'其他需求',
-                counselor: '咨询师001',
-                orderAttachments:[
-                	{
-                		text:'合作意向书.pdf',
-                		url:'./合作意向书.pdf'
-                	},
-                	{
-                		text:'项目汇总(案例).pdf',
-                		url:'./项目汇总(案例).pdf'
-                	}
-                ]
-            }
+                
+            },
+            productList:[],
+            locationList:[],
+            caseList:[]
         },
         
         watch:{
@@ -140,6 +125,9 @@ var appMyAccount = new Vue(
             					vm.order.createTime=parseDateStr(vm.order.createTime);
             					vm.adviserAccount=data.adviserAccount;
             					vm.adviserLoginAccount=data.adviserLoginAccount;
+            					vm.productList=data.productList;
+            					vm.locationList=data.locationList;
+            					vm.caseList=data.caseList;
             					if(data.orders.orderStatusCode==3){
             						vm.resultBtn=false;
             					}

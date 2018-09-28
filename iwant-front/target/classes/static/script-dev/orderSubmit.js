@@ -190,6 +190,7 @@ var appMyAccount = new Vue(
             	if(lrApp == null){
             		alert("系统错误 无法提交订单")
             	}else{
+            		
             		//校验
             		if(!verifyNotEmpty($.cookie("accessToken")) ||  !verifyNotEmpty(vm.loginId) ){
             			lrApp.showLogin();
@@ -232,7 +233,6 @@ var appMyAccount = new Vue(
             							$("#"+item.id).removeClass("validate-error");
             						}
             				);
-            				//$("#activityDate").attr("style","");
             				var order = new Object();
             				order.companyTypeId = vm.selectedCompanyType ;
             				order.contract = vm.contractName;
@@ -247,9 +247,41 @@ var appMyAccount = new Vue(
             				order.otherRequest = vm.otherRequire;
             				var user = new Object();
             				user.loginId =  $.cookie("loginId");
+            				//感兴趣内容
+            				var selectProductList = [],selectLocationList=[],selectCaseList=[];
+            				var selectProductInput = $("input[name='selectProduct']:checked");
+            				var selectLocationInput = $("input[name='selectLocation']:checked");
+            				var selectCaseInput = $("input[name='selectCase']:checked");
+            				if(selectProductInput.length>0){
+            					for(var i=0;i<selectProductInput.length;i++){
+            						var selectProduct = {};
+                					selectProduct.locatioCase='product';
+                					selectProduct.locatioId=$(selectProductInput[i]).val();
+                					selectProductList.push(selectProduct);
+            					}
+            				}
+            				if(selectLocationInput.length>0){
+            					for(var i=0;i<selectLocationInput.length;i++){
+            						var selectLocation = {};
+            						selectLocation.locatioCase='location';
+            						selectLocation.locatioId=$(selectLocationInput[i]).val();
+            						selectLocationList.push(selectLocation);
+            					}
+            				}
+            				if(selectCaseInput.length>0){
+            					for(var i=0;i<selectCaseInput.length;i++){
+            						var selectCase = {};
+            						selectCase.locatioCase='case';
+            						selectCase.locatioId=$(selectCaseInput[i]).val();
+            						selectCaseList.push(selectCase);
+            					}
+            				}
             				var request = new Object();
             				request.order = order ;
             				request.user = user ;
+            				request.selectProductList=selectProductList;
+            				request.selectLocationList=selectLocationList;
+            				request.selectCaseList=selectCaseList;
             				var requestData = new Object();
             				requestData.requestJson = JSON.stringify(request);
             				var callback = new Object();

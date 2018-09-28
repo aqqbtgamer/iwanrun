@@ -16,6 +16,7 @@
     <script type="application/javascript" src="../../script/axios.min.js"></script>
 </head>
 <body>
+
 <form action="#">
     <div id="container" class="container">
         <div id="common-header" class="common-head">
@@ -197,8 +198,8 @@
                         </div>
                         <div class="span-image-blank span-column1 border-slide position-relative">
                            <span class="price-label">参考价格: {{item.orderSimulatePrice}}</span>
-                            <input type="checkbox" name="selectProject" style="display: none" >
-                            <i class="iconfont-bold2 icon-checkbox-non"></i>
+                            <input type="checkbox" name="selectProduct"  :value="item.id">
+<!--                             <i class="iconfont-bold2 icon-checkbox-non"></i> -->
                             <hr class="specil-line">
                         </div>
                         <div class="span-image-blank span-column1 border-bottom position-top" >
@@ -226,8 +227,8 @@
                         </div>
                         <div class="span-image-blank span-column2  border-slide position-relative">
                            <span class="price-label">参考价格: {{item.simulatePriceCode}}</span>
-                            <input type="checkbox" name="selectLocation" style="display: none">
-                            <i class="iconfont-bold2 icon-checkbox-non"></i>
+                            <input type="checkbox" name="selectLocation"  :value="item.id">
+<!--                             <i class="iconfont-bold2 icon-checkbox-non"></i> -->
                             <hr class="specil-line">
                         </div>
                          <div class="span-image-blank span-column2  border-bottom position-top" >
@@ -256,12 +257,8 @@
                         </div>
                         <div class="span-image-blank span-column1 border-slide position-relative">
                            <span class="price-label">参考价格: {{item.simulatePriceCode}}</span>
-<!--                             <input type="checkbox" name="selectcase" style="display: none"> -->
+                            <input type="checkbox" name="selectCase"  :value="item.id">
 <!--                             <i class="iconfont-bold2 icon-checkbox-non"></i> -->
-						<label class="my_protocol">
-						      <input class="input_agreement_protocol" type="checkbox" style=" display: none;"/>
-						      <span></span>
-						</label>
                             <hr class="specil-line">
                         </div>
                         <div class="span-image-blank span-column1 border-bottom position-top" >

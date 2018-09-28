@@ -85,6 +85,15 @@ function mappingData(result){
 		mappingTextItem("purchaseMobile",user.mobileNumber);
 		mappingTextItem("purchaseWeixin",user.wec);
 	}
+	if(ret.locationList!=null){
+		mappingListLink("locationsId",ret.locationList,"location");
+	}
+	if(ret.productList!=null){
+		mappingListLink("productsId",ret.productList,"product");
+	}
+	if(ret.caseList!=null){
+		mappingListLink("casesId",ret.caseList,"case");
+	}
 	mappingFileDownloadItem("case_draft",ret.caseDraft);
 	mappingFileDownloadItem("appointment",ret.appointment);
 	mappingFileDownloadItem("project_conclude",ret.projectConclude);

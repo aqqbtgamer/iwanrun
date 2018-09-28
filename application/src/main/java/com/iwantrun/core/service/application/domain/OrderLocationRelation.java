@@ -20,6 +20,9 @@ public class OrderLocationRelation {
 	
 	@Column(name="location_id",nullable=false)
 	private Integer locatioId;
+	
+	@Column(name="location_case",nullable=false)
+	private String locatioCase;
 
 	public int getId() {
 		return id;
@@ -43,6 +46,14 @@ public class OrderLocationRelation {
 
 	public void setLocatioId(Integer locatioId) {
 		this.locatioId = locatioId;
+	}
+
+	public String getLocatioCase() {
+		return locatioCase;
+	}
+
+	public void setLocatioCase(String locatioCase) {
+		this.locatioCase = locatioCase;
 	}
 	
 	

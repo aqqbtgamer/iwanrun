@@ -877,6 +877,29 @@ function fileUpload(contentId,url,callback) {
     		}
     	}
     }
+    function mappingListLink(id,value,locationCase){
+    	var container = $("#"+id);
+    	if(value != null && value.length > 0){
+    		container.empty();
+    		for(var i = 0 ; i<value.length ; i++){
+    			var hrefMy = "";
+    			if(locationCase=='product'){
+    				hrefMy="./editProductionInfo.html?id="+value[i].id;	
+    			}
+				if(locationCase=='location'){
+					hrefMy="./createLocation.html?isModify=true&id="+value[i].id;				
+				}
+				if(locationCase=='case'){
+					hrefMy="./createCase.html?isModify=true&id="+value[i].id;
+				}
+    			
+    			var fileLink = $("<a></a>")
+    			.attr("id",value[i].id).attr("href",hrefMy).text(value[i].name);
+    			container.append(fileLink);
+    			container.append("&nbsp;&nbsp;&nbsp;");
+    		}
+    	}
+    }
     
     function getDictionaryPages(url,callback){
     	var request = new Object();

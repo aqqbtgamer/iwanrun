@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.application.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,24 +11,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.iwantrun.core.constant.AdminApplicationConstants;
+import com.iwantrun.core.service.application.dao.CasesDao;
 import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
+import com.iwantrun.core.service.application.dao.LocationsDao;
 import com.iwantrun.core.service.application.dao.OrderAttachmentsDao;
+import com.iwantrun.core.service.application.dao.OrderLocationRelationDao;
 import com.iwantrun.core.service.application.dao.OrderMessageDao;
 import com.iwantrun.core.service.application.dao.OrdersDao;
+import com.iwantrun.core.service.application.dao.ProductionInfoDao;
 import com.iwantrun.core.service.application.dao.PurchaserAccountDao;
 import com.iwantrun.core.service.application.dao.UserInfoDao;
+import com.iwantrun.core.service.application.domain.Cases;
+import com.iwantrun.core.service.application.domain.Locations;
 import com.iwantrun.core.service.application.domain.OrderAttachments;
+import com.iwantrun.core.service.application.domain.OrderLocationRelation;
 import com.iwantrun.core.service.application.domain.OrderMessage;
 import com.iwantrun.core.service.application.domain.Orders;
+import com.iwantrun.core.service.application.domain.ProductionInfo;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
 import com.iwantrun.core.service.application.domain.UserInfo;
 import com.iwantrun.core.service.application.enums.TradeStatus;
@@ -63,7 +75,19 @@ public class OrdersService {
 	private OrderMessageDao orderMessageDao;
 	
 	@Autowired
-	private UserInfoDao infoDao ;
+	private UserInfoDao infoDao ; 
+	
+	@Autowired
+	private CasesDao caseDao ;
+	
+	@Autowired
+	private LocationsDao locationDao ;
+	
+	@Autowired
+	private ProductionInfoDao productDao ;
+	
+	@Autowired
+	private OrderLocationRelationDao orderLocationRelationDao ;
 	
 	@Autowired  
     private Environment env;
@@ -141,7 +165,43 @@ public class OrdersService {
 				List<OrderAttachments> projectConclude = ordersAttacgDao.findByOrderIdAndPagePath(id, AdminApplicationConstants.PROJECT_CONCLUDE);
 				if(projectConclude != null && projectConclude.size() > 0) {
 					resultMap.put("projectConclude", projectConclude);
-				}				
+				}
+				//查询与订单关联的感兴趣内容     
+				OrderLocationRelation vo = new OrderLocationRelation();
+				vo.setOrderId(order.getId());
+				List<OrderLocationRelation> list = findOrderLocationRelationByCondition(vo);
+			    if( list != null && list.size() >0) {
+			    	List<ProductionInfo> productList=new ArrayList<>();
+			    	List<Locations> locationList=new ArrayList<>();
+			    	List<Cases> caseList=new ArrayList<>();
+			    	for(OrderLocationRelation orderLocat : list) {
+			    		String locatioCase = orderLocat.getLocatioCase();
+			    		if("product".equals(locatioCase) ) {
+			    			Optional<ProductionInfo> productOp = productDao.findById(orderLocat.getLocatioId());
+			    			if(productOp.isPresent()) {
+			    				ProductionInfo productVo = productOp.get();
+			    				productList.add(productVo);
+			    			}
+			    		}
+			    		if("location".equals(locatioCase) ) {
+			    			Optional<Locations> productOp = locationDao.findById(orderLocat.getLocatioId());
+			    			if(productOp.isPresent()) {
+			    				Locations locationVo = productOp.get();
+			    				locationList.add(locationVo);
+			    			}
+			    		}
+			    		if("case".equals(locatioCase) ) {
+			    			Optional<Cases> productOp = caseDao.findById(orderLocat.getLocatioId());
+			    			if(productOp.isPresent()) {
+			    				Cases caseVo = productOp.get();
+			    				caseList.add(caseVo);
+			    			}
+			    		}
+			    	}
+			    	resultMap.put("productList", productList);
+			    	resultMap.put("locationList", locationList);
+			    	resultMap.put("caseList", caseList);
+			    }
 				return resultMap;				
 			}else {
 				return null;
@@ -151,7 +211,16 @@ public class OrdersService {
 		}
 		
 	}
-
+    public List<OrderLocationRelation> findOrderLocationRelationByCondition(OrderLocationRelation vo){
+		
+		ExampleMatcher matcher = ExampleMatcher.matchingAll()
+				.withMatcher("order_id", GenericPropertyMatchers.exact())
+				.withMatcher("location_id", GenericPropertyMatchers.exact())
+				.withMatcher("location_case", GenericPropertyMatchers.exact())
+				.withIgnorePaths("id","display_code","display_value","code","value","assignTo");
+				;
+		return orderLocationRelationDao.findAll(Example.of(vo,matcher));
+	}
 	public String getOrderMessage(JSONObject requestObj) {
 		String pageIndexStr = requestObj.getAsString("pageIndex");
 		int pageSize = Integer.parseInt(env.getProperty("common.pageSize"));
@@ -240,6 +309,39 @@ public class OrdersService {
 			orders.setCreateTime(new Date());
 			orders.setModifyTime(new Date());
 			ordersDao.saveAndFlush(orders);
+			List<OrderLocationRelation> selectProductList = new ArrayList<>();
+			List<OrderLocationRelation> selectLocationList = new ArrayList<>();
+			List<OrderLocationRelation> selectCaseList = new ArrayList<>();
+			JSONArray selectProductListJson = (JSONArray)requestObj.get("selectProductList");
+			JSONArray selectLocationListJson = (JSONArray)requestObj.get("selectLocationList");
+			JSONArray selectCaseListJson = (JSONArray)requestObj.get("selectCaseList");
+			if(selectProductListJson != null) {
+				selectProductList = JSONUtils.toList(selectProductListJson.toString(), OrderLocationRelation.class);
+				if(selectProductList!= null && selectProductList.size()>0) {
+					for(OrderLocationRelation vo : selectProductList) {
+						vo.setOrderId(orders.getId());
+					}
+					orderLocationRelationDao.saveAll(selectProductList);
+				}
+			}
+			if(selectLocationListJson != null) {
+				selectLocationList = JSONUtils.toList(selectLocationListJson.toString(), OrderLocationRelation.class);
+				if(selectLocationList!= null && selectLocationList.size()>0) {
+					for(OrderLocationRelation vo : selectLocationList) {
+						vo.setOrderId(orders.getId());
+					}
+					orderLocationRelationDao.saveAll(selectLocationList);
+				}
+			}
+			if(selectCaseListJson != null) {
+				selectCaseList = JSONUtils.toList(selectCaseListJson.toString(), OrderLocationRelation.class);
+				if(selectCaseList!= null && selectCaseList.size()>0) {
+					for(OrderLocationRelation vo : selectCaseList) {
+						vo.setOrderId(orders.getId());
+					}
+					orderLocationRelationDao.saveAll(selectCaseList);
+				}
+			}
 			return JSONUtils.objToJSON(orders);
 		}else {
 			return null;

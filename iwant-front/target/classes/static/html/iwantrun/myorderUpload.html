@@ -109,6 +109,30 @@
                                 <input type="button" class="order-message" :value="'咨询师：'+adviserAccount.name">
                             </div>
                         </div>
+                        <div class="account-box-line account-box-first" v-if="locationList!=null">
+                            <div class="account-box-content">
+                                <p class="font-40px-black" style="margin-bottom: 2vw;">感兴趣场地</p>
+                                <template v-for="(item,index) in locationList">
+                                	<a :href="'./productdetail.html?type=location&id='+item.id"><input type="button" class="order-message" :value="item.name"></a>
+                                </template>
+                            </div>
+                        </div>
+                         <div class="account-box-line account-box-first" v-if="productList!=null">
+                            <div class="account-box-content">
+                                <p class="font-40px-black" style="margin-bottom: 2vw;">感兴趣产品</p>
+                                <template v-for="(item,index) in productList">
+                                	<a :href="'./productdetail.html?type=product&id='+item.id"><input type="button" class="order-message" :value="item.name"></a>
+                                </template>
+                            </div>
+                        </div>
+                         <div class="account-box-line account-box-first" v-if="caseList!=null">
+                            <div class="account-box-content">
+                                <p class="font-40px-black" style="margin-bottom: 2vw;">感兴趣案例</p>
+                                <template v-for="(item,index) in caseList">
+                                	<a :href="'./productdetail.html?type=case&id='+item.id"><input type="button" class="order-message" :value="item.name"></a>
+                                </template>
+                            </div>
+                        </div>
                         <div class="account-box-line">
                             <div class="file-img">
                                 <img src="../../img/file_img.jpg" width="100%"  @click="schemeFileImgClick"/>
