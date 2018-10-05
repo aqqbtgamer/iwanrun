@@ -204,6 +204,15 @@
     vertical-align: top;
 }
 
+.sideGroup-enter-active, .sideGroup-leave-active {
+  transition: all 0.5s;
+}
+.sideGroup-enter, .sideGroup-leave-to
+/* .list-leave-active for below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
 
 
 

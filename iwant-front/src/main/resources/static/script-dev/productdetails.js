@@ -15,6 +15,8 @@ const appProductDetailsConfig = {
 };
 const sildePageSize = 2 ;
 
+var rollDirection = true;
+
 var appProductDetails = new Vue(
 		{
 			el:"#container",
@@ -36,7 +38,8 @@ var appProductDetails = new Vue(
 		        	 presonNum:"",
 		        	 during:"",
 		        	 mainImage:"",
-		        	 sildeImages:[]
+		        	 sildeImages:[],
+		        	 sildeShowImages:[]
 		         },
 		         detailName:"",
 		         currentTopIndex: 0,
@@ -108,14 +111,16 @@ var appProductDetails = new Vue(
 							}
 						}	
 					}					
-					
+					vm.fufillShowSlides();
+					setInterval(function(){
+						vm.autoRoll();
+					},2000);
 				}
 				callback.error = function(errorMsg){
 					console.log("result from server :" +errorMsg)
 				}
                 $http_form.post(dataUrl, callback);
-
-                $.cookie('loginId') && vm.isCollectioned(); 
+                $.cookie('loginId') && vm.isCollectioned();               
 			},
 			methods:{
 				 showLogin: function (message) {
@@ -196,7 +201,30 @@ var appProductDetails = new Vue(
                               })();
                           });
                       })(vm.init.id, vm.init.type);
+                  },
+                  fufillShowSlides:function(){
+                	  var vm = this ;
+                	  vm.detail.sildeShowImages = vm.detail.sildeImages.slice(vm.currentTopIndex,vm.currentTopIndex+vm.pageSize );
+                  },
+                  autoRoll:function(){
+                	  var vm  = this ;
+                	  if(vm.detail.sildeImages !=  null && vm.detail.sildeImages.length > vm.pageSize){
+                		  if(rollDirection){
+                			  if(vm.currentTopIndex < vm.detail.sildeImages.length - vm.pageSize){
+                				  vm.currentTopIndex++
+                			  }else{
+                				  rollDirection = false ;
+                			  }
+                		  }else{
+                			  if(vm.currentTopIndex > 0){
+                				  vm.currentTopIndex -- ;
+                			  }else{
+                				  rollDirection = true;
+                			  }
+                		  }
+                	  }
                   }
+                  
 			},
 			computed:{
 		            showSliderPre: function () {
@@ -211,7 +239,26 @@ var appProductDetails = new Vue(
 		                var vm = this;
 		                return vm.isFavourite ? '#FF0000' : '#414141';
 		            }
-		        }
+		        },
+		    watch:{
+		    	currentTopIndex:function(val,old){
+		    		var vm = this ;
+		    		if(val>old && val -old == 1){
+		    			vm.detail.sildeShowImages.shift();
+		    			setTimeout(function(){
+		    				vm.detail.sildeShowImages.push(vm.detail.sildeImages[val+vm.pageSize-1]);
+		    			},510);
+		    			
+		    		}else if(val < old && old - val == 1){
+		    			vm.detail.sildeShowImages.pop();
+		    			setTimeout(function(){
+		    				vm.detail.sildeShowImages.unshift(vm.detail.sildeImages[val]);
+		    				}
+		    			,510);
+		    			;
+		    		}
+		    	}
+		    }    
 		}
 );
 
