@@ -60,6 +60,11 @@ function bindDataSubmitJSON(id, fieldArray, url, callback){
 		var infoRequest = {};
 		formData.descirbeText1 = formData['_ue'];// UEeditor编辑器数据
 		formData.id = getUrlParam().id;
+		if(!Array.isArray(formData.specialTagsCode)){
+			var specialTagsCodeStr = formData.specialTagsCode ;
+			var specialTagsCode = new Array(specialTagsCodeStr);
+			formData.specialTagsCode = specialTagsCode ;
+		}
 		infoRequest.info = formData;
 		var param = {};
 		param.messageBody = JSON.stringify(infoRequest);
