@@ -92,7 +92,7 @@ var appProductDetails = new Vue(
 							}
 						}	
 					}else{
-						vm.detailTyp="搜索产品列表";
+						vm.detailType="搜索产品列表";
 						var productionDetail = result ;
 						locationNull2Blank(productionDetail);
 						vm.detail.no = productionDetail.id;
