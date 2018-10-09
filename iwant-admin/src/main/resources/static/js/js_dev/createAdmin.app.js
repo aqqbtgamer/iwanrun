@@ -56,14 +56,14 @@ function returnListPage(result){
 	if(!ret.successful){
 		alert("后台新增数据失败:"+ret.description+ret.extraInfo);
 	}else{
-		window.location.href="adminlist.html";
+		window.location.href="adminList.html";
 	}
 }
 
 function returnLisPageModify(result){
 	var ret = $.parseJSON(result);
 	if(ret.successful){
-		window.location.href="adminlist.html";
+		window.location.href="adminList.html";
 	}else{
 		alert("后台更新数据失败");
 	}
