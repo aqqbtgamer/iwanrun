@@ -23,6 +23,9 @@ public class CastPosition {
 	
 	@Column(name="page_path")
 	private String pagePath ;
+	
+	@Column(name="img_url")
+	private String imgUrl ;
 
 	public int getId() {
 		return id;
@@ -54,6 +57,14 @@ public class CastPosition {
 
 	public void setPagePath(String pagePath) {
 		this.pagePath = pagePath;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}	
 	
 

@@ -91,12 +91,15 @@
                         <th class="vat">首页轮播图(10张以内)</th>
                         <td class="imgUploadManager">
                             <input type="file" name="uploadedLocationImages" id="uploadedLocationImages"/>
-                            <label><input type="checkbox" class="checkAll" id="checkAll"/>全选</label>
-                            <label><button class="delAll" id="deleteAll">删除</button></label>
+                            <label><input type="checkbox" class="checkAll" id="checkAll" onclick="selectCheckBox()"/>全选</label>
+                            <label><button class="delAll" id="deleteAll"  onclick="deleteClick()">删除</button></label>
                             <ul class="imgManage" id="imgManage" name="imgManage">
                                
                             </ul>
                         </td>
+                    </tr>
+                    <tr>
+                    	<td></td>
                     </tr>
                      <tr>
                         <th></th>
