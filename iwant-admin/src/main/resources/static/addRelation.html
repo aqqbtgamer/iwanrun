@@ -77,55 +77,49 @@
                 <h2 class="jquery_tab_title">订单指派:</h2>
                 <table class="form_h" id="submitForm1"> 
                 	  <tr>
-                	  			<th><label>手机号码(模糊查询)</label></th>
+                	  			<th><label>名称(模糊查询)</label></th>
                 	  			<td>
                 	  				<input class="input-small" type="text"  name="mobileNumber" id="mobileNumber" />
                 	  			</td>
-                	  		</tr>
-                	  		<tr>
-                	  			<th><label>姓名(模糊查询)</label></th>
-                	  			<td>
-                	  				<input class="input-small" type="text"  name="name" id="name" />
-                	  			</td>
-                	  		</tr>
-                	  		<tr>
-                	  			<th><label>用户名(精确匹配)</label></th>
-                	  			<td>
-                	  				<input class="input-small" type="text"  name="loginId" id="loginId" />
-                	  			</td>
-                	  		</tr>
+                	  		</tr>                	  	
                 	  		<tr>
                 	  			<td>
                 	  				<button  class="button" id="queryCondtion">查询</button>
                 	  			</td>
                 	  			<td>
-                	  				<button  class="button" id="assignOrder">指派</button>
+                	  				<button  class="button" id="addRelation">关联</button>
                 	  			</td>
-                	  		</tr>         
-                   
-                   
+                	  		</tr> 
                 </table>
                 
-              <table class="table_liquid datalist" cellspacing="0" id="userTable">
+              <table class="table_liquid datalist" cellspacing="0" id="dataTable">
                    
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>姓名</a></th>
-                        <th>角色</th>
-                        <th>用户名</th>
-                        <th>手机号码</th>
-                        <th>微信</th>
-                        <th>审核状态</th>
-
-                    </tr>
+                    <thead>                    
                     </thead>
                     <tbody>
 
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colspan="7">
+                        <td colspan="6">
+                            <div class="pagination" id="pagination">
+
+                            </div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+                <h2 class="jquery_tab_title">已关联:</h2>
+                <table class="table_liquid datalist" cellspacing="0" id="bindTable">
+                   
+                    <thead >                    
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="6">
                             <div class="pagination" id="pagination">
 
                             </div>
