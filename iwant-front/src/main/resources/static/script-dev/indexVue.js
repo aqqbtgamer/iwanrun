@@ -171,4 +171,9 @@ function clearLoginId() {
     vm.loginIdUl = false;
     vm.loginBtnUl = true;
 }
+
+
+function toDetail(type, id) {
+	type && id && (window.location.href = "./html/iwantrun/productdetail.html?type="+type+"&id="+ id);
+}
 console.log("Vue 脚本绑定渲染完成..............");

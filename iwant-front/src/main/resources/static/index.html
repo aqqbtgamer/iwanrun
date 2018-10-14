@@ -162,7 +162,7 @@
                             <!--<div class="outstanding-item">
                                 <img src="img/otstandingproduction.png" alt="outstanding.png" width="100%">
                             </div>-->
-                            <div class="normal-item" v-if="index<8" v-for="(item,index) in productIndexList">
+                            <div class="normal-item" v-if="index<8" v-for="(item,index) in productIndexList"  @click="toDetail('product', item.id)">
                                 <div>
                                     <img :src="item.mainImageLarge" alt="normalpd1.png" width="100%">
                                 </div>
@@ -186,7 +186,7 @@
                     </div>
                 </div>
                 <div class="content-box-location-body">
-                    <div class="content-box-location-line" v-if="index<3" v-for="(item,index) in locationIndexList">
+                    <div class="content-box-location-line" v-if="index<3" v-for="(item,index) in locationIndexList" @click="toDetail('location', item.id)">
                         <div class="location-text" v-if="index%2===0">
                             <div class="location-text-head">
                                 <p>{{item.name }} | {{item.activeTypeCode }}  &nbsp;&nbsp;<i class="iconfont icon-sanjiaoright"></i></p>
@@ -244,7 +244,7 @@
                     </div>
                 </div>
                 <div class="content-box-case-line">
-                    <div v-if="index<6" v-for="(item,index) in caseIndexList" style="display:inline-block" :class="item.isBig?'content-box-case-imgbig':'content-box-case-imgsmall'">
+                    <div v-if="index<6" v-for="(item,index) in caseIndexList" style="display:inline-block" :class="item.isBig?'content-box-case-imgbig':'content-box-case-imgsmall'"  @click="toDetail('case', item.id)">
                         <img :src="item.descirbeText2" alt="case1.png" width="100%">
                     </div>
                 </div>
