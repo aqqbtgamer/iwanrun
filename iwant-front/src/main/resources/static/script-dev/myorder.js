@@ -44,6 +44,7 @@ var appMyAccount = new Vue(
     			if( oldVal != newVal){
     				vm.getUserInfo();
     				vm.getOrderInfo();
+    				vm.toMyOrderByLoginId();
     				vm.msgWindow=false;
     			}
         	},
@@ -269,6 +270,36 @@ var appMyAccount = new Vue(
                 					}
                 				}else{
                 					vm.msgText="上传失败";
+                				}
+                	})
+            	}
+            },
+            toMyOrderByLoginId:function(){
+            	var vm = this;
+            	var url = "../../purchaserAccount/findMixedByLoginId";
+            	var loginId = vm.loginId;
+            	if( loginId != ''){
+            		axios.post(url,{loginId:loginId}).then(
+                			function(response){
+                				console.log(response.data);
+                				var data = response.data;
+                				if( data != ''){
+                					var roleId = data.loginInfo.sysRoleId;
+                					var id=getQueryString("id");
+                					var myurl = window.location.href;
+                					if( roleId==1){
+                						if(myurl.indexOf("myorderUpload")!=-1){
+                    	            		window.location.href="./myorder.html?id="+id;                							
+                						}
+                	            	}
+                	            	if( roleId==2){
+                	            		if(myurl.indexOf("myorderUpload")==-1){
+    	            	            		window.location.href="./myorderUpload.html?id="+id;
+                	            		}
+	            	            	}
+//                	            	if( roleId==2 && myurl.indexOf("myorder")!=-1 && myurl.indexOf("myorderUpload")==-1){
+//                	            		window.location.href="./myorderUpload.html?id="+id;
+//                	            	}
                 				}
                 	})
             	}

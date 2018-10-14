@@ -57,8 +57,10 @@ function getAllCastPosition(){
 	callback.success = function(data){
 		var castpositionList = $.parseJSON(data.list);
 		for(var i = 0 ; i<castpositionList.length ; i++){
+			var imgUrl = $("<a></a>").prop("href",castpositionList[i].imgUrl);
 			var img = $("<img></img>").prop("src",castpositionList[i].filePath).prop("alt",castpositionList[i].fileName );
-			$(".banner-list").append(img);
+			$(".banner-list").append(imgUrl);
+			$(imgUrl).append(img);
 			var span = $("<span></span>").addClass("point");
 			if(i == 0){
 				span.addClass("on");
