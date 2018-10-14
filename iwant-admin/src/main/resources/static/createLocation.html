@@ -75,8 +75,16 @@
 
         <div id="main">
             <div id="content">
-                <h2 class="jquery_tab_title">新增场地</h2>
-                <table class="form_h">
+                <h2 class="jquery_tab_title">新增场地</h2> 
+                <table class="form_h" >
+                	<tr id="relationForm" style="display:none" >
+                        <td>
+                        	<input class="button" id="addRelation1" type="button" value="关联产品" method="href" to="addRelation.html?type=location&add=production"/>                        
+                        </td>
+                        <td>
+                            <input class="button" id="addRelation2" type="button" value="关联案例" method="href" to="addRelation.html?type=location&add=case"/>
+                        </td>
+                    </tr>
                     <tr>
                         <th><label for="name">名称</label></th>
                         <td>

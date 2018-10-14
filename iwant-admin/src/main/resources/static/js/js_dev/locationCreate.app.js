@@ -49,6 +49,8 @@ $(document).ready(
         if(isModify == "true"){
         	console.log("修改页面 加载server数据");
         	adjustModifyField(); 
+        	$("#relationForm").show();
+        	wrapCustomerButtons();
         	var requestObj = new Object();
         	requestObj.id = locationId ;
         	commonLoadForModify(requestObj,dataGetUrl,mappingData);
@@ -119,6 +121,20 @@ function mappingData(result){
 
 function dicionaryCallBack(result){
 	initDictionaryPage("dictionarys",result);
+}
+
+function wrapCustomerButtons(){
+    $("input[method='href']").unbind();
+    console.log("开始处理自定义byutton功能");
+    $("input[method='href']").each(
+        function(index,element){
+            $(element).click(
+                function(){
+                    window.location.href=$(element).attr('to') + "&id="+locationId;
+                }
+            );
+        }
+    )
 }
 
 

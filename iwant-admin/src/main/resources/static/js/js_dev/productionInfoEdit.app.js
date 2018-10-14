@@ -28,6 +28,7 @@ $(document).ready(
     	loadCommonTabs();
     	getDictionaryPages(dictionaryUrl,dicionaryCallBack);
     	initPageData();// 设置产品详情数据
+    	wrapCustomerButtons();
         bindUploadFile('mainImageUpload', uploadServer, 'mainImageLarge', singleDisplay);
         bindDataSubmitJSON('submitForm', dataArr, submitUrl, returnListPage);
         bindUploadFile('uploadedProductionInfoImages',uploadServer,'imgManage',mutipleDisplay);
@@ -172,4 +173,18 @@ function fillItem(ele, val){
 	} else if (ele.prop("nodeName").toLowerCase() == "ul") {
 		
 	}
+}
+
+function wrapCustomerButtons(){
+    $("input[method='href']").unbind();
+    console.log("开始处理自定义byutton功能");
+    $("input[method='href']").each(
+        function(index,element){
+            $(element).click(
+                function(){
+                    window.location.href=$(element).attr('to') + "&id="+getUrlParam('id');
+                }
+            );
+        }
+    )
 }

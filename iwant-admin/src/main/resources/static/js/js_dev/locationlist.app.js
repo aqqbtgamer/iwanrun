@@ -10,10 +10,10 @@ const modifyUrl = '/iwant_admin/createLocation.html?isModify=true&id=';
 const dictionaryName = 'location';
 const columns = new Array(
     "name",
-    "activeTypeCode",
-    "groupNumberLimitCode",
+    "activeTypeCodeDesc",
+    "groupNumberLimitCodeDesc",
     "location",
-    "simulatePriceCode"
+    "simulatePriceCodeDesc"
 );
 
 $(document).ready(

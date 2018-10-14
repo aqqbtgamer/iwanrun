@@ -13,7 +13,8 @@ const appProductDetailsConfig = {
             dataUrl: "../../production/getDetailsById"
         }
 };
-const sildePageSize = 2 ;
+const sildePageSize = 3 ;
+const autodisplayInterval = 3500;
 
 var rollDirection = true;
 
@@ -44,7 +45,7 @@ var appProductDetails = new Vue(
 		         detailName:"",
 		         currentTopIndex: 0,
 		         pageSize:sildePageSize,
-                 isFavourite:false
+                 isFavourite:false                 
 			},
 			created:function(){
 				var vm = this ;
@@ -114,7 +115,7 @@ var appProductDetails = new Vue(
 					vm.fufillShowSlides();
 					setInterval(function(){
 						vm.autoRoll();
-					},2000);
+					},autodisplayInterval);
 				}
 				callback.error = function(errorMsg){
 					console.log("result from server :" +errorMsg)
@@ -243,20 +244,15 @@ var appProductDetails = new Vue(
 		    watch:{
 		    	currentTopIndex:function(val,old){
 		    		var vm = this ;
+		    		//var scrollPosition = $(document).scrollTop();   
+		    		//console.log("scrollPosition:"+scrollPosition);
 		    		if(val>old && val -old == 1){
 		    			vm.detail.sildeShowImages.shift();
-		    			setTimeout(function(){
-		    				vm.detail.sildeShowImages.push(vm.detail.sildeImages[val+vm.pageSize-1]);
-		    			},510);
-		    			
+		    			vm.detail.sildeShowImages.push(vm.detail.sildeImages[val+vm.pageSize-1]);		    			
 		    		}else if(val < old && old - val == 1){
 		    			vm.detail.sildeShowImages.pop();
-		    			setTimeout(function(){
-		    				vm.detail.sildeShowImages.unshift(vm.detail.sildeImages[val]);
-		    				}
-		    			,510);
-		    			;
-		    		}
+		    			vm.detail.sildeShowImages.unshift(vm.detail.sildeImages[val]);		    			    			
+		    		}		    		
 		    	}
 		    }    
 		}
@@ -285,3 +281,8 @@ function locationNull2Blank(locationDetail){
 		locationDetail.activityDistCode = '';
 	}
 }
+
+
+
+
+

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../css/iconfont.css">
     <link rel="stylesheet" href="../../css/productdetail.css">
     <script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="application/javascript" src="../../script/jquery.mousewheel.min.js"></script>
     <script type="application/javascript" src="../../script/bluebird.min.js"></script>
     <script type="application/javascript" src="../../script/vue.min.js"></script>
     <script type="application/javascript" src="../../script/jquery.cookie.js"></script>
@@ -70,11 +71,11 @@
                     <div class="center" :style="{'visibility':currentTopIndex>0?'inherit':'hidden'}">
                         <i @click="sliderPre" class="iconfont  font-icon-size1bold icon-shangjiantou"></i>
                     </div>
-                    <transition-group name="sideGroup" tag="div"> 
+                    <!-- <transition-group name="sideGroup" tag="ul" > --> 
                     <div class="side-image slide-gap" v-for="(item,index) in detail.sildeShowImages" v-bind:key="item" >
                         <img :src="item" alt="">
                     </div>
-                    </transition-group>
+                   <!--  </transition-group> -->
                     <div class="center slide-gap" :style="{'visibility':currentTopIndex<detail.sildeImages.length-2?'inherit':'hidden'}">
                         <i @click="sliderNext" class="iconfont font-icon-size1bold icon-xiajiantou"></i>
                     </div>

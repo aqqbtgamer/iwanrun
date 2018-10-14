@@ -61,6 +61,8 @@ $(document).ready(
         	adjustModifyField(); 
         	var requestObj = new Object();
         	requestObj.id = caseId ;
+        	$("#relationForm").show();
+        	wrapCustomerButtons();
         	commonLoadForModify(requestObj,dataGetUrl,mappingData);
         	bindDataModifySubmit('submitForm',caseId,fields,dataModifyUrl,returnLisPageModify);
         }else{
@@ -138,6 +140,21 @@ function mappingData(result){
 			mutipleDisplay('imgManage',imgs[i].filePath);
 		}		
 	}
+
+}
+
+function wrapCustomerButtons(){
+    $("input[method='href']").unbind();
+    console.log("开始处理自定义byutton功能");
+    $("input[method='href']").each(
+        function(index,element){
+            $(element).click(
+                function(){
+                    window.location.href=$(element).attr('to') + "&id="+caseId;
+                }
+            );
+        }
+    )
 }
 
 
