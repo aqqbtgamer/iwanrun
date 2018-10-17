@@ -106,7 +106,12 @@
                                 <input type="button" class="order-message" :value="'创建日期：'+order.createTime">
                                 <input type="button" class="order-message" :value="order.orderStatus">
                                 <input type="button" class="order-message" v-if="adviserAccount!=null" :value="'咨询师：'+adviserAccount.name">
+                            	<br/><br/>
+                            	<input type="button" class="order-message" :value="'团队人数：'+order.groupNumber">
+                            	<input type="button" class="order-message" :value="'团队联系人：'+order.contract">
+                            	<input type="button" class="order-message" :value="'团队联系人电话：'+order.contractMobile">
                             </div>
+                           
                         </div>
                          <div class="account-box-line account-box-first" v-if="locationList!=null">
                             <div class="account-box-content">
