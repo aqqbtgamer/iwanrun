@@ -396,7 +396,7 @@ public class OrdersService {
 			OrderAttachments orderAttach = new OrderAttachments();
 			orderAttach.setOrderId(orderId);
 			int start = filePath.lastIndexOf("/");
-			int end = filePath.indexOf(".");
+			int end = filePath.lastIndexOf(".");
 			String fileName = filePath.substring(start+1, end);
 			orderAttach.setFileName(fileName);
 			orderAttach.setFilePath(filePath);
