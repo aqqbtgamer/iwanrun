@@ -124,6 +124,9 @@ var appProductDetails = new Vue(
                 $.cookie('loginId') && vm.isCollectioned();               
 			},
 			methods:{
+				toOrderSubmit : function() {
+					window.location.href = "./ordersubmit.html";
+                },
 				 showLogin: function (message) {
 		                console.log("v-on  click method :showLogin");
 		                lrApp.showLogin(message);
