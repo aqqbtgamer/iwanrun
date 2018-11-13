@@ -34,6 +34,7 @@ import com.iwantrun.core.service.application.domain.SearchDictionaryList;
 import com.iwantrun.core.service.application.service.DictionaryService;
 import com.iwantrun.core.service.application.service.ProductionInfoService;
 import com.iwantrun.core.service.application.transfer.Message;
+import com.iwantrun.core.service.application.transfer.PageDomianRequest;
 import com.iwantrun.core.service.application.transfer.ProductionInfoRequest;
 import com.iwantrun.core.service.utils.DictionaryConfigParams;
 import com.iwantrun.core.service.utils.EntityBeanUtils;
@@ -446,5 +447,31 @@ public class ProductionInfoController {
 		}
 		return "";
 
+	}
+	
+	
+	@RequestMapping("/application/productionInfo/findAll")	
+	public Message findAll(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		JSONObject object = (JSONObject) JSONValue.parse(dataJson);
+		String pageIndex = object.getAsString("pageIndex");
+		Page<ProductionInfo> pageResult = productionInfoService.findAllPaged(Integer.parseInt(pageIndex));
+		Map<String, Dictionary> dictionnaryMap = EntityDictionaryConfigUtils
+				.getDictionaryMaping(new ProductionInfo());
+		dictionaryService.dictionaryFilter(pageResult.getContent(), dictionnaryMap);
+		message.setMessageBody(PageDataWrapUtils.page2JsonNoCopy(pageResult));
+		return message; 
+	}
+	
+	@RequestMapping("/application/productionInfo/queryAll")	
+	public Message queryAll(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		PageDomianRequest example = JSONUtils.jsonToObj(dataJson, PageDomianRequest.class);
+		Page<ProductionInfo> resultPage = productionInfoService.queryByName(example.getPageIndex(), example.getObjAsType(ProductionInfo.class).getName()) ;
+		Map<String, Dictionary> dictionnaryMap = EntityDictionaryConfigUtils
+				.getDictionaryMaping(new ProductionInfo());
+		dictionaryService.dictionaryFilter(resultPage.getContent(), dictionnaryMap);
+		message.setMessageBody(PageDataWrapUtils.page2JsonNoCopy(resultPage));
+		return message; 
 	}
 }

@@ -16,5 +16,11 @@ public class StringFilterUtilsTest {
 		String testS = "18018336171" ;
 		System.out.println(StringFilterUtils.maskString(3, 4, testS));
 	}
+	
+	@Test
+	public void testFirstCap() {
+		String testS = "locationId";
+		System.out.println(StringFilterUtils.firstCapString(testS));
+	}
 
 }

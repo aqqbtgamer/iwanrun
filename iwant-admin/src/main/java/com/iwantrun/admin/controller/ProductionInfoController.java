@@ -29,6 +29,25 @@ public class ProductionInfoController {
 		return service.find(request);
 	}
 	
+
+	/**
+	 * 无条件按照分页查询所有结果
+	 */
+	@RequestMapping("/productionInfo/findAll")
+	@ResponseBody
+	public String findAll(HttpServletRequest request) {
+		return service.findAll(request);
+	}
+	
+	/**
+	 * 按照name分页查询所有结果
+	 */
+	@RequestMapping("/productionInfo/queryAll")
+	@ResponseBody
+	public String queryAll(HttpServletRequest request) {
+		return service.queryAll(request);
+	}
+	
 	/**
 	 * 根据ID查找产品信息
 	 */

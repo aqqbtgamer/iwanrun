@@ -48,5 +48,18 @@ public class ProductionLocationRelation {
 	public void setLocationId(int locationId) {
 		this.locationId = locationId;
 	}
+	
+	public boolean equals(Object compare) {
+		if(compare instanceof ProductionLocationRelation) {
+			ProductionLocationRelation compareObj = (ProductionLocationRelation)compare ;
+			if(this.locationId == compareObj.getLocationId() && this.productionId == compareObj.getProductionId()) {
+				return true ;
+			}else {
+				return false;
+			}
+		}else {
+			return false ;
+		}
+	}
 
 }

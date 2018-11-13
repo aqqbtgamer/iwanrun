@@ -182,7 +182,7 @@ function wrapCustomerButtons(){
         function(index,element){
             $(element).click(
                 function(){
-                    window.location.href=$(element).attr('to') + "&id="+getUrlParam('id');
+                    window.location.href=$(element).attr('to') + "&id="+getUrlParam('id').id;
                 }
             );
         }

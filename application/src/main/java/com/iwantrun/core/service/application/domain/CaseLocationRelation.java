@@ -45,6 +45,17 @@ public class CaseLocationRelation {
 		this.locationId = locationId;
 	}
 	
-	
+	public boolean equals(Object compare) {
+		if(compare instanceof CaseLocationRelation) {
+			CaseLocationRelation compareObj = (CaseLocationRelation)compare ;
+			if(this.locationId == compareObj.getLocationId() && this.caseId == compareObj.getCaseId()) {
+				return true ;
+			}else {
+				return false;
+			}
+		}else {
+			return false ;
+		}
+	}
 
 }

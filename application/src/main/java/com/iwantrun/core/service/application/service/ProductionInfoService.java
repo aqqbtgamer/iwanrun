@@ -446,4 +446,16 @@ public class ProductionInfoService {
 		PageImpl<ProductionInfo> result = new PageImpl<ProductionInfo>(content, page, totalNum);
 		return result;
 	}
+	
+	public Page<ProductionInfo> findAllPaged(Integer pageIndex){
+		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
+		PageRequest pageable = PageRequest.of(pageIndex, pageSize);
+		return productionInfoDao.findAll(pageable);
+	}
+	
+	public Page<ProductionInfo> queryByName(Integer pageIndex,String name){
+		Integer pageSize = Integer.parseInt(environment.getProperty("common.pageSize"));
+		PageRequest pageable = PageRequest.of(pageIndex, pageSize);
+		return productionInfoDao.findByNameLike("%"+name+"%", pageable);
+	}
 }

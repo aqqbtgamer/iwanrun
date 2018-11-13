@@ -163,6 +163,7 @@
 
 .detail-content-body{
     /*width: 94vw;*/
+    width:800px;
     height: 72vw;
     margin-right: auto;
     margin-left: auto;
@@ -173,7 +174,7 @@
 }
 
 .detail-content-area{
-	text-align:center
+	/*text-align:center*/
 }
 
 .left-detail{

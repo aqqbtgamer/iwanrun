@@ -45,5 +45,18 @@ public class ProductionCaseRelation {
 	public void setProductionId(Integer productionId) {
 		this.productionId = productionId;
 	}
+	
+	public boolean equals(Object compare) {
+		if(compare instanceof ProductionCaseRelation) {
+			ProductionCaseRelation compareObj = (ProductionCaseRelation)compare ;
+			if(this.caseId == compareObj.getCaseId() && this.productionId == compareObj.getProductionId()) {
+				return true ;
+			}else {
+				return false;
+			}
+		}else {
+			return false ;
+		}
+	}
 
 }

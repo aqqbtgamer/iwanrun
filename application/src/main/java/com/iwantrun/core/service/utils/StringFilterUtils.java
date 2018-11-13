@@ -42,4 +42,16 @@ public class StringFilterUtils {
 		}
 		return null;
 	}
+	
+	/**
+	 * 首字母大写
+	 * 
+	 */
+	public static String firstCapString(String val) {
+		if(val == null || val.length() == 0) {
+			return val ;
+		}else {
+			return val.substring(0, 1).toUpperCase()+ val.substring(1);
+		}
+	}
 }

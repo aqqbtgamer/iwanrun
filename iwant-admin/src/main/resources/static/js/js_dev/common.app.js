@@ -13,6 +13,8 @@ const mobileReg = /^1[3|4|5|7|8|9][0-9]\d{4,8}$/;
 //const passwordReg = /^([a-zA-Z]+[0-9]+[!@#$%^&*]+)|([a-zA-Z]+[!@#$%^&*]+[0-9]+)|([0-9]+[!@#$%^&*]+[a-zA-Z]+)|([0-9]+[a-zA-Z]+[!@#$%^&*]+)|([!@#$%^&*]+[a-zA-Z]+[0-9]+)|([!@#$%^&*]+[0-9]+[a-zA-Z]+)$/
 //密码强度正则，最少8位，最多16位，包括至少1个字母，1个数字，1个特殊字符
 const passwordReg = /^.*(?=.{8,16})(?=.*\d)(?=.*[a-zA-Z])(?=.*[`~!@#$%^&*<>?,./\[\]\{}|\-=()]).*$/;
+const success = "success" ;
+const fail = "fail";
 
 function fileUpload(contentId,url,callback) {
     var formData = new FormData();
