@@ -835,7 +835,7 @@ function fileUpload(contentId,url,callback) {
     function mappingSelectItem(id,value){
     	$("#"+id+" option").each(
     		function(){
-    			if($(this).val() == value){
+    			if($(this).val() == value || $(this).text() == value){
     				$(this).prop("selected",true)
     			}
     		}	
