@@ -241,22 +241,25 @@
                         <nav>
                             <ul>
                                 <li class="tail-li-left"><a href="#">关于我们</a></li>
-                                <li class="tail-li-left"><a href="#">加入我们</a></li>
+                               <!--  <li class="tail-li-left"><a href="#">加入我们</a></li>
                                 <li class="tail-li-left"><a href="#">联系我们</a></li>
-                                <li class="tail-li-left"><a href="#">条款</a></li>
+                                <li class="tail-li-left"><a href="#">条款</a></li> -->
                                 <li class="tail-li-left " style="margin-right: 0"><a href="#">网站导航</a></li>
                             </ul>
                         </nav>
                     </div>
                     <div id="icon-connect" class="icon-connect">
                         <p>
-                            <i class="iconfont icon-facebookfacebook52 clickIcon" style="font-size: 2vw"></i>
-                            <i class="iconfont icon-twitter3 clickIcon" style="font-size: 2vw"></i>
-                            <i class="iconfont icon-weixin-copy clickIcon" style="font-size: 2vw"></i>
-                            <i class="iconfont icon-weibo clickIcon" style="font-size: 2vw"></i>
+                           <!--  <i class="iconfont icon-facebookfacebook52 clickIcon" style="font-size: 2vw"></i>
+                            <i class="iconfont icon-twitter3 clickIcon" style="font-size: 2vw"></i> -->
+                            <i class="iconfont icon-weixin-copy clickIcon" style="font-size: 2vw" @mouseover="displayIcon" @mouseout="hideIcon"></i>
+                           <!--  <i class="iconfont icon-weibo clickIcon" style="font-size: 2vw"></i> -->
                         </p>
                     </div>
                     <div class="clear"></div>
+                    <div id="tail-display-icon-big" >
+                			<img id="tail-image-icon" class="tail-image-icon" src="../../img/weixinContract.png" style="width:344px" v-show="tailWeixinIcon" v-cloak />  
+                		</div>
                 </div>
             </div>
             <div id="mask" class="mask" v-if="mask" v-cloak></div>

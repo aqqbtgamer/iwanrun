@@ -29,7 +29,8 @@ var appIndex = new Vue(
 				duration:[],
 				specialTagsCode:[],
 				locationTypeCode:[]   
-            }
+            },
+            tailWeixinIcon:false
         },
         created:function(){
         	var vm = this;
@@ -122,7 +123,14 @@ var appIndex = new Vue(
             toDetails:function(id){
             	console.log("v-on click toDetails :"+id);
             	window.location.href = "./productdetail.html?type=location&id="+id ;
+            },
+            displayIcon:function(){
+            	this.tailWeixinIcon =  true ;
+            },
+            hideIcon:function(){
+            	this.tailWeixinIcon =  false ;
             }
+        	
         }
        
         

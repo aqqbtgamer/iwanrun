@@ -35,7 +35,8 @@ var appMyAccount = new Vue(
             },
             productList:[],
             locationList:[],
-            caseList:[]
+            caseList:[],
+            tailWeixinIcon:false
         },
         
         watch:{
@@ -321,6 +322,12 @@ var appMyAccount = new Vue(
             				}
             				
             	})
+            },
+            displayIcon:function(){
+            	this.tailWeixinIcon =  true ;
+            },
+            hideIcon:function(){
+            	this.tailWeixinIcon =  false ;
             }
         }
     }

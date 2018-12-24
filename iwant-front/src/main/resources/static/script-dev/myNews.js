@@ -67,7 +67,8 @@ var appMyAccount = new Vue(
             showList: [],
             onlyUnread: false,
             detail: {},
-            showDetail: false
+            showDetail: false,
+            tailWeixinIcon:false
         },
         methods: {
             showLogin: function (message) {
@@ -183,6 +184,12 @@ var appMyAccount = new Vue(
                 var vm = this;
                 vm.page = page;
                 vm.GetNewsByPage(page);
+            },
+            displayIcon:function(){
+            	this.tailWeixinIcon =  true ;
+            },
+            hideIcon:function(){
+            	this.tailWeixinIcon =  false ;
             }
         },
         watch:{

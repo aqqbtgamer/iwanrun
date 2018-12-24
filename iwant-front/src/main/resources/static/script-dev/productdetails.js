@@ -45,7 +45,8 @@ var appProductDetails = new Vue(
 		         detailName:"",
 		         currentTopIndex: 0,
 		         pageSize:sildePageSize,
-                 isFavourite:false                 
+                 isFavourite:false,
+                 tailWeixinIcon:false
 			},
 			created:function(){
 				var vm = this ;
@@ -227,6 +228,12 @@ var appProductDetails = new Vue(
                 			  }
                 		  }
                 	  }
+                  },
+                  displayIcon:function(){
+                  	this.tailWeixinIcon =  true ;
+                  },
+                  hideIcon:function(){
+                  	this.tailWeixinIcon =  false ;
                   }
                   
 			},

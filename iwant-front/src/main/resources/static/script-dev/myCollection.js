@@ -31,7 +31,8 @@ var appMyAccount = new Vue(
             products: [
                 
             ],
-            cases: []
+            cases: [],
+            tailWeixinIcon:false
         },
         created:function(){
         	var vm = this;
@@ -116,6 +117,12 @@ var appMyAccount = new Vue(
                 				}
             				}
             	})
+            },
+            displayIcon:function(){
+            	this.tailWeixinIcon =  true ;
+            },
+            hideIcon:function(){
+            	this.tailWeixinIcon =  false ;
             }
         }
     }

@@ -52,7 +52,8 @@ var appMyAccount = new Vue(
 	        },
             setting: false,
             settingTitle: '昵称',
-            settingFlag: 0 //0:nickname;1:phone;2:securityanswer
+            settingFlag: 0, //0:nickname;1:phone;2:securityanswer
+            tailWeixinIcon:false
         },
         created: function(){
         	initData();
@@ -266,7 +267,14 @@ var appMyAccount = new Vue(
 				if(data){
 					setUserInfo(data);
 				}
-			}
+			},
+			displayIcon:function(){
+            	this.tailWeixinIcon =  true ;
+            },
+            hideIcon:function(){
+            	this.tailWeixinIcon =  false ;
+            }
+
         }
     }
 );

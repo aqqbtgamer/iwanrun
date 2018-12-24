@@ -29,7 +29,8 @@ var appListProduction = new Vue(
             	currentIndex:1,
             	totalPage:5,
             	pageSize:10
-            }
+            },
+            tailWeixinIcon:false
         },
         watch:{
         	loginId:function(newVal,oldVal){
@@ -130,6 +131,12 @@ var appListProduction = new Vue(
                 				}
                 	})
             	}
+            },
+            displayIcon:function(){
+            	this.tailWeixinIcon =  true ;
+            },
+            hideIcon:function(){
+            	this.tailWeixinIcon =  false ;
             }
         },
         created:function(){

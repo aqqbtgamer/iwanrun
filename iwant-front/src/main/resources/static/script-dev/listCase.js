@@ -32,7 +32,8 @@ var appListCase = new Vue(
 				companytype:[],
 				personNum:[],
 				duration:[]
-            }
+            },
+            tailWeixinIcon:false
         },
 
         
@@ -120,6 +121,12 @@ var appListCase = new Vue(
             toDetails:function(id){
             	console.log("v-on click toDetails :"+id);
             	window.location.href = "./productdetail.html?type=case&id="+id ;
+            },
+            displayIcon:function(){
+            	this.tailWeixinIcon =  true ;
+            },
+            hideIcon:function(){
+            	this.tailWeixinIcon =  false ;
             }
         	
             

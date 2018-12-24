@@ -77,7 +77,8 @@ var appMyAccount = new Vue(
             simulatePriceList:[],
             selectedSimulatePrice:"",
             otherRequire:"",
-            loginVerifyInteval:null
+            loginVerifyInteval:null,
+            tailWeixinIcon:false
         },
         created:function(){
         	console.log("init server http data ....");
@@ -334,6 +335,12 @@ var appMyAccount = new Vue(
                 	vm.queryCaseByCondition(vm.caseCurrentPage);
             	}
             },
+            displayIcon:function(){
+            	this.tailWeixinIcon =  true ;
+            },
+            hideIcon:function(){
+            	this.tailWeixinIcon =  false ;
+            }
         }
     }
 );

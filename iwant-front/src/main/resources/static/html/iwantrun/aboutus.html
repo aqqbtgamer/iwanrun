@@ -9,10 +9,15 @@
 	<link rel="icon" href="../../img/icon/favicon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="../../css/aboutus.css" />
 	<link rel="stylesheet" href="../../css/iconfont.css" />
+	 <link rel="stylesheet" href=" ../../css/common.css">
+	<script type="application/javascript" src="../../script/jquery-3.3.1.min.js"></script>
+    <script type="application/javascript" src="../../script/jquery.cookie.js"></script>
+    <script type="application/javascript" src="../../script/vue.min.js"></script>
+    <script type="application/javascript" src="../../script/axios.min.js"></script>
 </head>
 
 <body>
-	<div class="container">
+	<div id="container" class="container">
 		<div id="common-header" class="common-head">
 			<div id="icon" class="icon-flow">
 				<img src="../../img/logo.png" alt="logo.png" width="100%">
@@ -35,7 +40,7 @@
 							<a href="../../html/iwantrun/listlocation.html">看场地</a>
 						</li>
 						<li class="tail-li-left">
-							<a href=".../../html/iwantrun/listcase.html">看案例</a>
+							<a href="../../html/iwantrun/listcase.html">看案例</a>
 						</li>
 						<li class="tail-li-left">
 							<a href="../../html/iwantrun/myAccount.html">个人中心</a>
@@ -145,7 +150,7 @@
 							<li class="tail-li-left">
 								<a href="#">关于我们</a>
 							</li>
-							<li class="tail-li-left">
+							<!-- <li class="tail-li-left">
 								<a href="#">加入我们</a>
 							</li>
 							<li class="tail-li-left">
@@ -153,7 +158,7 @@
 							</li>
 							<li class="tail-li-left">
 								<a href="#">条款</a>
-							</li>
+							</li> -->
 							<li class="tail-li-left " style="margin-right: 0">
 								<a href="#">网站导航</a>
 							</li>
@@ -162,16 +167,20 @@
 				</div>
 				<div id="icon-connect" class="icon-connect">
 					<p>
-						<i class="iconfont icon-facebookfacebook52 clickIcon" style="font-size: 2vw"></i>
-						<i class="iconfont icon-twitter3 clickIcon" style="font-size: 2vw"></i>
-						<i class="iconfont icon-weixin-copy clickIcon" style="font-size: 2vw"></i>
-						<i class="iconfont icon-weibo clickIcon" style="font-size: 2vw"></i>
+						<!-- <i class="iconfont icon-facebookfacebook52 clickIcon" style="font-size: 2vw"></i>
+						<i class="iconfont icon-twitter3 clickIcon" style="font-size: 2vw"></i> -->
+						<i class="iconfont icon-weixin-copy clickIcon" style="font-size: 2vw" @mouseover="displayIcon" @mouseout="hideIcon"></i>
+						<!-- <i class="iconfont icon-weibo clickIcon" style="font-size: 2vw"></i> -->
 					</p>
 				</div>
 				<div class="clear"></div>
+				<div id="tail-display-icon-big" >
+                <img id="tail-image-icon" class="tail-image-icon" src="../../img/weixinContract.png" v-show="tailWeixinIcon" v-cloak> </img>
+                </div>
 			</div>
 		</div>
 	</div>
 </body>
-
+<script type="application/javascript" src="../../script-dev/common.app.js"></script>
+<script type="application/javascript" src="../../script-dev/aboutusVue.js"></script>
 </html>

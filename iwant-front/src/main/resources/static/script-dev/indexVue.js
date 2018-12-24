@@ -19,7 +19,8 @@ var appIndex = new Vue(
                 newsIndex: 0,
                 trades: [],
                 tradeIndex: 0,
-                partners:[]
+                partners:[],
+                tailWeixinIcon:false
 			},
 			created: function(){
 	        	var vm = this;
@@ -153,6 +154,12 @@ var appIndex = new Vue(
                 nextTrade: function () {
                     var vm = this;
                     Array.isArray(vm.trades) && vm.tradeIndex < vm.trades.length - 4 && vm.tradeIndex++;
+                },
+                displayIcon:function(){
+                	this.tailWeixinIcon =  true ;
+                },
+                hideIcon:function(){
+                	this.tailWeixinIcon =  false ;
                 }
 			}
 		});

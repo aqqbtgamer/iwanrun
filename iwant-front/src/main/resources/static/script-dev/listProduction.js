@@ -29,7 +29,8 @@ var appListProduction = new Vue(
                 duration: [],
                 specialTagsCode: [],
                 orderSimulatePriceCode: []
-            }
+            },           
+            tailWeixinIcon:false
         },
         created: function () {
             var vm = this;
@@ -122,6 +123,12 @@ var appListProduction = new Vue(
             },
             routeToDetail: function (id) {
                 id && (window.location.href = "./productdetail.html?type=product&id=" + id);
+            },
+            displayIcon:function(){
+            	this.tailWeixinIcon =  true ;
+            },
+            hideIcon:function(){
+            	this.tailWeixinIcon =  false ;
             }
 
         }
