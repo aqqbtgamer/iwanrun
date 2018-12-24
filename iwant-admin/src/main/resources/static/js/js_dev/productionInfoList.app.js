@@ -30,7 +30,7 @@ function fillPagesData(data){
 	$.each(list, function(index, n) {
 		var mainImageIcon = list[index].mainImageIcon;
 		var name = list[index].name;
-		var during = list[index].during;
+		var during = list[index].dur;
 		var id = list[index].id;
 		
 		var activityType = list[index].activityTypeCode;
