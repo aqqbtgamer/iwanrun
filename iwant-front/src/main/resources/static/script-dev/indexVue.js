@@ -160,6 +160,13 @@ var appIndex = new Vue(
                 },
                 hideIcon:function(){
                 	this.tailWeixinIcon =  false ;
+                },
+                ingornedLongText:function(input){
+                	if(input != null && input.length > 8){
+                		return input.substr(0,11)+"...";
+                	}else{
+                		return input;
+                	}
                 }
 			}
 		});
