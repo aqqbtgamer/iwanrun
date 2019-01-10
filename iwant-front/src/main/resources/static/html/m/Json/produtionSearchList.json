@@ -1,0 +1,588 @@
+﻿{
+  "pageIndex": null,
+  "pageSize": null,
+  "activityProvinceCode": [
+    {
+      "id": 14,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 1,
+      "value": "上海",
+      "assignTo": null
+    },
+    {
+      "id": 32,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 2,
+      "value": "江苏",
+      "assignTo": null
+    },
+    {
+      "id": 176,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 3,
+      "value": "浙江",
+      "assignTo": null
+    },
+    {
+      "id": 177,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 4,
+      "value": "江西",
+      "assignTo": null
+    },
+    {
+      "id": 178,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 5,
+      "value": "安徽",
+      "assignTo": null
+    },
+    {
+      "id": 181,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 7,
+      "value": "福建",
+      "assignTo": null
+    },
+    {
+      "id": 186,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 8,
+      "value": "山东",
+      "assignTo": null
+    },
+    {
+      "id": 283,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 9,
+      "value": "甘肃",
+      "assignTo": null
+    },
+    {
+      "id": 285,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 10,
+      "value": "云南",
+      "assignTo": null
+    },
+    {
+      "id": 289,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 11,
+      "value": "陕西",
+      "assignTo": null
+    },
+    {
+      "id": 292,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 12,
+      "value": "河北",
+      "assignTo": null
+    },
+    {
+      "id": 297,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 13,
+      "value": "贵州",
+      "assignTo": null
+    },
+    {
+      "id": 302,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 14,
+      "value": "湖北",
+      "assignTo": null
+    },
+    {
+      "id": 305,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 15,
+      "value": "河南",
+      "assignTo": null
+    },
+    {
+      "id": 312,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 16,
+      "value": "四川",
+      "assignTo": null
+    },
+    {
+      "id": 316,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 17,
+      "value": "湖南",
+      "assignTo": null
+    },
+    {
+      "id": 330,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 18,
+      "value": "北京",
+      "assignTo": null
+    },
+    {
+      "id": 333,
+      "name": "common",
+      "used_field": "6",
+      "display_code": 0,
+      "display_value": null,
+      "code": 19,
+      "value": "内蒙古",
+      "assignTo": null
+    }
+  ],
+  "activitytype": [
+    {
+      "id": 233,
+      "name": "common",
+      "used_field": "9",
+      "display_code": 0,
+      "display_value": null,
+      "code": 1,
+      "value": "员工运动会",
+      "assignTo": null
+    },
+    {
+      "id": 234,
+      "name": "common",
+      "used_field": "9",
+      "display_code": 0,
+      "display_value": null,
+      "code": 2,
+      "value": "企业健康跑",
+      "assignTo": null
+    },
+    {
+      "id": 235,
+      "name": "common",
+      "used_field": "9",
+      "display_code": 0,
+      "display_value": null,
+      "code": 3,
+      "value": "城市定向跑",
+      "assignTo": null
+    },
+    {
+      "id": 236,
+      "name": "common",
+      "used_field": "9",
+      "display_code": 0,
+      "display_value": null,
+      "code": 4,
+      "value": "登山徒步",
+      "assignTo": null
+    },
+    {
+      "id": 237,
+      "name": "common",
+      "used_field": "9",
+      "display_code": 0,
+      "display_value": null,
+      "code": 5,
+      "value": "户外拓展",
+      "assignTo": null
+    },
+    {
+      "id": 238,
+      "name": "common",
+      "used_field": "9",
+      "display_code": 0,
+      "display_value": null,
+      "code": 6,
+      "value": "休闲度假",
+      "assignTo": null
+    },
+    {
+      "id": 239,
+      "name": "common",
+      "used_field": "9",
+      "display_code": 0,
+      "display_value": null,
+      "code": 7,
+      "value": "企业年会",
+      "assignTo": null
+    },
+    {
+      "id": 240,
+      "name": "common",
+      "used_field": "9",
+      "display_code": 0,
+      "display_value": null,
+      "code": 8,
+      "value": "趣味团建",
+      "assignTo": null
+    },
+    {
+      "id": 276,
+      "name": "common",
+      "used_field": "9",
+      "display_code": 0,
+      "display_value": null,
+      "code": 9,
+      "value": "红色党建",
+      "assignTo": null
+    },
+    {
+      "id": 277,
+      "name": "common",
+      "used_field": "9",
+      "display_code": 0,
+      "display_value": null,
+      "code": 10,
+      "value": "智行合一",
+      "assignTo": null
+    },
+    {
+      "id": 329,
+      "name": "common",
+      "used_field": "9",
+      "display_code": 0,
+      "display_value": null,
+      "code": 11,
+      "value": "户外徒步",
+      "assignTo": null
+    }
+  ],
+  "companytype": null,
+  "personNum": [
+    {
+      "id": 22,
+      "name": "common",
+      "used_field": "22",
+      "display_code": 0,
+      "display_value": null,
+      "code": 1,
+      "value": "50人以下",
+      "assignTo": null
+    },
+    {
+      "id": 23,
+      "name": "common",
+      "used_field": "22",
+      "display_code": 0,
+      "display_value": null,
+      "code": 2,
+      "value": "50-100人",
+      "assignTo": null
+    },
+    {
+      "id": 263,
+      "name": "common",
+      "used_field": "22",
+      "display_code": 0,
+      "display_value": null,
+      "code": 3,
+      "value": "100-200人",
+      "assignTo": null
+    },
+    {
+      "id": 264,
+      "name": "common",
+      "used_field": "22",
+      "display_code": 0,
+      "display_value": null,
+      "code": 4,
+      "value": "200-500人",
+      "assignTo": null
+    },
+    {
+      "id": 265,
+      "name": "common",
+      "used_field": "22",
+      "display_code": 0,
+      "display_value": null,
+      "code": 5,
+      "value": "500-1000人",
+      "assignTo": null
+    },
+    {
+      "id": 266,
+      "name": "common",
+      "used_field": "22",
+      "display_code": 0,
+      "display_value": null,
+      "code": 6,
+      "value": "1000-3000人",
+      "assignTo": null
+    },
+    {
+      "id": 267,
+      "name": "common",
+      "used_field": "22",
+      "display_code": 0,
+      "display_value": null,
+      "code": 7,
+      "value": "3000人以上",
+      "assignTo": null
+    },
+    {
+      "id": 279,
+      "name": "common",
+      "used_field": "22",
+      "display_code": 0,
+      "display_value": null,
+      "code": 8,
+      "value": "人数不限",
+      "assignTo": null
+    }
+  ],
+  "duration": [
+    {
+      "id": 24,
+      "name": "common",
+      "used_field": "23",
+      "display_code": 0,
+      "display_value": null,
+      "code": 1,
+      "value": "3天以内",
+      "assignTo": null
+    },
+    {
+      "id": 25,
+      "name": "common",
+      "used_field": "23",
+      "display_code": 0,
+      "display_value": null,
+      "code": 2,
+      "value": "3-7天",
+      "assignTo": null
+    },
+    {
+      "id": 268,
+      "name": "common",
+      "used_field": "23",
+      "display_code": 0,
+      "display_value": null,
+      "code": 3,
+      "value": "7-14天",
+      "assignTo": null
+    },
+    {
+      "id": 345,
+      "name": "common",
+      "used_field": "23",
+      "display_code": 0,
+      "display_value": null,
+      "code": 4,
+      "value": "14天以上",
+      "assignTo": null
+    }
+  ],
+  "locationTypeCode": null,
+  "specialTagsCode": [
+    {
+      "id": 112,
+      "name": "production",
+      "used_field": "11",
+      "display_code": 0,
+      "display_value": null,
+      "code": 1,
+      "value": "团队协作",
+      "assignTo": null
+    },
+    {
+      "id": 113,
+      "name": "production",
+      "used_field": "11",
+      "display_code": 0,
+      "display_value": null,
+      "code": 2,
+      "value": "领导力",
+      "assignTo": null
+    },
+    {
+      "id": 114,
+      "name": "production",
+      "used_field": "11",
+      "display_code": 0,
+      "display_value": null,
+      "code": 3,
+      "value": "创新创业",
+      "assignTo": null
+    },
+    {
+      "id": 115,
+      "name": "production",
+      "used_field": "11",
+      "display_code": 0,
+      "display_value": null,
+      "code": 4,
+      "value": "职场应变",
+      "assignTo": null
+    },
+    {
+      "id": 116,
+      "name": "production",
+      "used_field": "11",
+      "display_code": 0,
+      "display_value": null,
+      "code": 5,
+      "value": "新员工激活",
+      "assignTo": null
+    },
+    {
+      "id": 117,
+      "name": "production",
+      "used_field": "11",
+      "display_code": 0,
+      "display_value": null,
+      "code": 6,
+      "value": "挑战极限",
+      "assignTo": null
+    },
+    {
+      "id": 118,
+      "name": "production",
+      "used_field": "11",
+      "display_code": 0,
+      "display_value": null,
+      "code": 7,
+      "value": "释放压力",
+      "assignTo": null
+    },
+    {
+      "id": 119,
+      "name": "production",
+      "used_field": "11",
+      "display_code": 0,
+      "display_value": null,
+      "code": 8,
+      "value": "演说智慧",
+      "assignTo": null
+    },
+    {
+      "id": 120,
+      "name": "production",
+      "used_field": "11",
+      "display_code": 0,
+      "display_value": null,
+      "code": 9,
+      "value": "休闲放松",
+      "assignTo": null
+    },
+    {
+      "id": 121,
+      "name": "production",
+      "used_field": "11",
+      "display_code": 0,
+      "display_value": null,
+      "code": 10,
+      "value": "互相信任",
+      "assignTo": null
+    },
+    {
+      "id": 296,
+      "name": "production",
+      "used_field": "11",
+      "display_code": 0,
+      "display_value": null,
+      "code": 11,
+      "value": "红色主题",
+      "assignTo": null
+    }
+  ],
+  "orderSimulatePriceCode": [
+    {
+      "id": 130,
+      "name": "production",
+      "used_field": "13",
+      "display_code": 0,
+      "display_value": null,
+      "code": 1,
+      "value": "100-300元/人",
+      "assignTo": null
+    },
+    {
+      "id": 131,
+      "name": "production",
+      "used_field": "13",
+      "display_code": 0,
+      "display_value": null,
+      "code": 2,
+      "value": "300-500元/人",
+      "assignTo": null
+    },
+    {
+      "id": 132,
+      "name": "production",
+      "used_field": "13",
+      "display_code": 0,
+      "display_value": null,
+      "code": 3,
+      "value": "500-1000元/人",
+      "assignTo": null
+    },
+    {
+      "id": 133,
+      "name": "production",
+      "used_field": "13",
+      "display_code": 0,
+      "display_value": null,
+      "code": 4,
+      "value": "1000-3000元/人",
+      "assignTo": null
+    },
+    {
+      "id": 134,
+      "name": "production",
+      "used_field": "13",
+      "display_code": 0,
+      "display_value": null,
+      "code": 5,
+      "value": "3000元以上/人",
+      "assignTo": null
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+﻿{
+  "result": "success",
+  "list": "[{\"id\":46,\"fileName\":\"test1_1536133413278.jpg\",\"filePath\":\"http://139.196.228.29:9999/iwant_app/uploaded/test1_1536133413278.jpg\",\"pagePath\":\"index\",\"imgUrl\":\"http://139.196.228.29:8088/iwantrun/html/iwantrun/productdetail.html?type=product&id=13\"},{\"id\":47,\"fileName\":\"test2_1536133417572.jpg\",\"filePath\":\"http://139.196.228.29:9999/iwant_app/uploaded/test2_1536133417572.jpg\",\"pagePath\":\"index\"},{\"id\":48,\"fileName\":\"test3_1536133422023.jpg\",\"filePath\":\"http://139.196.228.29:9999/iwant_app/uploaded/test3_1536133422023.jpg\",\"pagePath\":\"index\"},{\"id\":49,\"fileName\":\"test4_1536133426990.jpg\",\"filePath\":\"http://139.196.228.29:9999/iwant_app/uploaded/test4_1536133426990.jpg\",\"pagePath\":\"index\"},{\"id\":50,\"fileName\":\"test5_1536133433135.jpg\",\"filePath\":\"http://139.196.228.29:9999/iwant_app/uploaded/test5_1536133433135.jpg\",\"pagePath\":\"index\"}]"
+}

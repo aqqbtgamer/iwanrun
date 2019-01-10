@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>案例列表</title>
+
+    <link rel="stylesheet" href="css/mincss.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="container">
+        <!--案例列表-->
+        <div class="listcase">
+            <!--搜索拦-->
+            <header class="home_header w100p h126 bgcffffff bs-0-0-6-0-dddddd pf t0 l0">
+                <a href="city.html" class="fz28 ml30 lh126 c333333 location_area">{{currentcity}}</a>
+                <div class="w500 h56 bgcf5f5f5 br45 header_search pa t34 l150">
+                    <input type="text" @focus="showSearch" class="w456 h40 lh40 mt8 fl pl30 pr30 fz26" placeholder="产品、场地、案例" />
+                </div>
+                <a class="fr mr30 mt40" href="javascript:void(0)" @click="showSlidemenu">
+                    <img src="images/icon_menu_btn.png" class="w26 h26" alt="">
+                </a>
+            </header>
+            <section class="mt130 bgcffffff w100p fz26 lh54 pl40 pr40 pt24 fh">
+                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">聚餐</span>
+                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">团建</span>
+                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">户外行</span>
+                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">户外行</span>
+                <i class="db fr w42 h32"><img src="images/selct_type_icon.png" @click="showFilter" class="object-fit-cover" alt=""></i>
+            </section>
+
+            <section class=" w100p bgcffffff  pb40">
+                <ul class="pt40 ml30 mr30 ofh">
+                    <li class="h450 pr fl" style="width: 50%" v-for="item in model.list" @click="linktoDetail(item.id)">
+                        <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                            <div class="fz28 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.name}}</div>
+                            <div class="pl30 pr30 pt10 fz22">
+                                <span v-for="str in item.tips" class="mr10">#{{str}}#</span>
+                            </div>
+                            <div class="pl30 pr30 pt10 fz22 c666666">
+                                <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
+                                <p>{{item.designDuringCo}} /{{item.groupNumber}}</p>
+                            </div>
+                            <!--<div class="pl30 pr30 pt10 fz34" style="color: #fd5509">
+                            ￥200<span class="fz20">/人起</span>
+                        </div>-->
+                        </div>
+                        <div class="w210 h148 pa b40 l70">
+                            <img :src="item.descirbeText2" class="object-fit-cover" alt="">
+                        </div>
+                    </li>
+                </ul>
+
+                <a href="javascript:void(0)" @click="getMore" v-show="model.showbtnmore" class=" db w670 h86 lh86 tac fz28 c666666 m0a">点击查看更多</a>
+            </section>
+
+        </div>
+    </div>
+  
+    <div id="companyfooter">
+        <companyfooter></companyfooter>
+    </div>
+    <div id="helporder">
+        <helporder></helporder>
+    </div>
+    <div id="login">
+        <login></login>
+    </div>
+    <div id="sildemenu">
+        <sildemenu></sildemenu>
+    </div>
+   
+    <div id="filter">
+        <filter></filter>
+    </div>
+    <div id="search">
+        <search></search>
+    </div>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/change_font_size.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+
+    <script src="Scripts/common.js"></script>
+    <script src="template/companyfooter.js"></script>
+    <script src="template/helporder.js"></script>
+    <script src="template/login.js"></script>
+    <script src="template/sildemenu.js"></script>
+    <script src="template/filter.js"></script>
+    <script src="template/search.js"></script>
+    <script src="Scripts/listcase.js"></script>
+</body>
+</html>

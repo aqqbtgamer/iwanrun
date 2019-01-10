@@ -1,0 +1,42 @@
+﻿[
+  {
+    "id": 24,
+    "name": "common",
+    "used_field": "23",
+    "display_code": 0,
+    "display_value": null,
+    "code": 1,
+    "value": "3天以内",
+    "assignTo": null
+  },
+  {
+    "id": 25,
+    "name": "common",
+    "used_field": "23",
+    "display_code": 0,
+    "display_value": null,
+    "code": 2,
+    "value": "3-7天",
+    "assignTo": null
+  },
+  {
+    "id": 268,
+    "name": "common",
+    "used_field": "23",
+    "display_code": 0,
+    "display_value": null,
+    "code": 3,
+    "value": "7-14天",
+    "assignTo": null
+  },
+  {
+    "id": 345,
+    "name": "common",
+    "used_field": "23",
+    "display_code": 0,
+    "display_value": null,
+    "code": 4,
+    "value": "14天以上",
+    "assignTo": null
+  }
+]

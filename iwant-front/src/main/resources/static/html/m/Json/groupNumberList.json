@@ -1,0 +1,82 @@
+﻿[
+  {
+    "id": 22,
+    "name": "common",
+    "used_field": "22",
+    "display_code": 0,
+    "display_value": null,
+    "code": 1,
+    "value": "50人以下",
+    "assignTo": null
+  },
+  {
+    "id": 23,
+    "name": "common",
+    "used_field": "22",
+    "display_code": 0,
+    "display_value": null,
+    "code": 2,
+    "value": "50-100人",
+    "assignTo": null
+  },
+  {
+    "id": 263,
+    "name": "common",
+    "used_field": "22",
+    "display_code": 0,
+    "display_value": null,
+    "code": 3,
+    "value": "100-200人",
+    "assignTo": null
+  },
+  {
+    "id": 264,
+    "name": "common",
+    "used_field": "22",
+    "display_code": 0,
+    "display_value": null,
+    "code": 4,
+    "value": "200-500人",
+    "assignTo": null
+  },
+  {
+    "id": 265,
+    "name": "common",
+    "used_field": "22",
+    "display_code": 0,
+    "display_value": null,
+    "code": 5,
+    "value": "500-1000人",
+    "assignTo": null
+  },
+  {
+    "id": 266,
+    "name": "common",
+    "used_field": "22",
+    "display_code": 0,
+    "display_value": null,
+    "code": 6,
+    "value": "1000-3000人",
+    "assignTo": null
+  },
+  {
+    "id": 267,
+    "name": "common",
+    "used_field": "22",
+    "display_code": 0,
+    "display_value": null,
+    "code": 7,
+    "value": "3000人以上",
+    "assignTo": null
+  },
+  {
+    "id": 279,
+    "name": "common",
+    "used_field": "22",
+    "display_code": 0,
+    "display_value": null,
+    "code": 8,
+    "value": "人数不限",
+    "assignTo": null
+  }
+]

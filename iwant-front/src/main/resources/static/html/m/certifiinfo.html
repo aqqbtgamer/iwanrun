@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>认证信息</title>
+
+    <link rel="stylesheet" href="css/mincss.css">
+    <link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .certifi_list li{
+            background-image: url("images/dot_img.png");
+            background-repeat: no-repeat;
+            background-size: .13333rem;
+            background-position: left center;
+            padding-left: .26667rem;
+            line-height: .8rem;
+            color: #888888;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bgcffffff">
+    <div id="container">
+        <!--认证信息-->
+        <div class="certifiinfo">
+            <section>
+                <div class="w750 h532 pa t0 l0 zi-1"><img src="images/info_bg.png" class="object-fit-cover" alt=""></div>
+                <div class="w670 h150 bs-0-0-6-0-dddddd br10 ml40 mt60 bgcffffff ofh">
+                    <div class="w80 h80 ml40 pt36 fl">
+                        <img src="images/info_icon_01.png" class="w80 h80" alt="">
+                    </div>
+                    <div class="fl w510 ml40 mt32">
+                        <p class="fz34 fw700">恭喜您！</p>
+                        <p class="fz28">您的企业信息已通过审核获得认证</p>
+                    </div>
+                </div>
+            </section>
+            <section class="mt200">
+                <div class="w412 m0a ofh">
+                    <img :src="account.headimg" class="w108 h108 br50p fl ml30" alt="">
+                    <div class="fl tal ml30 mt14">
+                        <p class="fz32 c333333">{{account.nickname}}</p>
+                        <!--<p class="fz26 c888888">已认证<span class="c333333">229</span>天</p>-->
+                    </div>
+
+                </div>
+                <div class="w484 m0a pr">
+                    <div class="w484 h26 pa t90 l0 zi-1"><img src="images/txt_label_img.png" class="object-fit-cover" alt=""></div>
+                    <div class="pt90">
+                        <div class="fz34 tac">认证信息</div>
+                        <ul class="certifi_list mt40 ml30 mr30">
+                            <li>
+                                <span class="fl">{{account.company.name}}</span>
+                                <img src="images/certifi_icon_y.png" class="w30 h20 fr mt16" alt="">
+                            </li>
+                            <li>
+                                <span class="fl">{{account.company.personNum}}</span>
+                                <img src="images/certifi_icon_y.png" class="w30 h20 fr mt16" alt="">
+                            </li>
+                            <li>
+                                <span class="fl">{{account.company.type}}</span>
+                                <img src="images/certifi_icon_y.png" class="w30 h20 fr mt16" alt="">
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!--注册登录-->
+    <div id="login">
+        <login></login>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/change_font_size.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+
+    <script src="Scripts/common.js"></script>
+    <script src="template/login.js"></script>
+    <script src="Scripts/certifiinfo.js"></script>
+
+</body>
+</html>

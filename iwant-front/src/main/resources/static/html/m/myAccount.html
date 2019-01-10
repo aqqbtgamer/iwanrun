@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>个人中心</title>
+
+    <link rel="stylesheet" href="css/mincss.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bgcffffff">
+    <div id="container">
+        <div class="myAccount">
+            <section>
+                <div class="w750 h258 pa t0 l0 zi-1"><img src="images/center_bg.png" class="object-fit-cover" alt=""></div>
+                <div class="mt108 tac" style="margin-bottom: -1.2rem">
+                    <img :src="account.headimg" class="w174 h174 br50p" alt="">
+                </div>
+                <div class="w670 h460 bs-0-0-6-0-dddddd br10 m0a bgcffffff">
+                    <div class=" pt100 vam tac">
+                        <span class="dib fz34 mr10">{{account.nickname}}</span>
+                        <!--<span class="dib ofh">
+                            <img src="images/sex_woman.png" class="w24 h24 fl" alt="">
+                            <img src="images/sex_man.png" class="w24 h24" alt="">
+                        </span>-->
+                    </div>
+                    <div class="ml30 mr30 pt20 ofh">
+                        <div class="w300 tar fl">
+                            <span class="dib ofh mr4">
+                                <img src="images/location_icon_02.png" class="w18 h26 fl" alt="">
+                            </span>
+                            <span class="dib fz26 c888888 mr36">CN Beijing</span>
+                        </div>
+                        <div class="w10 fl mt10">
+                            <div class="w2 h22 bgcf5f5f5 m0a"></div>
+                        </div>
+                        <div class="w300 fl ">
+                            <span class="dib ofh mr4 ml36">
+                                <img v-show="account.company.hasCredential" src="images/certifi_icon.png" class="w24 h24 fl" alt="">
+                                <!--未认证图标-->
+                                <img v-show="!account.company.hasCredential" src="images/certifi_icon_n.png" class="w24 h24 fl" alt="">
+                            </span>
+                            <a href="certifiinfo.html">
+                                <span class="dib fz26 c888888">企业信息：{{account.company.hasCredential?'已认证':'未认证'}}</span>
+                                <!--<span class="dib fz26 c888888">企业信息：未认证</span>-->
+                                <span class="dib ofh">
+                                    <img src="images/arrow_right.png" class="w10 h24 fl" alt="">
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="info_edit_btn pt30 pb30">
+                        <a href="editinfo.html" class="db w210 h50 lh46 br25 b1se5e5e5 fz28 tac c333333 m0a">编辑个人资料</a>
+                    </div>
+                    <div class="w610 ml30 h2 bgcf5f5f5"></div>
+                    <div class="w610 ml30 ofh pt30">
+                        <a href="javascript:;" class="db w200 fl tac">
+                            <p class="fz26 c888888">我的订单</p>
+                            <p class="fz48 c333333">{{account.ordersTotal}}</p>
+                        </a>
+                        <a href="javascript:;" class="db w200 fl tac">
+                            <p class="fz26 c888888">待付款</p>
+                            <p class="fz48 c333333">0</p>
+                        </a>
+                        <a href="javascript:;" class="db w200 fl tac">
+                            <p class="fz26 c888888">关注收藏</p>
+                            <p class="fz48 c333333">{{account.favouriteTotal}}</p>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="w670 ml40">
+                    <a href="###" class="db bb1se5e5e5 pt30 pb30 pl10 pr10 fz30 c333333 ofh">
+                        <span class="fl">消息</span>
+                        <span class="fr db h28 lh28 cffffff fz20 br20 pl10 pr10 mt10" style="background-color: #fd5509;">0</span>
+                    </a>
+                    <a href="###" class="db bb1se5e5e5 pt30 pb30 pl10 pr10 fz30 c333333 ofh">
+                        <span class="fl">邮箱</span>
+                        <span class="fr c888888">2267364794@qq.com</span>
+                    </a>
+                    <a href="tel:18535139882" class="db bb1se5e5e5 pt30 pb30 pl10 pr10 fz30 c333333 ofh">
+                        <span class="fl">联系电话</span>
+                        <span class="fr c888888">{{account.phone}}</span>
+                    </a>
+                </div>
+
+                <div class="tac mt100">
+                    <a href="javascript:void(0)" @click="logout" class="ccccccc fz30">退出登录</a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/change_font_size.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+
+    <script src="Scripts/common.js"></script>
+    <script src="Scripts/myAccount.js"></script>
+
+</body>
+</html>

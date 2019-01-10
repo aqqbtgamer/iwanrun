@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>定制需求</title>
+
+    <link rel="stylesheet" href="css/mincss.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bgcffffff">
+    <div id="container">
+        <!--定制订单-->
+        <div class="order" style="background-color: #fff;">
+            <header class="w100p h120 bgcffffff  pf t0 l0 zi9">
+                <a href="javascript:void(0)" @click="history.back(-1)" class="fz28 ml30 lh126 c333333 ">
+                    <img src="images/arrow_back.png" class="w18 h34" alt="">
+                </a>
+                <a class="w214 h48 br45 pa t40 r100 fz26 c111111 lh48 tac" style="background-color: #f6b03e;">
+                    <img src="images/icon_zx.png" class="w26 h24" alt="">
+                    联系咨询师
+                </a>
+                <a class="fr mr30 mt40" @click="showsildemenu">
+                    <img src="images/icon_menu_btn.png" class="w26 h26" alt="">
+                </a>
+            </header>
+            <section class="w100p mt140 mb40 ofh">
+                <h2 class="fz40 ml40 fw700 mb30">定制需求</h2>
+                <div class="w670 h2 bgcf5f5f5 m0a"></div>
+                <ul class="mt30 w670 ml40 mr40">
+                    <li class="h48 lh48 ofh">
+                        <i class="dib w8 h8 br50p fl mt18 mr10" style="background-color: #fd5509"></i>
+                        <span class="dib fl fz26">专业的团建培训咨询师为您提供定制化服务</span>
+                    </li>
+                    <li class="h48 lh48 ofh">
+                        <i class="dib w8 h8 br50p fl mt18 mr10" style="background-color: #fd5509"></i>
+                        <span class="dib fl fz26">咨询师将根据您的需求清单制作多款优质方案</span>
+
+                    </li>
+                    <li class="h48 lh48 ofh">
+                        <i class="dib w8 h8 br50p fl mt18 mr10" style="background-color: #fd5509"></i>
+                        <span class="dib fl fz26">方案定制过程中我们承诺不收取任何费用</span>
+
+                    </li>
+
+                </ul>
+                <div class="w670 ml40 mt40 pb40 bs-0-0-6-0-dddddd br10">
+                    <div class="w596 m0a">
+                        <div class="pt40 pb20"><span style="color: #fd5509;">*</span>联系方式</div>
+                        <div class="w596 h78 br45 bgcf5f5f5 m0a tac">
+                            <input type="text" class="w520 h60 lh60 mt8" v-model="order.contractMobile" placeholder="请输入您的联系电话" />
+                        </div>
+                    </div>
+                    <div class="w596 m0a">
+                        <div class="pt40 pb20"><span style="color: #fd5509;">*</span>活动类型</div>
+                        <div class="w596 h78 br45 bgcf5f5f5 m0a tac">
+                            <select class="w520 h60 lh60 mt8" v-model="order.activity_code">
+                                <option value="0">请选择您要的活动类型</option>
+                                <option v-for="item in model.activityTypeList" :value="item.id">{{item.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="w596 m0a tac fz24 c999999 ofh pt40 pb20">
+                        <div class="w200 fl bb1se5e5e5 pt16"></div>
+                        <div class="w196 fl">以下信息可不填</div>
+                        <div class="w200 fl bb1se5e5e5 pt16"></div>
+                    </div>
+                    <div class="w596 m0a">
+                        <div class="pt40 pb20">组织类型</div>
+                        <div class="w596 h78 br45 bgcf5f5f5 m0a tac">
+                            <select class="w520 h60 lh60 mt8" v-model="order.companyTypeId">
+                                <option value="0">非必选</option>
+                                <option v-for="item in model.companyTypeList" :value="item.id">{{item.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="more-info w596 m0a ofh" v-show="model.isshowall">
+                        <div class="w596 m0a">
+                            <div class="pt40 pb20">活动人数</div>
+                            <div class="w596 m0a ofh">
+                                <button v-for="item in model.groupNumberList" @click="buttonChange($event,item.id,'groupNumberCode')" class="w182 h64 lh64 b1se5e5e5 br10 mb20 mr16 fl">{{item.value}}</button>
+                            </div>
+                        </div>
+                        <div class="w596 m0a">
+                            <div class="pt40 pb20">活动天数</div>
+                            <div class="w596 m0a ofh">
+                                <button v-for="item in model.durationList" @click="buttonChange($event,item.id,'activityDuringCode')" class="w182 h64 lh64 b1se5e5e5 br10 mb20 mr16 fl">{{item.value}}</button>
+                            </div>
+                        </div>
+                        <div class="w596 m0a">
+                            <div class="pt40 pb20">活动目的地</div>
+                            <div class="w596 h78 br45 bgcf5f5f5 m0a tac">
+                                <!--<input type="text" class="w520 h60 lh60 mt8" placeholder="非必填" />-->
+                                <select class="w520 h60 lh60 mt8" v-model="order.activityProvinceCode">
+                                    <option value="0">请选择您要的活动目的地</option>
+                                    <option v-for="item in model.provinceList" :value="item.id">{{item.value}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w596 h2 bgcf5f5f5 ml40 mt40 mb30"></div>
+                    <a href="javascript:void(0)" class="db tac arrowBtn" @click="model.isshowall=!model.isshowall">
+                        <span class="fz26" style="color: #f6b03e;">{{model.isshowall?'收起信息':'更多信息'}}</span>
+                        <img src="images/arrow_down_y.png" :class="model.isshowall?'w28 h16 rotate180':'w28 h16 rotate0'" alt="">
+                    </a>
+
+                </div>
+                <div class="w670 m0a ofh">
+                    <a href="javascript:void(0)" @click="submitOrder" class="db w670 h90 lh90 tac cffffff fz32 fl mt40 br10" style="background-color: #f6b03e;">提交需求</a>
+                </div>
+            </section>
+            <companyfooter></companyfooter>
+        </div>
+    </div>
+
+    <!--侧边栏菜单-->
+    <div id="sildemenu">
+        <sildemenu></sildemenu>
+    </div>
+
+    <!--注册登录-->
+    <div id="login">
+        <login></login>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/change_font_size.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+
+    <script src="Scripts/common.js"></script>
+    <script src="template/companyfooter.js"></script>
+    <script src="template/sildemenu.js"></script>
+    <script src="template/login.js"></script>
+    <script src="Scripts/ordersubmit.js"></script>
+</body>
+</html>

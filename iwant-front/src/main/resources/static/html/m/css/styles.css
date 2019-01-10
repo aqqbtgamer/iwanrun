@@ -1,0 +1,242 @@
+﻿body {
+    background-color: #f1f1f1;
+}
+
+/*头部*/
+.home_header {
+    border-radius: 0 0 10px 10px;
+    z-index: 99;
+}
+
+.location_area {
+    background-image: url("../images/arrow_down_s.png");
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: .21333rem;
+    padding-right: .36rem;
+}
+
+.header_search {
+    background-image: url("../images/icon_search.png");
+    background-repeat: no-repeat;
+    background-position: 5.86667rem center;
+    background-size: .4rem;
+}
+
+    .header_search input {
+        outline: none;
+        -webkit-appearance: none;
+        border: 0;
+        background-color: transparent;
+    }
+
+/*w尾部*/
+
+
+.home_footer {
+    background-image: -moz-linear-gradient( 90deg, rgb(49,48,44) 0%, rgb(19,17,16) 100%);
+    background-image: -webkit-linear-gradient( 90deg, rgb(49,48,44) 0%, rgb(19,17,16) 100%);
+    background-image: -ms-linear-gradient( 90deg, rgb(49,48,44) 0%, rgb(19,17,16) 100%);
+    border-radius: 16px 16px 0 0;
+}
+
+
+
+
+/* 轮播图 */
+.roundabout-holder {
+    list-style: none;
+    width: 8.93333rem;
+    height: 4.82667rem;
+    margin: 0 auto;
+}
+
+.roundabout-moveable-item {
+    font-size: 12px !important;
+    height: 4.82667rem;
+    width: 8.93333rem;
+    cursor: pointer;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+
+    .roundabout-moveable-item img {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+    }
+
+.roundabout-in-focus {
+    cursor: auto;
+}
+
+    .roundabout-in-focus:hover {
+        -webkit-box-shadow: 0 0 20px #787878;
+        -moz-box-shadow: 0 0 20px #787878;
+    }
+
+.roundabout-holder span {
+    display: none;
+}
+
+.roundabout-in-focus:hover span {
+    display: inline;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 8px 20px;
+    background: #f9f9f9;
+    color: #3366cc;
+    z-index: 999;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topLeft: 5px;
+    border-left: 1px solid #aaaaaa;
+    border-top: 1px solid #aaaaaa;
+}
+
+.roundabout a:active, .roundabout a:focus, .roundabout a:visited {
+    outline: none;
+    text-decoration: none;
+}
+
+.roundabout li {
+    margin: 0
+}
+
+/*导航菜单*/
+.run_menu {
+    width: 8.93333rem;
+    margin: 0 auto
+}
+
+    .run_menu .run_actives {
+        background: url("../images/active_bg.png") no-repeat;
+        background-size: 100%;
+        width: 2.96rem !important;
+        font-size: .45333rem;
+        font-weight: 700;
+    }
+
+
+/*箭头样式*/
+.arrow-icon {
+    background: url("../images/arrow_right.png") no-repeat;
+    background-size: .13333rem;
+    background-position: right center;
+    padding-right: .24rem;
+}
+
+
+i {
+    font-style: normal !important;
+}
+
+
+/*侧滑样式*/
+.sildeMenu {
+    z-index: 888
+}
+
+    .sildeMenu .menu-active {
+        background-color: #f3f3f3
+    }
+
+
+.order select, input, button {
+    outline: none;
+    -webkit-appearance: none;
+    border: 0;
+    background-color: transparent;
+}
+
+.order .select-num {
+    background-color: #fdefd8;
+    border-color: #f6b03e !important;
+}
+
+.order .rotate180 {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transition: transform .5s;
+}
+
+.order .rotate0 {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transition: transform .5s;
+}
+
+.login-active {
+    font-size: .61333rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin-top: -.24rem;
+}
+
+.login_label_btn {
+    display: inline-block;
+    width: 2.53333rem;
+    height: .64rem;
+    line-height: .54rem;
+    border: 1px solid #f6b03e;
+    color: #f6b03e;
+    font-size: .32rem;
+    float: left;
+}
+
+.login_label_btn_01 {
+    border-radius: .32rem 0 0 .32rem;
+}
+
+.login_label_btn_02 {
+    border-radius: 0 .32rem .32rem 0;
+}
+
+.label_active {
+    background-color: #f6b03e;
+    color: #000;
+}
+
+.login_area_02 input, .login_area_01 input {
+    outline: none;
+    -webkit-appearance: none;
+    border: 0;
+    background-color: transparent;
+}
+
+.login_btn {
+    border-radius: 39px;
+    background-image: -moz-linear-gradient( 0deg, rgb(227,114,62) 0%, rgb(230,142,65) 40%, rgb(233,170,67) 100%);
+    background-image: -webkit-linear-gradient( 0deg, rgb(227,114,62) 0%, rgb(230,142,65) 40%, rgb(233,170,67) 100%);
+    background-image: -ms-linear-gradient( 0deg, rgb(227,114,62) 0%, rgb(230,142,65) 40%, rgb(233,170,67) 100%);
+}
+
+.certifi_list li {
+    background-image: url("/m/images/dot_img.png");
+    background-repeat: no-repeat;
+    background-size: .13333rem;
+    background-position: left center;
+    padding-left: .26667rem;
+    line-height: .8rem;
+    color: #888888;
+    overflow: hidden;
+}
+
+.search .header_search {
+    background-position: 8rem center;
+}
+
+.icon-checkbox-blank {
+    background-color: moccasin;
+}
+
+.input-active {
+    -webkit-box-shadow: 0 0 .17333rem 0 #fa491d;
+    -moz-box-shadow: 0 0 .17333rem 0 #fa491d;
+    box-shadow: 0 0 .17333rem 0 #fa491d
+}
+
+.filter .select-num {
+    background-color: #fdefd8;
+    border-color: #f6b03e !important;
+}

@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>编辑个人资料</title>
+
+    <link rel="stylesheet" href="css/mincss.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        select, input, button {
+            outline: none;
+            -webkit-appearance: none;
+            border: 0;
+            background-color: transparent;
+        }
+    </style>
+</head>
+<body class="bgcf5f5f5">
+    <div id="container">
+        <div class="editinfo">
+            <section>
+                <div class="fz30 c888888 mt20 ml30 mb20">个人资料</div>
+                <ul class="bgcffffff w100p">
+                    <li class="pt20 pb20 ofh bb1se5e5e5">
+                        <a href="javascript:;">
+                            <div class="w140 ml30 mr30 fl">
+                                <img :src="account.headimg" class="w112 h112 br50p" alt="">
+                            </div>
+                            <div class="fl lh112 fz30 c888888">修改头像</div>
+                            <img src="images/arrow_right_b.png" class="w14 h28 fr mr30 mt40" alt="">
+                        </a>
+                    </li>
+                    <li class="pt20 pb20 ofh bb1se5e5e5">
+                        <a href="javascript:;">
+                            <div class="w140 ml30 mr30 fl fz30 c888888 lh60">
+                                修改昵称
+                            </div>
+                            <!--<div class="fl fz30 c333333 lh60">18535139882</div>-->
+                            <input v-model="account.nickname" class="fl fz30 c333333 lh60 c111111" type="text" value="18535139882" placeholder="请输入昵称" />
+                            <!--<img src="images/arrow_right_b.png" class="w14 h28 fr mr30 mt14" alt="">-->
+                        </a>
+                    </li>
+                    <li class="pt20 pb20 ofh bb1se5e5e5">
+                        <a href="javascript:;">
+                            <div class="w140 ml30 mr30 fl fz30 c888888 lh60">
+                                性别
+                            </div>
+                            <!--<div class="fl fz30 caaaaaa lh60">未选择</div>-->
+                            <select class="fl fz30 caaaaaa w400 lh60 c111111" v-model="account.sex">
+                                <option value="0">未选择</option>
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                            <img src="images/arrow_right_b.png" class="w14 h28 fr mr30 mt14" alt="">
+                        </a>
+                    </li>
+                    <li class="pt20 pb20 ofh bb1se5e5e5">
+                        <a href="javascript:;">
+                            <div class="w140 ml30 mr30 fl fz30 c888888 lh60">
+                                邮箱
+                            </div>
+                            <input v-model="account.email" class="fl fz30 c333333 lh60 c111111" type="text" value="2267364794@qq.com" placeholder="请输入邮箱" />
+                            <!--<div class="fl fz30 c333333 lh60">2267364794@qq.com</div>-->
+                            <!--<img src="images/arrow_right_b.png" class="w14 h28 fr mr30 mt14" alt="">-->
+                        </a>
+                    </li>
+                    <li class="pt20 pb20 ofh bb1se5e5e5">
+                        <a href="javascript:;">
+                            <div class="w140 ml30 mr30 fl fz30 c888888 lh60">
+                                常住地
+                            </div>
+                            <input class="fl fz30 c333333 lh60 c111111" type="text" value="CN Beijing" placeholder="请输入常住地" />
+                            <!--<div class="fl fz30 c333333 lh60">CN Beijing</div>-->
+                            <!--<img src="images/arrow_right_b.png" class="w14 h28 fr mr30 mt14" alt="">-->
+                        </a>
+                    </li>
+
+                </ul>
+            </section>
+            <section>
+                <div class="fz30 c888888 mt20 ml30 mb20">更多信息（补充资料，获得企业信息认证）</div>
+                <ul class="bgcffffff w100p">
+                    <li class="pt20 pb20 ofh bb1se5e5e5">
+                        <a href="javascript:;">
+                            <div class="w140 ml30 mr30 fl fz30 c888888 lh60">
+                                认证公司
+
+                            </div>
+                            <div class="fl fz30 caaaaaa lh60">
+                                等待认证审核
+                            </div>
+                            <img src="images/arrow_right_b.png" class="w14 h28 fr mr30 mt14" alt="">
+                        </a>
+                    </li>
+                    <li class="pt20 pb20 ofh bb1se5e5e5">
+                        <a href="javascript:;">
+                            <div class="w140 ml30 mr30 fl fz30 c888888 lh60">
+                                公司名称
+
+                            </div>
+                            <input class="fl fz30 c333333 lh60 c111111" type="text" value="上海沐跑科技有限公司" placeholder="请输入公司名称" />
+                            <!--<div class="fl fz30 c333333 lh60">上海沐跑科技有限公司-->
+                            <!--</div>-->
+                            <!--<img src="images/arrow_right_b.png" class="w14 h28 fr mr30 mt14" alt="">-->
+                        </a>
+                    </li>
+                    <li class="pt20 pb20 ofh bb1se5e5e5">
+                        <a href="javascript:;">
+                            <div class="w140 ml30 mr30 fl fz30 c888888 lh60">
+                                规模
+
+                            </div>
+                            <input class="fl fz30 c333333 lh60 c111111" type="text" value="200人" placeholder="请输入公司规模" />
+                            <!--<div class="fl fz30 c333333 lh60">200人-->
+                            <!--</div>-->
+                            <!--<img src="images/arrow_right_b.png" class="w14 h28 fr mr30 mt14" alt="">-->
+                        </a>
+                    </li>
+                    <li class="pt20 pb20 ofh bb1se5e5e5">
+                        <a href="javascript:;">
+                            <div class="w140 ml30 mr30 fl fz30 c888888 lh60">
+                                经营类型
+                            </div>
+                            <input class="fl fz30 c333333 lh60 c111111" type="text" value="互联网软件" placeholder="请输入经营类型" />
+                            <!--<div class="fl fz30 c333333 lh60">互联网软件</div>-->
+                            <!--<img src="images/arrow_right_b.png" class="w14 h28 fr mr30 mt14" alt="">-->
+                        </a>
+                    </li>
+
+                </ul>
+            </section>
+        </div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/change_font_size.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+
+    <script src="Scripts/common.js"></script>
+    <script src="Scripts/editinfo.js"></script>
+</body>
+</html>

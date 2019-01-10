@@ -1,0 +1,39 @@
+﻿{
+  "loginInfo": {
+    "id": 6,
+    "mobileNumber": "17521230795",
+    "loginId": "17521230795",
+    "password": "b47d49f44c2ed97e3929873583a21139a59b70625b553390",
+    "sysRoleId": 1,
+    "status": 2
+  },
+  "userInfo": {
+    "id": 10,
+    "loginInfoId": 6,
+    "name": "用户0012223333",
+    "companyTypeId": 2,
+    "companyName": "Test",
+    "companySizeId": 2,
+    "question": "123",
+    "answer": "123456789"
+  },
+  "companyCredentials": [
+    {
+      "id": 19,
+      "userInfoId": 10,
+      "fileName": "1546952213(1)_1546952259768.jpg",
+      "filePath": "http://139.196.228.29:9999/iwant_app/uploaded/1546952213(1)_1546952259768.jpg",
+      "pagePath": "company_credential"
+    }
+  ],
+  "headImgs": [
+    {
+      "id": 16,
+      "userInfoId": 10,
+      "fileName": "Thomerson_1546951998163.jpg",
+      "filePath": "http://139.196.228.29:9999/iwant_app/uploaded/Thomerson_1546951998163.jpg",
+      "pagePath": "user_head_img"
+    }
+  ],
+  "id": 6
+}

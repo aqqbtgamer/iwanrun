@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html style="font-size: 37.5px">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>选择城市</title>
+    <link href="css/reset.css" rel="stylesheet"/>
+    <link href="css/mincss.css" rel="stylesheet"/>
+    <link href="css/mui.css" rel="stylesheet"/>
+    <link href="css/mui.indexedlist.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/city.css" />
+
+</head>
+<body>
+
+<div class="mui-content">
+    <div id='list' class="mui-indexed-list">
+        <header class="mui-bar">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" href="javascript:history.back(-1)"></a>
+            <div class="mui-indexed-list-search mui-input-row mui-search">
+                <input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="输入城市或拼音查询">
+            </div>
+        </header>
+
+        <div class="mui-indexed-list-bar">
+            <a>A</a>
+            <a>B</a>
+            <a>C</a>
+            <a>D</a>
+            <a>E</a>
+            <a>F</a>
+            <a>G</a>
+            <a>H</a>
+            <a>I</a>
+            <a>J</a>
+            <a>K</a>
+            <a>L</a>
+            <a>M</a>
+            <a>N</a>
+            <a>O</a>
+            <a>P</a>
+            <a>Q</a>
+            <a>R</a>
+            <a>S</a>
+            <a>T</a>
+            <a>U</a>
+            <a>V</a>
+            <a>W</a>
+            <a>X</a>
+            <a>Y</a>
+            <a>Z</a>
+        </div>
+        <div class="mui-indexed-list-alert"></div>
+
+        <div class="mui-indexed-list-inner">
+            <div class="pl30 ofh pb40 pt80">
+                <article class="pt40 pb40 fz24 lh24">
+                    <img class="w36 vat m0" src="images/location_icon_01.png">
+                    <span class="fz28 lh24 c666666 ml20">当前城市</span>
+                    <span id="currentcity" class="location-city fz28 lh36 fw700 ml10">上海市</span>
+
+                </article>
+                <article class="h1px bgce5e5e5"></article>
+                <article>
+                    <p class="fz24 lh28 c666666 mt30">热门城市</p>
+                    <div class="clearfix">
+                        <div class="hot-city-btn fl mr20 br10 tac w154 fz26 h64 lh64 mt30 location-active" style="border:1px solid #e5e5e5">上海</div>
+                        <div class="hot-city-btn fl mr20 br10 tac w154 fz26 h64 lh64 mt30" style="border:1px solid #e5e5e5">乌鲁木齐</div>
+                        <div class="hot-city-btn fl mr20 br10 tac w154 fz26 h64 lh64 mt30" style="border:1px solid #e5e5e5">杭州</div>
+                        <div class="hot-city-btn fl mr20 br10 tac w154 fz26 h64 lh64 mt30" style="border:1px solid #e5e5e5">北京</div>
+                        <div class="hot-city-btn fl mr20 br10 tac w154 fz26 h64 lh64 mt30" style="border:1px solid #e5e5e5">广州</div>
+                    </div>
+                </article>
+            </div>
+            <div class="mui-clearfix"></div>
+            <div class="mui-indexed-list-empty-alert">没有数据</div>
+            <ul class="mui-table-view city-item">
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script src="js/change_font_size.js"></script>
+    <script type="text/javascript" src="js/mui.js"></script>
+    <script src="js/mui.indexedlist.js"></script>
+    <script src="js/csw_select_city.js"></script>
+    <script src="Scripts/city.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>详情</title>
+
+    <link rel="stylesheet" href="css/mincss.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="container">
+        <section class=" w750 h420 bgcffffff pr">
+            <!--<div class="h50 lh50 fz24 pa b20 l20 ofh">
+                <div class="dib h50 pl30 pr30 br25 ofh pr fl mr20">
+                    <span class="pr zi2 cffffff">轰趴</span>
+                    <div class="bgc000000 op40 pa t0 l0 w100p h100p zi1"></div>
+                </div>
+                <div class="dib h50 pl30 pr30 br25 ofh pr fl mr20">
+                    <span class="pr zi2 cffffff">聚餐</span>
+                    <div class="bgc000000 op40 pa t0 l0 w100p h100p zi1"></div>
+                </div>
+                <div class="dib h50 pl30 pr30 br25 ofh pr fl mr20">
+                    <span class="pr zi2 cffffff">适合活动类型</span>
+                    <div class="bgc000000 op40 pa t0 l0 w100p h100p zi1"></div>
+                </div>
+            </div>-->
+            <!--<div class="h50 lh50 pa r20 b20">
+                <div class="w36 h34 mt8 mr10 fl ofh dib">
+                    <img src="images/photo_icon.png" class="object-fit-cover fl" alt="">
+                </div>
+                <div class="fz30 cffffff fl dib">2/3</div>
+            </div>-->
+            <ul>
+                <li class="w750 h420">
+                    <img :src="model.data.mainImageLarge||model.data.descirbeText2" class="object-fit-cover" alt="">
+                </li>
+            </ul>
+        </section>
+        <section class="bgcffffff">
+            <div class="fz38 fw700 pl30 pt30 pr30 pb30">{{model.data.name}}</div>
+            <div class="w670 h2 m0a bgcf5f5f5"></div>
+            <div class="w670 m0a pt30 pb30 ofh">
+                <a href="javascript:;" class="w548 h90 db fl ofh">
+                    <div class="w22 fl mt12">
+                        <i class="w22 h34 dib"><img src="images/location_icon.png" class="object-fit-cover" alt=""></i>
+                    </div>
+                    <div class="w500 fl ml26 pr20">
+                        <span class="fz28 c666666">{{model.data.provinceName}}·{{model.data.cityName}}·{{model.data.location}}</span>
+                    </div>
+                </a>
+                <div class="w2 h60 bgcf5f5f5 fl mt10"></div>
+                <a href="tel:133333333" class="w120 db tac fl">
+                    <img src="images/call_icon.png" class="w44 h44 mt20" alt="">
+                </a>
+            </div>
+        </section>
+
+        <section class="bgcffffff mt22 pb30" v-html="model.data.descirbeText1" style="padding-bottom:1.65333rem">
+           
+        </section>
+
+        <section class="w750 h124 bgcffffff pf b0 l0 bs-0-0-6-0-dddddd ofh">
+            <a href="javascript:;" class="db w160 tac fl mt20">
+                <div class="w44 h44 m0a"><img src="images/icon_detail_01.png" class="object-fit-cover" alt=""></div>
+                <div class="fz24 c888888 mt6">收藏</div>
+            </a>
+            <a href="javascript:;" class="db w160 tac fl mt20">
+                <div class="w44 h44 m0a"><img src="images/icon_detail_02.png" class="object-fit-cover" alt=""></div>
+                <div class="fz24 c888888 mt6">咨询</div>
+            </a>
+            <a href="javascript:;" class="db w410 h124 lh124 cffffff fz40 tac fr" style="background-color: #fd5509;">
+                加入心愿清单
+            </a>
+        </section>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/change_font_size.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+
+    <script src="Scripts/common.js"></script>
+    <script src="Scripts/detail.js"></script>
+</body>
+</html>

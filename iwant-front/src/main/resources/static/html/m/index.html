@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>首页</title>
+
+    <link rel="stylesheet" href="css/mincss.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body class="">
+    <div id="container">
+        <!--首页-->
+        <div class="index">
+            <!--搜索拦-->
+            <header class="home_header w100p h126 bgcffffff bs-0-0-6-0-dddddd pf t0 l0">
+                <a href="city.html" class="fz28 ml30 lh126 c333333 location_area">{{currentcity}}</a>
+                <div class="w500 h56 bgcf5f5f5 br45 header_search pa t34 l150">
+                    <input type="text" @focus="showSearch" class="w456 h40 lh40 mt8 fl pl30 pr30 fz26" placeholder="产品、场地、案例" />
+                </div>
+                <a class="fr mr30 mt40" href="javascript:void(0)" @click="showSlidemenu">
+                    <img src="images/icon_menu_btn.png" class="w26 h26" alt="">
+                </a>
+            </header>
+
+            <!--首页轮播图-->
+            <section class="w100p mt140 ofh">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper ">
+                        <div v-for="(item,index) in model.bannerList" :class="index>0?'swiper-slide w100p h100p swiper-slide-center none-effect':'swiper-slide'">
+                            <a href="javascript:void(0)">
+                                <img :src="item.filePath">
+                            </a>
+                            <div class="layer-mask"></div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </section>
+
+            <!--pannel-->
+            <ul class="run_menu page">
+                <li :class="model.currentmenu=='prodution'?'dib w140 h80 lh80 tac pr run_actives':'dib w140 h80 lh80 tac pr '" @click="model.currentmenu='prodution'">
+                    <a href="javascript:void(0)" class="db fz28 c333333">找方案 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a>
+                </li>
+                <li :class="model.currentmenu=='location'?'dib w140 h80 lh80 tac pr run_actives':'dib w140 h80 lh80 tac pr '" @click="model.currentmenu='location'">
+                    <a href="javascript:void(0)" class="db fz28 c333333">看场地 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a>
+                </li>
+                <li :class="model.currentmenu=='case'?'dib w140 h80 lh80 tac pr run_actives':'dib w140 h80 lh80 tac pr '" @click="model.currentmenu='case'">
+                    <a href="javascript:void(0)" class="db fz28 c333333">看案例 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a>
+                </li>
+            </ul>
+
+            <!--list-->
+            <div>
+                <!--方案-->
+                <section v-show="model.currentmenu=='prodution'" class="li_list w100p bgcffffff mt-4 pb40 ">
+                    <ul class="pt40">
+                        <li class="pb200 pr" v-for="item in model.productions">
+                            <div class="w48 h92 pa t-10 r80">
+                                <img src="images/label_new.png" class="object-fit-cover" alt="">
+                            </div>
+                            <div class="w670 pb100 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                <div class="fz32 fw700 pl30 pt30 w534">{{item.name}}</div>
+                                <div class="pl30 pr30 pt20 fz18">
+                                    <span v-for="str in item.tips" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20 mb10" style="background-color: #282b33;">{{str}}</span>
+                                </div>
+                                <div class="pl30 pr30 pt10 fz24">
+                                    <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
+                                    <p>{{item.dur}} / {{item.groupNumber}}</p>
+                                </div>
+                            </div>
+                            <div class="w570 h240 pa b40 l90">
+                                <img @click="linktoDetail(item.id,'product')" :src="item.mainImageLarge" class="object-fit-cover" alt="">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="w670 h2 bgcf5f5f5 m0a"></div>
+
+                    <!--精选方案-->
+                    <div class="w670 m0a pt30 ofh">
+                        <div class="fl lh50">
+                            <p class="fz34 fw700">精选方案</p>
+                            <p class="fz28 caaaaaa">精心设计定制，满足您所有需求～</p>
+                        </div>
+                        <a href="listproduction.html" class="arrow-icon fz26 caaaaaa lh50 fr">全部</a>
+                    </div>
+                    <ul class="pt40 ml30 mr30 ofh">
+                        <li class="h450 pr fl" style="width: 50%" v-for="item in model.productions">
+                            <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                <div class="fz28 fw700 pl30 pt30 w264 mult-line-ellipsis-1">{{item.name}}</div>
+                                <div class="pl30 pr30 pt10 fz22">
+                                    <span v-for="str in item.tips" class="mr10">#{{str}}#</span>
+                                </div>
+                                <div class="pl30 pr30 pt10 fz22 c666666">
+                                    <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
+                                    <p>{{item.dur}} / {{item.groupNumber}}</p>
+                                </div>
+                                <div class="pl30 pr30 pt10 fz34" style="color: #fd5509">
+                                    {{item.orderSimulatePrice}}
+                                </div>
+                            </div>
+                            <div class="w210 h148 pa b40 l70">
+                                <img @click="linktoDetail(item.id,'product')" :src="item.mainImageIcon" class="object-fit-cover" alt="">
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="listproduction.html" class="db w670 h86 lh86 tac b1se5e5e5 br10 fz28 c666666 m0a">查看全部方案</a>
+                </section>
+                <!--场地-->
+                <section v-show="model.currentmenu=='location'" class="li_list w100p bgcffffff mt-4 pb40 ">
+                    <ul class="pt40">
+                        <li class="mb34" v-for="item in model.locations">
+                            <div class="w670 h392 bgcffffff bs-0-0-6-0-dddddd br10 m0a ">
+                                <div class="ofh">
+                                    <div class="w254 h254 br20 ml22 mt22 fl pr">
+                                        <div class="w130 h104 pa t0 l0">
+                                            <img src="images/label_tuijian.png" class="object-fit-cover" alt="">
+                                        </div>
+                                        <img @click="linktoDetail(item.id,'location')" :src="item.descirbeText2" class="object-fit-cover" alt="">
+                                    </div>
+                                    <div class="fl w382">
+                                        <div class="fz32 fw700 pl30 pt30 w382 mult-line-ellipsis-1">{{item.name}}</div>
+                                        <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
+                                            <span v-for="str in item.tips" class="mr10">#{{str}}#</span>
+                                        </div>
+                                        <div class="pl30 pr30 pt14 fz24 c666666">
+                                            <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
+                                            <p>{{item.designDuringCo}} / {{item.groupNumberLimit}}</p>
+                                        </div>
+                                        <div class="ml30 mr30 mt60 pr">
+                                            <div class="fz34 pa b0 l0" style="color: #fd5509">
+                                                ￥{{item.simulatePriceCode}}<span class="fz20">/人起</span>
+                                            </div>
+                                            <div v-show="item.isDiscount" class="fz20 pa b0 r0">支付立减 <span class="fz18 h30 lh30 dib" style="border:1px solid #fd5509;color: #fd5509;padding: 0 5px;border-radius: 3px;">红包</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="w612 h2 m0a bgcf5f5f5 mt22 mb22"></div>
+
+                                <div class="fz24 h46 lh46 ml22 mr22">
+                                    <span v-for="str in item.tipNotes" class="dib h46 br25 pl20 pr20" style="background-color: #fef7eb;color: #f6b03e;">{{str}}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="w670 h2 bgcf5f5f5 m0a"></div>
+                    <!--热门场地-->
+                    <div class="w670 m0a pt30 ofh">
+                        <div class="fl lh50">
+                            <p class="fz34 fw700">热门场地</p>
+                            <p class="fz28 caaaaaa">室内户外，畅你所想～</p>
+                        </div>
+                        <a href="listlocation.html" class="arrow-icon fz26 caaaaaa lh50 fr">全部</a>
+                    </div>
+                    <ul class="pt40">
+                        <li class="mb34" v-for="item in model.locations">
+                            <div class="w670 h392 bgcffffff bs-0-0-6-0-dddddd br10 m0a ">
+                                <div class="ofh">
+                                    <div class="w254 h254 br20 ml22 mt22 fl pr">
+                                        <img @click="linktoDetail(item.id,'location')" :src="item.descirbeText2" class="object-fit-cover" alt="">
+                                    </div>
+                                    <div class="fl w382">
+                                        <div class="fz32 fw700 pl30 pt30 w382 mult-line-ellipsis-1">{{item.name}}</div>
+                                        <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
+                                            <span v-for="str in item.tips" class="mr10">#{{str}}#</span>
+                                        </div>
+                                        <div class="pl30 pr30 pt14 fz24 c666666">
+                                            <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
+                                            <p>{{item.designDuringCo}} / {{item.groupNumberLimit}}</p>
+                                        </div>
+                                        <div class="ml30 mr30 mt60 pr">
+                                            <div class="fz34 pa b0 l0" style="color: #fd5509">
+                                                ￥{{item.simulatePriceCode}}<span class="fz20">/人起</span>
+                                            </div>
+                                            <div v-show="item.isDiscount" class="fz20 pa b0 r0">支付立减 </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="w612 h2 m0a bgcf5f5f5 mt22 mb22"></div>
+
+                                <div class="fz24 h46 lh46 ml22 mr22">
+                                    <span v-for="str in item.tipNotes" class="dib h46 br25 pl20 pr20" style="background-color: #fef7eb;color: #f6b03e;">{{str}}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <a href="listlocation.html" class="db w670 h86 lh86 tac b1se5e5e5 br10 fz28 c666666 m0a">查看全部场地</a>
+                </section>
+                <!--案例-->
+                <section v-show="model.currentmenu=='case'" class="li_list w100p bgcffffff mt-4 pb40">
+                    <ul class="pt40">
+                        <li class="mb34" v-for="item in model.list">
+                            <div class="w670 h504 bgcffffff bs-0-0-6-0-dddddd br10 m0a ">
+                                <div class="w100p h328">
+                                    <img @click="linktoDetail(item.id,'case')" :src="item.descirbeText2" class="object-fit-cover" alt="">
+                                </div>
+
+                                <div class="fz32 fw700 pl30 pt20 w534 mult-line-ellipsis-1">{{item.name}}</div>
+                                <div class="pl30 pr30 pt20 fz24 c666666">
+                                    <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
+                                    <p>{{item.designDuringCo}} / {{item.groupNumber}}</p>
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="w670 h2 bgcf5f5f5 m0a"></div>
+                    <!--合作企业-->
+                    <div class="w670 m0a pt30 ofh">
+                        <div class="fl lh50">
+                            <p class="fz34 fw700">合作企业</p>
+                            <p class="fz28 caaaaaa">精选合作，品质服务～</p>
+                        </div>
+                    </div>
+                    <div class="pt40 tac">
+                        <a href="###" class="dib w210 h100 ml6 mr6"><img src="images/img_logo_1.png" class="object-fit-cover" alt="美团"></a>
+                        <a href="###" class="dib w210 h100 ml6 mr6"><img src="images/img_logo_2.png" class="object-fit-cover" alt="小米"></a>
+                        <a href="###" class="dib w210 h100 ml6 mr6"><img src="images/img_logo_3.png" class="object-fit-cover" alt="亚马逊"></a>
+
+                    </div>
+
+                    <div class="w670 h2 bgcf5f5f5 m0a"></div>
+                    <!--热门案例-->
+                    <div class="w670 m0a pt30 ofh">
+                        <div class="fl lh50">
+                            <p class="fz34 fw700">热门案例</p>
+                            <p class="fz28 caaaaaa">所有有趣的，都在这里发生～</p>
+                        </div>
+                        <a href="listcase.html" class="arrow-icon fz26 caaaaaa lh50 fr">全部</a>
+                    </div>
+                    <ul class="pt40">
+                        <li class="h550 pr" v-for="item in model.cases">
+                            <div class="w670 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                <div class="fz32 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.name}}</div>
+                                <div class="pl30 pr30 pt30 fz18">
+                                    <span v-for="str in item.tips" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20" style="background-color: #282b33;">{{str}}</span>
+                                </div>
+                                <div class="pl30 pr30 pt30 fz24">
+                                    <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
+                                    <p>{{item.designDuringCo}} / {{item.groupNumber}}</p>
+                                </div>
+                            </div>
+                            <div class="w570 h240 pa b40 l90">
+                                <img @click="linktoDetail(item.id,'case')" :src="item.descirbeText2" class="object-fit-cover" alt="">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="w670 h2 bgcf5f5f5 m0a"></div>
+
+                    <a href="listcase.html" class="db w670 h86 lh86 tac b1se5e5e5 br10 fz28 c666666 m0a">查看全部案例</a>
+                </section>
+            </div>
+
+            <!--底部公司信息-->
+            <companyfooter></companyfooter>
+
+            <!--帮您定制悬浮-->
+            <a href="javascript:void(0)" class="db w120 h254 pf b200 r40" @click="setCurrentPage('order')">
+                <img src="images/icon_dz_btn.png" class="object-fit-cover" alt="">
+            </a>
+
+        </div>
+    </div>
+
+
+    <div id="companyfooter">
+        <companyfooter></companyfooter>
+    </div>
+    <div id="helporder">
+        <helporder></helporder>
+    </div>
+    <div id="login">
+        <login></login>
+    </div>
+    <div id="sildemenu">
+        <sildemenu></sildemenu>
+    </div>
+
+    <div id="search">
+        <search></search>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/change_font_size.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+
+    <script type="text/javascript" src="js/swiper.min.js"></script>
+    <script type="text/javascript" src="js/zepto_min.js"></script>
+    <script type="text/javascript" src="js/touchslider.js"></script>
+
+    <script src="Scripts/common.js"></script>
+    <script src="template/companyfooter.js"></script>
+    <script src="template/helporder.js"></script>
+    <script src="template/login.js"></script>
+    <script src="template/sildemenu.js"></script>
+    <script src="template/search.js"></script>
+    <script src="Scripts/index.js"></script>
+</body>
+</html>
