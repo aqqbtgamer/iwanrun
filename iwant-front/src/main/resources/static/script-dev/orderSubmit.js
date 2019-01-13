@@ -78,7 +78,12 @@ var appMyAccount = new Vue(
             selectedSimulatePrice:"",
             otherRequire:"",
             loginVerifyInteval:null,
-            tailWeixinIcon:false
+            tailWeixinIcon:false,
+            preferItem:{
+            	id:getUrlParam('id'),
+            	type:getUrlParam("type"),
+            	perfered:false
+            }
         },
         created:function(){
         	console.log("init server http data ....");
@@ -126,7 +131,15 @@ var appMyAccount = new Vue(
             				if( list != ''){
             					vm.productionList=list.content;
             					for(var i = 0 ; i<vm.productionList.length ; i++){
-            						vm.productionList[i].selected = false ;
+            						if(vm.preferItem.type=='product' && vm.preferItem.id != null){
+            							if(vm.productionList[i].id == vm.preferItem.id ){
+            								vm.productionList[i].selected = true ;
+            								vm.perfered = true ;
+            							}
+            						}else{
+            							vm.productionList[i].selected = false ;
+            						}
+            						
             					}
             					vm.productionMaxPage=list.pageInfo.totalpage;//最大页数
             					if(vm.productionCurrentPage==vm.productionMaxPage){
@@ -135,7 +148,11 @@ var appMyAccount = new Vue(
             					if( vm.productionMaxPage > vm.productionCurrentPage){
             	            		vm.productionNext=true;
             	            	}
+            					if(!vm.perfered && vm.preferItem.type=='product'){
+            						vm.productionNextClick();
+            					}
             				}
+            				
             				
             	})
             },
@@ -151,6 +168,17 @@ var appMyAccount = new Vue(
             				var list = response.data;
             				if( list != ''){
             					vm.locationList=list.content;
+            					for(var i = 0 ; i<vm.locationList.length ; i++){
+            						if(vm.preferItem.type=='location' && vm.preferItem.id != null){
+            							if(vm.locationList[i].id == vm.preferItem.id ){
+            								vm.locationList[i].selected = true ;
+            								vm.perfered = true ;
+            							}
+            						}else{
+            							vm.locationList[i].selected = false ;
+            						}
+            						
+            					}
             					vm.locationMaxPage=list.pageInfo.totalpage;//最大页数
             					if(vm.locationCurrentPage==vm.locationMaxPage){
             						vm.locationNext=false;
@@ -158,6 +186,9 @@ var appMyAccount = new Vue(
             					if(vm.locationMaxPage > vm.locationCurrentPage){
             	            		vm.locationNext=true;
             	            	}
+            					if(!vm.perfered && vm.preferItem.type=='location'){
+            						vm.locationNextClick();
+            					}
             				}
             				
             	})
@@ -175,12 +206,27 @@ var appMyAccount = new Vue(
             				if( list != ''){
             					vm.caseList=list.content;
             					vm.caseMaxPage=list.pageInfo.totalpage;//最大页数
+            					for(var i = 0 ; i<vm.caseList.length ; i++){
+            						if(vm.preferItem.type=='case' && vm.preferItem.id != null){
+            							if(vm.caseList[i].id == vm.preferItem.id ){
+            								vm.caseList[i].selected = true ;
+            								vm.perfered = true ;
+            							}
+            						}else{
+            							vm.caseList[i].selected = false ;
+            						}
+            						
+            					}
+            					
             					if(vm.caseCurrentPage==vm.caseMaxPage){
             						vm.caseNext=false;
             					}
             					if( vm.caseMaxPage > vm.caseCurrentPage ){
             	            		vm.caseNext=true;
             	            	}
+            					if(!vm.perfered && vm.preferItem.type=='case'){
+            						vm.caseNextClick();
+            					}
             				}
             				
             	})
@@ -347,6 +393,9 @@ var appMyAccount = new Vue(
             	}else{
             		return input;
             	}
+            },
+            toDetailPage:function(id,type){            	
+            	window.open(baseUrl+"html/iwantrun/productdetail.html?type="+type+"&id="+id);
             }
         }
     }

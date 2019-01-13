@@ -126,7 +126,8 @@ var appProductDetails = new Vue(
 			},
 			methods:{
 				toOrderSubmit : function() {
-					window.location.href = "./ordersubmit.html";
+					var vm = this
+					window.location.href = "./ordersubmit.html"+"?id="+vm.init.id+"&type="+vm.init.type;
                 },
 				 showLogin: function (message) {
 		                console.log("v-on  click method :showLogin");

@@ -190,13 +190,13 @@
                     <template  v-for="item in productionList">
                         <div class="span-image-blank span-column1 border-radius">
                             <div class="span-image-content">
-                                <img :src="item.mainImageLarge" alt="">
+                                <img :src="item.mainImageLarge" alt="" @click="toDetailPage(item.id,'product')">
                                 <p class="align-left">{{item.name}}</p>
                             </div>
                         </div>
                         <div class="span-image-blank span-column1 border-slide position-relative">
                            <span class="price-label">参考价格: {{item.orderSimulatePrice}}</span>
-                            <input type="checkbox" name="selectProduct"  :value="item.id">
+                            <input type="checkbox" name="selectProduct"  :value="item.id" v-model="item.selected">
 <!--                             <i class="iconfont-bold2 icon-checkbox-non"></i> -->
                             <hr class="specil-line">
                         </div>
@@ -219,13 +219,13 @@
                     <template  v-for="item in locationList">
                         <div class="span-image-blank span-column2  border-radius" >
                             <div class="span-image-content">
-                                <img :src="item.descirbeText2" alt="">
+                                <img :src="item.descirbeText2" alt="" @click="toDetailPage(item.id,'location')>
                                 <p class="align-left">{{item.name}}</p>
                             </div>
                         </div>
                         <div class="span-image-blank span-column2  border-slide position-relative">
                            <span class="price-label">参考价格: {{item.simulatePriceCode}}</span>
-                            <input type="checkbox" name="selectLocation"  :value="item.id">
+                            <input type="checkbox" name="selectLocation"  :value="item.id" v-model="item.selected">
 <!--                             <i class="iconfont-bold2 icon-checkbox-non"></i> -->
                             <hr class="specil-line">
                         </div>
@@ -249,13 +249,13 @@
                     <template  v-for="item in caseList">
                         <div class="span-image-blank span-column1  border-radius">
                             <div class="span-image-content">
-                                <img :src="item.descirbeText2" alt="">
+                                <img :src="item.descirbeText2" alt="" @click="toDetailPage(item.id,'case')>
                                 <p class="align-left">{{item.name}}</p>
                             </div>
                         </div>
                         <div class="span-image-blank span-column1 border-slide position-relative">
                            <span class="price-label">参考价格: {{item.simulatePriceCode}}</span>
-                            <input type="checkbox" name="selectCase"  :value="item.id">
+                            <input type="checkbox" name="selectCase"  :value="item.id"  v-model="item.selected">
 <!--                             <i class="iconfont-bold2 icon-checkbox-non"></i> -->
                             <hr class="specil-line">
                         </div>
