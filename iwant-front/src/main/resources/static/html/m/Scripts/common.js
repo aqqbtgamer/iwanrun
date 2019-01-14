@@ -1,5 +1,25 @@
-﻿var pathnames = location.pathname.split('/');
+﻿function IsPC() {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = ["Android", "iPhone",
+        "SymbianOS", "Windows Phone",
+        "iPad", "iPod"];
+    var flag = true;
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) {
+            flag = false;
+            break;
+        }
+    }
+    return flag;
+}
+
+var pathnames = location.pathname.split('/');
 var baseUrl = location.origin + "/" + pathnames[1] + "/";
+
+if (IsPC) {
+    window.location.href = baseUrl;
+}
+
 var requestUrl = {
     //Release
     queryProdutionByCondition: baseUrl + 'production/queryProdutionByCondition',
@@ -155,3 +175,25 @@ var queryListByField = {
         param: { "name": "common", "used_field": 6, "field": "provinceList" }
     }
 };
+
+
+//文件上传
+function fileUpload(contentId, url, uploadFile, callback) {
+    var formData = new FormData();
+    formData.append('fileUpload', uploadFile);
+    var data = formData;
+    $.ajax({
+        url: url,
+        data: data,
+        type: "post",
+        dataType: "text",
+        cache: false,
+        processData: false,// 用于对data参数进行序列化处理 这里必须false
+        contentType: false, // 必须
+        success: function (result) {
+            if (typeof callback === 'function') {
+                callback(result);
+            }
+        }
+    });
+}

@@ -240,3 +240,8 @@ i {
     background-color: #fdefd8;
     border-color: #f6b03e !important;
 }
+
+
+.sildeMenu .tac:hover {
+    background-color: #f3f3f3;
+}

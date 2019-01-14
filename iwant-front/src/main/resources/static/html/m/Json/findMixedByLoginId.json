@@ -11,6 +11,8 @@
     "id": 10,
     "loginInfoId": 6,
     "name": "用户0012223333",
+    "gender": 1,
+    "email": "test@test.com",
     "companyTypeId": 2,
     "companyName": "Test",
     "companySizeId": 2,

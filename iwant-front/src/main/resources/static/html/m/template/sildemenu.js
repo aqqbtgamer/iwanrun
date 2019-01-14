@@ -17,31 +17,31 @@
     + '</div>                                                                                                   '
     + '        <div class="w406 h2 bgcf5f5f5 m0a"></div>                                                                '
     + '      <ul>                                                                                                     '
-    + '        <li class="tac lh100">                                                                               '
+    + '        <li class="tac lh100" >                                                                               '
     + '          <a href="javascript:void(0)" @click="location.href=\'myAccount.html\'">                          '
     + '                <img src="images/menu_icon_01.png" class="w36 h36" alt="">                               '
     + '          <span class="fz30 c333333">个人中心</span>                                                   '
     + '        </a>                                                                                         '
     + ' </li>                                                                                                '
-    + '<li class="tac lh100 menu-active">                                                                   '
+    + '<li class="tac lh100">                                                                   '
     + '  <a href="ordersubmit.html">                                                                                   '
     + '    <img src="images/menu_icon_02.png" class="w36 h36" alt="">                                   '
     + '      <span class="fz30 c333333">提交需求</span>                                               '
     + '</a>                                                                                         '
     + '</li>                                                                                            '
     + '<li class="tac lh100">                                                                           '
-    + '  <a href="###">                                                                               '
+    + '  <a href="tel:4008897003">                                                                               '
     + '    <img src="images/menu_icon_03.png" class="w36 h36" alt="">                               '
     + '      <span class="fz30 c333333">联系我们</span>                                           '
     + '</a>                                                                                         '
-    + '</li>                                                                                            '
-    + '                    <li class="tac lh100">                                                                        '
-    + '                        <a href="###">                                                                            '
-    + '                            <img src="images/menu_icon_04.png" class="w36 h36" alt="">                            '
-    + '                                <span class="fz30 c333333">设置</span>                                            '
-    + '                    </a>                                                                                          '
-    + '                </li>                                                                                             '
-    + '                                                                                                                  '
+    //+ '</li>                                                                                            '
+    //+ '                    <li class="tac lh100">                                                                        '
+    //+ '                        <a href="###">                                                                            '
+    //+ '                            <img src="images/menu_icon_04.png" class="w36 h36" alt="">                            '
+    //+ '                                <span class="fz30 c333333">设置</span>                                            '
+    //+ '                    </a>                                                                                          '
+    //+ '                </li>                                                                                             '
+    //+ '                                                                                                                  '
     + '            </ul>                                                                                                 '
     + '        </div>                                                                                                    '
     + '                <div class="sildeBg w100p h100p bgcffffff op60" @click="show=false"></div>              '
@@ -59,15 +59,7 @@ var sildemenu = new Vue({
             headimg: 'images/head_img.png',
             nickname: jQuery.cookie('loginId'),
             phone: jQuery.cookie('loginId'),
-            company: {
-                name: '上海沐跑科技有限公司',
-                licenses: [],
-                hasCredential: false,
-                companyTypeId: 0,
-                companySizeId: 10,
-                type: '互联网软件',
-                personNum: 200
-            }
+            company: { licenses: []}
         }
     },
     components: {
@@ -92,34 +84,17 @@ var sildemenu = new Vue({
                         var info = data.userInfo;
                         var headImgs = data.headImgs;
                         var companyCredentials = data.companyCredentials;
-                        //var loginInfo = data.loginInfo;
                         if (info) {
                             if (headImgs && headImgs.length > 0) {
                                 vm.account.headimg = headImgs[0].filePath;
                             }
                             vm.account.nickname = info.name;
-                            //if (loginInfo) {
-                            //    vm.account.phone = loginInfo.mobileNumber;
-                            //}
-                            //vm.account.securityanswer.question = info.question;
-                            //vm.account.securityanswer.answer = info.answer;
-                            //vm.account.company.name = info.companyName;
                             if (companyCredentials) {
                                 for (var i = 0; i < companyCredentials.length; i++) {
                                     vm.account.company.licenses.push(companyCredentials[i].filePath);
                                 }
                                 vm.account.company.hasCredential = true;
-                                //vm.nextCompanyCredential();
                             }
-
-                            //var company = vm.account.company;
-
-                            //company.companyTypeId = info.companyTypeId;
-                            //company.companySizeId = info.companySizeId;
-                            //company.type = company.types[info.companyTypeId];
-                            //company.personNum = company.personNums[info.companySizeId];
-
-                            //setCompanyOption();
                         }
                     }
                 })

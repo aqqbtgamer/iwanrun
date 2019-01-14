@@ -25,10 +25,8 @@
                 </a>
             </header>
             <section class="mt130 bgcffffff w100p fz26 lh54 pl40 pr40 pt24 fh">
-                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">聚餐</span>
-                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">团建</span>
-                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">户外行</span>
-                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">户外行</span>
+                <span class="dib h54"> </span>
+                <button v-for="item in model.searchlist" @click="remove(item)" class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">{{item.name}}</button>
                 <i class="db fr w42 h32"><img src="images/selct_type_icon.png" @click="showFilter" class="object-fit-cover" alt=""></i>
             </section>
 
@@ -36,7 +34,7 @@
                 <ul class="pt40 ml30 mr30 ofh">
                     <li class="h450 pr fl" style="width: 50%" v-for="item in model.list" @click="linktoDetail(item.id)">
                         <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
-                            <div class="fz28 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.name}}</div>
+                            <div class="fz28 fw700 pl30 pt30 mult-line-ellipsis-1">{{item.name}}</div>
                             <div class="pl30 pr30 pt10 fz22">
                                 <span v-for="str in item.tips" class="mr10">#{{str}}#</span>
                             </div>

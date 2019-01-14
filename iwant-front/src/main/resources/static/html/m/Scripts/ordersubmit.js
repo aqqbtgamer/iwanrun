@@ -1,6 +1,4 @@
 ﻿
-
-
 var appIndex = new Vue(
     {
         el: "#container",

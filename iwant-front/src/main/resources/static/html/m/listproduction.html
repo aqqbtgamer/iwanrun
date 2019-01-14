@@ -36,25 +36,23 @@
                 </a>
             </header>
             <section class="mt130 bgcffffff w100p fz26 lh54 pl40 pr40 pt24 fh">
-                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">会场</span>
-                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">体育场</span>
-                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">别墅区</span>
-                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">户外</span>
+                <span class="dib h54"> </span>
+                <button v-for="item in model.searchlist" @click="remove(item)" class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">{{item.name}}</button>
                 <i class="db fr w42 h32"><img src="images/selct_type_icon.png" @click="showFilter" class="object-fit-cover" alt=""></i>
             </section>
 
             <section class=" w100p bgcffffff  pb40">
                 <ul class="pt40">
-                    <li class="h550 pr" v-for="item in model.list">
+                    <li class="pb200 pr" v-for="item in model.list">
                         <div class="w32 h30 pa t30 r70">
                             <img src="images/love_icon.png" class="object-fit-cover" alt="">
                         </div>
-                        <div class="w670 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                        <div class="w670 pb100 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
                             <div class="fz32 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.name}}</div>
-                            <div class="pl30 pr30 pt30 fz18">
-                                <span v-for="str in item.tips" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20" style="background-color: #282b33;">{{str}}</span>
+                            <div class="pl30 pr30 pt20 fz18">
+                                <span v-for="str in item.tips" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20 mb10" style="background-color: #282b33;">{{str}}</span>
                             </div>
-                            <div class="pl30 pr30 pt30 fz24">
+                            <div class="pl30 pr30 pt10 fz24">
                                 <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
                                 <p>{{item.dur}} / {{item.groupNumber}}</p>
                             </div>

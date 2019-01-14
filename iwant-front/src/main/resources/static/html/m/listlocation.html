@@ -23,10 +23,8 @@
                 </a>
             </header>
             <section class="mt130 bgcffffff w100p fz26 lh54 pl40 pr40 pt24 fh">
-                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">会场</span>
-                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">体育场</span>
-                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">别墅区</span>
-                <span class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">户外</span>
+                <span class="dib h54"> </span>
+                <button v-for="item in model.searchlist" @click="remove(item)" class="dib h54 pl30 pr30 bgcf5f5f5 c888888 br30 mr10">{{item.name}}</button>
                 <i class="db fr w42 h32"><img src="images/selct_type_icon.png" @click="showFilter" class="object-fit-cover" alt=""></i>
             </section>
 
@@ -54,7 +52,7 @@
                                         <div class="fz34 pa b0 l0" style="color: #fd5509">
                                             ￥{{item.simulatePriceCode}}<span class="fz20">/人起</span>
                                         </div>
-                                        <div  v-show="item.isDiscount" class="fz20 pa b0 r0">支付立减 <span class="fz18 h30 lh30 dib" style="border:1px solid #fd5509;color: #fd5509;padding: 0 5px;border-radius: 3px;">红包</span></div>
+                                        <div v-show="item.isDiscount" class="fz20 pa b0 r0">支付立减 <span class="fz18 h30 lh30 dib" style="border:1px solid #fd5509;color: #fd5509;padding: 0 5px;border-radius: 3px;">红包</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +70,7 @@
             </section>
         </div>
     </div>
-   
+
     <div id="companyfooter">
         <companyfooter></companyfooter>
     </div>

@@ -64,7 +64,7 @@
                                 <img src="images/label_new.png" class="object-fit-cover" alt="">
                             </div>
                             <div class="w670 pb100 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
-                                <div class="fz32 fw700 pl30 pt30 w534">{{item.name}}</div>
+                                <div title="item.name" class="fz32 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.name}}</div>
                                 <div class="pl30 pr30 pt20 fz18">
                                     <span v-for="str in item.tips" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20 mb10" style="background-color: #282b33;">{{str}}</span>
                                 </div>
@@ -220,10 +220,9 @@
                         </div>
                     </div>
                     <div class="pt40 tac">
-                        <a href="###" class="dib w210 h100 ml6 mr6"><img src="images/img_logo_1.png" class="object-fit-cover" alt="美团"></a>
-                        <a href="###" class="dib w210 h100 ml6 mr6"><img src="images/img_logo_2.png" class="object-fit-cover" alt="小米"></a>
-                        <a href="###" class="dib w210 h100 ml6 mr6"><img src="images/img_logo_3.png" class="object-fit-cover" alt="亚马逊"></a>
-
+                        <a v-for="item in model.webSiteCooperatives" href="javascript:void(0)" @click="linktoWeb(item.url)" class="dib w210 h100 ml6 mr6">
+                            <img :src="item.logoPath" class="object-fit-cover" :alt="item.name">
+                        </a>
                     </div>
 
                     <div class="w670 h2 bgcf5f5f5 m0a"></div>
@@ -257,14 +256,6 @@
                     <a href="listcase.html" class="db w670 h86 lh86 tac b1se5e5e5 br10 fz28 c666666 m0a">查看全部案例</a>
                 </section>
             </div>
-
-            <!--底部公司信息-->
-            <companyfooter></companyfooter>
-
-            <!--帮您定制悬浮-->
-            <a href="javascript:void(0)" class="db w120 h254 pf b200 r40" @click="setCurrentPage('order')">
-                <img src="images/icon_dz_btn.png" class="object-fit-cover" alt="">
-            </a>
 
         </div>
     </div>
