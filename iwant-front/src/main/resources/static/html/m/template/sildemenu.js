@@ -59,7 +59,9 @@ var sildemenu = new Vue({
             headimg: 'images/head_img.png',
             nickname: jQuery.cookie('loginId'),
             phone: jQuery.cookie('loginId'),
-            company: { licenses: []}
+            company: {
+                licenses: [], hasCredential: false
+            }
         }
     },
     components: {

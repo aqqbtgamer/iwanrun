@@ -56,17 +56,25 @@ var appIndex = new Vue({
             var idx = vm.model.searchlist.indexOf(item);
             vm.model.searchlist.splice(idx, 1);
 
-            console.log('-----list remove');
-            console.log(vm.model.param[item.type]);
+            //console.log('-----list remove');
+            //console.log(vm.model.param[item.type]);
             //param
-            $.each(vm.model.param[item.type], function (index, it) {
-                console.log(it);
-                if (it.id == item.id) {
-                    vm.model.param[item.type].splice(index, 1);
+            //$.each(vm.model.param[item.type], function (index, it) {
+            //    console.log(it);
+            //    if (it.id == item.id) {
+            //        vm.model.param[item.type].splice(index, 1);
+            //    }
+            //});
+            if (Array.isArray(vm.model.param[item.type])) {
+                for (var i = 0; i < vm.model.param[item.type].length; i++) {
+                    if (vm.model.param[item.type][i].id === item.id) {
+                        vm.model.param[item.type].splice(i, 1);
+                        break;
+                    }
                 }
-            });
-            console.log(vm.model.param[item.type]);
-            console.log('-----list remove');
+            }
+            //console.log(vm.model.param[item.type]);
+            //console.log('-----list remove');
 
             filter.remove(item);
             vm.model.page.pageIndex = 1;
@@ -97,7 +105,7 @@ var appIndex = new Vue({
         };
 
         filter.type = 'production';
-        
+
         filter.callback = function (data) {
             console.log(data);
             vm.model.param = {};
