@@ -16,7 +16,7 @@
 var pathnames = location.pathname.split('/');
 var baseUrl = location.origin + "/" + pathnames[1] + "/";
 
-if (IsPC) {
+if (IsPC()) {
     window.location.href = baseUrl;
 }
 
