@@ -13,6 +13,29 @@
     <script type="application/javascript" src="script/vue.min.js"></script>
     <script type="application/javascript" src="script/axios.min.js"></script>
     <title>我要跑-首页</title>
+    <script>
+        function IsPC() {
+            var userAgentInfo = navigator.userAgent;
+            var Agents = ["Android", "iPhone",
+                "SymbianOS", "Windows Phone",
+                "iPad", "iPod"];
+            var flag = true;
+            for (var v = 0; v < Agents.length; v++) {
+                if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
+        }
+
+        var pathnames = location.pathname.split('/');
+        var baseUrl = location.origin + "/" + pathnames[1] + "/";
+
+        if (!IsPC) {
+            window.location.href = baseUrl + 'html/m/index.html';
+        }
+    </script>
 </head>
 <body>
     <form>
@@ -54,9 +77,9 @@
             <div id="banner" class="banner">
                 <!-- <img src="img/banner/banner1.png" alt="banner1.png" width="100%"> -->
                 <div class="banner-list">
-                	               	
+
                 </div>
-                <div class="banner-point">                	
+                <div class="banner-point">
                 </div>
             </div>
             <div id="display-bar1" class="display-bar">
@@ -104,8 +127,8 @@
 
                     <div class="clear"></div>
                     <div class="content-table-partner">
-                        <div class="partner-logo" >
-                            <a v-for="(item,index) in partners" :href="item.url" ><img :src="item.logoPath" alt=""></a>                         
+                        <div class="partner-logo">
+                            <a v-for="(item,index) in partners" :href="item.url"><img :src="item.logoPath" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -162,9 +185,9 @@
                             <!--<div class="outstanding-item">
                                 <img src="img/otstandingproduction.png" alt="outstanding.png" width="100%">
                             </div>-->
-                            <div class="normal-item" v-if="index<8" v-for="(item,index) in productIndexList"  @click="toDetail('product', item.id)">
+                            <div class="normal-item" v-if="index<8" v-for="(item,index) in productIndexList" @click="toDetail('product', item.id)">
                                 <div>
-                                    <img :src="item.mainImageLarge" alt="normalpd1.png" width="100%" height="260px" >
+                                    <img :src="item.mainImageLarge" alt="normalpd1.png" width="100%" height="260px">
                                 </div>
                                 <div class="displayText-production">
                                     <p>{{ingornedLongText(item.name)}}</p>
@@ -244,7 +267,7 @@
                     </div>
                 </div>
                 <div class="content-box-case-line">
-                    <div v-if="index<6" v-for="(item,index) in caseIndexList" style="display:inline-block" :class="item.isBig?'content-box-case-imgbig':'content-box-case-imgsmall'"  @click="toDetail('case', item.id)">
+                    <div v-if="index<6" v-for="(item,index) in caseIndexList" style="display:inline-block" :class="item.isBig?'content-box-case-imgbig':'content-box-case-imgsmall'" @click="toDetail('case', item.id)">
                         <img :src="item.descirbeText2" alt="case1.png" width="100%">
                     </div>
                 </div>
@@ -255,29 +278,29 @@
                         <nav>
                             <ul>
                                 <li class="tail-li-left"><a href="./html/iwantrun/aboutus.html">关于我们</a></li>
-                          <!--       <li class="tail-li-left"><a href="#">加入我们</a></li>
-                                <li class="tail-li-left"><a href="#">联系我们</a></li>
-                                <li class="tail-li-left"><a href="#">条款</a></li> -->
+                                <!--       <li class="tail-li-left"><a href="#">加入我们</a></li>
+                                      <li class="tail-li-left"><a href="#">联系我们</a></li>
+                                      <li class="tail-li-left"><a href="#">条款</a></li> -->
                                 <li class="tail-li-left " style="margin-right: 0"><a href="#">网站导航</a></li>
                             </ul>
                         </nav>
                     </div>
                     <div id="icon-connect" class="icon-connect">
                         <p>
-                          <!--   <i class="iconfont icon-facebookfacebook52 clickIcon" style="font-size: 2vw"></i>
-                            <i class="iconfont icon-twitter3 clickIcon" style="font-size: 2vw"></i> -->
+                            <!--   <i class="iconfont icon-facebookfacebook52 clickIcon" style="font-size: 2vw"></i>
+                              <i class="iconfont icon-twitter3 clickIcon" style="font-size: 2vw"></i> -->
                             <i class="iconfont icon-weixin-copy clickIcon" style="font-size: 2vw" @mouseover="displayIcon" @mouseout="hideIcon"></i>
                             <!-- <i class="iconfont icon-weibo clickIcon" style="font-size: 2vw"></i> -->
                         </p>
                     </div>
                     <div class="clear"></div>
-                    <div id="tail-display-icon-big" >
-                    <img id="tail-image-icon" class="tail-image-icon" src="img/weixinContract.png" v-show="tailWeixinIcon" v-cloak> </img>
+                    <div id="tail-display-icon-big">
+                        <img id="tail-image-icon" class="tail-image-icon" src="img/weixinContract.png" v-show="tailWeixinIcon" v-cloak> </img>
                     </div>
                 </div>
             </div>
             <div id="mask" class="mask" v-if="mask" v-cloak></div>
-            
+
             <div id="float-collect-requirement" class="slidebar">
                 <h2 class="slidebar-head">急速获取免费方案</h2>
                 <p class="slidebar-text">
