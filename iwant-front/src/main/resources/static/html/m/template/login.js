@@ -7,11 +7,12 @@
     + '             </a>                                                                                                                                                                                                               '
     + '         </header >                                                                                                                                                                                                             '
     + ' <nav class="mt100 w670 ml40 pt18 ofh">                                                                                                                                                                                         '
-    + '     <a :class="model.isshowregister?\'c333333 fz30 fl ml30 mr30\':\'c333333 fz30 fl ml30 mr30 login-active\'" href="javascript:void(0)" @click="switchLogin(false)">登 录</a>                                                      '
-    + ' <a :class="model.isshowregister?\'c333333 fz30 fl ml30 mr30 login-active\':\'c333333 fz30 fl ml30 mr30\'" href="javascript:void(0)" @click="switchLogin(true)" > 注 册</a >                                                        '
+    + '     <a :class="model.showTab==\'login\'?\'c333333 fz30 fl ml30 mr30 login-active\':\'c333333 fz30 fl ml30 mr30 \'" href="javascript:void(0)" @click="switchLogin(\'login\')">登 录</a>                                                      '
+    + ' <a :class="model.showTab==\'register\'?\'c333333 fz30 fl ml30 mr30 login-active\':\'c333333 fz30 fl ml30 mr30\'" href="javascript:void(0)" @click="switchLogin(\'register\')" > 注 册</a >                                                        '
+    + ' <a :class="model.showTab==\'forgetpassword\'?\'c333333 fz30 fl ml30 mr30 login-active\':\'c333333 fz30 fl ml30 mr30\'" href="javascript:void(0)" @click="switchLogin(\'forgetpassword\')" > 忘记密码</a >                                                        '
     + '         </nav >                                                                                                                                                                                                                '
     + '         <!--登录-->                                                                                                                                                                                                            '
-    + ' <section class="pr login_party" v-show="!model.isshowregister">                                                                                                                                                                '
+    + ' <section class="pr login_party" v-show="model.showTab==\'login\'">                                                                                                                                                                '
     + '     <div class="w750 h640 pa t0 l0 zi1"><img src="images/login_bg_01.png" class="object-fit-cover" alt=""></div>                                                                                                               '
     + '         <div class="tac pt100 pr zi2">                                                                                                                                                                                         '
     + '             <div class="login_label w380 ofh m0a">                                                                                                                                                                             '
@@ -64,7 +65,7 @@
     + '             </div >                                                                                                                                                                                                            '
     + '         </section >                                                                                                                                                                                                            '
     + '         <!--注册-->                                                                                                                                                                                                            '
-    + ' <section class="pr re_party" v-show="model.isshowregister">                                                                                                                                                                    '
+    + ' <section class="pr re_party" v-show="model.showTab==\'register\'">                                                                                                                                                                    '
     + '     <div class="w750 h690 pa t0 l0 zi1"><img src="images/login_bg_02.png" class="object-fit-cover" alt=""></div>                                                                                                               '
     + '         <div class="tac pt40 pr zi2">                                                                                                                                                                                          '
     + '             <div class="login_area_02 pt40">                                                                                                                                                                                   '
@@ -92,6 +93,45 @@
     + '             </div>                                                                                                                                                                                                             '
     + '             <div class="w596 m0a ofh">                                                                                                                                                                                         '
     + '                 <a href="javascript:void(0)" @click="register" class="db w596 h78 lh78 tac cffffff fz36 login_btn fl mt76">注册并登录</a>                                                                                      '
+    + '         </div>                                                                                                                                                                                                                 '
+    + '     </div>                                                                                                                                                                                                                     '
+    + '             </div>                                                                                                                                                                                                             '
+    + '         </section >                                                                                                                                                                                                            '
+    + '                                                                                                                                                                                                                                '
+    + '         <!--忘记密码-->                                                                                                                                                                                                            '
+    + ' <section class="pr re_party" v-show="model.showTab==\'forgetpassword\'">                                                                                                                                                                    '
+    + '     <div class="w750 h768 pa t0 l0 zi1"><img src="images/login_bg_03.png" class="object-fit-cover" alt=""></div>                                                                                                               '
+    + '         <div class="tac pt40 pr zi2">                                                                                                                                                                                          '
+    + '             <div class="login_area_02 pt40">                                                                                                                                                                                   '
+    + '                 <div class="w596 h78 br10 bgcf5f5f5 m0a tac">                                                                                                                                                                  '
+    + '                     <input type="text" class="w540 h60 lh60 mt8" v-model="loginId" placeholder="请输入手机号" />                                                                                                               '
+    + '                 </div>                                                                                                                                                                                                         '
+    + '                 <div class="w596 m0a ofh">                                                                                                                                                                                     '
+    + '                     <div class="w412 h78 br10 bgcf5f5f5 tac mt30 fl">                                                                                                                                                          '
+    + '                         <input type="text" class="w350 h60 lh60 mt8" v-model="model.smsCode" placeholder="请输入验证码" />                                                                                                     '
+    + '                     </div>                                                                                                                                                                                                     '
+    + '                     <div class="w184 h78 lh78 tac fl mt30">                                                                                                                                                                    '
+    + '                         <a href="javascript:void(0)" style="color: #f6b03e" @click="sendVerifyCode">{{ SMS.btnText }}</a>                                                                                                      '
+    + '                 </div>                                                                                                                                                                                                         '
+    + '             </div>                                                                                                                                                                                                             '
+    + '             <div class="w596 m0a ofh">                                                                                                                                                                                         '
+    + '                 <div class="w596 h78 br10 bgcf5f5f5 mt30 tac">                                                                                                                                                                 '
+    + '                     <input type="password" v-model="model.password" class="w540 h60 lh60 mt8" placeholder="请输入密码" />                                                                                                      '
+    + '                 </div>                                                                                                                                                                                                         '
+    + '             </div>                                                                                                                                                                                                             '
+    + '             <div class="w596 m0a ofh">                                                                                                                                                                                         '
+    + '                 <div class="w596 h78 br10 bgcf5f5f5 mt30 tac">                                                                                                                                                                 '
+    + '                     <input type="password" v-model="model.rePassword" class="w540 h60 lh60 mt8" placeholder="请再次输入密码" />                                                                                                      '
+    + '                 </div>                                                                                                                                                                                                         '
+    + '             </div>                                                                                                                                                                                                             '
+    + '             <div class="w596 m0a ofh">                                                                                                                                                                                         '
+    + '                 <span class="c888888 fz22 mt20 fl">*8-20个字符：可由数字、字母、符号组成</span>                                                                                                                                '
+    + '             </div>                                                                                                                                                                                                             '
+    + '             <div class="w596 m0a ofh" v-show="model.errMsg">                                                                                                                                                                   '
+    + '                 <span style="color:red;" class="c888888 fz22 mt20 fl">{{ model.errMsg }}</span>                                                                                                                                '
+    + '             </div>                                                                                                                                                                                                             '
+    + '             <div class="w596 m0a ofh">                                                                                                                                                                                         '
+    + '                 <a href="javascript:void(0)" @click="modifyPwd" class="db w596 h78 lh78 tac cffffff fz36 login_btn fl mt76">修改密码</a>                                                                                      '
     + '         </div>                                                                                                                                                                                                                 '
     + '     </div>                                                                                                                                                                                                                     '
     + '             </div>                                                                                                                                                                                                             '
@@ -125,12 +165,13 @@ var login = new Vue({
         loginId: jQuery.cookie('loginId'),
         accessToken: jQuery.cookie('accessToken'),
         model: {
-            isshowregister: false,
+            showTab: 'login', //login register forgetpassword
             isbymess: false, //动态码登录，
             smsCode: '',//短信验证码
             errMsg: null,
             autoLogin: false,
-            password: null
+            password: null,
+            rePassword: null
         },
         SMS: {
             timer: null,
@@ -141,9 +182,9 @@ var login = new Vue({
         callback: null
     },
     methods: {
-        switchLogin: function (isshowregister) {
+        switchLogin: function (tab) {
             var vm = this;
-            vm.model.isshowregister = !!isshowregister;
+            vm.model.showTab = tab;
         },
         switchLogintype: function (isbymess) {
             var vm = this;
@@ -244,7 +285,7 @@ var login = new Vue({
                 jQuery.cookie('loginId', vm.loginId);
                 jQuery.cookie('accessToken', vm.accessToken);
                 vm.show = false;
-                if (typeof vm.callback==='function') {
+                if (typeof vm.callback === 'function') {
                     vm.callback();
                 }
             });
@@ -256,6 +297,26 @@ var login = new Vue({
             vm.loginId = '';
             vm.accessToken = '';
             vm.show = false;
+        },
+        verify: function () {
+            // 先校验手机号
+            vm.model.errMsg = validate.isMobile(vm.loginId);
+            if (vm.model.errMsg) {
+                return false;
+            }
+            //验证码
+            vm.model.errMsg = validate.validateSMScode(vm.model.smsCode);
+            if (vm.model.errMsg) {
+                return false;
+            }
+            //密码
+            vm.model.errMsg = validate.validatePwd(vm.model.password);
+
+            if (vm.model.errMsg) {
+                return false;
+            }
+
+            return true;
         },
         register: function () {
             var vm = this, url = requestUrl.register, param = {
@@ -270,22 +331,7 @@ var login = new Vue({
             };
 
             vm.model.errMsg = null;
-            // 先校验手机号
-            vm.model.errMsg = validate.isMobile(vm.loginId);
-            if (vm.model.errMsg) {
-                return false;
-            }
-
-
-            //验证码
-            vm.model.errMsg = validate.validateSMScode(vm.model.smsCode);
-            if (vm.model.errMsg) {
-                return false;
-            }
-            //密码
-            vm.model.errMsg = validate.validatePwd(vm.model.password);
-
-            if (vm.model.errMsg) {
+            if (!vm.verify()) {
                 return false;
             }
 
@@ -305,6 +351,48 @@ var login = new Vue({
                 jQuery.cookie('accessToken', vm.accessToken);
                 vm.show = false;
             });
+        },
+        modifyPwd: function () {
+            var vm = this, url = requestUrl.modifyPwd, param = {
+                smsCode: vm.model.smsCode,
+                account: {
+                    loginId: vm.loginId,
+                    smsCode: vm.model.smsCode,
+                    password: vm.model.password,
+                    rePassword: vm.model.rePassword,
+                    mobileNumber: vm.loginId,
+                    smsCode: vm.model.smsCode
+                }
+            };
+
+            vm.model.errMsg = null;
+            if (!vm.verify()) {
+                return false;
+            }
+
+            //两次密码不一致
+            if (vm.model.password !== vm.model.rePassword) {
+                vm.model.errMsg = '您两次输入的密码不一致';
+                return false;
+            }
+
+            axios.post(url, param).then(function (response) {
+                console.log(response.data);
+                var data = response.data;
+                var messageBody = data.messageBody;
+                if (messageBody) {
+                    var message = JSON.parse(messageBody);
+                    vm.model.errMsg = message.errorMsg;
+                    if (vm.model.errMsg) {
+                        return;
+                    }
+                }
+                vm.accessToken = data.accessToken;
+                jQuery.cookie('loginId', vm.loginId);
+                jQuery.cookie('accessToken', vm.accessToken);
+                vm.show = false;
+            });
+
         }
     }
 })

@@ -53,6 +53,7 @@ var sildemenu = new Vue({
     template: sildemenutemplate,
     data: {
         show: false,
+        init: false,
         loginId: jQuery.cookie('loginId'),
         accessToken: jQuery.cookie('accessToken'),
         account: {

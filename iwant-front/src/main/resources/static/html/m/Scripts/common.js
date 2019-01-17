@@ -1,4 +1,5 @@
-﻿function IsPC() {
+﻿
+function IsPC() {
     var userAgentInfo = navigator.userAgent;
     var Agents = ["Android", "iPhone",
         "SymbianOS", "Windows Phone",
@@ -38,25 +39,28 @@ var requestUrl = {
     findMixedByLoginId: baseUrl + 'purchaserAccount/findMixedByLoginId',
     verify: baseUrl + 'token/verify',
     getSMSCode: baseUrl + 'smsCode/getSMSCode',
-    getProductionDetailsById: baseUrl + 'product/getDetailsById',
+    getProductionDetailsById: baseUrl + 'production/getDetailsById',
     getCaseDetailsById: baseUrl + 'case/getDetailsById',
     getLocationDetailsById: baseUrl + 'location/getDetailsById',
     fileupload: baseUrl + 'remote/fileupload',
-    addAndModifyInfo:baseUrl + 'purchaserAccount/addAndModifyInfo',
-    activityTypeList:baseUrl + 'dictionary/queryListByField',
-    companyTypeList:baseUrl + 'dictionary/queryListByField',
-    groupNumberList:baseUrl + 'dictionary/queryListByField',
-    durationList:baseUrl + 'dictionary/queryListByField',
-    provinceList:baseUrl + 'dictionary/queryListByField',
-    orderSubmit:baseUrl + 'orders/submit',
-    getOrderListByLoginId:baseUrl + 'orders/getOrderListByLoginId',
-    favourite:baseUrl + 'favourite/query',
+    addAndModifyInfo: baseUrl + 'purchaserAccount/addAndModifyInfo',
+    activityTypeList: baseUrl + 'dictionary/queryListByField',
+    companyTypeList: baseUrl + 'dictionary/queryListByField',
+    groupNumberList: baseUrl + 'dictionary/queryListByField',
+    durationList: baseUrl + 'dictionary/queryListByField',
+    provinceList: baseUrl + 'dictionary/queryListByField',
+    orderSubmit: baseUrl + 'orders/submit',
+    getOrderListByLoginId: baseUrl + 'orders/getOrderListByLoginId',
+    favouriteQuery: baseUrl + 'favourite/query',
+    favouriteAdd: baseUrl + 'favourite/add',
+    favouriteDelete: baseUrl + 'favourite/delete',
+    modifyPwd: baseUrl + 'purchaserAccount/modifyPwd'
 
     //DEV
     //queryProdutionByCondition: 'Json/queryProdutionByCondition.json',
     //querylocationByCondition: 'Json/querylocationByCondition.json',
     //queryCaseByCondition: 'Json/queryCaseByCondition.json',
-   // trade_status: 'Json/trade_status.json',
+    //trade_status: 'Json/trade_status.json',
     //webSiteCooperativeLogo: 'Json/webSiteCooperativeLogo.json',
     //websiteNews: 'Json/websiteNews.json',
     //castposition: 'Json/castposition.json',
@@ -67,21 +71,24 @@ var requestUrl = {
     //register: 'Json/register.json',
     //logout: 'Json/logout.json',
     //findMixedByLoginId: 'Json/findMixedByLoginId.json',
-   // verify: 'Json/verify.json',
-   // getSMSCode: 'Json/getSMSCode.json',
+    //verify: 'Json/verify.json',
+    //getSMSCode: 'Json/getSMSCode.json',
     //getProductionDetailsById: 'Json/getProductionDetailsById.json',
-   // getLocationDetailsById: 'Json/getLocationDetailsById.json',
+    //getLocationDetailsById: 'Json/getLocationDetailsById.json',
     //getCaseDetailsById: 'Json/getCaseDetailsById.json',
     //fileupload: 'Json/fileupload.json',
     //addAndModifyInfo: 'Json/addAndModifyInfo.json',
     //activityTypeList: 'Json/activityTypeList.json',
-   // companyTypeList: 'Json/companyTypeList.json',
-   // groupNumberList: 'Json/groupNumberList.json',
-   // durationList: 'Json/durationList.json',
+    //companyTypeList: 'Json/companyTypeList.json',
+    //groupNumberList: 'Json/groupNumberList.json',
+    //durationList: 'Json/durationList.json',
     //provinceList: 'Json/provinceList.json',
     //orderSubmit: 'Json/orderSubmit.json',
     //getOrderListByLoginId: 'Json/getOrderListByLoginId.json',
-   // favourite: 'Json/favourite.json',
+    //favouriteQuery: 'Json/favourite.json',
+    //favouriteAdd: 'Json/favouriteAdd.json',
+    //favouriteDelete: 'Json/favouriteDelete.json',
+    //modifyPwd: 'Json/modifyPwd.json',
 };
 
 //dev
@@ -143,11 +150,21 @@ function getUrlParam(name) {
 function setCurrentCity(callback) {
     city = jQuery.cookie('currentcity');
     if (!city) {
-        //获取当前位置信息
-        city = '上海'// TODO
-    }
-    if (typeof (callback) === 'function') {
-        callback(city);
+        //city = '上海'// TODO
+        $.getScript('http://pv.sohu.com/cityjson?ie=utf-8', function () {
+            console.log(returnCitySN)
+            var name = returnCitySN.cname, index = name.indexOf('市');
+            city = name.substr(0, index);
+            console.log(city);
+            jQuery.cookie('currentcity', city);
+            if (typeof (callback) === 'function') {
+                callback(city);
+            }
+        });
+    } else {
+        if (typeof (callback) === 'function') {
+            callback(city);
+        }
     }
 }
 
@@ -176,7 +193,6 @@ var queryListByField = {
     }
 };
 
-
 //文件上传
 function fileUpload(contentId, url, uploadFile, callback) {
     var formData = new FormData();
@@ -186,6 +202,7 @@ function fileUpload(contentId, url, uploadFile, callback) {
         url: url,
         data: data,
         type: "post",
+        //type: "get", //DEV
         dataType: "text",
         cache: false,
         processData: false,// 用于对data参数进行序列化处理 这里必须false

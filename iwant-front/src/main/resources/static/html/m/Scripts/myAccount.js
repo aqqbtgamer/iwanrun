@@ -59,15 +59,16 @@
             });
         },
         getFavourite: function () {
-            var vm = this, url = requestUrl.favourite, param = {
-                //type: null
-            };
-            axios.post(url, param).then(function (response) {
-                console.log(response.data);
-                var data = response.data;
-                if (data && data.pageInfo && data.pageInfo.total) {
-                    vm.account.favouriteTotal = data.pageInfo.total;
-                }
+            var vm = this, url = requestUrl.favouriteQuery, types = ['location', 'product', 'case'];
+            $.each(types, function (index, item) {
+                var param = { type: item };
+                axios.post(url, param).then(function (response) {
+                    console.log(response.data);
+                    var data = response.data;
+                    if (data && data.pageInfo && data.pageInfo.total) {
+                        vm.account.favouriteTotal += data.pageInfo.total;
+                    }
+                });
             });
         },
         logout: function () {
@@ -84,5 +85,6 @@
         var vm = this;
         vm.getuser();
         vm.getOrders();
+        vm.getFavourite();
     }
 });

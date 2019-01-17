@@ -36,7 +36,7 @@
                         <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
                             <div class="fz28 fw700 pl30 pt30 mult-line-ellipsis-1">{{item.name}}</div>
                             <div class="pl30 pr30 pt10 fz22">
-                                <span v-for="str in item.tips" class="mr10">#{{str}}#</span>
+                                <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">#{{str}}#</span>
                             </div>
                             <div class="pl30 pr30 pt10 fz22 c666666">
                                 <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>

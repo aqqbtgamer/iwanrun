@@ -39,6 +39,10 @@ var appIndex = new Vue({
     methods: {
         showSlidemenu: function () {
             sildemenu.show = true;
+            if (!sildemenu.init && jQuery.cookie('accessToken')) {
+                sildemenu.getuser();
+                sildemenu.init = true;
+            }
         },
         showSearch: function () {
             search.show = true;

@@ -80,7 +80,8 @@ var appIndex = new Vue(
             var vm = this;
             //vm.login.show
             $.each(queryListByField, function (key, value) {
-                axios.post(value.url, value.param).then(
+                var url = value.url + '?name=' + value.param["name"] + '&used_field=' + value.param["used_field"] + '&field=' + value.param["field"];
+                axios.post(url, {}).then(
                     function (response) {
                         //console.log(response.data);
                         var data = response.data;
