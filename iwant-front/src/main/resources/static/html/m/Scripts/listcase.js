@@ -10,10 +10,8 @@ var appIndex = new Vue({
                 duration: [],
                 activitytype: [],
                 personNum: [],
-                companytype: []
-            },
-            page: {
-                pageIndex: 1,
+                companytype: [],
+                pageIndex: 0,
                 pageSize: 10
             },
             list: [],
@@ -40,8 +38,6 @@ var appIndex = new Vue({
         },
         query: function () {
             var vm = this, url = requestUrl.queryCaseByCondition, param = vm.model.param;
-            param.pageIndex = vm.model.page.pageIndex - 1;
-            param.pageSize = vm.model.page.pageSize;
             axios.post(url, param).then(function (response) {
                 //console.log(response.data);
                 vm.model.list = response.data.content;
@@ -50,7 +46,7 @@ var appIndex = new Vue({
         },
         getMore: function () {
             var vm = this;
-            vm.model.page.pageIndex += 1;
+            vm.model.param.pageIndex += 1;
             vm.query();
         },
         remove: function (item) {
@@ -73,7 +69,7 @@ var appIndex = new Vue({
             //console.log('-----list remove');
 
             filter.remove(item);
-            vm.model.page.pageIndex = 1;
+            vm.model.page.pageIndex = 0;
             vm.query();
         }
     },
@@ -114,7 +110,7 @@ var appIndex = new Vue({
                     });
                 }
             });
-            vm.model.page.pageIndex = 1;
+            vm.model.page.pageIndex = 0;
             //console.log(vm.model.param);
             //console.log(vm.model.searchlist);
             vm.query();

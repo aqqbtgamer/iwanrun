@@ -9,6 +9,14 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .descirbe img {
+            width: auto !important;
+            height: auto !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+        }
+    </style>
 </head>
 <body>
     <div id="container">
@@ -58,9 +66,7 @@
             </div>
         </section>
 
-        <section class="bgcffffff mt22 pb30" v-html="model.data.descirbeText1" style="padding-bottom:1.65333rem">
-           
-        </section>
+        <section class="descirbe bgcffffff mt22 pb30" v-html="model.data.descirbeText1" style="padding-bottom:1.65333rem"></section>
 
         <section class="w750 h124 bgcffffff pf b0 l0 bs-0-0-6-0-dddddd ofh">
             <a href="javascript:void(0)" @click="changeFavourite" class="db w160 tac fl mt20 yes-c">

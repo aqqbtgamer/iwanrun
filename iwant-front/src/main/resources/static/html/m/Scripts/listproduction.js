@@ -10,10 +10,8 @@ var appIndex = new Vue({
                 duration: [],
                 activitytype: [],
                 personNum: [],
-                specialTagsCode: []
-            },
-            page: {
-                pageIndex: 1,
+                specialTagsCode: [],
+                pageIndex: 0,
                 pageSize: 10
             },
             list: [],
@@ -40,7 +38,6 @@ var appIndex = new Vue({
         },
         query: function (pageIndex) {
             var vm = this, url = requestUrl.queryProdutionByCondition, param = vm.model.param;
-            //param.pageIndex = pageIndex - 1;
             axios.post(url, param).then(
                 function (response) {
                     //console.log(response.data);
@@ -81,7 +78,7 @@ var appIndex = new Vue({
             //console.log('-----list remove');
 
             filter.remove(item);
-            vm.model.page.pageIndex = 1;
+            vm.model.page.pageIndex = 0;
             vm.query();
         }
     },
@@ -122,7 +119,7 @@ var appIndex = new Vue({
                     });
                 }
             });
-            vm.model.page.pageIndex = 1;
+            vm.model.page.pageIndex = 0;
             //console.log(vm.model.param);
             //console.log(vm.model.searchlist);
             vm.query();
