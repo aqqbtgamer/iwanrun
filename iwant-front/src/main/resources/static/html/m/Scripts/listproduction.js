@@ -78,7 +78,7 @@ var appIndex = new Vue({
             //console.log('-----list remove');
 
             filter.remove(item);
-            vm.model.page.pageIndex = 0;
+            vm.model.param.pageIndex = 0;
             vm.query();
         }
     },
@@ -119,7 +119,7 @@ var appIndex = new Vue({
                     });
                 }
             });
-            vm.model.page.pageIndex = 0;
+            vm.model.param.pageIndex = 0;
             //console.log(vm.model.param);
             //console.log(vm.model.searchlist);
             vm.query();
