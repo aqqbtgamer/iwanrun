@@ -235,6 +235,9 @@ var appProductDetails = new Vue(
                   },
                   hideIcon:function(){
                   	this.tailWeixinIcon =  false ;
+                  },
+                  showShare:function(){
+                	  sharApp.display();
                   }
                   
 			},
@@ -268,6 +271,32 @@ var appProductDetails = new Vue(
 		    }    
 		}
 );
+
+var sharApp = new Vue(
+	{
+		el:"#sharePannel",
+		data:{
+			showPannel:false
+		},
+		methods:{
+			display:function(){
+				var vm = this;
+				qrcode.makeCode(window.location.href.split("#")[0]);
+				vm.showPannel = true ;
+			},
+			undisplay:function(){
+				var vm = this;				
+				vm.showPannel = false ;
+			}
+			
+		}
+	}	
+);
+
+var qrcode = new QRCode(document.getElementById("qrcode"),{
+	width : 380,
+	height : 380
+});
 
 function showLoginId(loginId){
 	var vm = appProductDetails;

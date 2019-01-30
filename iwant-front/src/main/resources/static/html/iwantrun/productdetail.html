@@ -14,6 +14,7 @@
     <script type="application/javascript" src="../../script/vue.min.js"></script>
     <script type="application/javascript" src="../../script/jquery.cookie.js"></script>
     <script type="application/javascript" src="../../script/axios.min.js"></script>
+     <script type="application/javascript" src="../../script/qrcode.js"></script>
     <title>我要跑-查看产品详情</title>
 </head>
 <body>
@@ -55,6 +56,7 @@
             </div>
             <div id="page-location" class="page-location">
                 <p class="page-location-text">首页 >  {{detailType}}> {{detail.name}}</p>
+                
             </div>
             <div class="title-line">
                 <div class="title-main">
@@ -63,7 +65,7 @@
                 </div>
                 <div class="title-sub">
                     <i @click="collection" class="iconfont icon-aixin font-icon-size1" v-bind:style="{color:favouriteColor}"></i>
-                    <i class="iconfont icon-fenxiang font-icon-size1"></i>
+                    <i class="iconfont icon-fenxiang font-icon-size1" @click="showShare"></i>
                 </div>
             </div>
             <div class="side-main-image">
@@ -147,7 +149,21 @@
         </div>
     </form>
     <div id="lrPannel"></div>
-    <script type="application/javascript" src="../../script-dev/common.app.js"></script>
+	<div id="sharePannel" >
+		<div id="mask" style="z-index:99" class="mask" v-show="showPannel" v-cloak></div>
+		<div id="sharewindow" class="login-pannel" v-show="showPannel" v-cloak style="height:520px">
+			<div id="close-pannel" class="close-pannel">
+				<i class="iconfont-user1 icon-close" @click="undisplay"></i>
+			</div>
+			<div id="login-head" class="login-head">
+				<h4>打开手机微信扫一扫</h4>
+			</div>
+			<div class="login-head">
+				<div id="qrcode" style="width:400px;height:400px;margin:0 auto"></div>
+			</div>
+		</div>
+	</div>
+	<script type="application/javascript" src="../../script-dev/common.app.js"></script>
     <script type="application/javascript" src="../../script-dev/productdetails.js"></script>
 </body>
 </html>
