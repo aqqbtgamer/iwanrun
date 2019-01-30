@@ -28,10 +28,10 @@
 
             <!--首页轮播图-->
             <section class="w100p mt140 ofh">
-                <div class="swiper-container">
-                    <div class="swiper-wrapper ">
-                        <div v-for="(item,index) in model.bannerList" :class="index>0?'swiper-slide w100p h100p swiper-slide-center none-effect':'swiper-slide'">
-                            <a href="javascript:void(0)">
+                <div class="swiper-container" >
+                    <div class="swiper-wrapper " style="height: 6rem;">
+                        <div style="height: 100%;" v-for="(item,index) in model.bannerList" :class="index>0?'swiper-slide w100p swiper-slide-center none-effect':'swiper-slide'" >
+                            <a href="javascript:void(0)" class="db w100p h100p">
                                 <img :src="item.filePath">
                             </a>
                             <div class="layer-mask"></div>
