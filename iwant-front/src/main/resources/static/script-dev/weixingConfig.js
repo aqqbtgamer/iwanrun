@@ -10,14 +10,12 @@
             data: {"url":encodeURIComponent(window.location.href.split("#")[0])}
         })
         .done(function(res) {
-
             wx.config({
-                debug: true, //调试阶段建议开启
-                appId: res.appId,//APPID
-                timestamp: res.timestamp,//上面main方法中拿到的时间戳timestamp
-                nonceStr: res.nonceStr,//上面main方法中拿到的随机数nonceStr
-                signature: res.signature,//上面main方法中拿到的签名signature
-                //需要调用的方法接口
+                debug:true, //调试阶段建议开启
+                appId:res.appId,//APPID
+                timestamp:res.timestamp,//上面main方法中拿到的时间戳timestamp
+                nonceStr:res.nonceStr,//上面main方法中拿到的随机数nonceStr
+                signature:res.signature,//上面main方法中拿到的签名signature               
                 jsApiList: [ 'onMenuShareTimeline','onMenuShareAppMessage','onMenuShareWeibo','onMenuShareQQ','onMenuShareQZone']
             });
         });
