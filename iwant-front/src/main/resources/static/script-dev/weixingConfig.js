@@ -12,7 +12,7 @@
         .done(function(res) {
 
             wx.config({
-                debug: ture, //调试阶段建议开启
+                debug: true, //调试阶段建议开启
                 appId: res.appId,//APPID
                 timestamp: res.timestamp,//上面main方法中拿到的时间戳timestamp
                 nonceStr: res.nonceStr,//上面main方法中拿到的随机数nonceStr
