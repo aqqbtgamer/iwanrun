@@ -30,7 +30,7 @@ public class WeiXingController {
 	private String appSecret ;
 	
 	
-	@RequestMapping("/getWeixingConfig")
+	@RequestMapping("getWeixingConfig")
 	@ResponseBody
 	public String getWeixingConfig(HttpServletRequest request) {
 		String urlEncode = request.getParameter("url");
