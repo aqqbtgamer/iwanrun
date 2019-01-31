@@ -45,6 +45,7 @@ public class WeiXinUtils {
                  byte[] jsonBytes = new byte[size];
                  is.read(jsonBytes);
                  String message = new String(jsonBytes, "UTF-8");
+                 logger.info("message token: "+ accessToken);
                  JSONObject jsonObj = (JSONObject) JSONValue.parse(message);
                  accessToken = jsonObj.getAsString("access_token");
                  WeixingTokenCache cache = new WeixingTokenCache();
@@ -57,6 +58,7 @@ public class WeiXinUtils {
              {
              	logger.error("获取微信token失败",e);
              }
+        	 logger.info("token: "+ accessToken);
              return accessToken;
         }
        
@@ -65,7 +67,7 @@ public class WeiXinUtils {
 	
 	public  synchronized static String getAcessTicket(String accessToken) {
 		String ticket = null;  
-        String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+ accessToken +"&type=jsapi";//这个url链接和参数不能变  
+        String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+accessToken +"&type=jsapi";//这个url链接和参数不能变  
         if(validateTicket()) {
         	return ticketCache.getAccessTicket();
         }else {
@@ -84,6 +86,7 @@ public class WeiXinUtils {
                 byte[] jsonBytes = new byte[size];  
                 is.read(jsonBytes);  
                 String message = new String(jsonBytes, "UTF-8");  
+                logger.info("message ticket: "+ accessToken);
                 JSONObject jsonObj = (JSONObject) JSONValue.parse(message);           
                 ticket = jsonObj.getAsString("ticket");  
                 WeixingTicketCache cache = new WeixingTicketCache();

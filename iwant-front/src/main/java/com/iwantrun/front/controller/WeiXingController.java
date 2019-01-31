@@ -40,6 +40,7 @@ public class WeiXingController {
 			logger.info("appid:"+appId);
 			logger.info("appSecret:"+appSecret);
 			String accessToken = WeiXinUtils.getAcessToken(appId, appSecret);
+			logger.info("accessToken:"+accessToken);
 			String appTicket = WeiXinUtils.getAcessTicket(accessToken);
 			logger.info("appTicket:"+appTicket);
 			String nonceStr = UUID.randomUUID().toString().replace("-", "").substring(0, 16);//随机字符串  
