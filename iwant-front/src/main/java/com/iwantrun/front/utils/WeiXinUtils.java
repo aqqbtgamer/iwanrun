@@ -45,13 +45,15 @@ public class WeiXinUtils {
                  byte[] jsonBytes = new byte[size];
                  is.read(jsonBytes);
                  String message = new String(jsonBytes, "UTF-8");
-                 logger.info("message token: "+ accessToken);
+                 logger.info("message token: "+ message);
                  JSONObject jsonObj = (JSONObject) JSONValue.parse(message);
                  accessToken = jsonObj.getAsString("access_token");
-                 WeixingTokenCache cache = new WeixingTokenCache();
-                 cache.setAccessToken(accessToken);
-                 cache.setGenerateDate(new Date());
-                 tokenCache = cache ;
+                 if(accessToken != null) {
+                	 WeixingTokenCache cache = new WeixingTokenCache();
+                     cache.setAccessToken(accessToken);
+                     cache.setGenerateDate(new Date());
+                     tokenCache = cache ;
+                 }                
                  is.close();
              }
              catch (Exception e)
@@ -86,13 +88,15 @@ public class WeiXinUtils {
                 byte[] jsonBytes = new byte[size];  
                 is.read(jsonBytes);  
                 String message = new String(jsonBytes, "UTF-8");  
-                logger.info("message ticket: "+ accessToken);
+                logger.info("message ticket: "+ message);
                 JSONObject jsonObj = (JSONObject) JSONValue.parse(message);           
                 ticket = jsonObj.getAsString("ticket");  
-                WeixingTicketCache cache = new WeixingTicketCache();
-                cache.setAccessTicket(ticket);
-                cache.setGenerateDate(new Date());
-                ticketCache = cache;
+                if(ticket != null) {
+                	WeixingTicketCache cache = new WeixingTicketCache();
+                    cache.setAccessTicket(ticket);
+                    cache.setGenerateDate(new Date());
+                    ticketCache = cache;
+                }                
                 is.close();  
             } catch (Exception e) {  
             	logger.error("获取微信ticket失败",e); 
