@@ -36,12 +36,18 @@ public class WeiXingController {
 		String urlEncode = request.getParameter("url");
 		try {
 			String url = java.net.URLDecoder.decode(urlEncode,"UTF-8");
+			logger.info("url:"+url);
+			logger.info("appid:"+appId);
+			logger.info("appSecret:"+appSecret);
 			String accessToken = WeiXinUtils.getAcessToken(appId, appSecret);
 			String appTicket = WeiXinUtils.getAcessTicket(accessToken);
+			logger.info("appTicket:"+appTicket);
 			String nonceStr = UUID.randomUUID().toString().replace("-", "").substring(0, 16);//随机字符串  
 		    String timestamp = String.valueOf(System.currentTimeMillis() / 1000);//时间戳  
-		    String str = "jsapi_ticket="+appTicket+"&noncestr="+nonceStr+"&timestamp="+timestamp+"&url="+url; 
+		    String str = "jsapi_ticket="+appTicket+"&noncestr="+nonceStr+"&timestamp="+timestamp+"&url="+url;
+		    logger.info("str:"+str);
 		    String signature =Md5Utils.SHA1(str);  
+		    logger.info("signature:"+str);
 		    JSONObject jsonObject = new JSONObject();
 		    jsonObject.put("appId",appId);
 		    jsonObject.put("timestamp",timestamp);
