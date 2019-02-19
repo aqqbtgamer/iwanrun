@@ -56,14 +56,9 @@ var appIndex = new Vue({
 
             //console.log('-----list remove');
             //console.log(vm.model.param[item.type]);
-            //param
             if (Array.isArray(vm.model.param[item.type])) {
-                for (var i = 0; i < vm.model.param[item.type].length; i++) {
-                    if (vm.model.param[item.type][i].id === item.id) {
-                        vm.model.param[item.type].splice(i, 1);
-                        break;
-                    }
-                }
+                idx = vm.model.param[item.type].indexOf(item.id);
+                vm.model.param[item.type].splice(idx, 1);
             }
             //console.log(vm.model.param[item.type]);
             //console.log('-----list remove');
@@ -104,9 +99,10 @@ var appIndex = new Vue({
             vm.model.searchlist = [];
             $.each(data, function (key, value) {
                 if (Array.isArray(value) && value.length > 0) {
-                    vm.model.param[key] = value;
+                    vm.model.param[key] = [];
                     $.each(value, function (index, item) {
                         vm.model.searchlist.push({ type: key, id: item.id, name: item.value });
+                        vm.model.param[key].push(item.id);
                     });
                 }
             });

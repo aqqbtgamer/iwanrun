@@ -259,7 +259,7 @@ var login = new Vue({
             }
 
 
-            if (vm.login.isbymess) {
+            if (vm.model.isbymess) {
                 //验证码
                 vm.model.errMsg = validate.validateSMScode(vm.model.smsCode);
             } else {
