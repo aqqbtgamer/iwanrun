@@ -494,7 +494,12 @@ var lrApp=new Vue({
 			vm.messageLogin = !vm.messageLogin;
         },
         weixingLogin:function(){
-        	console.log("v-on  click method :weixingLogin");
+        	console.log("v-on  click method :weixingLogin");        
+        	var url = baseUrl + "weixing/getWeixingOpenLoginUrl";
+        	var jumpToWeixingQrCode = function(data){
+        		window.location.href = data.responseText;
+        	}
+        	$http.post(url, {}, jumpToWeixingQrCode);
         }
 	}
 

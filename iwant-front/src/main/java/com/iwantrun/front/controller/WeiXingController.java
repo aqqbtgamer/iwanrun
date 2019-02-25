@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.iwantrun.front.constants.AdminApplicationConstants;
 import com.iwantrun.front.utils.Md5Utils;
 import com.iwantrun.front.utils.WeiXinUtils;
 
@@ -61,6 +62,20 @@ public class WeiXingController {
 			logger.error("url 解码发生问题",e);
 			return "";
 		}		
+	}
+	
+	@RequestMapping("getWeixingOpenLoginUrl")
+	@ResponseBody
+	public String getWeixingOpenLoginUrl(HttpServletRequest request) {
+		String url = "https://open.weixin.qq.com/connect/qrconnect?" +
+				"appid=" + AdminApplicationConstants.appOpenId+
+				"&redirect_uri="+
+				AdminApplicationConstants.redirectUrl + 
+				"&response_type=code" + 
+				"&scope=snsapi_login" + 
+				"&state=1"+
+				"#wechat_redirect";
+		return url;
 	}
 
 }
