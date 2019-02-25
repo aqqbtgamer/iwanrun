@@ -20,11 +20,18 @@ var appIndex = new Vue(
                 groupNumberCode: null,
                 activityDuringCode: null,
                 activityProvinceCode: null
+            },
+            errMsg: {
+                contractMobile: false,
+                activity_code: false
             }
         },
         methods: {
             submitOrder: function () {
                 var vm = this, url = requestUrl.orderSubmit;
+                if (!vm.varify()) {
+                    return false;
+                }
                 //console.log(vm.order);
                 var request = {
                     order: vm.order,
@@ -57,6 +64,20 @@ var appIndex = new Vue(
                 }
                 //console.log(vm.order[type]);
                 //console.log($dom);
+            },
+            varify: function () {
+                var vm = this;
+                vm.errMsg.contractMobile = false;
+                vm.errMsg.activity_code = false;
+                if (!vm.order.contractMobile) {
+                    vm.errMsg.contractMobile = true;
+                    return false;
+                }
+                if (!vm.order.activity_code || vm.order.activity_code === '0') {
+                    vm.errMsg.activity_code = true;
+                    return false;
+                }
+                return true;
             }
         },
         components: {

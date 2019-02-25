@@ -54,7 +54,8 @@ var requestUrl = {
     favouriteQuery: baseUrl + 'favourite/query',
     favouriteAdd: baseUrl + 'favourite/add',
     favouriteDelete: baseUrl + 'favourite/delete',
-    modifyPwd: baseUrl + 'purchaserAccount/modifyPwd'
+    modifyPwd: baseUrl + 'purchaserAccount/modifyPwd',
+    getWeixingConfig: baseUrl + 'weixing/getWeixingConfig'
 
     //DEV
     //queryProdutionByCondition: 'Json/queryProdutionByCondition.json',
@@ -89,6 +90,7 @@ var requestUrl = {
     //favouriteAdd: 'Json/favouriteAdd.json',
     //favouriteDelete: 'Json/favouriteDelete.json',
     //modifyPwd: 'Json/modifyPwd.json',
+    //getWeixingConfig: 'Json/getWeixingConfig.json'
 };
 
 //dev

@@ -52,6 +52,9 @@
                         <div class="w596 h78 br45 bgcf5f5f5 m0a tac">
                             <input type="text" class="w520 h60 lh60 mt8" v-model="order.contractMobile" placeholder="请输入您的联系电话" />
                         </div>
+                        <div class="w596 m0a ofh" v-show="errMsg.contractMobile">
+                            <span style="color:red;" class="c888888 fz22 mt20 fl">请输入手机号</span>
+                        </div>                                                                             
                     </div>
                     <div class="w596 m0a">
                         <div class="pt40 pb20"><span style="color: #fd5509;">*</span>活动类型</div>
@@ -61,6 +64,9 @@
                                 <option v-for="item in model.activityTypeList" :value="item.id">{{item.value}}</option>
                             </select>
                         </div>
+                        <div class="w596 m0a ofh" v-show="errMsg.activity_code">
+                            <span style="color:red;" class="c888888 fz22 mt20 fl">请选择活动类型</span>
+                        </div> 
                     </div>
                     <div class="w596 m0a tac fz24 c999999 ofh pt40 pb20">
                         <div class="w200 fl bb1se5e5e5 pt16"></div>
