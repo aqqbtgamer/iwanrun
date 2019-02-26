@@ -104,6 +104,59 @@ public class WeiXinUtils {
             return ticket;  
     	}
         }
+	
+	public synchronized static String getOpenAcessToken(String appid,String secret,String code) {
+		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appid}&secret=${secret}&code=${code}&grant_type=authorization_code";
+		String sendingUrl = url.replace("${appid}", appid).replace("${secret}", secret).replace("${code}", code);
+		try {
+			URL urlGet = new URL(sendingUrl);
+			HttpURLConnection http = (HttpURLConnection) urlGet.openConnection();  
+            http.setRequestMethod("GET"); // 必须是get方式请求  
+            http.setRequestProperty("Content-Type","application/x-www-form-urlencoded");  
+            http.setDoOutput(true);  
+            http.setDoInput(true);  
+            System.setProperty("sun.net.client.defaultConnectTimeout", "30000");// 连接超时30秒  
+            System.setProperty("sun.net.client.defaultReadTimeout", "30000"); // 读取超时30秒  
+            http.connect();  
+            InputStream is = http.getInputStream();  
+            int size = is.available();  
+            byte[] jsonBytes = new byte[size];  
+            is.read(jsonBytes);  
+            String message = new String(jsonBytes, "UTF-8"); 
+            logger.info("message open acess token: "+ message);
+            return message;
+		}catch(Exception e) {
+			logger.error("获取微信open access token失败",e);
+			return null;
+		}
+		
+	}
+	
+	public synchronized static String getOpenUserInfo(String acessToken, String openId) {
+		String url = "https://api.weixin.qq.com/sns/userinfo?access_token=${acessToken}&openid=${openId}";
+		String sendingUrl = url.replace("${acessToken}", acessToken).replace("${openId}", openId);
+		try {
+			URL urlGet = new URL(sendingUrl);
+			HttpURLConnection http = (HttpURLConnection) urlGet.openConnection();  
+            http.setRequestMethod("GET"); // 必须是get方式请求  
+            http.setRequestProperty("Content-Type","application/x-www-form-urlencoded");  
+            http.setDoOutput(true);  
+            http.setDoInput(true);  
+            System.setProperty("sun.net.client.defaultConnectTimeout", "30000");// 连接超时30秒  
+            System.setProperty("sun.net.client.defaultReadTimeout", "30000"); // 读取超时30秒  
+            http.connect();  
+            InputStream is = http.getInputStream();  
+            int size = is.available();  
+            byte[] jsonBytes = new byte[size];  
+            is.read(jsonBytes);  
+            String message = new String(jsonBytes, "UTF-8"); 
+            logger.info("message UserInfo: "+ message);
+            return message;
+		}catch(Exception e) {
+			logger.error("获取微信open access token失败",e);
+			return null;
+		}
+	}
         
 	
 	private static boolean validateToken() {

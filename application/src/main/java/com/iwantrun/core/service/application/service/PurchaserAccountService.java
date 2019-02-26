@@ -594,4 +594,30 @@ public class PurchaserAccountService {
 		PurchaserAccount dbAccount = dao.findByLoginId(requestObj.getAsString("loginId"));
 		return JSONUtils.objToJSON(dbAccount);
 	}
+
+	public boolean weixinGreenPass(JSONObject paramJSON) {		
+		String openId = paramJSON.getAsString("openid");
+		String nickName = paramJSON.getAsString("nickname");
+		PurchaserAccount account = dao.findByLoginId(openId);
+		if(account == null) {
+			account = new PurchaserAccount();
+			account.setSysRoleId(paramJSON.getAsNumber("state").intValue());
+			account.setStatus(VerifyStatus.Not_Verified.getId());
+			account.setLoginId(openId);
+			dao.saveAndFlush(account);			
+			UserInfo userInfo = new UserInfo();
+			userInfo.setLoginInfoId(account.getId());
+			userInfo.setName(nickName);
+			userInfo.setGender(paramJSON.getAsNumber("sex").intValue());
+			userInfo.setVerified(VerifyStatus.Not_Verified.getId());
+			infoDao.saveAndFlush(userInfo);
+			UserInfoAttachments attach = new UserInfoAttachments();
+			attach.setUserInfoId(userInfo.getId());
+			attach.setFileName(nickName);
+			attach.setFilePath(paramJSON.getAsString("headimgurl"));
+			attach.setPagePath(AdminApplicationConstants.USER_HEAD_IMG);
+			attachmentsDao.saveAndFlush(attach);
+		}
+		return true;
+	}
 }

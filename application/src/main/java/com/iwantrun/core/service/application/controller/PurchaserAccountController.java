@@ -275,4 +275,19 @@ public class PurchaserAccountController {
 		message.setMessageBody(result);
 		return message;
 	}
+	
+	@RequestMapping("weixinGreenPass")
+	@ResponseBody	
+	public Message weixinGreenPass(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		JSONObject paramJSON = (JSONObject) JSONValue.parse(dataJson);
+		boolean success = service.weixinGreenPass(paramJSON);
+		if(success) {
+			message.setMessageBody(tokenService.tokenGenerate(paramJSON.getAsString("openid"),paramJSON.getAsString("sessionId")));
+		}		
+		return message;
+	}
+	
+	
+	
 }

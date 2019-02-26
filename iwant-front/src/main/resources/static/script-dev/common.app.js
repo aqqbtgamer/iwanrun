@@ -1,3 +1,9 @@
+//-------------------------------check login -------------------------------
+var fetchCookie = getUrlParam("fetchCookie");
+if("true" == fetchCookie){
+	
+}
+
 //---------------------------------- Template Start---------------------------------------------
 
 //var lrTemplate = '<div style="width: 330px; background: red">{{text}} <button @click="changeText">点我转变文字吧</button></div>';
@@ -494,12 +500,16 @@ var lrApp=new Vue({
 			vm.messageLogin = !vm.messageLogin;
         },
         weixingLogin:function(){
+        	var vm = this;
         	console.log("v-on  click method :weixingLogin");        
         	var url = baseUrl + "weixing/getWeixingOpenLoginUrl";
+        	var request ={
+        			counselor:vm.counselor
+        	};
         	var jumpToWeixingQrCode = function(data){
         		window.location.href = data.responseText;
         	}
-        	$http.post(url, {}, jumpToWeixingQrCode);
+        	$http.post(url, JSON.stringify(request), jumpToWeixingQrCode);
         }
 	}
 
