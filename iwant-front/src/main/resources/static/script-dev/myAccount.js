@@ -437,14 +437,14 @@ function showMsg(msg) {
 	vm.msgText = msg;
 }
 
-function showLoginId(loginId, opt){
+
+function showLoginId(loginId){
 	var vm = appMyAccount;
 	vm.mask = false;
 	vm.loginId = loginId;
 	vm.loginIdUl = true;
 	vm.loginBtnUl = false;
-	
-	if(opt == 'login'){
-		initData();
-	}
+	initData();
 }
+
+

@@ -20,7 +20,8 @@ var appIndex = new Vue(
                 trades: [],
                 tradeIndex: 0,
                 partners:[],
-                tailWeixinIcon:false
+                tailWeixinIcon:false,
+                nickname:''
 			},
 			created: function(){
 	        	var vm = this;
@@ -177,6 +178,18 @@ function showLoginId(loginId){
 	vm.loginId = loginId;
 	vm.loginIdUl = true;
 	vm.loginBtnUl = false;
+	$http.post(baseUrl + 'purchaserAccount/findMixedByLoginId', null,displayNick);
+}
+
+function displayNick(data){
+	if(data){
+		var errMsg = data.errMsg;
+		if(!errMsg){
+			var info = data.userInfo;
+			var vm = appIndex;
+			vm.nickname= info.name;
+		}
+	}
 }
 
 function clearLoginId() {

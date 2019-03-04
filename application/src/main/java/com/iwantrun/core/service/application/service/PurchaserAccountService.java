@@ -70,15 +70,16 @@ public class PurchaserAccountService {
 	}
 
 	public String register(PurchaserAccount account) {
-		String loginId = account.getLoginId();
-		PurchaserAccount dbAccount = dao.findByLoginId(loginId);
-		if (dbAccount != null) {
-			return "账号：" + loginId + "，已存在";
+		String mobile = account.getMobileNumber();
+		List<PurchaserAccount> dbAccount = dao.findByMobileNumber(mobile);
+		if (dbAccount != null && dbAccount.size() > 0) {
+			return "账号：" + mobile + "，已存在";
 		}
 
 		String md5Password = Md5Utils.generate(account.getPassword());
 		account.setPassword(md5Password);
-		account.setMobileNumber(loginId);
+		account.setMobileNumber(mobile);
+		account.setLoginId(mobile);
 		account.setSysRoleId(RoleType.Purchase.getId());
 		account.setStatus(VerifyStatus.Not_Verified.getId());
 		PurchaserAccount saved = dao.save(account);
@@ -93,7 +94,7 @@ public class PurchaserAccountService {
 		if (accountRequest == null || accountRequest.getAccount() == null) {
 			return "请输入相关数据";
 		}
-		String mobile = accountRequest.getAccount().getLoginId();
+		String mobile = accountRequest.getAccount().getMobileNumber();
 		if (StringUtils.isEmpty(mobile)) {
 			return "请输入账号";
 		}
@@ -123,27 +124,28 @@ public class PurchaserAccountService {
 	}
 
 	public String validateLoginParam(PurchaserAccount account) {
-		String loginId = account.getLoginId();
+		String mobile = account.getMobileNumber();
 		String password = account.getPassword();
-		if (StringUtils.isEmpty(loginId)) {
-			return "请输入账号";
+		if (StringUtils.isEmpty(mobile)) {
+			return "请输手机号";
 		}
 		if (StringUtils.isEmpty(password)) {
 			return "请输入密码";
 		}
 
-		PurchaserAccount find = dao.findByLoginId(loginId);
+		List<PurchaserAccount> finds = dao.findByMobileNumber(mobile);
 
-		if (find == null) {
-			return "用户不存在";
+		if (finds == null || finds.size() == 0) {
+			return "手机用户不存在";
 		}
 
-		String dbPwd = find.getPassword();
+		String dbPwd = finds.get(0).getPassword();
 
 		boolean correct = Md5Utils.verify(password, dbPwd);
 		if (!correct) {
 			return "账号密码不匹配";
 		}
+		account.setLoginId(finds.get(0).getLoginId());
 		return null;
 	}
 
@@ -449,14 +451,33 @@ public class PurchaserAccountService {
 		if (dbAccount == null) {
 			return "用户不存在";
 		}
+		Integer loginInfoId = dbAccount.getId();
 		String mobileNumber = paramJSON.getAsString("mobileNumber");
 		if (mobileNumber != null) {
 			if (!SMSCodeUtils.isMobileNum(mobileNumber)) {
 				return "验证手机格式不正确";
 			}
 			dbAccount.setMobileNumber(mobileNumber);
+			List<PurchaserAccount> existAccount = dao.findByMobileNumber(mobileNumber);
+			if(existAccount != null && existAccount.size() > 0) {
+				int idforDelete = existAccount.get(0).getId();
+				if(idforDelete != loginInfoId) {
+					dao.deleteById(idforDelete);
+					List<UserInfo> dbUserUpate = infoDao.findByLoginInfoId(idforDelete);
+					if(dbUserUpate != null && dbUserUpate.size() > 0) {
+						List<UserInfo> existInfos = infoDao.findByLoginInfoId(loginInfoId);
+						if(existInfos != null && existInfos.size() > 0) {
+							UserInfo exist = existInfos.get(0);
+							infoDao.deleteById(exist.getId());
+						}
+						UserInfo dbUserUpateOne = dbUserUpate.get(0);
+						dbUserUpateOne.setLoginInfoId(loginInfoId);
+						infoDao.saveAndFlush(dbUserUpateOne);
+					}
+				}				
+			}
 		}
-		Integer loginInfoId = dbAccount.getId();
+		
 		List<UserInfo> dbUserInfos = infoDao.findByLoginInfoId(loginInfoId);
 		UserInfo dbUserInfo = null;
 		if (CollectionUtils.isEmpty(dbUserInfos)) {
@@ -594,6 +615,24 @@ public class PurchaserAccountService {
 		PurchaserAccount dbAccount = dao.findByLoginId(requestObj.getAsString("loginId"));
 		return JSONUtils.objToJSON(dbAccount);
 	}
+	
+	public String findByMobileNumber(JSONObject requestObj) {
+		if (requestObj == null || StringUtils.isEmpty(requestObj.getAsString("mobileNumber"))) {
+			return null;
+		}
+		List<PurchaserAccount> dbAccount = dao.findByMobileNumber(requestObj.getAsString("mobileNumber"));
+		if(dbAccount == null || dbAccount.size() == 0) {
+			return null;
+		}else {
+			return JSONUtils.objToJSON(dbAccount);
+		}
+		
+	}
+	
+	public List<PurchaserAccount> findByMobileNumber(String mobileNumber) {
+		return dao.findByMobileNumber(mobileNumber);
+		
+	}
 
 	public boolean weixinGreenPass(JSONObject paramJSON) {		
 		String openId = paramJSON.getAsString("openid");
@@ -604,6 +643,7 @@ public class PurchaserAccountService {
 			account.setSysRoleId(paramJSON.getAsNumber("state").intValue());
 			account.setStatus(VerifyStatus.Not_Verified.getId());
 			account.setLoginId(openId);
+			account.setWec(openId);
 			dao.saveAndFlush(account);			
 			UserInfo userInfo = new UserInfo();
 			userInfo.setLoginInfoId(account.getId());
@@ -620,4 +660,6 @@ public class PurchaserAccountService {
 		}
 		return true;
 	}
+
+	
 }

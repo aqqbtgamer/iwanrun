@@ -39,7 +39,7 @@ var lrTemplate = ""+
                         '<i class="iconfont-user2 icon-yonghu"></i>'+
                     '</div>'+
                     '<div id="user-input" class="user-input">'+
-                        '<input v-model="account.loginId" @focus="accountFocus()" type="text" class="inputText" placeholder="请输入手机号">'+
+                        '<input v-model="account.mobileNumber" @focus="accountFocus()" type="text" class="inputText" placeholder="请输入手机号">'+
                     '</div>'+
                 '</div>'+
                 '<div class="userpwd-input" v-show="messageLogin">'+
@@ -113,7 +113,7 @@ var lrTemplate = ""+
                         '<i class="iconfont-user2 icon-yonghu"></i>'+
                     '</div>'+
                     '<div class="user-input">'+
-                        '<input @focus="accountFocus()" v-model="account.loginId" type="text" class="inputText" placeholder="请输入手机号">'+
+                        '<input @focus="accountFocus()" v-model="account.mobileNumber" type="text" class="inputText" placeholder="请输入手机号">'+
                     '</div>'+
                 '</div>'+
                 '<div class="register-input">'+
@@ -260,14 +260,14 @@ function verifyTokenBack(data){
 	}
 }
 
-function accountReset(loginId) {
+function accountReset(mobileNumber) {
 	var vm = lrApp;
 	vm.account = {
-		loginId : (loginId ? loginId : ''),
+		loginId : '',
 		smsCode : '',
 		password : '',
 		rePassword : '',
-		mobileNumber : '',
+		mobileNumber : (mobileNumber ? mobileNumber : ''),
 		errMsg : ''
 	}
 }
@@ -346,7 +346,7 @@ var lrApp=new Vue({
 		},
 		login : function() {
 			var account = this.account;
-			var mobile = account.loginId;
+			var mobile = account.mobileNumber;
 			var correct = false;
 			var smsCode = account.smsCode;
 			if (this.messageLogin) {
@@ -367,7 +367,7 @@ var lrApp=new Vue({
 		},
 		register : function() {
 			var account = this.account;
-			var mobile = account.loginId;
+			var mobile = account.mobileNumber;
 			var smsCode = account.smsCode;
 			var password = account.password;
 			var rePassword = account.rePassword;
@@ -387,7 +387,7 @@ var lrApp=new Vue({
         accountSmsCodeGet: function () {
             var vm = this;
             
-			var mobile = this.account.loginId;
+			var mobile = this.account.mobileNumber;
 			// 先校验手机号
 			var msg = isMobile(mobile);
 			if (msg) {

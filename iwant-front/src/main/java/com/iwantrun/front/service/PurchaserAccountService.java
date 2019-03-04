@@ -1,5 +1,7 @@
 package com.iwantrun.front.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -110,21 +112,33 @@ public class PurchaserAccountService {
 	 */
 	public String validateSMSCodeParam(HttpServletRequest request, PurchaserAccountRequest purchaser) {
 		PurchaserAccount account = purchaser.getAccount();
-		String loginId = account.getLoginId();
-		String mobileNumber = loginId;
+		String mobileNumber = account.getMobileNumber();	
 
 		// 非注册时，再进行账号存在校验
 		if (!purchaser.isRegister()) {
-			String dbAccountJSON = findByLoginId(loginId);
+			String dbAccountJSON = findByMobileNumber(mobileNumber);
 			if (StringUtils.isEmpty(dbAccountJSON)) {
 				return "账号不存在";
 			}
-			PurchaserAccount dbAccount = JSONUtils.jsonToObj(dbAccountJSON, PurchaserAccount.class);
-			mobileNumber = dbAccount.getMobileNumber();
+			List<PurchaserAccount> dbAccount = JSONUtils.toList(dbAccountJSON, PurchaserAccount.class);
+			mobileNumber = dbAccount.get(0).getMobileNumber();
 		}
 
 		String smsCode = purchaser.getSmsCode();
 		return validateSMSCodeParam(mobileNumber, smsCode, request);
+	}
+
+	public String findByMobileNumber(String mobileNumber) {
+		JSONObject json = new JSONObject();
+		json.put("mobileNumber", mobileNumber);
+		String baseUrl = environment.getProperty("app.server");
+		String findByMobileUrl = "/application/purchaserAccount/findByMobileNumber";
+		String url = baseUrl + findByMobileUrl;
+		Message message = new Message();
+		message.setMessageBody(json.toJSONString());
+		message.setRequestMethod(url);
+		Message response = template.postForEntity(url, message, Message.class).getBody();
+		return response.getMessageBody();		
 	}
 
 	public String findByLoginId(String loginId) {

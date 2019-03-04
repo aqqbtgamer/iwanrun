@@ -33,7 +33,8 @@ var appListCase = new Vue(
 				personNum:[],
 				duration:[]
             },
-            tailWeixinIcon:false
+            tailWeixinIcon:false,
+            nickname:''
         },
 
         
@@ -147,4 +148,16 @@ function showLoginId(loginId){
 	vm.loginId = loginId;
 	vm.loginIdUl = true;
 	vm.loginBtnUl = false;
+	$http.post(baseUrl + 'purchaserAccount/findMixedByLoginId', null,displayNick);
+}
+
+function displayNick(data){
+	if(data){
+		var errMsg = data.errMsg;
+		if(!errMsg){
+			var info = data.userInfo;
+			var vm = appListCase;
+			vm.nickname= info.name;
+		}
+	}
 }

@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.application.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -142,19 +143,22 @@ public class PurchaserAccountController {
 			
 			boolean isMessageLogin = accountRequest.isMessageLogin();
 			if(isMessageLogin) {
-				String token=tokenService.tokenGenerate(account.getLoginId(), accountRequest.getSessionId());
-				response.setAccessToken(token);
+				List<PurchaserAccount> listUser = service.findByMobileNumber(account.getMobileNumber());
+				String token=tokenService.tokenGenerate(listUser.get(0).getLoginId(), accountRequest.getSessionId());
+				response.setAccessToken(token);					
+				responseJSON.put("loginId", listUser.get(0).getLoginId());
 			}else {
 				errorMsg = service.validateLoginParam(accountRequest);
 				if(StringUtils.isEmpty(errorMsg)) {
 					String token=tokenService.tokenGenerate(account.getLoginId(), accountRequest.getSessionId());
 					response.setAccessToken(token);
 				}
+				responseJSON.put("loginId", accountRequest.getAccount().getLoginId());
 			}
 		}else {
 			errorMsg ="请输入相关数据";
 		}
-		responseJSON.put("errorMsg", errorMsg);
+		responseJSON.put("errorMsg", errorMsg);		
 		response.setMessageBody(responseJSON.toJSONString());
 		return response;
 	}
@@ -174,6 +178,15 @@ public class PurchaserAccountController {
 		String requestJSON = message.getMessageBody();
 		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJSON);
 		message.setMessageBody(service.findByLoginId(requestObj));
+		return message;
+	}
+	
+	@RequestMapping("findByMobileNumber")
+	@ResponseBody
+	public Message findByMobileNumber(@RequestBody Message message) {
+		String requestJSON = message.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJSON);
+		message.setMessageBody(service.findByMobileNumber(requestObj));
 		return message;
 	}
 

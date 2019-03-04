@@ -83,7 +83,8 @@ var appMyAccount = new Vue(
             	id:getUrlParam('id'),
             	type:getUrlParam("type"),
             	perfered:false
-            }
+            },
+            nickname:''
         },
         created:function(){
         	console.log("init server http data ....");
@@ -407,6 +408,18 @@ function showLoginId(loginId){
 	vm.loginId = loginId;
 	vm.loginIdUl = true;
 	vm.loginBtnUl = false;
+	$http.post(baseUrl + 'purchaserAccount/findMixedByLoginId', null,displayNick);
+}
+
+function displayNick(data){
+	if(data){
+		var errMsg = data.errMsg;
+		if(!errMsg){
+			var info = data.userInfo;
+			var vm = appMyAccount;
+			vm.nickname= info.name;
+		}
+	}
 }
 
 function verifyLoginTokenJob(vm){

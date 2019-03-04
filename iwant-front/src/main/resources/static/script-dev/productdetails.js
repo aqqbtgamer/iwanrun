@@ -46,7 +46,8 @@ var appProductDetails = new Vue(
 		         currentTopIndex: 0,
 		         pageSize:sildePageSize,
                  isFavourite:false,
-                 tailWeixinIcon:false
+                 tailWeixinIcon:false,
+                 nickname:''
 			},
 			created:function(){
 				var vm = this ;
@@ -304,8 +305,19 @@ function showLoginId(loginId){
 	vm.loginId = loginId;
 	vm.loginIdUl = true;
 	vm.loginBtnUl = false;
+	$http.post(baseUrl + 'purchaserAccount/findMixedByLoginId', null,displayNick);
 }
 
+function displayNick(data){
+	if(data){
+		var errMsg = data.errMsg;
+		if(!errMsg){
+			var info = data.userInfo;
+			var vm = appProductDetails;
+			vm.nickname= info.name;
+		}
+	}
+}
 function locationNull2Blank(locationDetail){
 	var province = locationDetail.activityProvinceCode;
 	var city = locationDetail.activityCityCode;

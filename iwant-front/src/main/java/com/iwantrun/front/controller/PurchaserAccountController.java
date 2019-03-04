@@ -16,6 +16,9 @@ import com.iwantrun.front.transfer.Message;
 import com.iwantrun.front.transfer.PurchaserAccountRequest;
 import com.iwantrun.front.utils.JSONUtils;
 
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
+
 /**
  * 
  * @author user 采购方账户相关操作
@@ -97,7 +100,8 @@ public class PurchaserAccountController {
 		String sessionId = request.getSession().getId();
 		purchaser.setSessionId(sessionId);
 		result = service.login(purchaser);
-		service.addCookieForToken(purchaser.isAutoLogin(), result.getAccessToken(), purchaser.getAccount().getLoginId(),
+		JSONObject resultJson = (JSONObject) JSONValue.parse(result.getMessageBody());
+		service.addCookieForToken(purchaser.isAutoLogin(), result.getAccessToken(), resultJson.getAsString("loginId"),
 				response);
 		return result;
 	}
