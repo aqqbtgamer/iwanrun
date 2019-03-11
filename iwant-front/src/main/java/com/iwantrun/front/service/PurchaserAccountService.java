@@ -238,7 +238,10 @@ public class PurchaserAccountService {
 		String mobileNumber = json.getAsString("mobileNumber");
 		String smsCode = json.getAsString("smsCode");
 		if (mobileNumber != null && smsCode != null) {
-			return validateSMSCodeParam(mobileNumber, smsCode, request);
+			String verifyResult = validateSMSCodeParam(mobileNumber, smsCode, request);
+			if(verifyResult != null ) {
+				return verifyResult;
+			}
 		}
 
 		json.put("loginId", LoginTokenUtils.getLoginId(request));
