@@ -42,7 +42,8 @@ var appMyAccount = new Vue(
                     companySizeId: 0,
                     hasCredential: false
                 },
-                infoSetErrMsg:''
+                infoSetErrMsg:'',
+                password:null
             },
             SMS: {
 	            timer: null,
@@ -226,6 +227,7 @@ var appMyAccount = new Vue(
 				if(flag==1){
 					var smsCode = vm.account.smsCode;
 					var mobile = vm.account.phone;
+					var password = vm.account.password ;
 					var msg = isMobile(mobile);
 					if (msg) {
 						console.log(msg);
@@ -238,8 +240,14 @@ var appMyAccount = new Vue(
 						showInfoSetErrMsg(msg);
 						return;
 					}
-					if(mobile&&smsCode){
-						data={"mobileNumber":mobile,"smsCode":smsCode};
+					msg = validatePwd(password);
+					if (msg) {
+						console.log(msg);
+						showInfoSetErrMsg(msg);
+						return;
+					}
+					if(mobile&&smsCode&&password){
+						data={"mobileNumber":mobile,"smsCode":smsCode,"password":password};
 					}
 				}
 				if(flag==2){

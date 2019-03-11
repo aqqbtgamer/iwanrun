@@ -211,6 +211,16 @@
                         <input @click="smsCodeGet" type="button" :value="SMS.btnText" class="sms-send-button" :disabled="SMS.disabled">
                     </div>
                 </div>
+                
+                <div class="userpwd-input" v-show="settingFlag === 1">
+                    <div class="user-icon">
+                        <i class="iconfont-user2 icon-mima"></i>
+                    </div>
+                    <div class="user-input">
+                        <input type="text" class="inputText" v-model="account.password" placeholder="请输入新密码">
+                    </div>                   
+                </div>
+                
 				<div id="info-err-msg" class="extra-message" style="margin-top: 0.2vw;">
 					<div class="exttra-message-right" style="color: red;">
 						<p>{{account.infoSetErrMsg}}</p>

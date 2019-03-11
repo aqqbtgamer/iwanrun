@@ -236,16 +236,15 @@ public class PurchaserAccountService {
 
 		JSONObject json = JSONUtils.jsonToObj(param, JSONObject.class);
 		String mobileNumber = json.getAsString("mobileNumber");
-		String smsCode = json.getAsString("smsCode");
+		String smsCode = json.getAsString("smsCode");		
 		if (mobileNumber != null && smsCode != null) {
 			String verifyResult = validateSMSCodeParam(mobileNumber, smsCode, request);
 			if(verifyResult != null ) {
 				return verifyResult;
 			}
 		}
-
 		json.put("loginId", LoginTokenUtils.getLoginId(request));
-
+		
 		String addAndModifyInfoUrl = environment.getProperty("application.purchaserAccount.addAndModifyInfo");
 		String baseUrl = environment.getProperty("app.server");
 		String url = baseUrl + addAndModifyInfoUrl;

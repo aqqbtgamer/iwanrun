@@ -465,6 +465,8 @@ public class PurchaserAccountService {
 				return "验证手机格式不正确";
 			}
 			dbAccount.setMobileNumber(mobileNumber);
+			String password = paramJSON.getAsString("password");
+			dbAccount.setPassword(Md5Utils.generate(password));
 			List<PurchaserAccount> existAccount = dao.findByMobileNumber(mobileNumber);
 			if(existAccount != null && existAccount.size() > 0) {
 				int idforDelete = existAccount.get(0).getId();
