@@ -8,6 +8,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageImpl;
@@ -52,6 +54,8 @@ public class PurchaserAccountService {
 	private UserInfoAttachmentsDao attachmentsDao;
 	@Autowired
 	private JPQLEnableRepository jpqlExecute;
+	
+	Logger logger = LoggerFactory.getLogger(PurchaserAccountService.class);
 
 	public String modifyPwd(PurchaserAccount account) {
 		String loginId = account.getLoginId();
@@ -447,12 +451,15 @@ public class PurchaserAccountService {
 	public String addAndModifyInfo(String dataJson) {
 		JSONObject paramJSON = JSONUtils.jsonToObj(dataJson, JSONObject.class);
 		String loginId = paramJSON.getAsString("loginId");
+		logger.info("into application addAndModifyInfo ,loginId:"+loginId);
 		PurchaserAccount dbAccount = dao.findByLoginId(loginId);
 		if (dbAccount == null) {
 			return "用户不存在";
 		}
 		Integer loginInfoId = dbAccount.getId();
+		logger.info("to be modified sys_login_info id:"+loginInfoId);
 		String mobileNumber = paramJSON.getAsString("mobileNumber");
+		logger.info("to be modified sys_login_info mobile Number:"+mobileNumber);
 		if (mobileNumber != null) {
 			if (!SMSCodeUtils.isMobileNum(mobileNumber)) {
 				return "验证手机格式不正确";
