@@ -32,6 +32,7 @@ import com.iwantrun.core.service.application.enums.VerifyStatus;
 import com.iwantrun.core.service.application.transfer.MixedUserResponse;
 import com.iwantrun.core.service.application.transfer.PurchaserAccountRequest;
 import com.iwantrun.core.service.application.transfer.SimpleMessageBody;
+import com.iwantrun.core.service.utils.EmojHandleUtils;
 import com.iwantrun.core.service.utils.JSONUtils;
 import com.iwantrun.core.service.utils.Md5Utils;
 import com.iwantrun.core.service.utils.PageDataWrapUtils;
@@ -656,7 +657,7 @@ public class PurchaserAccountService {
 			dao.saveAndFlush(account);			
 			UserInfo userInfo = new UserInfo();
 			userInfo.setLoginInfoId(account.getId());
-			userInfo.setName(nickName);
+			userInfo.setName(EmojHandleUtils.replaceEmojWith(nickName, '?'));
 			userInfo.setGender(paramJSON.getAsNumber("sex").intValue());
 			userInfo.setVerified(VerifyStatus.Not_Verified.getId());
 			infoDao.saveAndFlush(userInfo);
