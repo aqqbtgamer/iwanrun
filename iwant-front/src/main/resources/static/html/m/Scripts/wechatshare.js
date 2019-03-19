@@ -6,9 +6,10 @@
 
     var url = requestUrl.getWeixingConfig;
     is_weixn() && wx && $.getJSON(url + '?url=' + location.href.split('#')[0], function (data) {
-        if (data && !data.signature) {
+        if (data && data.ErrMsg) {
+            console.log(data.ErrMsg);
+            console.log(data.StackTrace);
             return false;
-            console.log('签名失败');
         }
         var config = {
             title: '我要跑',

@@ -58,11 +58,11 @@
                     </div>
                     <div class="w610 ml30 h2 bgcf5f5f5"></div>
                     <div class="w610 ml30 ofh pt30">
-                        <a href="javascript:;" class="db w300 fl tac">
+                        <a href="myOrderList.html" class="db w300 fl tac">
                             <p class="fz26 c888888">我的订单</p>
                             <p class="fz48 c333333">{{account.ordersTotal}}</p>
                         </a>
-                        <a href="javascript:;" class="db w300 fl tac">
+                        <a href="myCollection.html" class="db w300 fl tac">
                             <p class="fz26 c888888">关注收藏</p>
                             <p class="fz48 c333333">{{account.favouriteTotal}}</p>
                         </a>
@@ -92,10 +92,9 @@
         </div>
     </div>
 
-    <a href="index.html" class="db pf b600 r40">
-        <img src="images/home.png" style="max-width:50px;max-height:50px;" alt="" class="object-fit-cover">
-        <div style="text-align:center;color:black;">首页</div>
-    </a>
+    <div id="backhome">
+        <backhome></backhome>
+    </div>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/change_font_size.js"></script>
@@ -104,6 +103,7 @@
     <script src="js/jquery.cookie.js"></script>
 
     <script src="Scripts/common.js"></script>
+    <script src="template/backhome.js"></script>
     <script src="Scripts/myAccount.js"></script>
 
 </body>

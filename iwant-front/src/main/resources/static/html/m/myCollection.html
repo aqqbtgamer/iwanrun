@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>我的收藏</title>
+
+    <link rel="stylesheet" href="css/mincss.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body class="bgcffffff">
+    <div id="container">
+        <div>
+
+
+            <ul class=" page pf t0 l0 bgcffffff zi97 w100p">
+                <a href="javascript:void(0);" @click="changeTab('product')" :class="tab==='product'?styleClass.tabActiveClass:styleClass.tabClass">产品 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a>
+                <a href="javascript:void(0);" @click="changeTab('case')" :class="tab==='case'?styleClass.tabActiveClass:styleClass.tabClass">案例 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a>
+                <a href="javascript:void(0);" @click="changeTab('location')" :class="tab==='location'?styleClass.tabActiveClass:styleClass.tabClass">场地 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a>
+            </ul>
+            <div class="mt80">
+                <!--product-->
+                <section v-show="tab==='product'" class="li_list w100p bgcffffff mt-4 pb40 ">
+                    <ul class="pt40">
+                        <li class="h550 pr" v-for="(item,index) in collection.product.list">
+                            <a href="javascript:void(0)" class="h30 fz26 c999999 pa t30 r70" @click="remove(item.id)">
+                                取消收藏
+                            </a>
+                            <div class="w670 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                <div class="fz32 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.name}}</div>
+                                <!--<div class="pl30 pr30 pt30 fz18">
+                                    <span v-for="str in item.tips" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20" style="background-color: #282b33;">{{str}}</span>
+                                </div>-->
+                                <div class="pl30 pr30 pt30 fz24">
+                                    <p>{{item.activityProvinceCode}}</p>
+                                    <p>{{item.duration}} / {{item.groupNumberLimitCode}}</p>
+                                </div>
+                            </div>
+                            <div class="w570 h240 pa b40 l90">
+                                <img :src="item.descirbeText2" class="object-fit-cover" alt="" @click="linktoDetail(item.id,'product')">
+                            </div>
+                            <!--<i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r72 b260" style="background-color: #282b33;">2</i>-->
+                        </li>
+                    </ul>
+                    <a href="javascript:void(0)" @click="getMore" v-show="collection.product.showbtnmore" class=" db w670 h86 lh86 tac fz28 c666666 m0a">点击查看更多</a>
+                </section>
+                <!--case-->
+                <section v-show="tab==='case'" class="li_list w100p bgcffffff mt-4 pb40">
+                    <ul class="pt40">
+                        <li class="h550 pr" v-for="(item,index) in collection.case.list">
+                            <a href="javascript:void(0)" class="h30 fz26 c999999 pa t30 r70" @click="remove(item.id)">
+                                取消收藏
+                            </a>
+                            <div class="w670 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                <div class="fz32 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.name}}</div>
+                                <!--<div class="pl30 pr30 pt30 fz18">
+                                    <span v-for="str in item.tips" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20" style="background-color: #282b33;">{{str}}</span>
+                                </div>-->
+                                <div class="pl30 pr30 pt30 fz24">
+                                    <p>{{item.activityProvinceCode}}</p>
+                                    <p>{{item.duration}} / {{item.groupNumberLimitCode}}</p>
+                                </div>
+                            </div>
+                            <div class="w570 h240 pa b40 l90">
+                                <img :src="item.descirbeText2" class="object-fit-cover" alt="" @click="linktoDetail(item.id,'case')">
+                            </div>
+                            <!--<i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r72 b260" style="background-color: #282b33;">2</i>-->
+                        </li>
+                    </ul>
+                    <a href="javascript:void(0)" @click="getMore" v-show="collection.case.showbtnmore" class=" db w670 h86 lh86 tac fz28 c666666 m0a">点击查看更多</a>
+                </section>
+                <!--location-->
+                <section v-show="tab==='location'" class="li_list w100p bgcffffff mt-4 pb40">
+                    <ul class="pt40">
+                        <li class="h550 pr" v-for="(item,index) in collection.location.list">
+                            <a href="javascript:void(0)" class="h30 fz26 c999999 pa t30 r70" @click="remove(item.id)">
+                                取消收藏
+                            </a>
+                            <div class="w670 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                <div class="fz32 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.name}}</div>
+                                <!--<div class="pl30 pr30 pt30 fz18">
+                                    <span v-for="str in item.tips" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20" style="background-color: #282b33;">{{str}}</span>
+                                </div>-->
+                                <div class="pl30 pr30 pt30 fz24">
+                                    <p>{{item.activityProvinceCode}}</p>
+                                    <p>{{item.duration}} / {{item.groupNumberLimitCode}}</p>
+                                </div>
+                            </div>
+                            <div class="w570 h240 pa b40 l90">
+                                <img :src="item.descirbeText2" class="object-fit-cover" alt="" @click="linktoDetail(item.id,'location')">
+                            </div>
+                            <!--<i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r72 b260" style="background-color: #282b33;">2</i>-->
+                        </li>
+                    </ul>
+                    <a href="javascript:void(0)" @click="getMore" v-show="collection.location.showbtnmore" class=" db w670 h86 lh86 tac fz28 c666666 m0a">点击查看更多</a>
+                </section>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="backhome">
+        <backhome></backhome>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/change_font_size.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+
+    <script src="Scripts/common.js"></script>
+    <script src="template/backhome.js"></script>
+    <script src="Scripts/myCollection.js"></script>
+</body>
+</html>

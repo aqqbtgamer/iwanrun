@@ -75,32 +75,31 @@ var sildemenu = new Vue({
         },
         getuser: function () {
             var vm = this, url = requestUrl.findMixedByLoginId, param = {};
-            axios.post(url, param).then(
-                function (response) {
-                    console.log(response.data);
-                    var data = response.data;
-                    if (data) {
-                        var errMsg = data.errMsg;
-                        if (errMsg) {
-                            login.show = true;
+            axios.post(url, param).then(function (response) {
+                //console.log(response.data);
+                var data = response.data;
+                if (data) {
+                    var errMsg = data.errMsg;
+                    if (errMsg) {
+                        login.show = true;
+                    }
+                    var info = data.userInfo;
+                    var headImgs = data.headImgs;
+                    var companyCredentials = data.companyCredentials;
+                    if (info) {
+                        if (headImgs && headImgs.length > 0) {
+                            vm.account.headimg = headImgs[0].filePath;
                         }
-                        var info = data.userInfo;
-                        var headImgs = data.headImgs;
-                        var companyCredentials = data.companyCredentials;
-                        if (info) {
-                            if (headImgs && headImgs.length > 0) {
-                                vm.account.headimg = headImgs[0].filePath;
+                        vm.account.nickname = info.name;
+                        if (companyCredentials) {
+                            for (var i = 0; i < companyCredentials.length; i++) {
+                                vm.account.company.licenses.push(companyCredentials[i].filePath);
                             }
-                            vm.account.nickname = info.name;
-                            if (companyCredentials) {
-                                for (var i = 0; i < companyCredentials.length; i++) {
-                                    vm.account.company.licenses.push(companyCredentials[i].filePath);
-                                }
-                                vm.account.company.hasCredential = true;
-                            }
+                            vm.account.company.hasCredential = true;
                         }
                     }
-                })
+                }
+            })
         }
     },
     created: function () {

@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>我的订单</title>
+
+    <link rel="stylesheet" href="css/mincss.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .order_content label i {
+            background-image: -moz-linear-gradient( 0deg, rgb(227,114,62) 0%, rgb(230,142,65) 40%, rgb(233,170,67) 100%);
+            background-image: -webkit-linear-gradient( 0deg, rgb(227,114,62) 0%, rgb(230,142,65) 40%, rgb(233,170,67) 100%);
+            background-image: -ms-linear-gradient( 0deg, rgb(227,114,62) 0%, rgb(230,142,65) 40%, rgb(233,170,67) 100%);
+        }
+    </style>
+</head>
+<body class="bgcffffff">
+    <div id="container">
+        <div class="myOrder">
+            <div class="order_header pr">
+                <div class="w750 h208 ofh">
+                    <div class="w70 h80 fl ml60 mt60">
+                        <img src="images/icon_weijian.png" class="object-fit-cover" alt="">
+                    </div>
+                    <div class="fl mt60 ml20 lh40">
+                        <p class="fz32 cffffff">{{model.orders.orderStatus}}</p>
+                        <p class="fz24 cffffff mt8">提交日期：{{dateformat(model.orders.createTime)}}</p>
+                    </div>
+                </div>
+                <div class="w750 h208 pa t0 l0 zi-1"><img src="images/order_bg.png" class="object-fit-cover" alt=""></div>
+            </div>
+            <div class="order_content">
+                <label class="fz30 db h90 lh90 mt30 ofh"><i class="dib w6 h32 mr30 fl mt28"></i><span class="fl fw700">联系信息</span></label>
+                <ul class="ml36 mr36 w678 mt20">
+                    <li class="ofh lh60">
+                        <div class="fl w160 c666666 fz28">联系人</div>
+                        <div class="fl w518 fz30">{{model.purchaserAccountInfo.name}}</div>
+                    </li>
+                    <li class="ofh lh60">
+                        <div class="fl w160 c666666 fz28">联系手机</div>
+                        <div class="fl w518 fz30">{{model.purchaserAccount.mobileNumber}}</div>
+                    </li>
+                </ul>
+                <label class="fz30 db h90 lh90 mt30 ofh"><i class="dib w6 h32 mr30 fl mt28"></i><span class="fl fw700">活动需求信息</span></label>
+                <ul class="ml36 mr36 w678 mt20">
+                    <li class="ofh lh60">
+                        <div class="fl w160 c666666 fz28">活动类型</div>
+                        <div class="fl w518 fz30">{{model.orders.activitysCode}}</div>
+                    </li>
+                    <li class="ofh lh60">
+                        <div class="fl w160 c666666 fz28">组织类型</div>
+                        <div class="fl w518 fz30">{{model.orders.companyTypeId}}</div>
+                    </li>
+                    <li class="ofh lh60">
+                        <div class="fl w160 c666666 fz28">活动人数</div>
+                        <div class="fl w518 fz30">{{model.orders.groupNumber}}</div>
+                    </li>
+                    <li class="ofh lh60">
+                        <div class="fl w160 c666666 fz28">活动天数</div>
+                        <div class="fl w518 fz30">{{model.orders.activityDuring}}</div>
+                    </li>
+                    <li class="ofh lh60">
+                        <div class="fl w160 c666666 fz28">活动目的地</div>
+                        <div class="fl w518 fz30">{{model.orders.activityProvince}}</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="order_menu w750 h126 bgcffffff bs-0-0-6-0-dddddd pf b0 l0 zi9 ofh">
+                <a href="tel:4008897003" class="db w182 h64 lh64 tac c333333 fr br10 mt30 mr30" style="background-color: #fdefd8;border: 1px solid #f6b03e;">联系我们</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="backhome">
+        <backhome></backhome>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/change_font_size.js"></script>
+
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+
+    <script src="Scripts/common.js"></script>
+    <script src="template/backhome.js"></script>
+    <script src="Scripts/myOrder.js"></script>
+</body>
+</html>

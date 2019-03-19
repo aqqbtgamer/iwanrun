@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>我的订单</title>
+
+    <link rel="stylesheet" href="css/mincss.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body class="bgcffffff">
+    <div id="container">
+        <div class="myOrderList">
+            <ul class="ml36 mr36 w678 mt20">
+                <li class="bb1se5e5e5" v-for="item in list">
+                    <div class=" mt30 h90 lh90 ofh">
+                        <div class="fz36 fw700 fl">{{item.orderNo.activitysCode}}</div>
+                        <div class="fr fz26 c666666">{{dateformat(item.createTime)}}</div>
+                    </div>
+                    <div class="fz30 lh60" style="color:#fd5509;">{{item.orderStatusCodeString}}</div>
+                    <div class="ofh lh60">
+                        <div class="fl w160 c666666 fz28">活动地区</div>
+                        <div class="fl w518 fz30">{{item.orderNo.activityProvince}}</div>
+                    </div>
+                    <div class="ofh lh60">
+                        <div class="fl w160 c666666 fz28">活动天数</div>
+                        <div class="fl w518 fz30">{{item.orderNo.activityDuring}}</div>
+                    </div>
+                    <div class="ofh lh60">
+                        <div class="fl w160 c666666 fz28">活动人数</div>
+                        <div class="fl w518 fz30">{{item.orderNo.groupNumber}}</div>
+                    </div>
+                    <div class="ofh lh60">
+                        <div class="fl w160 c666666 fz28">活动预算</div>
+                        <div class="fl w518 fz30">{{item.orderNo.orderSimulatePrice}}</div>
+                    </div>
+                    <div class="ofh mb30">
+                        <a href="javascript:void" @click="linktoDetail(item.id)" class="db w182 h64 lh64 tac c666666 fr br10 mt30 mr30 b1se5e5e5">查看详情</a>
+                    </div>
+                </li>
+            </ul>
+            <a href="javascript:void(0)" @click="getMore" v-show="showbtnmore" class=" db w670 h86 lh86 tac fz28 c666666 m0a">点击查看更多</a>
+        </div>
+    </div>
+
+    <div id="backhome">
+        <backhome></backhome>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/change_font_size.js"></script>
+
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+
+    <script src="Scripts/common.js"></script>
+    <script src="template/backhome.js"></script>
+    <script src="Scripts/myOrderList.js"></script>
+</body>
+</html>

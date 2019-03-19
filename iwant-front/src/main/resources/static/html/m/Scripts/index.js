@@ -45,7 +45,9 @@ var appIndex = new Vue({
             }
         },
         showSearch: function () {
-            search.show = true;
+            //search.showSearch();
+            search.showSearch = true;
+            document.getElementById('iptSearch').focus();
         },
         linktoDetail: function (id, type) {
             location.href = 'detail.html?id=' + id + '&type=' + type;
@@ -77,7 +79,7 @@ var appIndex = new Vue({
             axios.post(url, param).then(
                 function (response) {
                     //console.log(response.data);
-                    vm.model.list = response.data.content;
+                    vm.model.cases = response.data.content;
                 })
         },
         queryProdutionByCondition: function (pageIndex) {

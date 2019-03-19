@@ -24,6 +24,29 @@ var appIndex = new Vue(
             errMsg: {
                 contractMobile: false,
                 activity_code: false
+            },
+            showDialog: false,
+            tab: 'product',
+            collection: {
+                product: {
+                    list: [],
+                    pageIndex: 0,
+                    pageSize: 3
+                },
+                case: {
+                    list: [],
+                    pageIndex: 0,
+                    pageSize: 3
+                },
+                location: {
+                    list: [],
+                    pageIndex: 0,
+                    pageSize: 3
+                }
+            },
+            styleClass: {
+                tabClass: 'dib w80 ml30 mr30 h80 lh80 fz28 c333333 tac pr',
+                tabActiveClass: 'dib w80 ml30 mr30 h80 lh80 fz28 c333333 tac pr search_actives'
             }
         },
         methods: {
@@ -43,7 +66,8 @@ var appIndex = new Vue(
                     console.log(response.data);
                     var data = response.data;
                     if (data != null && data.submitResult == true) {
-                        alert("需求提交成功");
+                        vm.showDialog = true;
+                        //alert("需求提交成功");
                         //window.location.href = "./orderlist.html";
                     }
                 });
@@ -78,6 +102,46 @@ var appIndex = new Vue(
                     return false;
                 }
                 return true;
+            },
+            closeDialog: function () {
+                this.showDialog = false;
+            },
+            changeTab: function (tab) {
+                var vm = this;
+                vm.tab = tab || 'product';
+            },
+            queryCaseByCondition: function () {
+                var vm = this, url = requestUrl.queryCaseByCondition, param = {
+                    pageIndex: vm.collection.case.pageIndex,
+                    pageSize: vm.collection.case.pageSize
+                };
+                axios.post(url, param).then(function (response) {
+                    //console.log(response.data);
+                    vm.collection.case.list = response.data.content;
+                })
+            },
+            queryProdutionByCondition: function () {
+                var vm = this, url = requestUrl.queryProdutionByCondition, param = {
+                    pageIndex: vm.collection.case.pageIndex,
+                    pageSize: vm.collection.case.pageSize
+                };
+                axios.post(url, param).then(function (response) {
+                    //console.log(response.data);
+                    vm.collection.product.list = response.data.content;
+                })
+            },
+            queryLocationByCondition: function () {
+                var vm = this, url = requestUrl.querylocationByCondition, param = {
+                    pageIndex: vm.collection.case.pageIndex,
+                    pageSize: vm.collection.case.pageSize
+                };
+                axios.post(url, param).then(function (response) {
+                    //console.log(response.data.content);
+                    vm.collection.location.list = response.data.content;
+                })
+            },
+            linktoDetail: function (id, type) {
+                location.href = 'detail.html?id=' + id + '&type=' + type || 'product';
             }
         },
         components: {
@@ -94,9 +158,7 @@ var appIndex = new Vue(
                     $(".more-info").hide(500);
                     $(".arrowBtn img").addClass("rotate0").removeClass("rotate180");
                 }
-
             });
-
 
             var vm = this;
             //vm.login.show
@@ -117,5 +179,9 @@ var appIndex = new Vue(
                 sildemenu.accessToken = jQuery.cookie('accessToken');
                 console.log(vm.accessToken);
             };
+
+            vm.queryCaseByCondition();
+            vm.queryProdutionByCondition();
+            vm.queryLocationByCondition();
         }
     });

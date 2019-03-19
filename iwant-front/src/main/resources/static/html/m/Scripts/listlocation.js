@@ -36,7 +36,7 @@ var appIndex = new Vue({
         linktoDetail: function (id) {
             location.href = 'detail.html?id=' + id + '&type=location';
         },
-        query: function () {
+        query: function (pageIndex) {
             var vm = this, url = requestUrl.querylocationByCondition, param = vm.model.param;
             axios.post(url, param).then(function (response) {
                 //console.log(response.data);

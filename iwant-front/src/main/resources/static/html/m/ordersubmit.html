@@ -54,7 +54,7 @@
                         </div>
                         <div class="w596 m0a ofh" v-show="errMsg.contractMobile">
                             <span style="color:red;" class="c888888 fz22 mt20 fl">请输入手机号</span>
-                        </div>                                                                             
+                        </div>
                     </div>
                     <div class="w596 m0a">
                         <div class="pt40 pb20"><span style="color: #fd5509;">*</span>活动类型</div>
@@ -66,7 +66,7 @@
                         </div>
                         <div class="w596 m0a ofh" v-show="errMsg.activity_code">
                             <span style="color:red;" class="c888888 fz22 mt20 fl">请选择活动类型</span>
-                        </div> 
+                        </div>
                     </div>
                     <div class="w596 m0a tac fz24 c999999 ofh pt40 pb20">
                         <div class="w200 fl bb1se5e5e5 pt16"></div>
@@ -113,14 +113,288 @@
                     </a>
 
                 </div>
+
+                <div class="w100p mt40 pb40">
+                    <div class="coll_title w670 h100 lh100 fz28 fw700 ml40 mr40 coll_arr_up">我的心愿清单</div>
+                    <div class="coll_content mt20">
+                        <ul class=" page w100p">
+                            <a href="javascript:void(0);" @click="changeTab('product')" :class="tab==='product'?styleClass.tabActiveClass:styleClass.tabClass">产品 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a>
+                            <a href="javascript:void(0);" @click="changeTab('case')" :class="tab==='case'?styleClass.tabActiveClass:styleClass.tabClass">案例 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a>
+                            <a href="javascript:void(0);" @click="changeTab('location')" :class="tab==='location'?styleClass.tabActiveClass:styleClass.tabClass">场地 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a>
+                        </ul>
+                        <div class="">
+                            <section v-show="tab==='product'" class="li_list w100p bgcffffff mt-4 pb40 ">
+                                <ul class="pt40">
+                                    <li class="h550 pr" v-for="item in collection.product.list">
+                                        <!--<a class="h30 fz26 c999999 pa t30 r70">
+                                            取消收藏
+                                        </a>-->
+                                        <div class="w670 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                            <div class="fz32 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.name}}</div>
+                                            <div class="pl30 pr30 pt30 fz18">
+                                                <span v-for="(str,index) in item.tips" v-if="index<4" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20" style="background-color: #282b33;">{{str}}</span>
+                                            </div>
+                                            <div class="pl30 pr30 pt30 fz24">
+                                                <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
+                                                <p>{{item.dur}} / {{item.groupNumber}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="w570 h240 pa b40 l90">
+                                            <img @click="linktoDetail(item.id,'product')" :src="item.mainImageIcon" class="object-fit-cover" alt="">
+                                        </div>
+                                        <!--<i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r72 b260" style="background-color: #282b33;">2</i>-->
+                                    </li>
+                                </ul>
+                            </section>
+                            <section v-show="tab==='case'" class="li_list w100p bgcffffff mt-4 pb40">
+                                <ul class="pt40">
+                                    <li class="mb34" v-for="item in collection.case.list">
+                                        <div class="w670 h392 bgcffffff bs-0-0-6-0-dddddd br10 m0a ">
+                                            <div class="ofh">
+                                                <div class="w254 h254 br20 ml22 mt22 fl pr">
+                                                    <!--<div class="w130 h104 pa t0 l0">
+                                                        <img src="images/label_tuijian.png" class="object-fit-cover" alt="">
+                                                    </div>-->
+                                                    <img @click="linktoDetail(item.id,'case')" :src="item.descirbeText2" class="object-fit-cover" alt="">
+                                                </div>
+                                                <div class="fl w382">
+                                                    <div class="fz32 fw700 pl30 pt30 w382 mult-line-ellipsis-1">{{item.name}}</div>
+                                                    <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
+                                                        <span v-for="(str,index) in item.tips" v-if="index<4" class="mr10">#{{str}}#</span>
+                                                    </div>
+                                                    <div class="pl30 pr30 pt14 fz24 c666666">
+                                                        <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
+                                                        <p>{{item.designDuringCo}} / {{item.groupNumber}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--<div class="w612 h2 m0a bgcf5f5f5 mt22 mb22"></div>
+                                            <div class="fz24 h46 lh46 ml22 mr22">
+                                                <span class="dib h46 br25 pl20 pr20" style="background-color: #fef7eb;color: #f6b03e;">轰趴</span>
+                                                <span class="dib h46 br25 pl20 pr20" style="background-color: #fef7eb;color: #f6b03e;">适合活动类型</span>
+                                            </div>-->
+                                        </div>
+                                    </li>
+                                </ul>
+                            </section>
+                            <section v-show="tab==='location'" class="li_list w100p bgcffffff mt-4 pb40">
+                                <ul class="pt40 ml30 mr30 ofh">
+                                    <li class="h450 pr fl" v-for="item in collection.location.list">
+                                        <div class="w670 h392 bgcffffff bs-0-0-6-0-dddddd br10 m0a ">
+                                            <div class="ofh">
+                                                <div class="w254 h254 br20 ml22 mt22 fl pr">
+                                                    <img @click="linktoDetail(item.id,'location')" :src="item.descirbeText2" class="object-fit-cover" alt="">
+                                                </div>
+                                                <div class="fl w382">
+                                                    <div class="fz32 fw700 pl30 pt30 w382 mult-line-ellipsis-1">{{item.name}}</div>
+                                                    <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
+                                                        <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">#{{str}}#</span>
+                                                    </div>
+                                                    <div class="pl30 pr30 pt14 fz24 c666666">
+                                                        <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
+                                                        <p>{{item.designDuringCo}} / {{item.groupNumberLimit}}</p>
+                                                    </div>
+                                                    <div class="ml30 mr30 mt60 pr">
+                                                        <div class="fz34 pa b0 l0" style="color: #fd5509">
+                                                            ￥{{item.simulatePriceCode}}<span class="fz20">/人起</span>
+                                                        </div>
+                                                        <div v-show="item.isDiscount" class="fz20 pa b0 r0">支付立减 </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="w612 h2 m0a bgcf5f5f5 mt22 mb22"></div>
+
+                                            <div class="fz24 h46 lh46 ml22 mr22">
+                                                <span v-for="str in item.tipNotes" class="dib h46 br25 pl20 pr20" style="background-color: #fef7eb;color: #f6b03e;">{{str}}</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="h450 pr fl" style="width: 50%">
+                                        <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                            <div class="fz28 fw700 pl30 pt30 w534 mult-line-ellipsis-1">奇虎 - 篝火烧烤空..</div>
+                                            <div class="pl30 pr30 pt10 fz22">
+                                                <span class="mr10">#关键字1#</span>
+                                                <span class="mr10">#关键字2#</span>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz22 c666666">
+                                                <p>浙江省·台州市</p>
+                                                <p>3-5天 / 50-100人</p>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz34" style="color: #fd5509">
+                                                ￥200<span class="fz20">/人起</span>
+                                            </div>
+                                        </div>
+                                        <div class="w210 h148 pa b40 l70">
+                                            <img src="images/img_08.png" class="object-fit-cover" alt="">
+                                        </div>
+                                        <i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r52 b160" style="background-color: #282b33;">2</i>
+                                    </li>
+                                    <li class="h450 pr fl" style="width: 50%">
+                                        <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                            <div class="fz28 fw700 pl30 pt30 w534 mult-line-ellipsis-1">坝上草原团建</div>
+                                            <div class="pl30 pr30 pt10 fz22">
+                                                <span class="mr10">#关键字1#</span>
+                                                <span class="mr10">#关键字2#</span>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz22 c666666">
+                                                <p>浙江省·台州市</p>
+                                                <p>3-5天 / 50-100人</p>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz34" style="color: #fd5509">
+                                                ￥200<span class="fz20">/人起</span>
+                                            </div>
+                                        </div>
+                                        <div class="w210 h148 pa b40 l70">
+                                            <img src="images/img_05.png" class="object-fit-cover" alt="">
+                                        </div>
+                                        <i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r52 b160" style="background-color: #282b33;">2</i>
+                                    </li>
+                                    <li class="h450 pr fl" style="width: 50%">
+                                        <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                            <div class="fz28 fw700 pl30 pt30 w534 mult-line-ellipsis-1">坝上草原团建</div>
+                                            <div class="pl30 pr30 pt10 fz22">
+                                                <span class="mr10">#关键字1#</span>
+                                                <span class="mr10">#关键字2#</span>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz22 c666666">
+                                                <p>浙江省·台州市</p>
+                                                <p>3-5天 / 50-100人</p>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz34" style="color: #fd5509">
+                                                ￥200<span class="fz20">/人起</span>
+                                            </div>
+                                        </div>
+                                        <div class="w210 h148 pa b40 l70">
+                                            <img src="images/img_06.png" class="object-fit-cover" alt="">
+                                        </div>
+                                        <i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r52 b160" style="background-color: #282b33;">2</i>
+                                    </li>
+                                    <li class="h450 pr fl" style="width: 50%">
+                                        <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                            <div class="fz28 fw700 pl30 pt30 w534 mult-line-ellipsis-1">酷玩、酷拓、酷嗨</div>
+                                            <div class="pl30 pr30 pt10 fz22">
+                                                <span class="mr10">#关键字1#</span>
+                                                <span class="mr10">#关键字2#</span>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz22 c666666">
+                                                <p>浙江省·台州市</p>
+                                                <p>3-5天 / 50-100人</p>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz34" style="color: #fd5509">
+                                                ￥200<span class="fz20">/人起</span>
+                                            </div>
+                                        </div>
+                                        <div class="w210 h148 pa b40 l70">
+                                            <img src="images/img_07.png" class="object-fit-cover" alt="">
+                                        </div>
+                                        <i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r52 b160" style="background-color: #282b33;">2</i>
+                                    </li>
+                                    <li class="h450 pr fl" style="width: 50%">
+                                        <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                            <div class="fz28 fw700 pl30 pt30 w534 mult-line-ellipsis-1">奇虎 - 篝火烧烤空..</div>
+                                            <div class="pl30 pr30 pt10 fz22">
+                                                <span class="mr10">#关键字1#</span>
+                                                <span class="mr10">#关键字2#</span>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz22 c666666">
+                                                <p>浙江省·台州市</p>
+                                                <p>3-5天 / 50-100人</p>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz34" style="color: #fd5509">
+                                                ￥200<span class="fz20">/人起</span>
+                                            </div>
+                                        </div>
+                                        <div class="w210 h148 pa b40 l70">
+                                            <img src="images/img_08.png" class="object-fit-cover" alt="">
+                                        </div>
+                                        <i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r52 b160" style="background-color: #282b33;">2</i>
+                                    </li>
+                                    <li class="h450 pr fl" style="width: 50%">
+                                        <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                            <div class="fz28 fw700 pl30 pt30 w534 mult-line-ellipsis-1">坝上草原团建</div>
+                                            <div class="pl30 pr30 pt10 fz22">
+                                                <span class="mr10">#关键字1#</span>
+                                                <span class="mr10">#关键字2#</span>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz22 c666666">
+                                                <p>浙江省·台州市</p>
+                                                <p>3-5天 / 50-100人</p>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz34" style="color: #fd5509">
+                                                ￥200<span class="fz20">/人起</span>
+                                            </div>
+                                        </div>
+                                        <div class="w210 h148 pa b40 l70">
+                                            <img src="images/img_05.png" class="object-fit-cover" alt="">
+                                        </div>
+                                        <i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r52 b160" style="background-color: #282b33;">2</i>
+                                    </li>
+                                    <li class="h450 pr fl" style="width: 50%">
+                                        <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
+                                            <div class="fz28 fw700 pl30 pt30 w534 mult-line-ellipsis-1">坝上草原团建</div>
+                                            <div class="pl30 pr30 pt10 fz22">
+                                                <span class="mr10">#关键字1#</span>
+                                                <span class="mr10">#关键字2#</span>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz22 c666666">
+                                                <p>浙江省·台州市</p>
+                                                <p>3-5天 / 50-100人</p>
+                                            </div>
+                                            <div class="pl30 pr30 pt10 fz34" style="color: #fd5509">
+                                                ￥200<span class="fz20">/人起</span>
+                                            </div>
+                                        </div>
+                                        <div class="w210 h148 pa b40 l70">
+                                            <img src="images/img_06.png" class="object-fit-cover" alt="">
+                                        </div>
+                                        <i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r52 b160" style="background-color: #282b33;">2</i>
+                                    </li>
+                                </ul>
+                            </section>
+
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="w670 m0a ofh">
                     <a href="javascript:void(0)" @click="submitOrder" class="db w670 h90 lh90 tac cffffff fz32 fl mt40 br10" style="background-color: #f6b03e;">提交需求</a>
                 </div>
             </section>
-            <companyfooter></companyfooter>
+
+        </div>
+
+        <!--提交成功弹窗-->
+        <div v-show="showDialog" class="w100p h100p pf t0 l0 zi9">
+            <div class="w490 h508 bs-0-0-6-0-dddddd br10 bgcffffff pa t300 l140 zi10">
+                <div class="su_title fz48 tac cffffff lh180 mt10">
+                    提交成功
+                </div>
+                <div class="su_content bs-0-0-10-0-dddddd w424 h262 bgcffffff br10 m0a fz24 lh40 pt30">
+                    <p class="pt10 pb10 pl40 pr30 pr">
+                        请确保手机畅通，我们的工作人
+                        员会尽快与您联系。
+                    </p>
+                    <p class="pt10 pb10 pl40 pr30 pr">
+                        我们将根据您的定制需求，为您
+                        初步拟定多个策划方案供您选择
+                    </p>
+                </div>
+                <div class="w490 h508 br10 ofh pa t0 l0 zi-1"><img src="images/open_bg.png" class="object-fit-cover" alt=""></div>
+            </div>
+            <div class="tac w750 pa l0 zi10" style="top: 11rem;">
+                <a href="javascript:void(0)" class="db w60 h60 m0a" @click="closeDialog">
+                    <img src="images/close_btn.png" class="object-fit-cover" alt="">
+                </a>
+            </div>
+            <div class="bgc000000 op30 w100p h100p pa t0 l0 zi9"></div>
         </div>
     </div>
 
+    <div id="companyfooter">
+        <companyfooter></companyfooter>
+    </div>
     <!--侧边栏菜单-->
     <div id="sildemenu">
         <sildemenu></sildemenu>
@@ -131,10 +405,9 @@
         <login></login>
     </div>
 
-    <a href="index.html" class="db pf b600 r40">
-        <img src="images/home.png" style="max-width:50px;max-height:50px;" alt="" class="object-fit-cover">
-        <div style="text-align:center;color:black;">首页</div>
-    </a>
+    <div id="backhome">
+        <backhome></backhome>
+    </div>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/change_font_size.js"></script>
@@ -143,9 +416,25 @@
     <script src="js/jquery.cookie.js"></script>
 
     <script src="Scripts/common.js"></script>
+    <script src="template/backhome.js"></script>
     <script src="template/companyfooter.js"></script>
     <script src="template/sildemenu.js"></script>
     <script src="template/login.js"></script>
     <script src="Scripts/ordersubmit.js"></script>
+
+    <script>
+        $(function () {
+            $(".coll_title").on("click", function () {
+                if ($(".coll_content").is(":hidden")) {
+                    $(".coll_content").slideDown(500);
+                    $(".coll_title").addClass("coll_arr_up")
+                } else {
+                    $(".coll_content").slideUp(500);
+                    $(".coll_title").removeClass("coll_arr_up")
+                }
+
+            });
+        })
+    </script>
 </body>
 </html>
