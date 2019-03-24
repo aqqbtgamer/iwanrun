@@ -4,12 +4,16 @@
         loginId: jQuery.cookie('loginId'),
         accessToken: jQuery.cookie('accessToken'),
         id: getUrlParam('id'),
-        model: {}
+        model: {
+            orders: {},
+            purchaserAccountInfo: {},
+            purchaserAccount: {}
+        }
     },
     methods: {
-        getOrderByID: function (id) {
+        getOrderByID: function () {
             var vm = this, url = requestUrl.getOrderByID, param = {
-                id: id
+                id: vm.id
             };
             axios.post(url, param).then(function (response) {
                 console.log(response.data);

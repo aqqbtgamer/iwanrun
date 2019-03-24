@@ -116,12 +116,15 @@ var filter = new Vue({
             var vm = this;
             console.log('-----filter remove');
             console.log(vm.filterData[item.type]);
-            $.each(vm.filterData[item.type], function (index, it) {
-                console.log(it);
-                if (it.id == item.id) {
-                    vm.filterData[item.type].splice(index, 1);
+
+            var len = vm.filterData[item.type].length;
+            for (var i = len - 1; i >= 0; i--) {
+                var index = vm.filterData[item.type][i];
+                if (index && index.id == item.id) {
+                    vm.filterData[item.type].splice(i, 1);
                 }
-            });
+            }
+
             $('.' + item.type).find('[data-id=' + item.id + ']').removeClass('select-num');
             console.log(vm.filterData[item.type]);
             console.log('-----filter remove');

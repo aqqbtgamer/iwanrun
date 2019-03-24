@@ -9,7 +9,8 @@
             phone: jQuery.cookie('loginId'),
             company: {},
             ordersTotal: 0,
-            favouriteTotal: 0
+            favouriteTotal: 0,
+            email: ''
         },
     },
     methods: {
@@ -33,6 +34,7 @@
                                 vm.account.headimg = headImgs[0].filePath;
                             }
                             vm.account.nickname = info.name;
+                            vm.account.email = info.email;
                             if (loginInfo) {
                                 vm.account.phone = loginInfo.mobileNumber;
                             }
@@ -80,7 +82,7 @@
     },
     created: function () {
         if (!jQuery.cookie('accessToken')) {
-            window.history.back();
+            window.location.href = 'index.html';
         }
         var vm = this;
         vm.getuser();

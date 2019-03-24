@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title>编辑个人资料</title>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="css/mincss.css">
     <link rel="stylesheet" href="css/reset.css">
@@ -40,7 +41,7 @@
                                 修改昵称
                             </div>
                             <!--<div class="fl fz30 c333333 lh60">18535139882</div>-->
-                            <input name="name" @change="update" v-model="account.nickname" class="fl fz30 c333333 lh60 c111111" type="text" value="18535139882" placeholder="请输入昵称" />
+                            <input name="name" @change="update" v-model="account.name" class="fl fz30 c333333 lh60 c111111" type="text" value="18535139882" placeholder="请输入昵称" />
                             <img src="images/arrow_right_b.png" class="w14 h28 fr mr30 mt14" alt="">
                         </a>
                     </li>
@@ -50,7 +51,7 @@
                                 性别
                             </div>
                             <!--<div class="fl fz30 caaaaaa lh60">未选择</div>-->
-                            <select name="gender" @change="update" class="fl fz30 caaaaaa w400 lh60 c111111" v-model="account.sex">
+                            <select name="gender" @change="update" class="fl fz30 caaaaaa w400 lh60 c111111" v-model="account.gender">
                                 <option value="0">未选择</option>
                                 <option value="1">男</option>
                                 <option value="2">女</option>

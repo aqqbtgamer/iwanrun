@@ -15,7 +15,7 @@
             title: '我要跑',
             link: location.href,
             desc: '我要跑·企业活动服务专家',
-            imgUrl: 'http://b2b.woyaopao.com:8088/iwant_app/uploaded/test1_1536133413278.jpg',
+            imgUrl: 'http://b2b.woyaopao.com/iwantrun/html/m/images/logo_icon.png',
             jsApiList: ['onMenuShareTimeline'
                 , 'onMenuShareAppMessage'
                 , 'onMenuShareQQ'

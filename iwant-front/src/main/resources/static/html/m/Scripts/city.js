@@ -85,6 +85,7 @@ function cityClickFn(el) {
     $('#currentcity').text(currentcity);
     jQuery.cookie('currentcity', currentcity);
     sethotcity(currentcity);
+    window.history.back();
 }
 
 function sethotcity(currentcity) {

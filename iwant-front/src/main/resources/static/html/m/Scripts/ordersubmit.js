@@ -47,7 +47,8 @@ var appIndex = new Vue(
             styleClass: {
                 tabClass: 'dib w80 ml30 mr30 h80 lh80 fz28 c333333 tac pr',
                 tabActiveClass: 'dib w80 ml30 mr30 h80 lh80 fz28 c333333 tac pr search_actives'
-            }
+            },
+            orderId: 0
         },
         methods: {
             submitOrder: function () {
@@ -65,8 +66,9 @@ var appIndex = new Vue(
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);
                     var data = response.data;
-                    if (data != null && data.submitResult == true) {
+                    if (data != null && data.submitResult && data.orders) {
                         vm.showDialog = true;
+                        vm.orderId = data.orders.id;
                         //alert("需求提交成功");
                         //window.location.href = "./orderlist.html";
                     }
@@ -105,6 +107,9 @@ var appIndex = new Vue(
             },
             closeDialog: function () {
                 this.showDialog = false;
+                if (this.orderId > 0) {
+                    window.location.href = "/myOrder.html?id=" + this.orderId;
+                }
             },
             changeTab: function (tab) {
                 var vm = this;

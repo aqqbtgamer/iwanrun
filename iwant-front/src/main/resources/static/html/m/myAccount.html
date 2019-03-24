@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title>个人中心</title>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="css/mincss.css">
     <link rel="stylesheet" href="css/reset.css">
@@ -27,16 +28,16 @@
                         </span>-->
                     </div>
                     <div class="ml30 mr30 pt20 ofh">
-                        <div class="w300 tar fl">
+                        <!--<div class="w300 tar fl">
                             <span class="dib ofh mr4">
                                 <img src="images/location_icon_02.png" class="w18 h26 fl" alt="">
                             </span>
                             <span class="dib fz26 c888888 mr36">CN Beijing</span>
-                        </div>
-                        <div class="w10 fl mt10">
+                        </div>-->
+                        <!--<div class="w10 fl mt10">
                             <div class="w2 h22 bgcf5f5f5 m0a"></div>
-                        </div>
-                        <div class="w300 fl ">
+                        </div>-->
+                        <div class="w300 fr ">
                             <span class="dib ofh mr4 ml36">
                                 <img v-show="account.company.hasCredential" src="images/certifi_icon.png" class="w24 h24 fl" alt="">
                                 <!--未认证图标-->
@@ -85,8 +86,8 @@
                     </a>
                 </div>
 
-                <div class="tac mt100">
-                    <a href="javascript:void(0)" @click="logout" class="ccccccc fz30">退出登录</a>
+                <div class="tac mt100 m0a ofh">
+                    <a href="javascript:void(0)" @click="logout" class="db h90 lh90 tac cffffff fz32 fl mt40 br10" style="background-color: #f6b03e;width:100%;">退出登录</a>
                 </div>
             </section>
         </div>
@@ -97,6 +98,7 @@
     </div>
 
     <script src="js/jquery.min.js"></script>
+    <script src="js/Tdrag.min.js"></script>
     <script src="js/change_font_size.js"></script>
     <script src="js/vue.min.js"></script>
     <script src="js/axios.min.js"></script>

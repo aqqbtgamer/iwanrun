@@ -151,24 +151,27 @@ var search = new Vue({
             vm.searchContent = content;
         },
         queryCaseByCondition: function (pageIndex) {
-            var vm = this, url = requestUrl.queryCaseByCondition, param = {};
-            param.pageIndex = pageIndex - 1;
+            var vm = this, url = requestUrl.queryCaseByCondition, param = {
+                pageIndex: pageIndex
+            };
             axios.post(url, param).then(function (response) {
                 //console.log(response.data);
                 vm.model.cases = response.data.content;
             })
         },
         queryProdutionByCondition: function (pageIndex) {
-            var vm = this, url = requestUrl.queryProdutionByCondition, param = {};
-            param.pageIndex = pageIndex - 1;
+            var vm = this, url = requestUrl.queryProdutionByCondition, param = {
+                pageIndex: pageIndex
+            };
             axios.post(url, param).then(function (response) {
                 //console.log(response.data);
                 vm.model.productions = response.data.content;
             })
         },
         queryLocationByCondition: function (pageIndex) {
-            var vm = this, url = requestUrl.querylocationByCondition, param = {};
-            param.pageIndex = pageIndex - 1;
+            var vm = this, url = requestUrl.querylocationByCondition, param = {
+                pageIndex: pageIndex
+            };
             axios.post(url, param).then(function (response) {
                 //console.log(response.data.content);
                 vm.model.locations = response.data.content;

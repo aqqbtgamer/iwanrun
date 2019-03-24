@@ -35,9 +35,9 @@
     + '         <div class="w596 m0a ofh">                                                                                                                                                                                             '
     + '             <a href="javascript:void(0)" @click="login" class="db w596 h78 lh78 tac cffffff fz36 login_btn fl mt76">登 录</a>                                                                                                  '
     + '     </div>                                                                                                                                                                                                                     '
-    + '     <div class="w596 m0a ofh">                                                                                                                                                                                                 '
-    + '         <a href="javascript:void(0)" @click="switchLogin(\'forgetpassword\')" class="fz24 c333333 fr mt20">忘记密码</a>                                                                                                                                                       '
-    + '     </div>                                                                                                                                                                                                                     '
+    //+ '     <div class="w596 m0a ofh">                                                                                                                                                                                                 '
+    //+ '         <a href="javascript:void(0)" @click="switchLogin(\'forgetpassword\')" class="fz24 c333333 fr mt20">忘记密码</a>                                                                                                                                                       '
+    //+ '     </div>                                                                                                                                                                                                                     '
     + '                 </div>                                                                                                                                                                                                         '
     + ' <!--动态码登录-->                                                                                                                                                                                                              '
     + '     <div class="login_area_02 pt40" v-show="model.isbymess">                                                                                                                                                                   '
@@ -58,9 +58,9 @@
     + '     <div class="w596 m0a ofh">                                                                                                                                                                                                 '
     + '         <a href="javascript:void(0)" @click="login" class="db w596 h78 lh78 tac cffffff fz36 login_btn fl mt76">登 录</a>                                                                                                      '
     + '                     </div >                                                                                                                                                                                                    '
-    + ' <div class="w596 m0a ofh">                                                                                                                                                                                                     '
-    + '     <a href="javascript:void(0)" @click="switchLogin(\'forgetpassword\')" class="fz24 c333333 fr mt20">忘记密码</a>                                                                                                                                                           '
-    + ' </div>                                                                                                                                                                                                                         '
+    //+ ' <div class="w596 m0a ofh">                                                                                                                                                                                                     '
+    //+ '     <a href="javascript:void(0)" @click="switchLogin(\'forgetpassword\')" class="fz24 c333333 fr mt20">忘记密码</a>                                                                                                                                                           '
+    //+ ' </div>                                                                                                                                                                                                                         '
     + '                 </div >                                                                                                                                                                                                        '
     + '             </div >                                                                                                                                                                                                            '
     + '         </section >                                                                                                                                                                                                            '
@@ -185,15 +185,20 @@ var login = new Vue({
         switchLogin: function (tab) {
             var vm = this;
             vm.model.showTab = tab;
+            vm.model.errMsg = false;
         },
         switchLogintype: function (isbymess) {
             var vm = this;
             vm.model.isbymess = !!isbymess;
+            vm.model.errMsg = false;
         },
         sendVerifyCode: function () {
             var TIME_COUNT = 60, vm = this, url = requestUrl.getSMSCode, param = {
                 'mobile': vm.loginId
             };
+            if (vm.SMS.count > 0) {
+                return;
+            }
             if (!vm.SMS.timer) {
                 vm.SMS.count = TIME_COUNT;
                 vm.SMS.disabled = true;
@@ -299,6 +304,7 @@ var login = new Vue({
             vm.show = false;
         },
         verify: function () {
+            var vm = this;
             // 先校验手机号
             vm.model.errMsg = validate.isMobile(vm.loginId);
             if (vm.model.errMsg) {
@@ -342,6 +348,7 @@ var login = new Vue({
                 if (messageBody) {
                     var message = JSON.parse(messageBody);
                     vm.model.errMsg = message.errorMsg;
+                   
                     if (vm.model.errMsg) {
                         return;
                     }
@@ -350,6 +357,9 @@ var login = new Vue({
                 jQuery.cookie('loginId', vm.loginId);
                 jQuery.cookie('accessToken', vm.accessToken);
                 vm.show = false;
+                if (typeof vm.callback === 'function') {
+                    vm.callback();
+                }
             });
         },
         modifyPwd: function () {
@@ -391,6 +401,9 @@ var login = new Vue({
                 jQuery.cookie('loginId', vm.loginId);
                 jQuery.cookie('accessToken', vm.accessToken);
                 vm.show = false;
+                if (typeof vm.callback === 'function') {
+                    vm.callback();
+                }
             });
 
         }
