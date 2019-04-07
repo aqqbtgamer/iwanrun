@@ -255,6 +255,24 @@ public class CaseController {
 		return message;		
 	}
 	
+	@RequestMapping("/application/cases/mobileQuery")
+	public Message mobileQuery(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		PageDomianRequest example = JSONUtils.jsonToObj(dataJson, PageDomianRequest.class);
+		Page<Cases> resultPage = null ;
+		Cases defaultLocation = new Cases();		
+		Map<String,Object> queryObj = example.getObj();
+		String queryName = (String) queryObj.get("name");
+		defaultLocation.setName(queryName);
+		String[] defaultSpecification = new String[] {
+				"like,name,and"				
+		};
+		Specification<Cases> specification = JPADBUtils.generateSpecificationFromExample(defaultLocation, defaultSpecification);
+		resultPage = casesService.queryCaseBySpecificationPageable(example.getPageIndex(), specification);
+		message.setMessageBody(PageDataWrapUtils.page2Json(resultPage));
+		return message ;
+	}
+	
 	@RequestMapping("/application/cases/delete")
 	@NeedTokenVerify
 	public Message delete(@RequestBody Message message) {

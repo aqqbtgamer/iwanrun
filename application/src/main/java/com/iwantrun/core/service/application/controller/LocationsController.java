@@ -250,6 +250,26 @@ public class LocationsController {
 		return message;		
 	}
 	
+	@RequestMapping("/application/location/mobileQuery")
+	public Message mobileQuery(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		PageDomianRequest example = JSONUtils.jsonToObj(dataJson, PageDomianRequest.class);
+		Page<Locations> resultPage = null ;
+		Locations defaultLocation = new Locations();
+		Map<String,Object> queryObj = example.getObj();
+		String queryName = (String) queryObj.get("name");
+		defaultLocation.setName(queryName);
+		String[] defaultSpecification = new String[] {
+				"like,name,and"
+		};
+		Specification<Locations> specification = JPADBUtils.generateSpecificationFromExample(defaultLocation, defaultSpecification);
+		resultPage = locationService.queryLocationBySpecificationPageable(example.getPageIndex(), specification);
+		Map<String,Dictionary> dictionnaryMap = EntityDictionaryConfigUtils.getDictionaryMaping(new Locations());
+		dictionaryService.dictionaryFilter(resultPage.getContent(), dictionnaryMap);
+		message.setMessageBody(PageDataWrapUtils.page2Json(resultPage));
+		return message;		
+	}
+	
 	@RequestMapping("/application/location/delete")
 	@NeedTokenVerify
 	public Message delete(@RequestBody Message message) {

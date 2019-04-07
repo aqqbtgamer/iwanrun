@@ -474,4 +474,18 @@ public class ProductionInfoController {
 		message.setMessageBody(PageDataWrapUtils.page2JsonNoCopy(resultPage));
 		return message; 
 	}
+	
+	
+	@RequestMapping("/application/productionInfo/mobileQuery")
+	public Message mobileQuery(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		PageDomianRequest example = JSONUtils.jsonToObj(dataJson, PageDomianRequest.class);
+		Page<ProductionInfo> resultPage = productionInfoService.queryByName(example.getPageIndex(), example.getObjAsType(ProductionInfo.class).getName()) ;
+		Map<String, Dictionary> dictionnaryMap = EntityDictionaryConfigUtils
+				.getDictionaryMaping(new ProductionInfo());
+		dictionaryService.dictionaryFilter(resultPage.getContent(), dictionnaryMap);
+		message.setMessageBody(PageDataWrapUtils.page2JsonNoCopy(resultPage));
+		return message; 
+	}
+	
 }
