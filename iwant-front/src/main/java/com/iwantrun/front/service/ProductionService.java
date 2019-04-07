@@ -80,4 +80,15 @@ public class ProductionService {
 		message = template.postForEntity(baseUrl+url, message, Message.class).getBody();
 		return message;
 	}
+	
+	public Message mobileQuery(String param) {
+		String findByName = "/application/productionInfo/mobileQuery";
+		String baseUrl = environment.getProperty("app.server");		
+		String url = baseUrl + findByName;
+		Message message = new Message();
+		message.setMessageBody(param);
+		message.setRequestMethod(url);
+		message = template.postForEntity(url, message, Message.class).getBody();		
+		return message;
+	}
 }

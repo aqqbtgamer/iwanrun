@@ -97,4 +97,20 @@ public class CaseController {
 		return null;
 		
 	}
+	
+	@RequestMapping("/mobileQuery")
+	@ResponseBody
+	public String mobileQuery(@RequestBody String param) {
+
+		try {
+			Message result =caseService.mobileQuery(param); //筛选出 案例需要数据
+			if( result != null) {
+				return result.getMessageBody();
+			}
+		} catch (Exception e) {
+			
+		}
+		return null;
+		
+	}
 }
