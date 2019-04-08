@@ -1,12 +1,6 @@
 TODO
-1.微信分享的图片
-2.网站LOGO
-3.关键字搜索
 4.微信登陆
 5.微信打开首页 图片切换有问题
-6.详情页 加入心愿清单
-7.首页 定位没有放出  OK
-8.list 添加收藏
 
 测试
 1.首页 
@@ -48,6 +42,10 @@ TODO
 15.我的收藏
 
 16.
+
+git pull
+mvn install-Dmaven.test.skip=true
+mvn spring-boot:run
 
 
 11.微信分享
