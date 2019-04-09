@@ -59,7 +59,7 @@ var requestUrl = {
     getWeixingConfig: baseUrl + 'weixing/getWeixingConfig',
 	casesmobileQuery:baseUrl+'case/mobileQuery',
     locationmobileQuery:baseUrl+'location/mobileQuery',
-    productionInfomobileQuery:baseUrl+'productionInfo/mobileQuery'
+    productionInfomobileQuery:baseUrl+'production/mobileQuery'
 
     //DEV
     //queryProdutionByCondition: 'Json/queryProdutionByCondition.json',
