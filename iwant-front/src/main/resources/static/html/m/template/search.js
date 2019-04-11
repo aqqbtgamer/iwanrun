@@ -154,6 +154,7 @@ var search = new Vue({
         quickSelect: function (content) {
             var vm = this;
             vm.searchContent = content;
+			vm.Search();
         },
         casesmobileQuery: function (pageIndex) {
             var vm = this, url = requestUrl.casesmobileQuery, param = {
