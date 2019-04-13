@@ -35,5 +35,15 @@ public class MobileOpenIdRelationController {
 		}
 		return request ;
 	}
+	
+	@RequestMapping("bindMobileNumber")
+	public Message bindMobileNumber(@RequestBody Message request) {
+		String requestJSON = request.getMessageBody();
+		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJSON);
+		String openId = requestObj.getAsString("openId");
+		String mobileNumber = requestObj.getAsString("mobileNumber");
+		request.setMessageBody(mOpenIdService.bindMobileNumber(openId, mobileNumber)+""); 
+		return request ;
+	}
 
 }
