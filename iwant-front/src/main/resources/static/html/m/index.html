@@ -20,7 +20,8 @@
             <header class="home_header w100p h126 bgcffffff bs-0-0-6-0-dddddd pf t0 l0">
                 <a href="city.html" class="fz28 ml30 lh126 c333333 location_area">{{currentcity}}</a>
                 <div class="w500 h56 bgcf5f5f5 br45 header_search pa t34 l150">
-                    <input type="text" @focus="showSearch" class="w456 h40 lh40 mt8 fl pl30 pr30 fz26" placeholder="产品、场地、案例" />
+                    <!--<input type="text" @focus="showSearch" class="w456 h40 lh40 mt8 fl pl30 pr30 fz26" placeholder="产品、场地、案例" />-->
+                    <div @click="showSearch" class="w456 h40 lh40 mt8 fl pl30 pr30 fz26">产品、场地、案例</div>
                 </div>
                 <a class="fr mr30 mt40" href="javascript:void(0)" @click="showSlidemenu">
                     <img src="images/icon_menu_btn.png" class="w26 h26" alt="">
@@ -29,9 +30,9 @@
 
             <!--首页轮播图-->
             <section class="w100p mt140 ofh">
-                <div class="swiper-container" >
+                <div class="swiper-container">
                     <div class="swiper-wrapper " style="height: 6rem;">
-                        <div style="height: 100%;" v-for="(item,index) in model.bannerList" :class="index>0?'swiper-slide w100p swiper-slide-center none-effect':'swiper-slide'" >
+                        <div style="height: 100%;" v-for="(item,index) in model.bannerList" :class="index>0?'swiper-slide w100p swiper-slide-center none-effect':'swiper-slide'">
                             <a href="javascript:void(0)" class="db w100p h100p">
                                 <img :src="item.filePath">
                             </a>
@@ -94,7 +95,7 @@
                             <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
                                 <div class="fz28 fw700 pl30 pt30 w264 mult-line-ellipsis-1">{{item.name}}</div>
                                 <div class="pl30 pr30 pt10 fz22">
-                                    <span v-for="(str,index) in item.tips"  v-if="index<4" class="dib mr10">#{{str}}#</span>
+                                    <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">#{{str}}#</span>
                                 </div>
                                 <div class="pl30 pr30 pt10 fz22 c666666">
                                     <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
@@ -168,7 +169,7 @@
                                     <div class="fl w382">
                                         <div class="fz32 fw700 pl30 pt30 w382 mult-line-ellipsis-1">{{item.name}}</div>
                                         <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
-                                            <span v-for="(str,index) in item.tips"  v-if="index<4" class="dib mr10">#{{str}}#</span>
+                                            <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">#{{str}}#</span>
                                         </div>
                                         <div class="pl30 pr30 pt14 fz24 c666666">
                                             <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>

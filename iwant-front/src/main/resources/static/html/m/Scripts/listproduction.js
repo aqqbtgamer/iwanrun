@@ -28,7 +28,10 @@ var appIndex = new Vue({
             }
         },
         showSearch: function () {
-            search.show = true;
+            //search.showSearch();
+            //search.showSearch = true;
+            //document.getElementById('iptSearch').focus();
+            search.show();
         },
         showFilter: function () {
             filter.show = true;

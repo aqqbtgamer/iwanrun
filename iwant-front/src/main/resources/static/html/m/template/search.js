@@ -1,5 +1,5 @@
 ﻿var searchtemplate = ''
-    + '<div class="search pf bgcffffff w100p h100p pf t0 l0" style="z-index: 100" v-show="showSearch">                            '
+    + '<div id="divSearch" class="search pf bgcffffff w100p h100p pf t0 l0" style="z-index: 100" v-show="showSearch" >                            '
     + '<div class="pf bgcffffff w100p h100p pf t0 l0" style="z-index: 777">     '
     + '    <header class="w100p h172 bgcffffff pf t0 l0">                                                                   '
     + '        <div class="w668 h70 bgcf5f5f5 br45 header_search pa t80 l40">                                               '
@@ -10,7 +10,7 @@
     + '                </a>                                                                                                 '
     + '    </header>                                                                                                        '
     + '    <section class="mt180">                                                                                                        '
-    + '            <div class="fz28 ml40 fw700">搜索历史</div>                                                              '
+    + '            <div class="fz28 ml40 fw700">搜索历史<img style="float:right;margin-right:20px;width:30px;" class="object-fit-cover" src="images/delete.png" @click="deleteHistory"/></div>                                                              '
     + '            <div class="ml40 w670 pt30 fz26">                                                                        '
     + '                <a v-for="item in searchHistory" href="javascript:void(0)" @click="quickSelect(item)" class="dib h64 lh64 pl30 pr30 b1se5e5e5 c333333 br10 mr20">{{item}}</a>       '
     + '            </div>                                                                                                   '
@@ -133,6 +133,19 @@ var search = new Vue({
                 query[vm.showTab](0);
             }
         },
+        show: function () {
+            var vm = this;
+            vm.showSearch = true;
+            document.activeElement.blur();
+            document.getElementById('iptSearch').focus();
+
+            document.getElementById('divSearch').addEventListener('touchmove', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+            });
+
+
+        },
         changeTab: function (tab) {
             var vm = this;
             vm.showTab = tab || 'product';
@@ -154,13 +167,13 @@ var search = new Vue({
         quickSelect: function (content) {
             var vm = this;
             vm.searchContent = content;
-			vm.Search();
+            vm.Search();
         },
         casesmobileQuery: function (pageIndex) {
             var vm = this, url = requestUrl.casesmobileQuery, param = {
                 pageIndex: pageIndex,
                 pageSize: vm.pageSize,
-                obj:{
+                obj: {
                     name: vm.searchContent
                 }
             };
@@ -194,9 +207,20 @@ var search = new Vue({
                 //console.log(response.data.content);
                 vm.model.locations = response.data.content;
             })
+        },
+        deleteHistory: function () {
+            var vm = this;
+            jQuery.cookie('searchHistory', '');
+            vm.searchHistory = [];
+
         }
     },
     created: function () {
+        $('.search header').click(function () {
+            document.getElementById('iptSearch').focus();
+        });
+
+        
         var vm = this, searchHistory = jQuery.cookie('searchHistory');
         if (searchHistory) {
             vm.searchHistory = searchHistory.split(',');

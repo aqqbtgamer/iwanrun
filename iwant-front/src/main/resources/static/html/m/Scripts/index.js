@@ -46,8 +46,10 @@ var appIndex = new Vue({
         },
         showSearch: function () {
             //search.showSearch();
-            search.showSearch = true;
-            document.getElementById('iptSearch').focus();
+            //search.showSearch = true;
+            //document.activeElement.blur();
+            //document.getElementById('iptSearch').focus();
+            search.show();
         },
         linktoDetail: function (id, type) {
             location.href = 'detail.html?id=' + id + '&type=' + type;
