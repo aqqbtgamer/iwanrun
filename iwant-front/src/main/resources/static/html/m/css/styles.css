@@ -106,8 +106,10 @@
 /*导航菜单*/
 .run_menu {
     width: 8.93333rem;
-    margin: 0 auto
+    margin: 0 auto;
+
 }
+
 
     .run_menu .run_actives {
         background: url("../images/active_bg.png") no-repeat;
@@ -247,3 +249,34 @@ i {
 }
 
 .yes-c div{color: #fd5509!important;}
+
+/*搜索样式*/
+.search_r{
+    margin-top: 2.4rem!important;
+}
+.search_actives{
+    color: #f6b03e;
+    border-bottom: 2px solid #f6b03e;
+}
+
+.coll_title{
+    background-image: url("../images/arrow_down_s.png");
+    background-repeat: no-repeat;
+    background-size: .21333rem;
+    background-position: right center;
+}
+.coll_arr_up{
+    background-image: url("../images/arrow_up_s.png")!important;
+}
+
+.su_content p:before{
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: #cccccc;
+    display: block;
+    position: absolute;
+    top: 14px;
+    left: 12px;
+}

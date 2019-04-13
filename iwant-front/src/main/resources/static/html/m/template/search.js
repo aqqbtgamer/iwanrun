@@ -1,5 +1,5 @@
 ﻿var searchtemplate = ''
-    + '<div class="search pf bgcffffff w100p h100p pf t0 l0" style="z-index: 100" v-show="showSearch">                            '
+    + '<div id="divSearch" class="search pf bgcffffff w100p h100p pf t0 l0" style="z-index: 100" v-show="showSearch" >                            '
     + '<div class="pf bgcffffff w100p h100p pf t0 l0" style="z-index: 777">     '
     + '    <header class="w100p h172 bgcffffff pf t0 l0">                                                                   '
     + '        <div class="w668 h70 bgcf5f5f5 br45 header_search pa t80 l40">                                               '
@@ -10,7 +10,7 @@
     + '                </a>                                                                                                 '
     + '    </header>                                                                                                        '
     + '    <section class="mt180">                                                                                                        '
-    + '            <div class="fz28 ml40 fw700">搜索历史</div>                                                              '
+    + '            <div class="fz28 ml40 fw700">搜索历史<img style="float:right;margin-right:20px;width:30px;" class="object-fit-cover" src="images/delete.png" @click="deleteHistory"/></div>                                                              '
     + '            <div class="ml40 w670 pt30 fz26">                                                                        '
     + '                <a v-for="item in searchHistory" href="javascript:void(0)" @click="quickSelect(item)" class="dib h64 lh64 pl30 pr30 b1se5e5e5 c333333 br10 mr20">{{item}}</a>       '
     + '            </div>                                                                                                   '
@@ -60,15 +60,15 @@
     + '                                       <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">#{{str}}#</span>'
     + '                                   </div>'
     + '                                   <div class="pl30 pr30 pt14 fz24 c666666">'
-    + '                                       <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>'
-    + '                                       <p>{{item.designDuringCo}} / {{item.groupNumberLimit}}</p>'
+    + '                                       <p>{{item.location}}</p>'
+    //+ '                                       <p>{{item.designDuringCo}} / {{item.groupNumberLimit}}</p>'
     + '                                   </div>'
-    + '                                   <div class="ml30 mr30 mt60 pr">'
-    + '                                       <div class="fz34 pa b0 l0" style="color: #fd5509">'
-    + '                                           ￥{{item.simulatePriceCode}}<span class="fz20">/人起</span>'
-    + '                                       </div>'
-    + '                                       <div v-show="item.isDiscount" class="fz20 pa b0 r0">支付立减 <span class="fz18 h30 lh30 dib" style="border:1px solid #fd5509;color: #fd5509;padding: 0 5px;border-radius: 3px;">红包</span></div>'
-    + '                                   </div>'
+    //+ '                                   <div class="ml30 mr30 mt60 pr">'
+    //+ '                                       <div class="fz34 pa b0 l0" style="color: #fd5509">'
+    //+ '                                           ￥{{item.simulatePriceCode}}<span class="fz20">/人起</span>'
+    //+ '                                       </div>'
+    //+ '                                       <div v-show="item.isDiscount" class="fz20 pa b0 r0">支付立减 <span class="fz18 h30 lh30 dib" style="border:1px solid #fd5509;color: #fd5509;padding: 0 5px;border-radius: 3px;">红包</span></div>'
+    //+ '                                   </div>'
     + '                               </div>'
     + '                           </div>'
     + '                           <div class="w612 h2 m0a bgcf5f5f5 mt22 mb22"></div>'
@@ -88,8 +88,8 @@
     + '                            </div>'
     + '                            <div class="fz32 fw700 pl30 pt20 w534 mult-line-ellipsis-1">{{item.name}}</div>'
     + '                            <div class="pl30 pr30 pt20 fz24 c666666">'
-    + '                                <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>'
-    + '                                <p>{{item.designDuringCo}} / {{item.groupNumber}}</p>'
+    + '                                <p>{{item.location}}</p>'
+    //+ '                                <p>{{item.designDuringCo}} / {{item.groupNumber}}</p>'
     + '                            </div>'
     + '                        </div>'
     + '                    </li>'
@@ -106,7 +106,7 @@ var search = new Vue({
     template: searchtemplate,
     data: {
         showSearch: false,
-        searchHistory: ['上海', '轰趴'],
+        searchHistory: [],
         callback: null,
         showTab: 'product',
         styleClass: {
@@ -118,20 +118,38 @@ var search = new Vue({
             cases: [],
             productions: [],
             locations: []
-        }
+        },
+        pageSize: 10
     },
     methods: {
-        changeTab: function (tab) {
+        Search: function () {
             var vm = this;
-            vm.showTab = tab || 'product';
             var query = {
-                product: vm.queryProdutionByCondition,
-                case: vm.queryCaseByCondition,
-                location: vm.queryLocationByCondition
+                product: vm.productionInfomobileQuery,
+                case: vm.casesmobileQuery,
+                location: vm.locationmobileQuery
             };
             if (typeof query[vm.showTab] === 'function') {
                 query[vm.showTab](0);
             }
+        },
+        show: function () {
+            var vm = this;
+            vm.showSearch = true;
+            document.activeElement.blur();
+            document.getElementById('iptSearch').focus();
+
+            document.getElementById('divSearch').addEventListener('touchmove', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+            });
+
+
+        },
+        changeTab: function (tab) {
+            var vm = this;
+            vm.showTab = tab || 'product';
+            vm.Search();
         },
         linktoDetail: function (id, type) {
             location.href = 'detail.html?id=' + id + '&type=' + type;
@@ -144,48 +162,70 @@ var search = new Vue({
                 vm.searchHistory.push(vm.searchContent);
                 jQuery.cookie('searchHistory', vm.searchHistory.join(','));
             }
-            //TODO content filter
+            vm.Search();
         },
         quickSelect: function (content) {
             var vm = this;
             vm.searchContent = content;
+            vm.Search();
         },
-        queryCaseByCondition: function (pageIndex) {
-            var vm = this, url = requestUrl.queryCaseByCondition, param = {
-                pageIndex: pageIndex
+        casesmobileQuery: function (pageIndex) {
+            var vm = this, url = requestUrl.casesmobileQuery, param = {
+                pageIndex: pageIndex,
+                pageSize: vm.pageSize,
+                obj: {
+                    name: vm.searchContent
+                }
             };
             axios.post(url, param).then(function (response) {
                 //console.log(response.data);
                 vm.model.cases = response.data.content;
             })
         },
-        queryProdutionByCondition: function (pageIndex) {
-            var vm = this, url = requestUrl.queryProdutionByCondition, param = {
-                pageIndex: pageIndex
+        productionInfomobileQuery: function (pageIndex) {
+            var vm = this, url = requestUrl.productionInfomobileQuery, param = {
+                pageIndex: pageIndex,
+                pageSize: vm.pageSize,
+                obj: {
+                    name: vm.searchContent
+                }
             };
             axios.post(url, param).then(function (response) {
                 //console.log(response.data);
                 vm.model.productions = response.data.content;
             })
         },
-        queryLocationByCondition: function (pageIndex) {
-            var vm = this, url = requestUrl.querylocationByCondition, param = {
-                pageIndex: pageIndex
+        locationmobileQuery: function (pageIndex) {
+            var vm = this, url = requestUrl.locationmobileQuery, param = {
+                pageIndex: pageIndex,
+                pageSize: vm.pageSize,
+                obj: {
+                    name: vm.searchContent
+                }
             };
             axios.post(url, param).then(function (response) {
                 //console.log(response.data.content);
                 vm.model.locations = response.data.content;
             })
+        },
+        deleteHistory: function () {
+            var vm = this;
+            jQuery.cookie('searchHistory', '');
+            vm.searchHistory = [];
+
         }
     },
     created: function () {
+        $('.search header').click(function () {
+            document.getElementById('iptSearch').focus();
+        });
+
+        
         var vm = this, searchHistory = jQuery.cookie('searchHistory');
         if (searchHistory) {
             vm.searchHistory = searchHistory.split(',');
         }
 
-        vm.queryProdutionByCondition(0);
-        //vm.queryLocationByCondition(0);
-        //vm.queryCaseByCondition(0);
+        vm.productionInfomobileQuery(0);
     }
 })

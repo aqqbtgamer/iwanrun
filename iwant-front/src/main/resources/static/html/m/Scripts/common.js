@@ -56,7 +56,10 @@ var requestUrl = {
     favouriteAdd: baseUrl + 'favourite/add',
     favouriteDelete: baseUrl + 'favourite/delete',
     modifyPwd: baseUrl + 'purchaserAccount/modifyPwd',
-    getWeixingConfig: baseUrl + 'weixing/getWeixingConfig'
+    getWeixingConfig: baseUrl + 'weixing/getWeixingConfig',
+	casesmobileQuery:baseUrl+'case/mobileQuery',
+    locationmobileQuery:baseUrl+'location/mobileQuery',
+    productionInfomobileQuery:baseUrl+'production/mobileQuery'
 
     //DEV
     //queryProdutionByCondition: 'Json/queryProdutionByCondition.json',
@@ -92,7 +95,10 @@ var requestUrl = {
     //favouriteAdd: 'Json/favouriteAdd.json',
     //favouriteDelete: 'Json/favouriteDelete.json',
     //modifyPwd: 'Json/modifyPwd.json',
-    //getWeixingConfig: 'Json/getWeixingConfig.json'
+    //getWeixingConfig: 'Json/getWeixingConfig.json',
+	//casesmobileQuery: 'Json/casesmobileQuery.json',
+    //locationmobileQuery: 'Json/locationmobileQuery.json',
+    //productionInfomobileQuery: 'Json/productionInfomobileQuery.json',
 };
 
 //dev
