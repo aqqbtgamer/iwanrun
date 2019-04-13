@@ -59,7 +59,12 @@ var requestUrl = {
     getWeixingConfig: baseUrl + 'weixing/getWeixingConfig',
 	casesmobileQuery:baseUrl+'case/mobileQuery',
     locationmobileQuery:baseUrl+'location/mobileQuery',
-    productionInfomobileQuery:baseUrl+'production/mobileQuery'
+    productionInfomobileQuery:baseUrl+'production/mobileQuery',
+	mobileWeixinLoginUrl:baseUrl+'weixing/mobileWeixinLoginUrl',
+    getMobileWeixinOpenid:baseUrl+'weixing/getMobileWeixinOpenid',
+    checkMobileOpenIdExists:baseUrl+'weixing/checkMobileOpenIdExists',
+    mobileWeixinCallBack:baseUrl+'weixing/mobileWeixinCallBack',
+    bindMobileNumber :baseUrl+'weixing/bindMobileNumber'
 
     //DEV
     //queryProdutionByCondition: 'Json/queryProdutionByCondition.json',
@@ -99,6 +104,11 @@ var requestUrl = {
 	//casesmobileQuery: 'Json/casesmobileQuery.json',
     //locationmobileQuery: 'Json/locationmobileQuery.json',
     //productionInfomobileQuery: 'Json/productionInfomobileQuery.json',
+	// mobileWeixinLoginUrl: 'Json/mobileWeixinLoginUrl.json',
+    // getMobileWeixinOpenid: 'Json/getMobileWeixinOpenid.json',
+    // checkMobileOpenIdExists: 'Json/checkMobileOpenIdExists.json',
+    // mobileWeixinCallBack: 'Json/mobileWeixinCallBack.json',
+    // bindMobileNumber: 'Json/bindMobileNumber.json'
 };
 
 //dev
