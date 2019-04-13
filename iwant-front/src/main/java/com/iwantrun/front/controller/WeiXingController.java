@@ -163,7 +163,7 @@ public class WeiXingController {
 	public String mobileWeixinCallBack(@RequestBody JSONObject userInfo,HttpServletRequest request,HttpServletResponse response) {	
 		
 		userInfo.put("sessionId", request.getSession().getId());
-		String postUrl = baseUrl+"/application/purchaserAccount/weixinGreenPass";
+		String postUrl = baseUrl+"/application/purchaserAccount/mobileWeixinGreenPass";
 		Message message = new Message();
 		message.setMessageBody(userInfo.toJSONString());
 		message.setRequestMethod(postUrl);
