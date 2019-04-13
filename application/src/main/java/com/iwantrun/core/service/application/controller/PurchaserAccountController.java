@@ -302,5 +302,20 @@ public class PurchaserAccountController {
 	}
 	
 	
+	@RequestMapping("mobileWeixinGreenPass")
+	@ResponseBody	
+	public Message mobileWeixinGreenPass(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		JSONObject paramJSON = (JSONObject) JSONValue.parse(dataJson);
+		PurchaserAccount account = service.mobileWeixinGreenPass(paramJSON);
+		if(account != null) {
+			message.setMessageBody(tokenService.tokenGenerate(account.getLoginId(),paramJSON.getAsString("sessionId")));
+		}else {
+			message.setMessageBody(null);
+		}
+		return message;
+	}
+	
+	
 	
 }

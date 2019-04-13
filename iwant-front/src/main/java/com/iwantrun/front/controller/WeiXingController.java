@@ -124,5 +124,55 @@ public class WeiXingController {
 	}
 	
 	
+	@RequestMapping("mobileWeixinLoginUrl")
+	@ResponseBody
+	public String mobileWeixinLoginUrl(HttpServletRequest request,HttpServletResponse response) {
+		String baseUrl = request.getParameter("baseUrl");
+		return WeiXinUtils.getMobileLoginUrl(appId, baseUrl);
+	}
+	
+	
+	@RequestMapping("getMobileWeixinOpenid")
+	@ResponseBody
+	public String getMobileWeixinOpenid(HttpServletRequest request,HttpServletResponse response) {
+		String code = request.getParameter("code");
+		String acessTokenItem = WeiXinUtils.getOpenAcessToken(appId, appSecret,code);
+		JSONObject acess = (JSONObject) JSONValue.parse(acessTokenItem);
+		String openId = acess.getAsString("openid");
+		String accessToken = acess.getAsString("access_token");
+		String result =WeiXinUtils.getOpenUserInfo(accessToken, openId);
+		return result ;
+	}
+	
+	@RequestMapping("checkMobileOpenIdExists")
+	@ResponseBody
+	public String checkMobileOpenIdExists(HttpServletRequest request,HttpServletResponse response) {
+		String openId = request.getParameter("openId");
+		String postUrl = baseUrl+"/application/mobileOpenIdRelation/checkMobileOpenIdExists";
+		JSONObject requestObj = new JSONObject();
+		requestObj.put("openId", openId);
+		Message message = new Message();
+		message.setRequestMethod(postUrl);
+		message.setMessageBody(requestObj.toJSONString());
+		message = template.postForEntity(postUrl, message, Message.class).getBody();
+		return message.getMessageBody();
+	}
+	
+	@RequestMapping("mobileWeixinCallBack")
+	@ResponseBody
+	public String mobileWeixinCallBack(@RequestBody JSONObject userInfo,HttpServletRequest request,HttpServletResponse response) {	
+		
+		userInfo.put("sessionId", request.getSession().getId());
+		String postUrl = baseUrl+"/application/purchaserAccount/weixinGreenPass";
+		Message message = new Message();
+		message.setMessageBody(userInfo.toJSONString());
+		message.setRequestMethod(postUrl);
+		message = template.postForEntity(postUrl, message, Message.class).getBody();
+		String token = message.getMessageBody();
+		service.addCookieForToken(false, token, userInfo.getAsString("openid"),
+				response);
+		return "success";
+	}
+	
 
 }

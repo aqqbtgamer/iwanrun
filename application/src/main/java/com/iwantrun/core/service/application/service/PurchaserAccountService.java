@@ -21,9 +21,11 @@ import org.springframework.util.StringUtils;
 
 import com.iwantrun.core.constant.AdminApplicationConstants;
 import com.iwantrun.core.service.application.dao.JPQLEnableRepository;
+import com.iwantrun.core.service.application.dao.MobileOpenIdRelationDao;
 import com.iwantrun.core.service.application.dao.PurchaserAccountDao;
 import com.iwantrun.core.service.application.dao.UserInfoAttachmentsDao;
 import com.iwantrun.core.service.application.dao.UserInfoDao;
+import com.iwantrun.core.service.application.domain.MobileOpenIdRelation;
 import com.iwantrun.core.service.application.domain.PurchaserAccount;
 import com.iwantrun.core.service.application.domain.UserInfo;
 import com.iwantrun.core.service.application.domain.UserInfoAttachments;
@@ -54,7 +56,9 @@ public class PurchaserAccountService {
 	@Autowired
 	private UserInfoAttachmentsDao attachmentsDao;
 	@Autowired
-	private JPQLEnableRepository jpqlExecute;
+	private JPQLEnableRepository jpqlExecute;	
+	@Autowired
+	private MobileOpenIdRelationDao mOpenIdDao ;
 	
 	Logger logger = LoggerFactory.getLogger(PurchaserAccountService.class);
 
@@ -669,6 +673,47 @@ public class PurchaserAccountService {
 			attachmentsDao.saveAndFlush(attach);
 		}
 		return true;
+	}
+	
+	public PurchaserAccount mobileWeixinGreenPass(JSONObject paramJSON) {
+		PurchaserAccount bindingAccount = null ;
+		String openId = paramJSON.getAsString("openid");
+		String nickName = EmojHandleUtils.replaceEmojWith(paramJSON.getAsString("nickname"),'?');
+		List<MobileOpenIdRelation> resultList = mOpenIdDao.findByMobileOpenId(openId);
+		if(resultList != null && resultList.size() == 0) {
+			MobileOpenIdRelation mRelation = resultList.get(0);
+			String mobileNumber = mRelation.getMobileNumber();
+			if(mobileNumber == null) {
+				return bindingAccount;
+			}else {
+				List<PurchaserAccount> accountList = dao.findByMobileNumber(mobileNumber);
+				if(accountList != null && accountList.size() == 1) {
+					bindingAccount =  accountList.get(0);
+				}
+				return bindingAccount;
+			}
+		}else {
+			bindingAccount = new PurchaserAccount();
+			bindingAccount.setSysRoleId(paramJSON.getAsNumber("state").intValue());
+			bindingAccount.setStatus(VerifyStatus.Not_Verified.getId());
+			bindingAccount.setLoginId(openId);
+			bindingAccount.setWec(openId);
+			dao.saveAndFlush(bindingAccount);			
+			UserInfo userInfo = new UserInfo();
+			userInfo.setLoginInfoId(bindingAccount.getId());
+			userInfo.setName(EmojHandleUtils.replaceEmojWith(nickName, '?'));
+			userInfo.setGender(paramJSON.getAsNumber("sex").intValue());
+			userInfo.setVerified(VerifyStatus.Not_Verified.getId());
+			infoDao.saveAndFlush(userInfo);
+			UserInfoAttachments attach = new UserInfoAttachments();
+			attach.setUserInfoId(userInfo.getId());
+			attach.setFileName(nickName);
+			attach.setFilePath(paramJSON.getAsString("headimgurl"));
+			attach.setPagePath(AdminApplicationConstants.USER_HEAD_IMG);
+			attachmentsDao.saveAndFlush(attach);
+			return bindingAccount;
+		}
+		
 	}
 
 	

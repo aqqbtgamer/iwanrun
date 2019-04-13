@@ -157,6 +157,12 @@ public class WeiXinUtils {
 			return null;
 		}
 	}
+	
+	public synchronized static String getMobileLoginUrl(String appId,String baseUrl) {
+		String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
+		String sendingUrl = url.replace("${appId}", appId).replace("${url}", baseUrl);
+		return sendingUrl;
+	}
         
 	
 	private static boolean validateToken() {
