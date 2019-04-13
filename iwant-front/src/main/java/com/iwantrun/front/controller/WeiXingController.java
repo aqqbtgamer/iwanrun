@@ -174,5 +174,20 @@ public class WeiXingController {
 		return "success";
 	}
 	
+	@RequestMapping("bindMobileNumber")
+	@ResponseBody
+	public String bindMobileNumber(HttpServletRequest request,HttpServletResponse response) {
+		String mobileNumber = request.getParameter("mobileNumber");
+		String openId = request.getParameter("openId");
+		String postUrl = baseUrl+"/application/mobileOpenIdRelation/bindMobileNumber";
+		JSONObject requestObj = new JSONObject();
+		requestObj.put("openId", openId);
+		requestObj.put("mobileNumber", mobileNumber);
+		Message message = new Message();
+		message.setMessageBody(requestObj.toJSONString());
+		message.setRequestMethod(postUrl);
+		message = template.postForEntity(postUrl, message, Message.class).getBody();
+		return message.getMessageBody();
+	}
 
 }

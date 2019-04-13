@@ -17,5 +17,21 @@ public class MobileOpenIdRelationService {
 	public List<MobileOpenIdRelation> findByMobileOpenId(String openId){
 		return mOpenIdDao.findByMobileOpenId(openId);
 	}
+	
+	
+	public boolean bindMobileNumber(String openId,String mobileNumber) {
+		List<MobileOpenIdRelation> resultList = mOpenIdDao.findByMobileOpenId(openId);
+		if(resultList == null || resultList.size() == 0 ) {
+			MobileOpenIdRelation  relation = new MobileOpenIdRelation();
+			relation.setMobileOpenId(openId);
+			relation.setMobileNumber(mobileNumber);
+			mOpenIdDao.save(relation);			
+		}else {
+			MobileOpenIdRelation bean = resultList.get(0);
+			bean.setMobileNumber(mobileNumber);
+			mOpenIdDao.save(bean);			
+		}
+		return true ;
+	}
 
 }
