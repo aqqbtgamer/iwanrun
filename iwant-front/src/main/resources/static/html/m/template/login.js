@@ -440,13 +440,9 @@ var login = new Vue({
 
         },
         wechatLogin: function () {
-            var vm = this, url = requestUrl.mobileWeixinLoginUrl, param = {
-                baseUrl: window.location.href
-            };//微信登陆
-            axios.post(url, param).then(function (response) {
-                console.log(response.data);
-                //TODO
-            });
+            var appid = 'wx1fd018c55846c8c9';
+            var url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid + '&redirect_uri=' + encodeURIComponent(window.location.href) + '&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
+            window.location.href = url;
         },
         checkOpenIdExists: function () {
             var vm = this, openId = jQuery.cookie('openId'), url = requestUrl.checkMobileOpenIdExists, param = {
@@ -481,6 +477,7 @@ var login = new Vue({
     },
     created: function () {
         var vm = this, code = getUrlParam('code');
+        alert(window.location.href);
         if (code) {
             var url = requestUrl.getMobileWeixinOpenid, param = {
                 code: code
