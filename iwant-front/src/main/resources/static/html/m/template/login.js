@@ -445,15 +445,7 @@ var login = new Vue({
             window.location.href = url;
         },
         checkOpenIdExists: function () {
-            var vm = this, openId = jQuery.cookie('openId'), url = requestUrl.checkMobileOpenIdExists, param = {
-                openId: openId
-            };//判断微信号是否绑过手机号
-            if (openId) {
-                axios.post(url, param).then(function (response) {
-                    console.log(response.data);
-                    //TODO 
-                });
-            }
+
         },
         wechatCallback: function () {
             var vm = this, openId = jQuery.cookie('openId'), url = requestUrl.mobileWeixinCallBack, param = {
@@ -477,14 +469,21 @@ var login = new Vue({
     },
     created: function () {
         var vm = this, code = getUrlParam('code');
-        alert(window.location.href);
         if (code) {
-            var url = requestUrl.getMobileWeixinOpenid, param = {
-                code: code
-            };
-            axios.post(url, param).then(function (response) {
+            var url = requestUrl.getMobileWeixinOpenid + '?code='code;
+            axios.post(url).then(function (response) {
                 console.log(response.data);
-                //TODO
+                var data = response.data;
+                if (data && data.openid) {
+                    jQuery.cookie('openId', data.openid);
+                    var openId = data.openid, url = requestUrl.checkMobileOpenIdExists + '?openId=' + openId;//判断微信号是否绑过手机号
+                    if (openId) {
+                        axios.post(url, param).then(function (response) {
+                            console.log(response.data);
+                            //TODO 
+                        });
+                    }
+                }
             });
         }
     }
