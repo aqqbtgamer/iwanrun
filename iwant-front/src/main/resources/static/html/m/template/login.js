@@ -470,7 +470,7 @@ var login = new Vue({
     created: function () {
         var vm = this, code = getUrlParam('code');
         if (code) {
-            var url = requestUrl.getMobileWeixinOpenid + '?code='code;
+            var url = requestUrl.getMobileWeixinOpenid + '?code=' + code;
             axios.post(url).then(function (response) {
                 console.log(response.data);
                 var data = response.data;
