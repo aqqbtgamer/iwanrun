@@ -478,7 +478,7 @@ var login = new Vue({
                     jQuery.cookie('openId', data.openid);
                     var openId = data.openid, url = requestUrl.checkMobileOpenIdExists + '?openId=' + openId;//判断微信号是否绑过手机号
                     if (openId) {
-                        axios.post(url, param).then(function (response) {
+                        axios.post(url).then(function (response) {
                             console.log(response.data);
                             //TODO 
                         });
