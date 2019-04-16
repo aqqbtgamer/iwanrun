@@ -448,7 +448,7 @@ var login = new Vue({
 
         },
         wechatCallback: function () {
-            var vm = this, openId = jQuery.cookie('openId'), url = requestUrl.mobileWeixinCallBack + '?openId=' + openId;//微信登陆回调
+            var vm = this, openId = jQuery.cookie('openId'), param = {}, url = requestUrl.mobileWeixinCallBack + '?openId=' + openId;//微信登陆回调
             axios.post(url, param).then(function (response) {
                 console.log(response.data);
                 //TODO 
@@ -457,7 +457,7 @@ var login = new Vue({
         wechatBindPhone: function () {
             var vm = this, openId = jQuery.cookie('openId');
             var url = requestUrl.bindMobileNumber + '?openId=' + openId + '&mobileNumber=' + vm.loginId;//微信号绑手机号
-            axios.post(url, param).then(function (response) {
+            axios.post(url).then(function (response) {
                 console.log(response.data);
                 //TODO 
             });
