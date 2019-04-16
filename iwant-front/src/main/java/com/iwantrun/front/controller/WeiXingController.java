@@ -168,10 +168,11 @@ public class WeiXingController {
 		message.setMessageBody(userInfo.toJSONString());
 		message.setRequestMethod(postUrl);
 		message = template.postForEntity(postUrl, message, Message.class).getBody();
-		String token = message.getMessageBody();
-		service.addCookieForToken(false, token, userInfo.getAsString("openid"),
+		String tokenJSON = message.getMessageBody();
+		JSONObject resultObj = (JSONObject) JSONValue.parse(tokenJSON);
+		service.addCookieForToken(false, resultObj.getAsString("token"), resultObj.getAsString("loginId"),
 				response);
-		return "success";
+		return tokenJSON;
 	}
 	
 	@RequestMapping("bindMobileNumber")

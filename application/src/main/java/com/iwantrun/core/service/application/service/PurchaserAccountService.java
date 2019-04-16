@@ -680,7 +680,7 @@ public class PurchaserAccountService {
 		String openId = paramJSON.getAsString("openid");
 		String nickName = EmojHandleUtils.replaceEmojWith(paramJSON.getAsString("nickname"),'?');
 		List<MobileOpenIdRelation> resultList = mOpenIdDao.findByMobileOpenId(openId);
-		if(resultList != null && resultList.size() == 0) {
+		if(resultList != null && resultList.size() == 1) {
 			MobileOpenIdRelation mRelation = resultList.get(0);
 			String mobileNumber = mRelation.getMobileNumber();
 			if(mobileNumber == null) {
@@ -689,28 +689,31 @@ public class PurchaserAccountService {
 				List<PurchaserAccount> accountList = dao.findByMobileNumber(mobileNumber);
 				if(accountList != null && accountList.size() == 1) {
 					bindingAccount =  accountList.get(0);
+				}else {					
+					bindingAccount = new PurchaserAccount();
+					bindingAccount.setSysRoleId(RoleType.Purchase.getId());
+					bindingAccount.setStatus(VerifyStatus.Not_Verified.getId());
+					bindingAccount.setLoginId(openId);
+					bindingAccount.setMobileNumber(mRelation.getMobileNumber());
+					bindingAccount.setWec(openId);
+					dao.saveAndFlush(bindingAccount);			
+					UserInfo userInfo = new UserInfo();
+					userInfo.setLoginInfoId(bindingAccount.getId());
+					userInfo.setName(EmojHandleUtils.replaceEmojWith(nickName, '?'));
+					userInfo.setGender(paramJSON.getAsNumber("sex").intValue());
+					userInfo.setVerified(VerifyStatus.Not_Verified.getId());
+					infoDao.saveAndFlush(userInfo);
+					UserInfoAttachments attach = new UserInfoAttachments();
+					attach.setUserInfoId(userInfo.getId());
+					attach.setFileName(nickName);
+					attach.setFilePath(paramJSON.getAsString("headimgurl"));
+					attach.setPagePath(AdminApplicationConstants.USER_HEAD_IMG);
+					attachmentsDao.saveAndFlush(attach);
+					return bindingAccount;
 				}
 				return bindingAccount;
 			}
 		}else {
-			bindingAccount = new PurchaserAccount();
-			bindingAccount.setSysRoleId(paramJSON.getAsNumber("state").intValue());
-			bindingAccount.setStatus(VerifyStatus.Not_Verified.getId());
-			bindingAccount.setLoginId(openId);
-			bindingAccount.setWec(openId);
-			dao.saveAndFlush(bindingAccount);			
-			UserInfo userInfo = new UserInfo();
-			userInfo.setLoginInfoId(bindingAccount.getId());
-			userInfo.setName(EmojHandleUtils.replaceEmojWith(nickName, '?'));
-			userInfo.setGender(paramJSON.getAsNumber("sex").intValue());
-			userInfo.setVerified(VerifyStatus.Not_Verified.getId());
-			infoDao.saveAndFlush(userInfo);
-			UserInfoAttachments attach = new UserInfoAttachments();
-			attach.setUserInfoId(userInfo.getId());
-			attach.setFileName(nickName);
-			attach.setFilePath(paramJSON.getAsString("headimgurl"));
-			attach.setPagePath(AdminApplicationConstants.USER_HEAD_IMG);
-			attachmentsDao.saveAndFlush(attach);
 			return bindingAccount;
 		}
 		
