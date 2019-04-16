@@ -211,6 +211,7 @@ var login = new Vue({
             count: 0,
             btnText: '发送验证码'
         },
+        wechatInfo: null,
         callback: null
     },
     methods: {
@@ -444,22 +445,23 @@ var login = new Vue({
             var url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid + '&redirect_uri=' + encodeURIComponent(window.location.href) + '&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
             window.location.href = url;
         },
-        checkOpenIdExists: function () {
-
-        },
         wechatCallback: function () {
-            var vm = this, openId = jQuery.cookie('openId'), param = {}, url = requestUrl.mobileWeixinCallBack + '?openId=' + openId;//微信登陆回调
-            axios.post(url, param).then(function (response) {
-                console.log(response.data);
-                //TODO 
-            });
+            var vm = this, openId = jQuery.cookie('openId'), param = vm.wechatInfo, url = requestUrl.mobileWeixinCallBack + '?openId=' + openId;//微信登陆回调
+            if (param) {
+                axios.post(url, param).then(function (response) {
+                    console.log(response.data);
+                    //TODO 
+                });
+            }
         },
         wechatBindPhone: function () {
             var vm = this, openId = jQuery.cookie('openId');
             var url = requestUrl.bindMobileNumber + '?openId=' + openId + '&mobileNumber=' + vm.loginId;//微信号绑手机号
             axios.post(url).then(function (response) {
                 console.log(response.data);
-                //TODO 
+                if (response.data) {
+                    vm.wechatCallback();
+                }
             });
         }
     },
@@ -473,6 +475,7 @@ var login = new Vue({
                 var data = response.data;
                 if (data && data.openid) {
                     jQuery.cookie('openId', data.openid);
+                    vm.wechatInfo = data;
                     var openId = data.openid, url = requestUrl.checkMobileOpenIdExists + '?openId=' + openId;//判断微信号是否绑过手机号
                     if (openId) {
                         axios.post(url).then(function (response) {
