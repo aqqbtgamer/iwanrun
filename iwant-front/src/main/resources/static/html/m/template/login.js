@@ -473,14 +473,20 @@ var login = new Vue({
             var url = requestUrl.getMobileWeixinOpenid + '?code=' + code;
             axios.post(url).then(function (response) {
                 console.log(response.data);
+                console.log(vm);
                 var data = response.data;
                 if (data && data.openid) {
                     jQuery.cookie('openId', data.openid);
                     var openId = data.openid, url = requestUrl.checkMobileOpenIdExists + '?openId=' + openId;//判断微信号是否绑过手机号
                     if (openId) {
                         axios.post(url).then(function (response) {
+                            console.log(vm);
                             console.log(response.data);
-                            //TODO 
+                            if (!response.data) { //绑定手机号
+                                vm.model.showTab = 'bindphone';
+                            } else {
+                                //TODO
+                            } 
                         });
                     }
                 }
