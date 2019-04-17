@@ -450,7 +450,16 @@ var login = new Vue({
             if (param) {
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);
-                    //TODO 
+                    var data = response.data;
+                    if (data && data.token) {
+                        vm.accessToken = data.token;
+                        jQuery.cookie('loginId', vm.loginId);
+                        jQuery.cookie('accessToken', data.token);
+                        vm.show = false;
+                        if (typeof vm.callback === 'function') {
+                            vm.callback();
+                        }
+                    }
                 });
             }
         },
