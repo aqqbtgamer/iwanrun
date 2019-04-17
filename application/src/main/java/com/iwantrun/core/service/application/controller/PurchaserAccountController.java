@@ -309,7 +309,10 @@ public class PurchaserAccountController {
 		JSONObject paramJSON = (JSONObject) JSONValue.parse(dataJson);
 		PurchaserAccount account = service.mobileWeixinGreenPass(paramJSON);
 		if(account != null) {
-			message.setMessageBody(tokenService.tokenGenerate(account.getLoginId(),paramJSON.getAsString("sessionId")));
+			JSONObject result = new JSONObject();
+			result.put("loginId", account.getLoginId());
+			result.put("token", tokenService.tokenGenerate(account.getLoginId(),paramJSON.getAsString("sessionId")));
+			message.setMessageBody(result.toJSONString());
 		}else {
 			message.setMessageBody(null);
 		}
