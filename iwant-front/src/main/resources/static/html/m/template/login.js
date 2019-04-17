@@ -476,7 +476,7 @@ var login = new Vue({
     },
     created: function () {
         var vm = this, code = getUrlParam('code');
-        if (code) {
+        if (code && !vm.accessToken) {
             var url = requestUrl.getMobileWeixinOpenid + '?code=' + code;
             axios.post(url).then(function (response) {
                 console.log(response.data);
@@ -494,7 +494,16 @@ var login = new Vue({
                                 vm.show = true;
                                 vm.model.showTab = 'bindphone';
                             } else {
-                                //TODO
+                                var data = response.data;
+                                if (data && data.token) {
+                                    vm.accessToken = data.token;
+                                    jQuery.cookie('loginId', vm.loginId);
+                                    jQuery.cookie('accessToken', data.token);
+                                    vm.show = false;
+                                    if (typeof vm.callback === 'function') {
+                                        vm.callback();
+                                    }
+                                }
                             }
                         });
                     }
