@@ -20,7 +20,7 @@
     + '            <a href="javascript:void(0)" @click="changeTab(\'case\')" :class="showTab===\'case\'?styleClass.tabActiveClass:styleClass.tabClass">案例 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a> '
     + '            <a href="javascript:void(0)" @click="changeTab(\'location\')" :class="showTab===\'location\'?styleClass.tabActiveClass:styleClass.tabClass">场地 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a> '
     + '        </ul> '
-    + '      <div style="max-height:15rem" class="ofs mt20">'
+    + '      <div style="max-height:70%;" class="ofs mt20">'
     + '         <section class="li_list w100p bgcffffff mt-4 pb40 " v-show="showTab===\'product\'" >'
     + '             <ul class="pt40">'
     + '                    <li class="pb200 pr" v-for="item in model.productions">'
@@ -149,7 +149,7 @@ var search = new Vue({
         hideSearch: function () {
             var vm = this;
             $('body').css('overflow-y', 'auto');
-            vm.showSearch = true;
+            vm.showSearch = false;
         },
         changeTab: function (tab) {
             var vm = this;
