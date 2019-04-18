@@ -494,9 +494,9 @@ var login = new Vue({
                                 vm.show = true;
                                 vm.model.showTab = 'bindphone';
                             } else {
-                                jQuery.cookie('loginId', data.mobileNumber);
                                 var data = response.data;
                                 if (data && data.mobileNumber) {
+                                    jQuery.cookie('loginId', data.mobileNumber);
                                     vm.wechatCallback();
                                 }
                             }
