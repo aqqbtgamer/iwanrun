@@ -332,6 +332,7 @@ var login = new Vue({
             var vm = this;
             jQuery.cookie('loginId', '');
             jQuery.cookie('accessToken', '');
+            jQuery.cookie('openId', '');
             vm.loginId = '';
             vm.accessToken = '';
             vm.show = false;
