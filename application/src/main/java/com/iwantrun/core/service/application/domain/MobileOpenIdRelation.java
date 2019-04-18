@@ -60,7 +60,7 @@ public class MobileOpenIdRelation {
 		this.remark = remark;
 	}
 
-	public int getLoginInfoId() {
+	public Integer getLoginInfoId() {
 		return loginInfoId;
 	}
 

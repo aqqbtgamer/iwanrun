@@ -29,7 +29,9 @@ public class MobileOpenIdRelationController {
 		String openId = requestObj.getAsString("openId");
 		List<MobileOpenIdRelation> resultList =mOpenIdService.findByMobileOpenId(openId);
 		if(resultList != null && resultList.size() == 1) {
-			request.setMessageBody(JSONUtils.objToJSON(resultList.get(0)).toString()); 
+			MobileOpenIdRelation relaton = resultList.get(0);
+			String responseJson = JSONValue.toJSONString(relaton);
+			request.setMessageBody(responseJson); 
 		}else {
 			request.setMessageBody(null);
 		}
