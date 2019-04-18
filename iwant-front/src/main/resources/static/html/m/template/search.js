@@ -3,7 +3,7 @@
     + '<div class="pf bgcffffff w100p h100p pf t0 l0" style="z-index: 777">     '
     + '    <header class="w100p h172 bgcffffff pf t0 l0">                                                                   '
     + '        <div class="w668 h70 bgcf5f5f5 br45 header_search pa t80 l40">                                               '
-    + '            <input type="text" v-model="searchContent" @change="inputChange" id="iptSearch" class="w608 h54 lh54 mt8 fl pl30 pr30 fz26" placeholder="产品、场地、案例" />         '
+    + '            <input type="text" v-model="searchContent" @keyup.enter="inputChange" id="iptSearch" class="w608 h54 lh54 mt8 fl pl30 pr30 fz26" placeholder="产品、场地、案例" />         '
     + '        </div>                                                                                                       '
     + '        <a class="fr mr30 mt20" href="javascript:void(0)" @click="hideSearch">                                '
     + '                    <img src="images/close_icon_a.png" class="w24 h24" alt="">                                       '
