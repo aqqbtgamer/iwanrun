@@ -5,7 +5,7 @@
     + '        <div class="w668 h70 bgcf5f5f5 br45 header_search pa t80 l40">                                               '
     + '            <input type="text" v-model="searchContent" @change="inputChange" id="iptSearch" class="w608 h54 lh54 mt8 fl pl30 pr30 fz26" placeholder="产品、场地、案例" />         '
     + '        </div>                                                                                                       '
-    + '        <a class="fr mr30 mt20" href="javascript:void(0)" @click="showSearch=false">                                '
+    + '        <a class="fr mr30 mt20" href="javascript:void(0)" @click="hideSearch">                                '
     + '                    <img src="images/close_icon_a.png" class="w24 h24" alt="">                                       '
     + '                </a>                                                                                                 '
     + '    </header>                                                                                                        '
@@ -20,7 +20,7 @@
     + '            <a href="javascript:void(0)" @click="changeTab(\'case\')" :class="showTab===\'case\'?styleClass.tabActiveClass:styleClass.tabClass">案例 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a> '
     + '            <a href="javascript:void(0)" @click="changeTab(\'location\')" :class="showTab===\'location\'?styleClass.tabActiveClass:styleClass.tabClass">场地 <i class="w12 h12 br50p pa t16 r40 dn" style="background-color: #f6b03e;"></i></a> '
     + '        </ul> '
-    + '      <div style="height: 10rem" class="ofs mt20">'
+    + '      <div style="max-height:15rem" class="ofs mt20">'
     + '         <section class="li_list w100p bgcffffff mt-4 pb40 " v-show="showTab===\'product\'" >'
     + '             <ul class="pt40">'
     + '                    <li class="pb200 pr" v-for="item in model.productions">'
@@ -139,12 +139,17 @@ var search = new Vue({
             document.activeElement.blur();
             document.getElementById('iptSearch').focus();
 
-            document.getElementById('divSearch').addEventListener('touchmove', function (e) {
-                e.stopPropagation();
-                e.preventDefault();
-            });
-
-
+            //document.getElementById('divSearch').addEventListener('touchmove', function (e) {
+            //    e.stopPropagation();
+            //    e.preventDefault();
+            //});
+            $('body').css('overflow-y', 'hidden');
+            vm.showSearch = true;
+        },
+        hideSearch: function () {
+            var vm = this;
+            $('body').css('overflow-y', 'auto');
+            vm.showSearch = true;
         },
         changeTab: function (tab) {
             var vm = this;
