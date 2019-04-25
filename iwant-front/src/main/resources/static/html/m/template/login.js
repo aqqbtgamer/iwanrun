@@ -176,6 +176,19 @@
     + '                         <a href="javascript:void(0)" style="color: #f6b03e" @click="sendVerifyCode">{{ SMS.btnText }}</a>                                                                                                      '
     + '                 </div>                                                                                                                                                                                                         '
     + '             </div>                                                                                                                                                                                                             '
+    + '             <div class="w596 m0a ofh">                                                                                                                                                                                         '
+    + '                 <div class="w596 h78 br10 bgcf5f5f5 mt30 tac">                                                                                                                                                                 '
+    + '                     <input type="password" v-model="model.password" class="w540 h60 lh60 mt8" placeholder="请输入密码" />                                                                                                      '
+    + '                 </div>                                                                                                                                                                                                         '
+    + '             </div>                                                                                                                                                                                                             '
+    + '             <div class="w596 m0a ofh">                                                                                                                                                                                         '
+    + '                 <div class="w596 h78 br10 bgcf5f5f5 mt30 tac">                                                                                                                                                                 '
+    + '                     <input type="password" v-model="model.rePassword" class="w540 h60 lh60 mt8" placeholder="请再次输入密码" />                                                                                                      '
+    + '                 </div>                                                                                                                                                                                                         '
+    + '             </div>                                                                                                                                                                                                             '
+    + '             <div class="w596 m0a ofh">                                                                                                                                                                                         '
+    + '                 <span class="c888888 fz22 mt20 fl">*8-20个字符：可由数字、字母、符号组成</span>                                                                                                                                '
+    + '             </div>                                                                                                                                                                                                             '
     + '             <div class="w596 m0a ofh" v-show="model.errMsg">                                                                                                                                                                   '
     + '                 <span style="color:red;" class="c888888 fz22 mt20 fl">{{ model.errMsg }}</span>                                                                                                                                '
     + '             </div>                                                                                                                                                                                                             '
@@ -464,7 +477,7 @@ var login = new Vue({
                 });
             }
         },
-        wechatBindPhone: function () {
+        wechatBindPhone: function () {//TODO 验证码和密码
             var vm = this, openId = jQuery.cookie('openId');
             var url = requestUrl.bindMobileNumber + '?openId=' + openId + '&mobileNumber=' + vm.loginId;//微信号绑手机号
             axios.post(url).then(function (response) {

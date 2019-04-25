@@ -133,8 +133,11 @@
                                 <ul class="pt40">
                                     <li class="h550 pr" v-for="item in collection.product.list">
                                         <!--<a class="h30 fz26 c999999 pa t30 r70">
-                                            取消收藏
+                                            移除清单
                                         </a>-->
+                                        <a title="移除心愿清单" @click="removeWant(item.id,'product')" href="javascript:void(0)" class="h30 fz26 c999999 pa t30 r70">
+                                            <img src="images/close_icon_a.png" alt="" class="w24 h24">
+                                        </a>
                                         <div class="w670 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
                                             <div class="fz32 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.name}}</div>
                                             <div class="pl30 pr30 pt30 fz18">

@@ -19,7 +19,8 @@
 .header_search {
     background-image: url("../images/icon_search.png");
     background-repeat: no-repeat;
-    background-position: 5.86667rem center;
+    /*background-position: 5.86667rem center;*/
+    background-position: 8rem center;
     background-size: .4rem;
 }
 

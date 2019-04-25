@@ -147,7 +147,10 @@ var appIndex = new Vue(
             },
             linktoDetail: function (id, type) {
                 location.href = 'detail.html?id=' + id + '&type=' + type || 'product';
-            }
+            },
+            removeWant: function (id, type) {
+
+            }//移除心愿清单
         },
         components: {
             companyfooter: companyfooter,

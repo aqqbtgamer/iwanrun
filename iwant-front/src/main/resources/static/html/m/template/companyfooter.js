@@ -14,7 +14,7 @@
     + '          </div>'
     + '    <div class="tac fz20 cffffff op50 mt10">'
     + '      上海沐跑信息科技有限公司 <br />'
-    + '    北京ICP备0000000号'
+    + '    沪ICP备14042252号'
     + '  </div>'
     + '</div>'
     + '</footer>';
