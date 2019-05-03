@@ -208,6 +208,7 @@ public class WeiXingController {
 		JSONObject requestObj = new JSONObject();
 		requestObj.put("openId", openId);
 		requestObj.put("mobileNumber", mobileNumber);
+		requestObj.put("password", password);
 		Message message = new Message();
 		message.setMessageBody(requestObj.toJSONString());
 		message.setRequestMethod(postUrl);

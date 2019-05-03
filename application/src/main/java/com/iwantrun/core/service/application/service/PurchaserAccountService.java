@@ -722,6 +722,7 @@ public class PurchaserAccountService {
 					bindingAccount.setLoginId(openId);
 					bindingAccount.setMobileNumber(mRelation.getMobileNumber());
 					bindingAccount.setWec(openId);
+					bindingAccount.setPassword(mRelation.getRemark());
 					dao.saveAndFlush(bindingAccount);			
 					UserInfo userInfo = new UserInfo();
 					userInfo.setLoginInfoId(bindingAccount.getId());
