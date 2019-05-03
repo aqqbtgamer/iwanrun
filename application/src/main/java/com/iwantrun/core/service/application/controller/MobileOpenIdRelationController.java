@@ -43,8 +43,9 @@ public class MobileOpenIdRelationController {
 		String requestJSON = request.getMessageBody();
 		JSONObject requestObj = (JSONObject) JSONValue.parse(requestJSON);
 		String openId = requestObj.getAsString("openId");
+		String password = requestObj.getAsString("password");
 		String mobileNumber = requestObj.getAsString("mobileNumber");
-		request.setMessageBody(mOpenIdService.bindMobileNumber(openId, mobileNumber)+""); 
+		request.setMessageBody(mOpenIdService.bindMobileNumber(openId, mobileNumber,password)+""); 
 		return request ;
 	}
 
