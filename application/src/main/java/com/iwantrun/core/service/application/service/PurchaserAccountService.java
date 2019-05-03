@@ -97,6 +97,27 @@ public class PurchaserAccountService {
 		}
 		return null;
 	}
+	
+	public String bindMobile(PurchaserAccount account) {
+		String mobile = account.getMobileNumber();
+		List<PurchaserAccount> dbAccount = dao.findByMobileNumber(mobile);
+		if (dbAccount != null && dbAccount.size() > 0) {
+			return "账号：" + mobile + "，已被人注册";
+		}
+		PurchaserAccount targetAccount = dao.findByLoginId(account.getLoginId());
+		String md5Password = Md5Utils.generate(account.getPassword());
+		targetAccount.setPassword(md5Password);
+		targetAccount.setMobileNumber(mobile);
+		//account.setLoginId(mobile);
+		//account.setSysRoleId(RoleType.Purchase.getId());
+		//account.setStatus(VerifyStatus.Not_Verified.getId());
+		PurchaserAccount saved = dao.saveAndFlush(account);
+		if (saved == null) {
+			return "数据保存失败，请重试";
+		}
+		return null;
+	}
+	
 
 	public String validateRegisterParam(PurchaserAccountRequest accountRequest) {
 
@@ -143,6 +164,11 @@ public class PurchaserAccountService {
 		}
 
 		List<PurchaserAccount> finds = dao.findByMobileNumber(mobile);
+		/*PurchaserAccount find =   dao.findByLoginId(mobile);
+		List<PurchaserAccount> finds = new ArrayList<PurchaserAccount>();
+		if(find != null) {
+			finds.add(find);
+		}		*/
 
 		if (finds == null || finds.size() == 0) {
 			return "手机用户不存在";
@@ -718,6 +744,22 @@ public class PurchaserAccountService {
 		}
 		
 	}
+
+	public String checkPcMobileExists(JSONObject paramJSON) {
+		String openId = paramJSON.getAsString("openId");
+		PurchaserAccount account = dao.findByLoginId(openId);
+		if(account == null) {
+			return null;
+		}else {
+			if(!StringUtils.isEmpty(account.getMobileNumber())) {
+				return account.getMobileNumber();
+			}else {
+				return null;
+			}
+		}
+	}
+
+	
 
 	
 }

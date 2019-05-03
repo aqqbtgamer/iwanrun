@@ -158,6 +158,23 @@ public class WeiXingController {
 		return message.getMessageBody();
 	}
 	
+	
+	@RequestMapping("checkPcMobileExists")
+	@ResponseBody
+	public String checkPcMobileExists(HttpServletRequest request,HttpServletResponse response) {
+		String openId = request.getParameter("openId");
+		String postUrl = baseUrl+"/application/purchaserAccount/checkPcMobileExists";
+		JSONObject requestObj = new JSONObject();
+		requestObj.put("openId", openId);
+		Message message = new Message();
+		message.setRequestMethod(postUrl);
+		message.setMessageBody(requestObj.toJSONString());
+		message = template.postForEntity(postUrl, message, Message.class).getBody();
+		return message.getMessageBody();
+	}
+	
+	
+	
 	@RequestMapping("mobileWeixinCallBack")
 	@ResponseBody
 	public String mobileWeixinCallBack(@RequestBody JSONObject userInfo,HttpServletRequest request,HttpServletResponse response) {	
@@ -186,6 +203,7 @@ public class WeiXingController {
 	public String bindMobileNumber(HttpServletRequest request,HttpServletResponse response) {
 		String mobileNumber = request.getParameter("mobileNumber");
 		String openId = request.getParameter("openId");
+		String password = request.getParameter("password");
 		String postUrl = baseUrl+"/application/mobileOpenIdRelation/bindMobileNumber";
 		JSONObject requestObj = new JSONObject();
 		requestObj.put("openId", openId);

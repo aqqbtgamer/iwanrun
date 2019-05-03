@@ -78,6 +78,26 @@ public class PurchaserAccountController {
 		result = service.register(purchaser);
 		return result;
 	}
+	
+	/**
+	 * 采购用户绑定手机
+	 * 
+	 * @param purchaser
+	 * @return String
+	 */
+	@RequestMapping("/bindMobile")
+	@ResponseBody
+	public Message bindMobile(HttpServletRequest request, @RequestBody PurchaserAccountRequest purchaser) {
+		// 是注册
+		purchaser.setRegister(true);
+
+		Message result = service.getVaidateSMSCodeResult(request, purchaser);
+		if (result != null) {
+			return result;
+		}
+		result = service.bindMobile(purchaser);
+		return result;
+	}
 
 	/**
 	 * 采购用户登录

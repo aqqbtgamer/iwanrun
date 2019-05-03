@@ -65,6 +65,24 @@ public class PurchaserAccountService {
 		message.setRequestMethod(url);
 		return template.postForEntity(url, message, Message.class).getBody();
 	}
+	
+	
+	/**
+	 * 采购用户绑定手机
+	 * 
+	 * @param purchaser
+	 * @return PurchaserAccount
+	 */
+	public Message bindMobile(PurchaserAccountRequest purchaser) {
+		String bindMobileUrl = "/application/purchaserAccount/bindMobile";
+		String baseUrl = environment.getProperty("app.server");
+
+		String url = baseUrl + bindMobileUrl;
+		Message message = new Message();
+		message.setMessageBody(JSONUtils.objToJSON(purchaser));
+		message.setRequestMethod(url);
+		return template.postForEntity(url, message, Message.class).getBody();
+	}
 
 	/**
 	 * 采购用户登录
@@ -288,4 +306,6 @@ public class PurchaserAccountService {
 		String baseUrl = environment.getProperty("application.weixinOpenAccount.baseUrl");
 		return baseUrl;
 	}
+
+	
 }

@@ -94,7 +94,7 @@ public class PurchaserAccountController {
 		String errorMsg="";
 		String param = message.getMessageBody();
 		
-		logger.error("用户注册，请求参数：{}", param);
+		logger.info("用户注册，请求参数：{}", param);
 		
 		try {
 			if (!StringUtils.isEmpty(param)) {
@@ -118,6 +118,45 @@ public class PurchaserAccountController {
 		responseJSON.put("errorMsg", errorMsg);
 		
 		logger.error("用户注册，返回结果：{}", responseJSON.toJSONString());
+		
+		response.setMessageBody(responseJSON.toJSONString());
+		return response;
+	}
+	
+	
+	/**
+	 * 采购用户绑定手机
+	 * 
+	 * @param message
+	 * @return
+	 */
+	@RequestMapping("bindMobile")
+	@ResponseBody
+	public Message bindMobile(@RequestBody Message message) {
+		Message response=new Message();
+		JSONObject responseJSON=new JSONObject();
+		
+		String errorMsg="";
+		String param = message.getMessageBody();
+		
+		logger.info("用户绑定手机，请求参数：{}", param);
+		try {
+			if (!StringUtils.isEmpty(param)) {
+				PurchaserAccountRequest accountRequest = JSONUtils.jsonToObj(param, PurchaserAccountRequest.class);
+				errorMsg = service.validateRegisterParam(accountRequest);
+				if(errorMsg==null) {
+					errorMsg= service.bindMobile(accountRequest.getAccount());					
+				}
+			}else {
+				errorMsg ="请输入相关数据";
+			}
+		}catch(Exception e) {
+			errorMsg = "未知异常";
+			logger.error("用户绑定手机异常：{}", e);
+		}
+		responseJSON.put("errorMsg", errorMsg);
+		
+		logger.info("用户绑定手机，返回结果：{}", responseJSON.toJSONString());
 		
 		response.setMessageBody(responseJSON.toJSONString());
 		return response;
@@ -316,6 +355,17 @@ public class PurchaserAccountController {
 		}else {
 			message.setMessageBody(null);
 		}
+		return message;
+	}
+	
+	
+	@RequestMapping("checkPcMobileExists")
+	@ResponseBody	
+	public Message checkPcMobileExists(@RequestBody Message message) {
+		String dataJson = message.getMessageBody();
+		JSONObject paramJSON = (JSONObject) JSONValue.parse(dataJson);
+		String result = service.checkPcMobileExists(paramJSON);
+		message.setMessageBody(result);
 		return message;
 	}
 	

@@ -26,7 +26,7 @@ if("true" == fetchCookie){
 //---------------------------------- lrApp Template Start ---------------------------------------
 var lrTemplate = ""+
 	'<div id="lrPannel">'+
-			'<div id="dialog" v-if="loginWindow | registerWindow" style="z-index: 100;"></div>'+
+			'<div id="dialog" v-if="loginWindow | registerWindow | bindMobileWindow" style="z-index: 100;"></div>'+
     		'<div id="login-pannel" class="login-pannel" v-if="loginWindow" v-cloak id="loginWindow">'+
                 '<div id="close-pannel" class="close-pannel">'+
                     '<i class="iconfont-user1 icon-close" @click="closeLogin"></i>'+
@@ -159,6 +159,58 @@ var lrTemplate = ""+
                     '</div>'+
                 '</div>'+
             '</div>'+
+            
+            
+            '<div id="bind-pannel" class="login-pannel" v-if="bindMobileWindow" v-cloak>'+          
+            '<div class="login-head">'+
+                '<h2>绑定手机</h2>'+
+            '</div>'+
+            '<div class="register-input">'+
+                '<div class="user-icon">'+
+                    '<i class="iconfont-user2 icon-yonghu"></i>'+
+                '</div>'+
+                '<div class="user-input">'+
+                    '<input @focus="accountFocus()" v-model="account.mobileNumber" type="text" class="inputText" placeholder="请输入手机号">'+
+                '</div>'+
+            '</div>'+
+            '<div class="register-input">'+
+                '<div id="pwd-icon" class="user-icon">'+
+                    '<i class="iconfont-user2 icon-mima"></i>'+
+                '</div>'+
+                '<div class="user-pwd">'+
+                    '<input v-model="account.smsCode" @focus="accountFocus()" type="text" class="inputText" placeholder="请输入短信验证码">'+
+                '</div>'+
+                '<div class="user-button">'+
+                    '<input @click="accountSmsCodeGet" type="button" :value="SMS.btnText" class="sms-send-button" :disabled="SMS.disabled">'+
+                '</div>'+
+            '</div>'+
+            '<div class="register-input"><span style="color: red;">(密码为数字、字母和特殊符号组合, 长度大于等于8位, 小于等于16位)</span></div>'+
+            '<div class="register-input" style="margin-top: 0.2vw">'+
+                '<div class="user-icon">'+
+                    '<i class="iconfont-user2 icon-mima"></i>'+
+                '</div>'+
+                '<div class="user-input">'+
+                    '<input v-model="account.password" @focus="accountFocus()" type="password" class="inputText" placeholder="请输入密码">'+
+                '</div>'+
+            '</div>'+
+            '<div class="register-input">'+
+                '<div class="user-icon">'+
+                    '<i class="iconfont-user2 icon-mima"></i>'+
+                '</div>'+
+                '<div class="user-input">'+
+                    '<input v-model="account.rePassword" @focus="accountFocus()" type="password" class="inputText" placeholder="请再次输入密码">'+
+                '</div>'+
+            '</div>'+
+            '<div id="err-msg" class="extra-message" style="margin-top: 0.2vw;">'+
+            	'<div class="exttra-message-right" style="color: red;">'+
+                    '<p>{{account.errMsg}}</p>'+
+                '</div>'+
+        	'</div>'+
+            '<div class="register-button">'+
+                '<input  @click="bindMobile" type="button" value="绑定" class="sms-login-button">'+               
+            '</div>'+           
+        '</div>'+
+        
     '</div>';
 //---------------------------------- lrApp Template End ---------------------------------------
 
@@ -298,6 +350,7 @@ var lrApp=new Vue({
 		loginTitle : '用户登录',
 		registerTitle : '用户注册',
 		registerWindow : false,
+		bindMobileWindow:false,
 		registerBtn : true,
 		forgetBtn : false,
 		loginRole : {
@@ -383,6 +436,28 @@ var lrApp=new Vue({
 				var url = baseUrl + "purchaserAccount/register";
 				$http.post(url, JSON.stringify(data), registerBack);
 			}
+		},
+		bindMobile:function(){
+			var account = this.account;
+			var mobile = account.mobileNumber;
+			if(!account.loginId){
+				account.loginId = $.cookie('loginId');
+			}
+			var smsCode = account.smsCode;
+			var password = account.password;
+			var rePassword = account.rePassword;
+			
+			var correct = validateAccountRegister(mobile, password,
+					rePassword, smsCode);
+			if (correct) {
+				account.mobileNumber = mobile;
+				var data = {};
+				data.smsCode = smsCode;
+				data.account = account;
+				var url = baseUrl + "purchaserAccount/bindMobile";
+				$http.post(url, JSON.stringify(data), bindMobileBack);
+			}
+			
 		},
         accountSmsCodeGet: function () {
             var vm = this;
@@ -546,6 +621,21 @@ function loginSuccess(opt) {
 	showLoginId(loginId, opt);
 	
 	showErrMsg('登录成功');
+	//新增 检查此loginId是否含有手机号 若无 显示强制绑定界面
+	var callback = new Object();
+	var requestMobile = new Object(); 
+	requestMobile.openId = loginId ;
+	callback.request = requestMobile;
+	callback.error = function(XMLHttpRequest, textStatus){
+		console.log("获取绑定消息失败"+textStatus);
+	}
+	callback.success = function(data){
+		if(data == null || data == ""){
+			lrApp.bindMobileWindow = true ;
+		}
+		
+	}
+	$http_form.post( baseUrl + "weixing/checkPcMobileExists",callback,"text");
 }
 
 function validateAccountPwdLogin(mobile, password) {
@@ -683,6 +773,22 @@ function registerBack(data) {
 		showErrMsg('注册成功，请登录');
 	}
 }
+
+function bindMobileBack(data){
+	var messageBody = data.messageBody;
+	if (messageBody) {
+		var message = JSON.parse(messageBody);
+		var errorMsg = message.errorMsg;
+		if (errorMsg) {
+			showErrMsg(errorMsg);
+			return;
+		}else{
+			lrApp.bindMobileWindow = false;
+			return;
+		}
+	}
+}
+
 
 function forgetBack(data){
 	var messageBody = data.messageBody;
