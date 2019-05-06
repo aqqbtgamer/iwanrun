@@ -477,7 +477,7 @@ var login = new Vue({
                 });
             }
         },
-        wechatBindPhone: function () {//TODO 验证码和密码
+        wechatBindPhone: function () {
             var vm = this, openId = jQuery.cookie('openId');
             var url = requestUrl.bindMobileNumber + '?openId=' + openId + '&mobileNumber=' + vm.loginId;//微信号绑手机号
             if (!vm.verify()) {
@@ -496,14 +496,11 @@ var login = new Vue({
             });
         },
         validateSmsCode: function () { //验证短信验证码
-            var vm = this, url = requestUrl.validateSmsCode, openId = jQuery.cookie('openId'), param = {
-                mobileNumber: openId,
-                smsCode: vm.model.smsCode
-            };
+            var vm = this, url = requestUrl.validateSmsCode + '?mobileNumber=' + vm.loginId + '&smsCode=' + vm.model.smsCode;
             axios.post(url).then(function (response) {
                 console.log(response.data);
                 if (response.data) {
-                    vm.model.errMsg = '您的验证码错误';
+                    vm.model.errMsg = '您的验证码错误,请重新获取';
                     return false;
                 } else {
                     return true;
