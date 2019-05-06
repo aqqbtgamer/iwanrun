@@ -10,6 +10,22 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .ps {
+            position: sticky;
+        }
+
+        .r666 {
+            right: .666rem;
+        }
+
+        .pt6 {
+            padding-top:.6rem;
+        }
+        .r333 {
+            right: .333rem;
+        }
+    </style>
 </head>
 <body class="bgcffffff">
     <div id="container">
@@ -120,7 +136,7 @@
                 </div>
 
                 <!--心愿清单-->
-                <div class="w100p mt40 pb40">
+                <div class="w100p mt40 pb40" v-show="!!loginId">
                     <div class="coll_title w670 h100 lh100 fz28 fw700 ml40 mr40 coll_arr_up">我的心愿清单</div>
                     <div class="coll_content mt20">
                         <ul class=" page w100p">
@@ -144,12 +160,12 @@
                                                 <span v-for="(str,index) in item.tips" v-if="index<4" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20" style="background-color: #282b33;">{{str}}</span>
                                             </div>
                                             <div class="pl30 pr30 pt30 fz24">
-                                                <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
-                                                <p>{{item.dur}} / {{item.groupNumber}}</p>
+                                                <p>{{item.activityProvinceCode}}</p>
+                                                <p>{{item.duration}} / {{item.groupNumberLimitCode}}</p>
                                             </div>
                                         </div>
                                         <div class="w570 h240 pa b40 l90">
-                                            <img @click="linktoDetail(item.id,'product')" :src="item.mainImageIcon" class="object-fit-cover" alt="">
+                                            <img @click="linktoDetail(item.id,'product')" :src="item.descirbeText2" class="object-fit-cover" alt="">
                                         </div>
                                         <!--<i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r72 b260" style="background-color: #282b33;">2</i>-->
                                     </li>
@@ -160,6 +176,9 @@
                                     <li class="mb34" v-for="item in collection.case.list">
                                         <div class="w670 h392 bgcffffff bs-0-0-6-0-dddddd br10 m0a ">
                                             <div class="ofh">
+                                                <a title="移除心愿清单" @click="removeWant(item.id,'case')" href="javascript:void(0)" class="h30 fr ps fz26 c999999 t30 r333">
+                                                    <img src="images/close_icon_a.png" alt="" class="w24 h24">
+                                                </a>
                                                 <div class="w254 h254 br20 ml22 mt22 fl pr">
                                                     <!--<div class="w130 h104 pa t0 l0">
                                                         <img src="images/label_tuijian.png" class="object-fit-cover" alt="">
@@ -167,7 +186,7 @@
                                                     <img @click="linktoDetail(item.id,'case')" :src="item.descirbeText2" class="object-fit-cover" alt="">
                                                 </div>
                                                 <div class="fl w382">
-                                                    <div class="fz32 fw700 pl30 pt30 w382 mult-line-ellipsis-1">{{item.name}}</div>
+                                                    <div class="fz32 fw700 pl30 pt6 w382 mult-line-ellipsis-1">{{item.name}}</div>
                                                     <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
                                                         <span v-for="(str,index) in item.tips" v-if="index<4" class="mr10">#{{str}}#</span>
                                                     </div>
@@ -191,11 +210,14 @@
                                     <li class="h450 pr fl" v-for="item in collection.location.list">
                                         <div class="w670 h392 bgcffffff bs-0-0-6-0-dddddd br10 m0a ">
                                             <div class="ofh">
+                                                <a title="移除心愿清单" @click="removeWant(item.id,'location')" href="javascript:void(0)" class="h30 fr ps fz26 c999999 t30 r333">
+                                                    <img src="images/close_icon_a.png" alt="" class="w24 h24">
+                                                </a>
                                                 <div class="w254 h254 br20 ml22 mt22 fl pr">
                                                     <img @click="linktoDetail(item.id,'location')" :src="item.descirbeText2" class="object-fit-cover" alt="">
                                                 </div>
                                                 <div class="fl w382">
-                                                    <div class="fz32 fw700 pl30 pt30 w382 mult-line-ellipsis-1">{{item.name}}</div>
+                                                    <div class="fz32 fw700 pl30 pt6 w382 mult-line-ellipsis-1">{{item.name}}</div>
                                                     <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
                                                         <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">#{{str}}#</span>
                                                     </div>

@@ -114,6 +114,7 @@ var appIndex = new Vue(
             changeTab: function (tab) {
                 var vm = this;
                 vm.tab = tab || 'product';
+                vm.queryFavourite();
             },
             queryCaseByCondition: function () {
                 var vm = this, url = requestUrl.queryCaseByCondition, param = {
@@ -149,8 +150,33 @@ var appIndex = new Vue(
                 location.href = 'detail.html?id=' + id + '&type=' + type || 'product';
             },
             removeWant: function (id, type) {
-
-            }//移除心愿清单
+                var vm = this, url = requestUrl.favouriteDelete, param = {
+                    id: id,
+                    type: type
+                };
+                axios.post(url, param).then(function (response) {
+                    console.log(response.data);
+                    if (response.data == 'success') {
+                        vm.queryFavourite(true);
+                    }
+                });
+            },//移除心愿清单
+            queryFavourite: function (refresh) {
+                var vm = this, url = requestUrl.favouriteQuery, param = {
+                    type: vm.tab
+                };
+                if (!!!refresh && vm.collection[vm.tab].list.length >0) {
+                    return;
+                }
+                axios.post(url, param).then(function (response) {
+                    console.log(response.data);
+                    if (response.data && Array.isArray(response.data.content)) {
+                        vm.collection[vm.tab].list = response.data.content;
+                    } else {
+                        vm.collection[vm.tab].list = [];
+                    }
+                });
+            }
         },
         components: {
             companyfooter: companyfooter,
@@ -188,8 +214,9 @@ var appIndex = new Vue(
                 console.log(vm.accessToken);
             };
 
-            vm.queryCaseByCondition();
-            vm.queryProdutionByCondition();
-            vm.queryLocationByCondition();
+            vm.queryFavourite();
+            //vm.queryCaseByCondition(); //TODO favourite/{query
+            //vm.queryProdutionByCondition();
+            //vm.queryLocationByCondition();
         }
     });

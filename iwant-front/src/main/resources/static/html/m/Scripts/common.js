@@ -64,7 +64,8 @@ var requestUrl = {
     getMobileWeixinOpenid:baseUrl+'weixing/getMobileWeixinOpenid',
     checkMobileOpenIdExists:baseUrl+'weixing/checkMobileOpenIdExists',
     mobileWeixinCallBack:baseUrl+'weixing/mobileWeixinCallBack',
-    bindMobileNumber :baseUrl+'weixing/bindMobileNumber'
+    bindMobileNumber :baseUrl+'weixing/bindMobileNumber',
+	validateSmsCode :baseUrl+'purchaserAccount/validateSmsCode',
 
     //DEV
     //queryProdutionByCondition: 'Json/queryProdutionByCondition.json',
@@ -108,7 +109,8 @@ var requestUrl = {
     // getMobileWeixinOpenid: 'Json/getMobileWeixinOpenid.json',
     // checkMobileOpenIdExists: 'Json/checkMobileOpenIdExists.json',
     // mobileWeixinCallBack: 'Json/mobileWeixinCallBack.json',
-    // bindMobileNumber: 'Json/bindMobileNumber.json'
+    // bindMobileNumber: 'Json/bindMobileNumber.json',
+	//validateSmsCode: 'Json/validateSmsCode.json',
 };
 
 //dev
