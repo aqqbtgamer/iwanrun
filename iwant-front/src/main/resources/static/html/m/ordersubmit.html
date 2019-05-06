@@ -160,12 +160,12 @@
                                                 <span v-for="(str,index) in item.tips" v-if="index<4" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20" style="background-color: #282b33;">{{str}}</span>
                                             </div>
                                             <div class="pl30 pr30 pt30 fz24">
-                                                <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
-                                                <p>{{item.dur}} / {{item.groupNumber}}</p>
+                                                <p>{{item.activityProvinceCode}}</p>
+                                                <p>{{item.duration}} / {{item.groupNumberLimitCode}}</p>
                                             </div>
                                         </div>
                                         <div class="w570 h240 pa b40 l90">
-                                            <img @click="linktoDetail(item.id,'product')" :src="item.mainImageIcon" class="object-fit-cover" alt="">
+                                            <img @click="linktoDetail(item.id,'product')" :src="item.descirbeText2" class="object-fit-cover" alt="">
                                         </div>
                                         <!--<i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r72 b260" style="background-color: #282b33;">2</i>-->
                                     </li>
