@@ -172,6 +172,8 @@ var appIndex = new Vue(
                     console.log(response.data);
                     if (response.data && Array.isArray(response.data.content)) {
                         vm.collection[vm.tab].list = response.data.content;
+                    } else {
+                        vm.collection[vm.tab].list = [];
                     }
                 });
             }
