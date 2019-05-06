@@ -124,7 +124,18 @@
         <section class="descirbe bgcffffff mt22 pb30" v-html="model.data.descirbeText1" style="padding-bottom:1.65333rem"></section>
 
         <section class="w750 h124 bgcffffff pf b0 l0 bs-0-0-6-0-dddddd ofh">
-            <a href="javascript:void(0)" @click="changeFavourite" class="db w160 tac fl mt20 yes-c">
+            <a href="javascript:void(0)" @click="changeFavourite" class="db tac fl mt20 yes-c" style="width:50%">
+                <div class="w44 h44 m0a">
+                    <img v-show="!model.isFavourite" src="images/icon_detail_01.png" class="object-fit-cover" alt="">
+                    <img v-show="model.isFavourite" src="images/icon_detail_01a.png" class="object-fit-cover" alt="">
+                </div>
+                <div class="fz24 c888888 mt6">收藏</div>
+            </a>
+            <a href="tel:4008897003" class="db  tac fl mt20" style="width:50%">
+                <div class="w44 h44 m0a"><img src="images/icon_detail_02.png" class="object-fit-cover" alt=""></div>
+                <div class="fz24 c888888 mt6">咨询</div>
+            </a>
+            <!--<a href="javascript:void(0)" @click="changeFavourite" class="db w160 tac fl mt20 yes-c">
                 <div class="w44 h44 m0a">
                     <img v-show="!model.isFavourite" src="images/icon_detail_01.png" class="object-fit-cover" alt="">
                     <img v-show="model.isFavourite" src="images/icon_detail_01a.png" class="object-fit-cover" alt="">
@@ -132,13 +143,12 @@
                 <div class="fz24 c888888 mt6">收藏</div>
             </a>
             <a href="tel:4008897003" class="db w160 tac fl mt20">
-                <!--w160-->
                 <div class="w44 h44 m0a"><img src="images/icon_detail_02.png" class="object-fit-cover" alt=""></div>
                 <div class="fz24 c888888 mt6">咨询</div>
             </a>
             <a href="javascript:alert('功能完善中,敬请期待')" class="db w410 h124 lh124 cffffff fz40 tac fr" style="background-color: #fd5509;">
                 加入心愿清单
-            </a>
+            </a>-->
         </section>
     </div>
 

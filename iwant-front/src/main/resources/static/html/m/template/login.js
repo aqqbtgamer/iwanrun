@@ -480,10 +480,33 @@ var login = new Vue({
         wechatBindPhone: function () {//TODO 验证码和密码
             var vm = this, openId = jQuery.cookie('openId');
             var url = requestUrl.bindMobileNumber + '?openId=' + openId + '&mobileNumber=' + vm.loginId;//微信号绑手机号
+            if (!vm.verify()) {
+                return false;
+            }
+
+            if (!vm.validateSmsCode()) {
+                return false;
+            }
+
             axios.post(url).then(function (response) {
                 console.log(response.data);
                 if (response.data) {
                     vm.wechatCallback();
+                }
+            });
+        },
+        validateSmsCode: function () { //验证短信验证码
+            var vm = this, url = requestUrl.validateSmsCode, openId = jQuery.cookie('openId'), param = {
+                mobileNumber: openId,
+                smsCode: vm.model.smsCode
+            };
+            axios.post(url).then(function (response) {
+                console.log(response.data);
+                if (response.data) {
+                    vm.model.errMsg = '您的验证码错误';
+                    return false;
+                } else {
+                    return true;
                 }
             });
         }
