@@ -193,7 +193,7 @@
     + '                 <span style="color:red;" class="c888888 fz22 mt20 fl">{{ model.errMsg }}</span>                                                                                                                                '
     + '             </div>                                                                                                                                                                                                             '
     + '             <div class="w596 m0a ofh">                                                                                                                                                                                         '
-    + '                 <a href="javascript:void(0)" @click="wechatBindPhone" class="db w596 h78 lh78 tac cffffff fz36 login_btn fl mt76">绑定登录</a>                                                                                      '
+    + '                 <a href="javascript:void(0)" @click="validateSmsCode" class="db w596 h78 lh78 tac cffffff fz36 login_btn fl mt76">绑定登录</a>                                                                                      '
     + '         </div>                                                                                                                                                                                                                 '
     + '     </div>                                                                                                                                                                                                                     '
     + '             </div>                                                                                                                                                                                                             '
@@ -480,14 +480,6 @@ var login = new Vue({
         wechatBindPhone: function () {
             var vm = this, openId = jQuery.cookie('openId');
             var url = requestUrl.bindMobileNumber + '?openId=' + openId + '&mobileNumber=' + vm.loginId;//微信号绑手机号
-            if (!vm.verify()) {
-                return false;
-            }
-
-            if (!vm.validateSmsCode()) {
-                return false;
-            }
-
             axios.post(url).then(function (response) {
                 console.log(response.data);
                 if (response.data) {
@@ -497,12 +489,16 @@ var login = new Vue({
         },
         validateSmsCode: function () { //验证短信验证码
             var vm = this, url = requestUrl.validateSmsCode + '?mobileNumber=' + vm.loginId + '&smsCode=' + vm.model.smsCode;
+            if (!vm.verify()) {
+                return false;
+            }
             axios.post(url).then(function (response) {
                 console.log(response.data);
                 if (response.data) {
                     vm.model.errMsg = '您的验证码错误,请重新获取';
                     return false;
                 } else {
+                    vm.wechatBindPhone();
                     return true;
                 }
             });
