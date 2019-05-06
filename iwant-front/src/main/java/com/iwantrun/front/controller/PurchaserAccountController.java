@@ -157,11 +157,13 @@ public class PurchaserAccountController {
 	}
 	
 	@RequestMapping("getWeixinLoginUrl")
+	@ResponseBody
 	public String getWeixinLoginUrl(HttpServletRequest request) {
 		return service.getWeixinLoginUrl();
 	}
 	
 	@RequestMapping("validateSmsCode")
+	@ResponseBody
 	public String validateSmsCode(HttpServletRequest request) {
 		String mobileNumber = request.getParameter("mobileNumber");
 		String smsCode = request.getParameter("smsCode");
