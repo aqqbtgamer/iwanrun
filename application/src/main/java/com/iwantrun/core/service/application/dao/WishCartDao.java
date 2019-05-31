@@ -12,5 +12,7 @@ public interface WishCartDao extends JpaRepository<WishCart, Integer> {
 	Page<WishCart> findByLoginId(String loginId,Pageable page);
 	
 	Page<WishCart> findByLoginIdAndType(String loginId,EntityType type,Pageable page);
+	
+	WishCart findByLoginIdAndTypeAndTypeId(String loginId,EntityType type,int typeId);
 
 }

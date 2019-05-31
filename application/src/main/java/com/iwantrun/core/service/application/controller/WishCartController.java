@@ -88,5 +88,21 @@ public class WishCartController {
 			return message ;
 		}
 	}
+	
+	@RequestMapping("findOne")	
+	public Message findWishCartByTypeId(@RequestBody Message message) {
+		String requestBody = message.getMessageBody();
+		if(requestBody == null ) {
+			return message ;
+		}else {
+			JSONObject requestJson = (JSONObject) JSONValue.parse(requestBody);
+			String loginId = requestJson.getAsString("loginId");
+			String type = requestJson.getAsString("type");
+			int typeId = requestJson.getAsNumber("typeId").intValue();
+			String resultJson = service.findOne(loginId, type,typeId);
+			message.setMessageBody(resultJson);
+			return message ;
+		}
+	}
 
 }

@@ -82,5 +82,19 @@ public class WishCartController {
 		ResponseEntity<Message> response = template.postForEntity(postUrl, message, Message.class);
 		return response.getBody().getMessageBody();
 	}
+	
+	
+	@RequestMapping("findOne")
+	@ResponseBody
+	public String findOne(@RequestBody JSONObject requestObj,HttpServletRequest request) {
+		String token = CookieUtils.getLoginToken(request);
+		Message message = new Message();
+		message.setAccessToken(token);
+		message.setMessageBody(requestObj.toJSONString());
+		String postUrl = baseUrl+"/application/wishcart/findOne";
+		message.setRequestMethod(postUrl); 
+		ResponseEntity<Message> response = template.postForEntity(postUrl, message, Message.class);
+		return response.getBody().getMessageBody();
+	}
 
 }

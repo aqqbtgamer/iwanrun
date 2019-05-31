@@ -73,6 +73,13 @@ public class WishCartService {
 		default:
 			break;			
 		}
+		//verify if exists exists then pass by 
+		WishCart query = dao.findByLoginIdAndTypeAndTypeId(loginId, entityType, typeId);
+		if(query != null) {
+			result.put("success", true);
+			result.put("message", query.getId());
+			return result ;
+		}		
 		//all verified 
 		WishCart cart = new WishCart();
 		cart.setLoginId(loginId);
@@ -116,6 +123,25 @@ public class WishCartService {
 				return PageDataWrapUtils.page2Json(result);
 			}
 		}
+	}
+
+
+	public String findOne(String loginId, String type, int typeId) {
+		if(loginId == null) {
+			return null;
+		}else {
+			EntityType entityType = EntityType.match(type);
+			if(entityType == null) {
+				return null ;
+			}else {
+				WishCart query = dao.findByLoginIdAndTypeAndTypeId(loginId, entityType, typeId);
+				if(query != null) {
+					return JSONUtils.objToJSON(query);
+				}else {
+					return null;
+				}
+			}
+		}		
 	}
 	
 
