@@ -84,7 +84,7 @@
             };
             axios.post(url, param).then(function (response) {
                 console.log(response.data);
-                if (response.data == 'success') {
+                if (response.data && response.data.success) {
                     vm.model.isWish = !vm.model.isWish;
                 }
             });

@@ -153,7 +153,8 @@ var appIndex = new Vue(
                 location.href = 'detail.html?id=' + id + '&type=' + type || 'product';
             },
             removeWant: function (id, type) {
-                var vm = this, url = requestUrl.favouriteDelete, param = {
+                var vm = this, type = type === 'product' ? 'production' : type;
+                var url = requestUrl.favouriteDelete, param = {
                     id: id,
                     type: type
                 };
@@ -165,8 +166,9 @@ var appIndex = new Vue(
                 });
             },//移除心愿清单
             wishcartQuery: function (refresh) {
-                var vm = this, url = requestUrl.wishcartQuery, param = {
-                    type: vm.tab,
+                var vm = this, type = vm.tab === 'product' ? 'production' : vm.tab;
+                var url = requestUrl.wishcartQuery, param = {
+                    type: type,
                     loginId: vm.loginId,
                     pageIndex: vm.collection[vm.tab].pageIndex,
                     pageSize: vm.collection[vm.tab].pageSize
