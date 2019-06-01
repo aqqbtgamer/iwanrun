@@ -1,5 +1,6 @@
 package com.iwantrun.core.service.utils;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,7 +11,10 @@ public class AESUtilsTest {
 	@Test
 	public void test() {
 		System.out.println(AESUtils.encode("admin1876"));	
-		System.out.println(AESUtils.decode("mVtepqNqj6mw1AUHSHCniA=="));
+		System.out.println(AESUtils.decode("DBpGYjGCS1moV9uToJf0QtSWWAhZEvZnxJNAVoq5Xd2Rz8w/hyDfimu5ZDCgi7QtrCB1hdya57aEmxPb7pwjoYE7iIXFJyjmPvhhZMDk8hl5KbUPS9NhWU+nGugV7ra62ARFjYIcZxcVr1NCr2qzDw=="));
+		Date date = new Date();
+		date.setTime(1559387946308L);
+		System.out.println(date.toLocaleString());
 	}
 	
 	@Test

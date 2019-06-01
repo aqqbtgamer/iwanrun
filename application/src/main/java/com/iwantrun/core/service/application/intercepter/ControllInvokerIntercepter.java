@@ -43,6 +43,7 @@ public class ControllInvokerIntercepter {
 					for(Object arg : args) {
 						if(arg instanceof Message) {
 							String accessToken = ((Message)arg).getAccessToken();
+							logger.info("received verify token [{}]",accessToken);
 							JSONObject object =(JSONObject) JSONValue.parse(accessToken);							
 							validToken = 
 									LoginTokenVerifyUtils.verifyLoginToken

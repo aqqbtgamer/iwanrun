@@ -34,6 +34,7 @@ public class WishCartController {
 	@ResponseBody
 	public String add(@RequestBody JSONObject requestObj,HttpServletRequest request) {
 		String token = CookieUtils.getLoginToken(request);
+		logger.info("wish cart add ,send token token[{}]",token);
 		Message message = new Message();
 		message.setAccessToken(token);
 		message.setMessageBody(requestObj.toJSONString());
