@@ -187,13 +187,14 @@ var appIndex = new Vue(
                     console.log(response.data);
                     if (response.data && Array.isArray(response.data.content)) {
                         $.each(response.data.content, function (index, item) {
-                            var getUrl = getDetailById[item.type] + '?id = ' + item.typeId;
-                            axios.post(getDetailById[item.type], {}).then(function (response) {
+                            var getUrl = getDetailById[item.type] + '?id=' + item.typeId;
+                            axios.post(getUrl, {}).then(function (response) {
                                 console.log(response.data);
                                 item.model = response.data;
                                 item.type = item.type.toLowerCase();
                                 item.type = item.type === 'production' ? 'product' : item.type;
                                 vm.collection[item.type].list.push(item);
+                                console.log(vm.collection);
                             });
                         });
                         //vm.collection[vm.tab].list = vm.collection[vm.tab].list.concat(response.data.content);
