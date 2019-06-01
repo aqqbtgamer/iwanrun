@@ -70,14 +70,16 @@
             };
             axios.post(url, param).then(function (response) {
                 console.log(response.data);
-                var data = response.data.content;
-                //TODO
+                if (response.data) {
+                    vm.model.isWish = true;
+                }
             });
         },
         wishChange: function () {
+            var type = vm.model.type === 'product' ? 'production' : vm.model.type;
             var vm = this, url = vm.model.isWish ? requestUrl.wishcartDelete : requestUrl.wishcartAdd, param = {
                 id: vm.model.id,
-                type: vm.model.type,
+                type: type,
                 loginId: vm.loginId
             };
             axios.post(url, param).then(function (response) {
