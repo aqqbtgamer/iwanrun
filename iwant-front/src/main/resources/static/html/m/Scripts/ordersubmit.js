@@ -188,7 +188,7 @@ var appIndex = new Vue(
                     if (response.data && Array.isArray(response.data.content)) {
                         $.each(response.data.content, function (index, item) {
                             var getUrl = getDetailById[item.type] + '?id = ' + item.typeId;
-                            axios.post(url, {}).then(function (response) {
+                            axios.post(getDetailById[item.type], {}).then(function (response) {
                                 console.log(response.data);
                                 item.model = response.data;
                                 item.type = item.type.toLowerCase();
