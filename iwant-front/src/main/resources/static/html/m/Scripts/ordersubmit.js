@@ -193,11 +193,14 @@ var appIndex = new Vue(
                                 item.model = response.data;
                                 item.type = item.type.toLowerCase();
                                 item.type = item.type === 'production' ? 'product' : item.type;
-                                vm.collection[item.type].list.push(item);
-                                console.log(vm.collection);
+                                //vm.collection[item.type].list.push(item);
+                                $.each(vm.collection[item.type].list, function (ind, val) {
+                                    val.model = item;
+                                });
+                                console.log(vm.collection[item.type]);
                             });
                         });
-                        //vm.collection[vm.tab].list = vm.collection[vm.tab].list.concat(response.data.content);
+                        vm.collection[vm.tab].list = vm.collection[vm.tab].list.concat(response.data.content);
 
                         vm.collection[vm.tab].showbtnmore = vm.collection[vm.tab].list.length < response.data.pageInfo.total;
                     } else {
