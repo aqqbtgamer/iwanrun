@@ -63,10 +63,11 @@
             });
         },
         wishcartFindOne: function () {
-            var vm = this, url = requestUrl.wishcartFindOne, param = {
+            var vm = this, type = vm.model.type === 'product' ? 'production' : vm.model.type;
+            var url = requestUrl.wishcartFindOne, param = {
                 typeId: vm.model.id,
                 loginId: vm.loginId,
-                type: vm.model.type
+                type: type
             };
             axios.post(url, param).then(function (response) {
                 console.log(response.data);
