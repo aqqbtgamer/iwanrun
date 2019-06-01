@@ -173,13 +173,31 @@ var appIndex = new Vue(
                     pageIndex: vm.collection[vm.tab].pageIndex,
                     pageSize: vm.collection[vm.tab].pageSize
                 };
+
+                var getDetailById = {
+                    Production: requestUrl.getProductionDetailsById,
+                    Case: requestUrl.getCaseDetailsById,
+                    Location: requestUrl.getLocationDetailsById
+                };
+
                 if (!!!refresh && vm.collection[vm.tab].list.length > 0) {
                     return;
                 }
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);
                     if (response.data && Array.isArray(response.data.content)) {
-                        vm.collection[vm.tab].list = vm.collection[vm.tab].list.concat(response.data.content);
+                        $.each(response.data.content, function (index, item) {
+                            var getUrl = getDetailById[item.type] + '?id = ' + item.typeId;
+                            axios.post(url, {}).then(function (response) {
+                                console.log(response.data);
+                                item.model = response.data;
+                                item.type = item.type.toLowerCase();
+                                item.type = item.type === 'production' ? 'product' : item.type;
+                                vm.collection[item.type].list.push(item);
+                            });
+                        });
+                        //vm.collection[vm.tab].list = vm.collection[vm.tab].list.concat(response.data.content);
+
                         vm.collection[vm.tab].showbtnmore = vm.collection[vm.tab].list.length < response.data.pageInfo.total;
                     } else {
                         vm.collection[vm.tab].list = [];
