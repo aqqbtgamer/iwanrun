@@ -7,7 +7,8 @@
             id: getUrlParam('id'),
             type: getUrlParam('type'),
             data: {},
-            isFavourite: false
+            isFavourite: false,
+            isWish: false
         }
     },
     methods: {
@@ -60,6 +61,31 @@
                     vm.model.isFavourite = !vm.model.isFavourite;
                 }
             });
+        },
+        wishcartFindOne: function () {
+            var vm = this, url = requestUrl.wishcartFindOne, param = {
+                typeId: vm.model.id,
+                loginId: vm.loginId,
+                type: vm.model.type
+            };
+            axios.post(url, param).then(function (response) {
+                console.log(response.data);
+                var data = response.data.content;
+                //TODO
+            });
+        },
+        wishChange: function () {
+            var vm = this, url = vm.model.isWish ? requestUrl.wishcartDelete : requestUrl.wishcartAdd, param = {
+                id: vm.model.id,
+                type: vm.model.type,
+                loginId: vm.loginId
+            };
+            axios.post(url, param).then(function (response) {
+                console.log(response.data);
+                if (response.data == 'success') {
+                    vm.model.isWish = !vm.model.isWish;
+                }
+            });
         }
     },
     created: function () {
@@ -76,5 +102,6 @@
             init[vm.model.type]();
         }
         vm.getFavourite();
+        vm.wishcartFindOne();
     }
 });

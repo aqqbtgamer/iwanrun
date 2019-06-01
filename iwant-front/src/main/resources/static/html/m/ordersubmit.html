@@ -170,6 +170,7 @@
                                         <!--<i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r72 b260" style="background-color: #282b33;">2</i>-->
                                     </li>
                                 </ul>
+                                <a href="javascript:void(0)" @click="getMore" v-show="collection.product.showbtnmore" class=" db w670 h86 lh86 tac fz28 c666666 m0a">点击查看更多</a>
                             </section>
                             <section v-show="tab==='case'" class="li_list w100p bgcffffff mt-4 pb40">
                                 <ul class="pt40">
@@ -204,6 +205,7 @@
                                         </div>
                                     </li>
                                 </ul>
+                                <a href="javascript:void(0)" @click="getMore" v-show="collection.case.showbtnmore" class=" db w670 h86 lh86 tac fz28 c666666 m0a">点击查看更多</a>
                             </section>
                             <section v-show="tab==='location'" class="li_list w100p bgcffffff mt-4 pb40">
                                 <ul class="pt40 ml30 mr30 ofh">
@@ -242,6 +244,7 @@
                                         </div>
                                     </li>
                                 </ul>
+                                <a href="javascript:void(0)" @click="getMore" v-show="collection.location.showbtnmore" class=" db w670 h86 lh86 tac fz28 c666666 m0a">点击查看更多</a>
                             </section>
 
                         </div>

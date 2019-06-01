@@ -1,6 +1,6 @@
-TODO
-4.微信登陆
-5.微信打开首页 图片切换有问题
+1.心愿清单
+
+
 
 测试
 1.首页 
@@ -44,7 +44,7 @@ TODO
 16.
 
 git pull
-mvn install-Dmaven.test.skip=true
+mvn install -Dmaven.test.skip=true
 mvn spring-boot:run
 
 

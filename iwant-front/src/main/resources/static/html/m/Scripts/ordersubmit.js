@@ -31,17 +31,20 @@ var appIndex = new Vue(
                 product: {
                     list: [],
                     pageIndex: 0,
-                    pageSize: 3
+                    pageSize: 3,
+                    showbtnmore: false
                 },
                 case: {
                     list: [],
                     pageIndex: 0,
-                    pageSize: 3
+                    pageSize: 3,
+                    showbtnmore: false
                 },
                 location: {
                     list: [],
                     pageIndex: 0,
-                    pageSize: 3
+                    pageSize: 3,
+                    showbtnmore: false
                 }
             },
             styleClass: {
@@ -114,7 +117,7 @@ var appIndex = new Vue(
             changeTab: function (tab) {
                 var vm = this;
                 vm.tab = tab || 'product';
-                vm.queryFavourite();
+                vm.wishcartQuery();
             },
             queryCaseByCondition: function () {
                 var vm = this, url = requestUrl.queryCaseByCondition, param = {
@@ -157,26 +160,35 @@ var appIndex = new Vue(
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);
                     if (response.data == 'success') {
-                        vm.queryFavourite(true);
+                        vm.wishcartQuery(true);
                     }
                 });
             },//移除心愿清单
-            queryFavourite: function (refresh) {
-                var vm = this, url = requestUrl.favouriteQuery, param = {
-                    type: vm.tab
+            wishcartQuery: function (refresh) {
+                var vm = this, url = requestUrl.wishcartQuery, param = {
+                    type: vm.tab,
+                    loginId: vm.loginId,
+                    pageIndex: vm.collection[vm.tab].pageIndex,
+                    pageSize: vm.collection[vm.tab].pageSize
                 };
-                if (!!!refresh && vm.collection[vm.tab].list.length >0) {
+                if (!!!refresh && vm.collection[vm.tab].list.length > 0) {
                     return;
                 }
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);
                     if (response.data && Array.isArray(response.data.content)) {
-                        vm.collection[vm.tab].list = response.data.content;
+                        vm.collection[vm.tab].list = vm.collection[vm.tab].list.concat(response.data.content);
+                        vm.collection[vm.tab].showbtnmore = vm.collection[vm.tab].list.length < response.data.pageInfo.total;
                     } else {
                         vm.collection[vm.tab].list = [];
                     }
                 });
-            }
+            },
+            getMore: function () {
+                var vm = this;
+                vm.collection[vm.tab].pageIndex += 1;
+                vm.wishcartQuery();
+            },
         },
         components: {
             companyfooter: companyfooter,
@@ -214,7 +226,7 @@ var appIndex = new Vue(
                 console.log(vm.accessToken);
             };
 
-            vm.queryFavourite();
+            vm.wishcartQuery();
             //vm.queryCaseByCondition(); //TODO favourite/{query
             //vm.queryProdutionByCondition();
             //vm.queryLocationByCondition();

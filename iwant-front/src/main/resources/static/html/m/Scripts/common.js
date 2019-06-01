@@ -66,6 +66,11 @@ var requestUrl = {
     mobileWeixinCallBack:baseUrl+'weixing/mobileWeixinCallBack',
     bindMobileNumber :baseUrl+'weixing/bindMobileNumber',
 	validateSmsCode :baseUrl+'purchaserAccount/validateSmsCode',
+	wishcartAdd: baseUrl + 'wishcart/add',
+    wishcartDelete: baseUrl + 'wishcart/delete',
+    wishcartFind: baseUrl + 'wishcart/find',
+    wishcartQuery: baseUrl + 'wishcart/query',
+    wishcartFindOne: baseUrl + 'wishcart/findOne',
 
     //DEV
     //queryProdutionByCondition: 'Json/queryProdutionByCondition.json',
@@ -111,6 +116,11 @@ var requestUrl = {
     // mobileWeixinCallBack: 'Json/mobileWeixinCallBack.json',
     // bindMobileNumber: 'Json/bindMobileNumber.json',
 	//validateSmsCode: 'Json/validateSmsCode.json',
+	// wishcartAdd: 'Json/wishcartAdd.json',
+    // wishcartDelete: 'Json/wishcartDelete.json',
+    // wishcartFind: 'Json/wishcartFind.json',
+    // wishcartQuery: 'Json/wishcartQuery.json',
+    // wishcartFindOne: 'Json/wishcartFindOne.json',
 };
 
 //dev
