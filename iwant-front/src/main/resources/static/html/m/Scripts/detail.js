@@ -76,8 +76,8 @@
             });
         },
         wishChange: function () {
-            var type = vm.model.type === 'product' ? 'production' : vm.model.type;
-            var vm = this, url = vm.model.isWish ? requestUrl.wishcartDelete : requestUrl.wishcartAdd, param = {
+            var vm = this, type = vm.model.type === 'product' ? 'production' : vm.model.type;
+            var url = vm.model.isWish ? requestUrl.wishcartDelete : requestUrl.wishcartAdd, param = {
                 id: vm.model.id,
                 type: type,
                 loginId: vm.loginId
