@@ -8,7 +8,7 @@
             type: getUrlParam('type'),
             data: {},
             isFavourite: false,
-            isWish: false
+            wishId: false,
         }
     },
     methods: {
@@ -71,22 +71,22 @@
             };
             axios.post(url, param).then(function (response) {
                 console.log(response.data);
-                if (response.data) {
-                    vm.model.isWish = true;
+                if (response.data && response.data.id > 0) {
+                    vm.model.wishId = response.data.id;
                 }
             });
         },
         wishChange: function () {
             var vm = this, type = vm.model.type === 'product' ? 'production' : vm.model.type;
-            var url = vm.model.isWish ? requestUrl.wishcartDelete : requestUrl.wishcartAdd, param = {
-                id: vm.model.id,
+            var url = vm.model.wishId ? requestUrl.wishcartDelete : requestUrl.wishcartAdd, param = {
+                id: vm.model.wishId || vm.model.id,
                 type: type,
                 loginId: vm.loginId
             };
             axios.post(url, param).then(function (response) {
                 console.log(response.data);
                 if (response.data && response.data.success) {
-                    vm.model.isWish = !vm.model.isWish;
+                    vm.model.wishId = vm.model.wishId ? false : response.data.message;
                 }
             });
         }
