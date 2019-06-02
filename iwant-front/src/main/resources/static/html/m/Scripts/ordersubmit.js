@@ -162,7 +162,7 @@ var appIndex = new Vue(
                 };
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);
-                    if (response.data == 'success') {
+                    if (response.data && response.data.success) {
                         vm.wishcartQuery(true, false);
                     }
                 });
@@ -182,7 +182,7 @@ var appIndex = new Vue(
                     Location: requestUrl.getLocationDetailsById
                 };
 
-                if (!!!refresh && vm.collection[vm.tab].list.length > 0 && !getMore) {
+                if (!!!refresh && vm.collection[vm.tab].list.length > 0 || !getMore) {
                     return;
                 }
                 if (!!refresh) {
