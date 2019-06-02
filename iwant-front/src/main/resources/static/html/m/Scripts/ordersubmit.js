@@ -156,7 +156,8 @@ var appIndex = new Vue(
                 var vm = this, type = type === 'product' ? 'production' : type;
                 var url = requestUrl.favouriteDelete, param = {
                     id: id,
-                    type: type
+                    type: type,
+                    loginId: vm.loginId
                 };
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);
@@ -182,6 +183,9 @@ var appIndex = new Vue(
 
                 if (!!!refresh && vm.collection[vm.tab].list.length > 0) {
                     return;
+                }
+                if (!!refresh) {
+                    vm.collection[vm.tab].list = [];
                 }
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);

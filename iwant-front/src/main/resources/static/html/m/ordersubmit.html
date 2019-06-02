@@ -136,7 +136,7 @@
                 </div>
 
                 <!--心愿清单-->
-                <div class="w100p mt40 pb40" v-show="!!loginId">
+                <div class="w100p mt40 pb40" v-show="!!accessToken">
                     <div class="coll_title w670 h100 lh100 fz28 fw700 ml40 mr40 coll_arr_up">我的心愿清单</div>
                     <div class="coll_content mt20">
                         <ul class=" page w100p">
@@ -156,16 +156,16 @@
                                         </a>
                                         <div class="w670 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
                                             <div class="fz32 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.class.name}}</div>
-                                            <div class="pl30 pr30 pt30 fz18">
+                                            <!--<div class="pl30 pr30 pt30 fz18">
                                                 <span v-for="(str,index) in item.class.tips" v-if="index<4" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20" style="background-color: #282b33;">{{str}}</span>
-                                            </div>
+                                            </div>-->
                                             <div class="pl30 pr30 pt30 fz24">
-                                                <p>{{item.class.activityProvinceCode}}</p>
-                                                <p>{{item.class.duration}} / {{item.class.groupNumberLimitCode}}</p>
+                                                <p>{{item.class.provinceName}}.{{item.class.cityName}}</p>
+                                                <p>{{item.class.duringRange}} / {{item.class.groupNumberRange}}</p>
                                             </div>
                                         </div>
                                         <div class="w570 h240 pa b40 l90">
-                                            <img @click="linktoDetail(item.typeId,'product')" :src="item.descirbeText2" class="object-fit-cover" alt="">
+                                            <img @click="linktoDetail(item.typeId,'product')" :src="item.mainImageLarge" class="object-fit-cover" alt="">
                                         </div>
                                         <!--<i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r72 b260" style="background-color: #282b33;">2</i>-->
                                     </li>
