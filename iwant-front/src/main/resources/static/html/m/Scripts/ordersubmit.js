@@ -118,7 +118,7 @@ var appIndex = new Vue(
             changeTab: function (tab) {
                 var vm = this;
                 vm.tab = tab || 'product';
-                vm.wishcartQuery();
+                vm.wishcartQuery(false, false);
             },
             queryCaseByCondition: function () {
                 var vm = this, url = requestUrl.queryCaseByCondition, param = {
@@ -163,7 +163,7 @@ var appIndex = new Vue(
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);
                     if (response.data == 'success') {
-                        vm.wishcartQuery(true);
+                        vm.wishcartQuery(true, false);
                     }
                 });
             },//移除心愿清单
@@ -258,13 +258,13 @@ var appIndex = new Vue(
                 sildemenu.loginId = jQuery.cookie('loginId');
                 sildemenu.accessToken = jQuery.cookie('accessToken');
                 vm.showWish = true;
-                vm.wishcartQuery();
+                vm.wishcartQuery(true, false);
                 //console.log(vm.accessToken);
             };
 
             vm.ValidateLogin(function () {
                 vm.showWish = true;
-                vm.wishcartQuery();
+                vm.wishcartQuery(true, false);
             }, function () {
                 login.show = true;
             });
