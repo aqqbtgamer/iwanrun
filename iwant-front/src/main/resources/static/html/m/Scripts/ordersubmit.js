@@ -167,7 +167,7 @@ var appIndex = new Vue(
                     }
                 });
             },//移除心愿清单
-            wishcartQuery: function (refresh) {
+            wishcartQuery: function (refresh, getMore) {
                 var vm = this, type = vm.tab === 'product' ? 'production' : vm.tab;
                 var url = requestUrl.wishcartQuery, param = {
                     type: type,
@@ -182,7 +182,7 @@ var appIndex = new Vue(
                     Location: requestUrl.getLocationDetailsById
                 };
 
-                if (!!!refresh && vm.collection[vm.tab].list.length > 0) {
+                if (!!!refresh && vm.collection[vm.tab].list.length > 0 && !getMore) {
                     return;
                 }
                 if (!!refresh) {
@@ -222,7 +222,7 @@ var appIndex = new Vue(
             getMore: function () {
                 var vm = this;
                 vm.collection[vm.tab].pageIndex += 1;
-                vm.wishcartQuery();
+                vm.wishcartQuery(false, true);
             },
         },
         components: {
