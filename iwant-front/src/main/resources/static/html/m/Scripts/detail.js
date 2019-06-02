@@ -55,6 +55,10 @@
                 id: vm.model.id,
                 type: vm.model.type
             };
+            if (!vm.IsValidated) {
+                login.show = true;
+                return;
+            }
             axios.post(url, param).then(function (response) {
                 console.log(response.data);
                 if (response.data == 'success') {
@@ -78,6 +82,10 @@
         },
         wishChange: function () {
             var vm = this, type = vm.model.type === 'product' ? 'production' : vm.model.type;
+            if (!vm.IsValidated) {
+                login.show = true;
+                return;
+            }
             var url = vm.model.wishId ? requestUrl.wishcartDelete : requestUrl.wishcartAdd, param = {
                 id: vm.model.wishId || vm.model.id,
                 type: type,
@@ -90,6 +98,9 @@
                 }
             });
         }
+    },
+    components: {
+        login: login
     },
     created: function () {
         var vm = this;
@@ -104,7 +115,22 @@
         if (typeof (init[vm.model.type]) === 'function') {
             init[vm.model.type]();
         }
-        vm.getFavourite();
-        vm.wishcartFindOne();
+       
+
+        login.callback = function () {
+            vm.loginId = jQuery.cookie('loginId');
+            vm.accessToken = jQuery.cookie('accessToken');
+            //console.log(vm.accessToken);
+            vm.getFavourite();
+            vm.wishcartFindOne();
+        };
+        vm.ValidateLogin(function () {
+            if (!vm.IsValidated) {
+                login.show = true;
+            } else {
+                vm.getFavourite();
+                vm.wishcartFindOne();
+            }
+        });
     }
 });

@@ -250,10 +250,11 @@ var appIndex = new Vue(
                 vm.accessToken = jQuery.cookie('accessToken');
                 sildemenu.loginId = jQuery.cookie('loginId');
                 sildemenu.accessToken = jQuery.cookie('accessToken');
-                console.log(vm.accessToken);
+                vm.wishcartQuery();
+                //console.log(vm.accessToken);
             };
 
-            vm.wishcartQuery();
+         
             //vm.queryCaseByCondition(); //TODO favourite/{query
             //vm.queryProdutionByCondition();
             //vm.queryLocationByCondition();

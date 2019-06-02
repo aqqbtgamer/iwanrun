@@ -246,3 +246,19 @@ function fileUpload(contentId, url, uploadFile, callback) {
         }
     });
 }
+
+Vue.prototype.IsValidated = false;
+Vue.prototype.ValidateLogin = function (callback) { //判断是否登录有权限
+    var vm = this, url = requestUrl.findMixedByLoginId, param = {};
+    axios.post(url, param).then(function (response) {
+        //console.log(response.data);
+        var data = response.data;
+        if (data) {
+            var errMsg = data.errMsg;
+            Vue.prototype.IsValidated = !!errMsg;
+            if (typeof callback === 'function') {
+                callback(response.data)
+            }
+        }
+    })
+}

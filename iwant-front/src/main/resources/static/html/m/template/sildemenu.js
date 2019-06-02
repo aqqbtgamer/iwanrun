@@ -83,6 +83,7 @@ var sildemenu = new Vue({
                     if (errMsg) {
                         login.show = true;
                     }
+                    vm.IsValidated = true;
                     var info = data.userInfo;
                     var headImgs = data.headImgs;
                     var companyCredentials = data.companyCredentials;

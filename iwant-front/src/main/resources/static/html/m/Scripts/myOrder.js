@@ -40,6 +40,13 @@
         if (!jQuery.cookie('accessToken') || !vm.id) {
             window.location.href = 'index.html';
         }
-        vm.getOrderByID();
+
+        vm.ValidateLogin(function () {
+            if (!vm.IsValidated) {
+                window.location.href = 'index.html';
+            } else {
+                vm.getOrderByID();
+            }
+        });
     }
 });
