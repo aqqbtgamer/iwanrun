@@ -22,6 +22,7 @@
                 if (data) {
                     var errMsg = data.errMsg;
                     if (errMsg) {
+                        jQuery.cookie('accessToken', '');
                         window.location.href = 'index.html';
                     }
                     var info = data.userInfo;

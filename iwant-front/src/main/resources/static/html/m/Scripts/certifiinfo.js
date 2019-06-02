@@ -30,6 +30,7 @@
                     if (data) {
                         var errMsg = data.errMsg;
                         if (errMsg) {
+                            jQuery.cookie('accessToken', '');
                             login.show = true;
                         }
                         var info = data.userInfo;

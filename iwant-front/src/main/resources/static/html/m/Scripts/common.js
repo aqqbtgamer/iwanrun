@@ -255,7 +255,10 @@ Vue.prototype.ValidateLogin = function (callback) { //判断是否登录有权�
         var data = response.data;
         if (data) {
             var errMsg = data.errMsg;
-            Vue.prototype.IsValidated = !!errMsg;
+            vm.IsValidated = !!errMsg;
+            if (!vm.IsValidated) {
+                jQuery.cookie('accessToken', '');
+            }
             if (typeof callback === 'function') {
                 callback(response.data)
             }
