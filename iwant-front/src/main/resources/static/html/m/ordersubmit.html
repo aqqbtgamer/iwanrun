@@ -147,7 +147,7 @@
                         <div class="">
                             <section v-show="tab==='product'" class="li_list w100p bgcffffff mt-4 pb40 ">
                                 <ul class="pt40">
-                                    <li class="h550 pr" v-for="item in collection.product.list">
+                                    <li class="h550 pr" v-for="item in collection.product.list" v-show="item.class">
                                         <!--<a class="h30 fz26 c999999 pa t30 r70">
                                             移除清单
                                         </a>-->
@@ -155,13 +155,13 @@
                                             <img src="images/close_icon_a.png" alt="" class="w24 h24">
                                         </a>
                                         <div class="w670 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
-                                            <div class="fz32 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.model.name}}</div>
+                                            <div class="fz32 fw700 pl30 pt30 w534 mult-line-ellipsis-1">{{item.class.name}}</div>
                                             <div class="pl30 pr30 pt30 fz18">
-                                                <span v-for="(str,index) in item.model.tips" v-if="index<4" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20" style="background-color: #282b33;">{{str}}</span>
+                                                <span v-for="(str,index) in item.class.tips" v-if="index<4" class="dib pl14 pr14 pt10 pb10 cffffff br6 mr20" style="background-color: #282b33;">{{str}}</span>
                                             </div>
                                             <div class="pl30 pr30 pt30 fz24">
-                                                <p>{{item.model.activityProvinceCode}}</p>
-                                                <p>{{item.model.duration}} / {{item.model.groupNumberLimitCode}}</p>
+                                                <p>{{item.class.activityProvinceCode}}</p>
+                                                <p>{{item.class.duration}} / {{item.class.groupNumberLimitCode}}</p>
                                             </div>
                                         </div>
                                         <div class="w570 h240 pa b40 l90">
@@ -174,7 +174,7 @@
                             </section>
                             <section v-show="tab==='case'" class="li_list w100p bgcffffff mt-4 pb40">
                                 <ul class="pt40">
-                                    <li class="mb34" v-for="item in collection.case.list">
+                                    <li class="mb34" v-for="item in collection.case.list" v-show="item.class">
                                         <div class="w670 h392 bgcffffff bs-0-0-6-0-dddddd br10 m0a ">
                                             <div class="ofh">
                                                 <a title="移除心愿清单" @click="removeWant(item.id,'case')" href="javascript:void(0)" class="h30 fr ps fz26 c999999 t30 r333">
@@ -187,13 +187,13 @@
                                                     <img @click="linktoDetail(item.typeId,'case')" :src="item.descirbeText2" class="object-fit-cover" alt="">
                                                 </div>
                                                 <div class="fl w382">
-                                                    <div class="fz32 fw700 pl30 pt6 w382 mult-line-ellipsis-1">{{item.model.name}}</div>
+                                                    <div class="fz32 fw700 pl30 pt6 w382 mult-line-ellipsis-1">{{item.class.name}}</div>
                                                     <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
-                                                        <span v-for="(str,index) in item.model.tips" v-if="index<4" class="mr10">#{{str}}#</span>
+                                                        <span v-for="(str,index) in item.class.tips" v-if="index<4" class="mr10">#{{str}}#</span>
                                                     </div>
                                                     <div class="pl30 pr30 pt14 fz24 c666666">
-                                                        <p>{{item.model.activityProvinceCode}}·{{item.model.activityCityCode}}</p>
-                                                        <p>{{item.model.designDuringCo}} / {{item.model.groupNumber}}</p>
+                                                        <p>{{item.class.activityProvinceCode}}·{{item.class.activityCityCode}}</p>
+                                                        <p>{{item.class.designDuringCo}} / {{item.class.groupNumber}}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -209,7 +209,7 @@
                             </section>
                             <section v-show="tab==='location'" class="li_list w100p bgcffffff mt-4 pb40">
                                 <ul class="pt40 ml30 mr30 ofh">
-                                    <li class="h450 pr fl" v-for="item in collection.location.list" v-show="item.model">
+                                    <li class="h450 pr fl" v-for="item in collection.location.list" v-show="item.class">
                                         <div class="w670 h392 bgcffffff bs-0-0-6-0-dddddd br10 m0a ">
                                             <div class="ofh">
                                                 <a title="移除心愿清单" @click="removeWant(item.id,'location')" href="javascript:void(0)" class="h30 fr ps fz26 c999999 t30 r333">
@@ -219,19 +219,19 @@
                                                     <img @click="linktoDetail(item.typeId,'location')" :src="item.descirbeText2" class="object-fit-cover" alt="">
                                                 </div>
                                                 <div class="fl w382">
-                                                    <div class="fz32 fw700 pl30 pt6 w382 mult-line-ellipsis-1">{{item.model.name}}</div>
+                                                    <div class="fz32 fw700 pl30 pt6 w382 mult-line-ellipsis-1">{{item.class.name}}</div>
                                                     <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
-                                                        <span v-for="(str,index) in item.model.tips" v-if="index<4" class="dib mr10">#{{str}}#</span>
+                                                        <span v-for="(str,index) in item.class.tips" v-if="index<4" class="dib mr10">#{{str}}#</span>
                                                     </div>
                                                     <div class="pl30 pr30 pt14 fz24 c666666">
-                                                        <p>{{item.model.activityProvinceCode}}·{{item.model.activityCityCode}}</p>
-                                                        <p>{{item.model.designDuringCo}} / {{item.model.groupNumberLimit}}</p>
+                                                        <p>{{item.class.activityProvinceCode}}·{{item.class.activityCityCode}}</p>
+                                                        <p>{{item.class.designDuringCo}} / {{item.class.groupNumberLimit}}</p>
                                                     </div>
                                                     <div class="ml30 mr30 mt60 pr">
                                                         <div class="fz34 pa b0 l0" style="color: #fd5509">
-                                                            ￥{{item.model.simulatePriceCode}}<span class="fz20">/人起</span>
+                                                            ￥{{item.class.simulatePriceCode}}<span class="fz20">/人起</span>
                                                         </div>
-                                                        <div v-show="item.model.isDiscount" class="fz20 pa b0 r0">支付立减 </div>
+                                                        <div v-show="item.class.isDiscount" class="fz20 pa b0 r0">支付立减 </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -239,7 +239,7 @@
                                             <div class="w612 h2 m0a bgcf5f5f5 mt22 mb22"></div>
 
                                             <div class="fz24 h46 lh46 ml22 mr22">
-                                                <span v-for="str in item.model.tipNotes" class="dib h46 br25 pl20 pr20" style="background-color: #fef7eb;color: #f6b03e;">{{str}}</span>
+                                                <span v-for="str in item.class.tipNotes" class="dib h46 br25 pl20 pr20" style="background-color: #fef7eb;color: #f6b03e;">{{str}}</span>
                                             </div>
                                         </div>
                                     </li>

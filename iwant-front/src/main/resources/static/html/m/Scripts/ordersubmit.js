@@ -190,13 +190,13 @@ var appIndex = new Vue(
                             var getUrl = getDetailById[item.type] + '?id=' + item.typeId;
                             axios.post(getUrl, {}).then(function (response) {
                                 console.log(response.data);
-                                item.model = response.data;
+                                item.class = response.data;
                                 item.type = item.type.toLowerCase();
                                 item.type = item.type === 'production' ? 'product' : item.type;
                                 //vm.collection[item.type].list.push(item);
-                                $.each(vm.collection[item.type].list, function (ind, val) {
-                                    val.model = item;
-                                });
+                                //$.each(vm.collection[item.type].list, function (ind, val) {
+                                //    val.model = item;
+                                //});
                                 console.log(vm.collection[item.type]);
                             });
                         });
@@ -234,12 +234,11 @@ var appIndex = new Vue(
             //vm.login.show
             $.each(queryListByField, function (key, value) {
                 var url = value.url + '?name=' + value.param["name"] + '&used_field=' + value.param["used_field"] + '&field=' + value.param["field"];
-                axios.post(url, {}).then(
-                    function (response) {
-                        //console.log(response.data);
-                        var data = response.data;
-                        vm.model[key] = data;
-                    });
+                axios.post(url, {}).then(function (response) {
+                    //console.log(response.data);
+                    var data = response.data;
+                    vm.model[key] = data;
+                });
             });
 
             login.callback = function () {
