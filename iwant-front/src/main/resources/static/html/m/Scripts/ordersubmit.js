@@ -154,7 +154,7 @@ var appIndex = new Vue(
             },
             removeWant: function (id, type) {
                 var vm = this, type = type === 'product' ? 'production' : type;
-                var url = requestUrl.favouriteDelete, param = {
+                var url = requestUrl.wishcartDelete, param = {
                     id: id,
                     type: type,
                     loginId: vm.loginId
