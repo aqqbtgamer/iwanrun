@@ -165,7 +165,7 @@
                                             </div>
                                         </div>
                                         <div class="w570 h240 pa b40 l90">
-                                            <img @click="linktoDetail(item.typeId,'product')" :src="item.mainImageLarge" class="object-fit-cover" alt="">
+                                            <img @click="linktoDetail(item.typeId,'product')" :src="item.class.mainImageLarge" class="object-fit-cover" alt="">
                                         </div>
                                         <!--<i class="w36 h36 lh36 tac fz22 db br50p cffffff pa r72 b260" style="background-color: #282b33;">2</i>-->
                                     </li>
@@ -184,16 +184,16 @@
                                                     <!--<div class="w130 h104 pa t0 l0">
                                                         <img src="images/label_tuijian.png" class="object-fit-cover" alt="">
                                                     </div>-->
-                                                    <img @click="linktoDetail(item.typeId,'case')" :src="item.descirbeText2" class="object-fit-cover" alt="">
+                                                    <img @click="linktoDetail(item.typeId,'case')" :src="item.class.descirbeText2" class="object-fit-cover" alt="">
                                                 </div>
                                                 <div class="fl w382">
                                                     <div class="fz32 fw700 pl30 pt6 w382 mult-line-ellipsis-1">{{item.class.name}}</div>
-                                                    <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
+                                                    <!--<div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
                                                         <span v-for="(str,index) in item.class.tips" v-if="index<4" class="mr10">#{{str}}#</span>
-                                                    </div>
+                                                    </div>-->
                                                     <div class="pl30 pr30 pt14 fz24 c666666">
                                                         <p>{{item.class.activityProvinceCode}}·{{item.class.activityCityCode}}</p>
-                                                        <p>{{item.class.designDuringCo}} / {{item.class.groupNumber}}</p>
+                                                        <p>{{item.class.designDuringCo}} / {{item.class.designDuringCode}}</p>
                                                     </div>
                                                 </div>
                                             </div>

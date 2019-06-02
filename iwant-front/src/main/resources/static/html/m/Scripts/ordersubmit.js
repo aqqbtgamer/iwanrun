@@ -195,14 +195,20 @@ var appIndex = new Vue(
                             var getUrl = getDetailById[item.type] + '?id=' + item.typeId;
                             axios.post(getUrl, {}).then(function (response) {
                                 console.log(response.data);
-                                item.class = response.data;
                                 item.type = item.type.toLowerCase();
                                 item.type = item.type === 'production' ? 'product' : item.type;
+                                if (item.type === 'case' && response.data.caseVo) {
+                                    item.class = JSON.parse(response.data.caseVo) //Case
+                                } else {
+                                    item.class = response.data;
+                                }
+
                                 //vm.collection[item.type].list.push(item);
                                 //$.each(vm.collection[item.type].list, function (ind, val) {
                                 //    val.model = item;
                                 //});
                                 console.log(vm.collection[item.type]);
+
                             });
                         });
                         vm.collection[vm.tab].list = vm.collection[vm.tab].list.concat(response.data.content);
