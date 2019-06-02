@@ -257,12 +257,10 @@ var appIndex = new Vue(
             };
 
             vm.ValidateLogin(function () {
-                if (!vm.IsValidated) {
-                    login.show = true;
-                } else {
-                    vm.showWish = true;
-                    vm.wishcartQuery();
-                }
+                vm.showWish = true;
+                vm.wishcartQuery();
+            }, function () {
+                login.show = true;
             });
 
             //vm.queryCaseByCondition(); //TODO favourite/{query

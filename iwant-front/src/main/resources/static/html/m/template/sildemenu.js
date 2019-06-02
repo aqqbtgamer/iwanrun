@@ -84,7 +84,6 @@ var sildemenu = new Vue({
                         jQuery.cookie('accessToken', '');
                         login.show = true;
                     }
-                    vm.IsValidated = true;
                     var info = data.userInfo;
                     var headImgs = data.headImgs;
                     var companyCredentials = data.companyCredentials;

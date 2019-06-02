@@ -87,14 +87,9 @@
         var vm = this;
 
         vm.ValidateLogin(function () {
-            if (!vm.IsValidated) {
-                window.location.href = 'index.html';
-            }
-            else {
-                vm.getFavourite();
-            }
+            vm.getFavourite();
+        }, function () {
+            window.location.href = 'index.html';
         });
-
-       
     }
 });

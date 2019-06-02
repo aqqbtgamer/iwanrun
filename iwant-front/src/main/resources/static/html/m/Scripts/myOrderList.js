@@ -61,12 +61,10 @@
         }
         var vm = this;
         vm.ValidateLogin(function () {
-            if (!vm.IsValidated) {
-                window.location.href = 'index.html';
-            } else {
-                vm.getOrder();
-            }
+            vm.getOrder();
+        }, function () {
+            window.location.href = 'index.html';
         });
-        
+
     }
 });

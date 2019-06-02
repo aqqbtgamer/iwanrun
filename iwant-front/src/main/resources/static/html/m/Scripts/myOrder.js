@@ -42,11 +42,9 @@
         }
 
         vm.ValidateLogin(function () {
-            if (!vm.IsValidated) {
-                window.location.href = 'index.html';
-            } else {
-                vm.getOrderByID();
-            }
+            vm.getOrderByID();
+        }, function () {
+            window.location.href = 'index.html';
         });
     }
 });

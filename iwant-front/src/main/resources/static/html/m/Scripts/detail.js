@@ -9,7 +9,8 @@
             data: {},
             isFavourite: false,
             wishId: false,
-        }
+        },
+        IsValidated: false
     },
     methods: {
         getProductionDetailsById: function () {
@@ -115,7 +116,7 @@
         if (typeof (init[vm.model.type]) === 'function') {
             init[vm.model.type]();
         }
-       
+
 
         login.callback = function () {
             vm.loginId = jQuery.cookie('loginId');
@@ -125,12 +126,12 @@
             vm.wishcartFindOne();
         };
         vm.ValidateLogin(function () {
-            if (!vm.IsValidated) {
-                login.show = true;
-            } else {
-                vm.getFavourite();
-                vm.wishcartFindOne();
-            }
+            vm.IsValidated = true;
+            vm.getFavourite();
+            vm.wishcartFindOne();
+
+        }, function () {
+            login.show = true;
         });
     }
 });
