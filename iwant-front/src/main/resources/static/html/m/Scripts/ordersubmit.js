@@ -182,7 +182,7 @@ var appIndex = new Vue(
                     Location: requestUrl.getLocationDetailsById
                 };
 
-                if (!!!refresh && vm.collection[vm.tab].list.length > 0 || !getMore) {
+                if (!!!refresh && vm.collection[vm.tab].list.length > 0 && !getMore) {
                     return;
                 }
                 if (!!refresh) {
