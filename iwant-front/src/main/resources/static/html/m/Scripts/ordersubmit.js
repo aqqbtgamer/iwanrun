@@ -66,7 +66,8 @@ var appIndex = new Vue(
                     user: { loginId: vm.loginId }
                 };
 
-                var param = { requestJson: JSON.stringify(request) };
+                //var param = { requestJson: JSON.stringify(request) };
+                var param = { requestJson: request };
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);
                     var data = response.data;

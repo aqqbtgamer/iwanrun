@@ -13,7 +13,7 @@
 
 </head>
 <body class="">
-    <div id="container">
+    <div id="container" v-cloak>
         <!--首页-->
         <div class="index">
             <!--搜索拦-->
@@ -95,7 +95,8 @@
                             <div class="w324 h366 bgcffffff bs-0-0-6-0-dddddd br10 m0a">
                                 <div class="fz28 fw700 pl30 pt30 w264 mult-line-ellipsis-1">{{item.name}}</div>
                                 <div class="pl30 pr30 pt10 fz22">
-                                    <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">#{{str}}#</span>
+                                    <span v-for="(str,index) in item.tips" v-if="index<4&&isPlus" class="dib mr10">{{str}}</span>
+                                    <span v-for="(str,index) in item.tips" v-if="index<2&&!isPlus" class="dib mr10">{{str}}</span>
                                 </div>
                                 <div class="pl30 pr30 pt10 fz22 c666666">
                                     <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
@@ -127,7 +128,7 @@
                                     <div class="fl w382">
                                         <div class="fz32 fw700 pl30 pt30 w382 mult-line-ellipsis-1">{{item.name}}</div>
                                         <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
-                                            <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">#{{str}}#</span>
+                                            <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">{{str}}</span>
                                         </div>
                                         <div class="pl30 pr30 pt14 fz24 c666666">
                                             <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
@@ -169,7 +170,7 @@
                                     <div class="fl w382">
                                         <div class="fz32 fw700 pl30 pt30 w382 mult-line-ellipsis-1">{{item.name}}</div>
                                         <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
-                                            <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">#{{str}}#</span>
+                                            <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">{{str}}</span>
                                         </div>
                                         <div class="pl30 pr30 pt14 fz24 c666666">
                                             <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
@@ -222,7 +223,7 @@
                         </div>
                     </div>
                     <div class="pt40 tac">
-                        <a v-for="item in model.webSiteCooperatives" href="javascript:void(0)" @click="linktoWeb(item.url)" class="dib w210 h100 ml6 mr6">
+                        <a v-for="item in model.webSiteCooperatives" href="javascript:void(0)" @click="linktoWeb(item.url)" class="dib h100 ml6 mr6" style="width:40%;">
                             <img :src="item.logoPath" class="object-fit-cover" :alt="item.name">
                         </a>
                     </div>
