@@ -68,25 +68,54 @@ var appIndex = new Vue(
 
                 //var param = { requestJson: JSON.stringify(request) };
                 //var param = { requestJson: request };
-                var data = new FormData();
-                data.append('order', vm.order)
-                data.append('user', { loginId: vm.loginId });
-                var config = {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }
+                //var data = new FormData();
+                //data.append('order', vm.order)
+                //data.append('user', { loginId: vm.loginId });
+                //var config = {
+                //    headers: {
+                //        'Content-Type': 'multipart/form-data'
+                //    }
+                //}
 
-                axios.post(url, data, config).then(function (response) {
-                    console.log(response.data);
-                    var data = response.data;
-                    if (data != null && data.submitResult && data.orders) {
-                        vm.showDialog = true;
-                        vm.orderId = data.orders.id;
-                        //alert("需求提交成功");
-                        //window.location.href = "./orderlist.html";
+                //axios.post(url, data, config).then(function (response) {
+                //    console.log(response.data);
+                //    var data = response.data;
+                //    if (data != null && data.submitResult && data.orders) {
+                //        vm.showDialog = true;
+                //        vm.orderId = data.orders.id;
+                //        //alert("需求提交成功");
+                //        //window.location.href = "./orderlist.html";
+                //    }
+                //});
+                var request = {
+                    order: vm.order,
+                    user: { loginId: vm.loginId }
+                };
+                var requestData = {
+                    requestJson: JSON.stringify(request)
+                };
+                var callback = {
+                    request: requestData,
+                    vm: vm,
+                    success: function (result) {
+                        console.log(result);
+                        if (result != null && result.submitResult && data.orders) {
+                            vm.showDialog = true;
+                            vm.orderId = data.orders.id;
+                            //alert("需求提交成功");
+                            //window.location.href = "./orderlist.html";
+                        }
                     }
-                });
+                };
+                //callback.request = requestData;
+                //callback.vm = vm;
+                //callback.success = function (result) {
+                //    if (result != null && result.submitResult == true) {
+                //        alert("需求提交成功");
+                //        window.location.href = "./orderlist.html";
+                //    }
+                //};
+                $http_form.post(ordersubmit, callback);
             },
             showsildemenu: function () {
                 console.log(sildemenu);

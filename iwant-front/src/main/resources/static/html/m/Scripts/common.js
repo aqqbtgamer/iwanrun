@@ -268,3 +268,25 @@ Vue.prototype.ValidateLogin = function (success, fail) { //判断是否登录有
     })
 }
 
+
+var $http_form = {
+    post: function (url, callback, dataType) {
+        if (!dataType) {
+            dataType = 'json';
+        }
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: callback.request,
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: dataType,
+            success: function (result) {
+                callback.success(result);
+            },
+            error: function (XMLHttpRequest, textStatus) {
+                callback.error(XMLHttpRequest, textStatus);
+            }
+        });
+    }
+}
+
