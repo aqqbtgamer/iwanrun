@@ -151,7 +151,7 @@ var appIndex = new Vue(
             closeDialog: function () {
                 this.showDialog = false;
                 if (this.orderId > 0) {
-                    window.location.href = "/myOrder.html?id=" + this.orderId;
+                    window.location.href = "myOrder.html?id=" + this.orderId;
                 }
             },
             changeTab: function (tab) {
