@@ -59,11 +59,11 @@
                     </div>
                     <div class="w610 ml30 h2 bgcf5f5f5"></div>
                     <div class="w610 ml30 ofh pt30">
-                        <a href="myOrderList.html" class="db w300 fl tac">
+                        <a :href="account.ordersTotal>0?'myOrderList.html':'javascript:void();'" class="db w300 fl tac">
                             <p class="fz26 c888888">我的订单</p>
                             <p class="fz48 c333333">{{account.ordersTotal}}</p>
                         </a>
-                        <a href="myCollection.html" class="db w300 fl tac">
+                        <a :href="account.favouriteTotal>0?'myCollection.html':'javascript:void();'" class="db w300 fl tac">
                             <p class="fz26 c888888">关注收藏</p>
                             <p class="fz48 c333333">{{account.favouriteTotal}}</p>
                         </a>

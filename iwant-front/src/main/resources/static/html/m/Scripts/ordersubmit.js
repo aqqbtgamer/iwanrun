@@ -99,9 +99,9 @@ var appIndex = new Vue(
                     vm: vm,
                     success: function (result) {
                         console.log(result);
-                        if (result != null && result.submitResult && data.orders) {
+                        if (result != null && result.submitResult && result.orders) {
                             vm.showDialog = true;
-                            vm.orderId = data.orders.id;
+                            vm.orderId = result.orders.id;
                             //alert("需求提交成功");
                             //window.location.href = "./orderlist.html";
                         }
@@ -115,7 +115,7 @@ var appIndex = new Vue(
                 //        window.location.href = "./orderlist.html";
                 //    }
                 //};
-                $http_form.post(ordersubmit, callback);
+                $http_form.post(url, callback);
             },
             showsildemenu: function () {
                 console.log(sildemenu);
