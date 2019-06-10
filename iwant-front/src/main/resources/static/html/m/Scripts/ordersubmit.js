@@ -61,14 +61,23 @@ var appIndex = new Vue(
                     return false;
                 }
                 //console.log(vm.order);
-                var request = {
-                    order: vm.order,
-                    user: { loginId: vm.loginId }
-                };
+                //var request = {
+                //    order: vm.order,
+                //    user: { loginId: vm.loginId }
+                //};
 
                 //var param = { requestJson: JSON.stringify(request) };
-                var param = { requestJson: request };
-                axios.post(url, param).then(function (response) {
+                //var param = { requestJson: request };
+                var data = new FormData();
+                data.append('order', vm.order)
+                data.append('user', { loginId: vm.loginId });
+                var config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+
+                axios.post(url, data, config).then(function (response) {
                     console.log(response.data);
                     var data = response.data;
                     if (data != null && data.submitResult && data.orders) {
