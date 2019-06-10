@@ -85,6 +85,11 @@
             window.location.href = 'index.html';
         }
         var vm = this;
-        vm.getFavourite();
+
+        vm.ValidateLogin(function () {
+            vm.getFavourite();
+        }, function () {
+            window.location.href = 'index.html';
+        });
     }
 });

@@ -281,3 +281,7 @@ i {
     top: 14px;
     left: 12px;
 }
+
+[v-cloak] {
+    display: none;
+}

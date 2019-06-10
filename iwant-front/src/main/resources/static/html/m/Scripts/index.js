@@ -34,7 +34,8 @@ var appIndex = new Vue({
             locations: [],
             webSiteCooperatives: []
         },
-        currentcity: '上海'//当前定位城市
+        currentcity: '上海',//当前定位城市
+        isPlus: true
     },
     methods: {
         showSlidemenu: function () {
@@ -115,6 +116,11 @@ var appIndex = new Vue({
         setCurrentCity(function (city) {
             vm.currentcity = city;
         });
+
+        if ($(window).width() < 400) {
+            vm.isPlus = false;
+        }
+        console.log(vm.isPlus);
 
         login.callback = function () {
             vm.loginId = jQuery.cookie('loginId');

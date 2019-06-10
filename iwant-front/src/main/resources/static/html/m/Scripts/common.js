@@ -246,3 +246,25 @@ function fileUpload(contentId, url, uploadFile, callback) {
         }
     });
 }
+
+Vue.prototype.ValidateLogin = function (success, fail) { //判断是否登录有权限
+    var vm = this, url = requestUrl.findMixedByLoginId, param = {};
+    axios.post(url, param).then(function (response) {
+        //console.log(response.data);
+        var data = response.data;
+        if (data) {
+            var errMsg = data.errMsg;
+            if (!!errMsg) {
+                jQuery.cookie('accessToken', '');
+                if (typeof fail === 'function') {
+                    fail(response.data)
+                }
+            } else {
+                if (typeof success === 'function') {
+                    success(response.data)
+                }
+            }
+        }
+    })
+}
+

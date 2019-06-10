@@ -25,6 +25,7 @@ var appIndex = new Vue(
                 contractMobile: false,
                 activity_code: false
             },
+            showWish: false,
             showDialog: false,
             tab: 'product',
             collection: {
@@ -65,7 +66,8 @@ var appIndex = new Vue(
                     user: { loginId: vm.loginId }
                 };
 
-                var param = { requestJson: JSON.stringify(request) };
+                //var param = { requestJson: JSON.stringify(request) };
+                var param = { requestJson: request };
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);
                     var data = response.data;
@@ -117,7 +119,7 @@ var appIndex = new Vue(
             changeTab: function (tab) {
                 var vm = this;
                 vm.tab = tab || 'product';
-                vm.wishcartQuery();
+                vm.wishcartQuery(false, false);
             },
             queryCaseByCondition: function () {
                 var vm = this, url = requestUrl.queryCaseByCondition, param = {
@@ -153,31 +155,65 @@ var appIndex = new Vue(
                 location.href = 'detail.html?id=' + id + '&type=' + type || 'product';
             },
             removeWant: function (id, type) {
-                var vm = this, url = requestUrl.favouriteDelete, param = {
+                var vm = this, type = type === 'product' ? 'production' : type;
+                var url = requestUrl.wishcartDelete, param = {
                     id: id,
-                    type: type
+                    type: type,
+                    loginId: vm.loginId
                 };
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);
-                    if (response.data == 'success') {
-                        vm.wishcartQuery(true);
+                    if (response.data && response.data.success) {
+                        vm.wishcartQuery(true, false);
                     }
                 });
             },//移除心愿清单
-            wishcartQuery: function (refresh) {
-                var vm = this, url = requestUrl.wishcartQuery, param = {
-                    type: vm.tab,
+            wishcartQuery: function (refresh, getMore) {
+                var vm = this, type = vm.tab === 'product' ? 'production' : vm.tab;
+                var url = requestUrl.wishcartQuery, param = {
+                    type: type,
                     loginId: vm.loginId,
                     pageIndex: vm.collection[vm.tab].pageIndex,
                     pageSize: vm.collection[vm.tab].pageSize
                 };
-                if (!!!refresh && vm.collection[vm.tab].list.length > 0) {
+
+                var getDetailById = {
+                    Production: requestUrl.getProductionDetailsById,
+                    Case: requestUrl.getCaseDetailsById,
+                    Location: requestUrl.getLocationDetailsById
+                };
+
+                if (!!!refresh && vm.collection[vm.tab].list.length > 0 && !getMore) {
                     return;
+                }
+                if (!!refresh) {
+                    vm.collection[vm.tab].list = [];
                 }
                 axios.post(url, param).then(function (response) {
                     console.log(response.data);
                     if (response.data && Array.isArray(response.data.content)) {
+                        $.each(response.data.content, function (index, item) {
+                            var getUrl = getDetailById[item.type] + '?id=' + item.typeId;
+                            axios.post(getUrl, {}).then(function (response) {
+                                console.log(response.data);
+                                item.type = item.type.toLowerCase();
+                                item.type = item.type === 'production' ? 'product' : item.type;
+                                if (item.type === 'case' && response.data.caseVo) {
+                                    item.class = JSON.parse(response.data.caseVo) //Case
+                                } else {
+                                    item.class = response.data;
+                                }
+
+                                //vm.collection[item.type].list.push(item);
+                                //$.each(vm.collection[item.type].list, function (ind, val) {
+                                //    val.model = item;
+                                //});
+                                console.log(vm.collection[item.type]);
+
+                            });
+                        });
                         vm.collection[vm.tab].list = vm.collection[vm.tab].list.concat(response.data.content);
+
                         vm.collection[vm.tab].showbtnmore = vm.collection[vm.tab].list.length < response.data.pageInfo.total;
                     } else {
                         vm.collection[vm.tab].list = [];
@@ -187,7 +223,7 @@ var appIndex = new Vue(
             getMore: function () {
                 var vm = this;
                 vm.collection[vm.tab].pageIndex += 1;
-                vm.wishcartQuery();
+                vm.wishcartQuery(false, true);
             },
         },
         components: {
@@ -210,12 +246,11 @@ var appIndex = new Vue(
             //vm.login.show
             $.each(queryListByField, function (key, value) {
                 var url = value.url + '?name=' + value.param["name"] + '&used_field=' + value.param["used_field"] + '&field=' + value.param["field"];
-                axios.post(url, {}).then(
-                    function (response) {
-                        //console.log(response.data);
-                        var data = response.data;
-                        vm.model[key] = data;
-                    });
+                axios.post(url, {}).then(function (response) {
+                    //console.log(response.data);
+                    var data = response.data;
+                    vm.model[key] = data;
+                });
             });
 
             login.callback = function () {
@@ -223,10 +258,18 @@ var appIndex = new Vue(
                 vm.accessToken = jQuery.cookie('accessToken');
                 sildemenu.loginId = jQuery.cookie('loginId');
                 sildemenu.accessToken = jQuery.cookie('accessToken');
-                console.log(vm.accessToken);
+                vm.showWish = true;
+                vm.wishcartQuery(true, false);
+                //console.log(vm.accessToken);
             };
 
-            vm.wishcartQuery();
+            vm.ValidateLogin(function () {
+                vm.showWish = true;
+                vm.wishcartQuery(true, false);
+            }, function () {
+                login.show = true;
+            });
+
             //vm.queryCaseByCondition(); //TODO favourite/{query
             //vm.queryProdutionByCondition();
             //vm.queryLocationByCondition();

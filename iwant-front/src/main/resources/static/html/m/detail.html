@@ -74,7 +74,7 @@
     </style>
 </head>
 <body>
-    <div id="container">
+    <div id="container" v-cloak>
         <section class=" w750 h420 bgcffffff pr">
             <!--<div class="h50 lh50 fz24 pa b20 l20 ofh">
                 <div class="dib h50 pl30 pr30 br25 ofh pr fl mr20">
@@ -136,7 +136,7 @@
                 <div class="fz24 c888888 mt6">咨询</div>
             </a>
             <a href="javascript:void(0)" @click="wishChange" class="db w410 h124 lh124 cffffff fz40 tac fr" style="background-color: #fd5509;">
-                {{model.isWish?'移除心愿清单':'加入心愿清单'}}
+                {{model.wishId?'移除心愿清单':'加入心愿清单'}}
             </a>
         </section>
     </div>
@@ -146,6 +146,10 @@
         <div style="text-align:center;color:black;">首页</div>
     </a>
 
+    <div id="login">
+        <login></login>
+    </div>
+
     <script src="js/jquery.min.js"></script>
     <script src="js/change_font_size.js"></script>
     <script src="js/vue.min.js"></script>
@@ -153,6 +157,7 @@
     <script src="js/jquery.cookie.js"></script>
 
     <script src="Scripts/common.js"></script>
+    <script src="template/login.js"></script>
     <script src="Scripts/detail.js"></script>
 </body>
 </html>

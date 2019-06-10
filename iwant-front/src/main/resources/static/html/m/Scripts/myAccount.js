@@ -16,36 +16,36 @@
     methods: {
         getuser: function () {
             var vm = this, url = requestUrl.findMixedByLoginId, param = {};
-            axios.post(url, param).then(
-                function (response) {
-                    console.log(response.data);
-                    var data = response.data;
-                    if (data) {
-                        var errMsg = data.errMsg;
-                        if (errMsg) {
-                            vm.setCurrentPage('login');
-                        }
-                        var info = data.userInfo;
-                        var headImgs = data.headImgs;
-                        var companyCredentials = data.companyCredentials;
-                        var loginInfo = data.loginInfo;
-                        if (info) {
-                            if (headImgs && headImgs.length > 0) {
-                                vm.account.headimg = headImgs[0].filePath;
-                            }
-                            vm.account.nickname = info.name;
-                            vm.account.email = info.email;
-                            if (loginInfo) {
-                                vm.account.phone = loginInfo.mobileNumber;
-                            }
-                            vm.account.company.name = info.companyName;
-                            if (companyCredentials) {
-                                vm.account.company.hasCredential = true;
-                            }
-
-                        }
+            axios.post(url, param).then(function (response) {
+                console.log(response.data);
+                var data = response.data;
+                if (data) {
+                    var errMsg = data.errMsg;
+                    if (errMsg) {
+                        jQuery.cookie('accessToken', '');
+                        window.location.href = 'index.html';
                     }
-                })
+                    var info = data.userInfo;
+                    var headImgs = data.headImgs;
+                    var companyCredentials = data.companyCredentials;
+                    var loginInfo = data.loginInfo;
+                    if (info) {
+                        if (headImgs && headImgs.length > 0) {
+                            vm.account.headimg = headImgs[0].filePath;
+                        }
+                        vm.account.nickname = info.name;
+                        vm.account.email = info.email;
+                        if (loginInfo) {
+                            vm.account.phone = loginInfo.mobileNumber;
+                        }
+                        vm.account.company.name = info.companyName;
+                        if (companyCredentials) {
+                            vm.account.company.hasCredential = true;
+                        }
+
+                    }
+                }
+            })
         },
         getOrders: function () {
             var vm = this, url = requestUrl.getOrderListByLoginId, param = {

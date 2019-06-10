@@ -60,6 +60,11 @@
             window.location.href = 'index.html';
         }
         var vm = this;
-        vm.getOrder();
+        vm.ValidateLogin(function () {
+            vm.getOrder();
+        }, function () {
+            window.location.href = 'index.html';
+        });
+
     }
 });
