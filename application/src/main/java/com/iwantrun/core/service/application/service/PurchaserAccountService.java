@@ -533,6 +533,7 @@ public class PurchaserAccountService {
 		String question = paramJSON.getAsString("question");
 		String answer = paramJSON.getAsString("answer");
 		String companyName = paramJSON.getAsString("companyName");
+		String email = paramJSON.getAsString("email");
 		Number companySizeId = paramJSON.getAsNumber("companySizeId");
 		Number companyTypeId = paramJSON.getAsNumber("companyTypeId");
 		if (name != null) {
@@ -552,6 +553,9 @@ public class PurchaserAccountService {
 		}
 		if (companyTypeId != null) {
 			dbUserInfo.setCompanyTypeId(companyTypeId.intValue());
+		}
+		if(email != null) {
+			dbUserInfo.setEmail(email);
 		}
 
 		Integer dbUserInfoId = dbUserInfo.getId();
