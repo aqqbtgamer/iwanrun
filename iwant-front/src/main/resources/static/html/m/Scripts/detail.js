@@ -10,27 +10,26 @@
             isFavourite: false,
             wishId: false,
         },
-        IsValidated: false
+        ContactUs: 'tel:' + dataConfig.ContactUs
     },
     methods: {
         getProductionDetailsById: function () {
             var vm = this, url = requestUrl.getProductionDetailsById + '?id=' + vm.model.id + '&type=' + vm.model.type;
             axios.post(url, {}).then(function (response) {
-                console.log(response.data);
                 vm.model.data = response.data;
             });
         },
         getLocationDetailsById: function () {
             var vm = this, url = requestUrl.getLocationDetailsById + '?id=' + vm.model.id + '&type=' + vm.model.type;
             axios.post(url, {}).then(function (response) {
-                console.log(response.data);
-                vm.model.data = response.data;
+                if (response.data && response.data.location) {
+                    vm.model.data = response.data.location;
+                }
             });
         },
         getCaseDetailsById: function () {
             var vm = this, url = requestUrl.getCaseDetailsById + '?id=' + vm.model.id + '&type=' + vm.model.type;
             axios.post(url, {}).then(function (response) {
-                console.log(response.data);
                 vm.model.data = $.parseJSON(response.data.caseVo);
             });
         },
@@ -39,7 +38,6 @@
                 type: vm.model.type
             };
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 var data = response.data.content;
                 if (Array.isArray(data)) {
                     for (var i = 0; i < data.length; i++) {
@@ -52,16 +50,17 @@
             });
         },
         changeFavourite: function () {
+            if (!jQuery.cookie('accessToken')) {
+                login.show = true;
+                return;
+            }
+
             var vm = this, url = vm.model.isFavourite ? requestUrl.favouriteDelete : requestUrl.favouriteAdd, param = {
                 id: vm.model.id,
                 type: vm.model.type
             };
-            if (!vm.IsValidated) {
-                login.show = true;
-                return;
-            }
+
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 if (response.data == 'success') {
                     vm.model.isFavourite = !vm.model.isFavourite;
                 }
@@ -75,7 +74,6 @@
                 type: type
             };
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 if (response.data && response.data.id > 0) {
                     vm.model.wishId = response.data.id;
                 }
@@ -83,7 +81,7 @@
         },
         wishChange: function () {
             var vm = this, type = vm.model.type === 'product' ? 'production' : vm.model.type;
-            if (!vm.IsValidated) {
+            if (!jQuery.cookie('accessToken')) {
                 login.show = true;
                 return;
             }
@@ -93,7 +91,6 @@
                 loginId: vm.loginId
             };
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 if (response.data && response.data.success) {
                     vm.model.wishId = vm.model.wishId ? false : response.data.message;
                 }
@@ -108,6 +105,7 @@
         if (!vm.model.id || !vm.model.type) {
             history.back(-1);
         }
+
         var init = {
             product: vm.getProductionDetailsById,
             location: vm.getLocationDetailsById,
@@ -117,16 +115,13 @@
             init[vm.model.type]();
         }
 
-
         login.callback = function () {
             vm.loginId = jQuery.cookie('loginId');
             vm.accessToken = jQuery.cookie('accessToken');
-            //console.log(vm.accessToken);
             vm.getFavourite();
             vm.wishcartFindOne();
         };
         vm.ValidateLogin(function () {
-            vm.IsValidated = true;
             vm.getFavourite();
             vm.wishcartFindOne();
 

@@ -76,26 +76,6 @@
 <body>
     <div id="container" v-cloak>
         <section class=" w750 h420 bgcffffff pr">
-            <!--<div class="h50 lh50 fz24 pa b20 l20 ofh">
-                <div class="dib h50 pl30 pr30 br25 ofh pr fl mr20">
-                    <span class="pr zi2 cffffff">轰趴</span>
-                    <div class="bgc000000 op40 pa t0 l0 w100p h100p zi1"></div>
-                </div>
-                <div class="dib h50 pl30 pr30 br25 ofh pr fl mr20">
-                    <span class="pr zi2 cffffff">聚餐</span>
-                    <div class="bgc000000 op40 pa t0 l0 w100p h100p zi1"></div>
-                </div>
-                <div class="dib h50 pl30 pr30 br25 ofh pr fl mr20">
-                    <span class="pr zi2 cffffff">适合活动类型</span>
-                    <div class="bgc000000 op40 pa t0 l0 w100p h100p zi1"></div>
-                </div>
-            </div>-->
-            <!--<div class="h50 lh50 pa r20 b20">
-                <div class="w36 h34 mt8 mr10 fl ofh dib">
-                    <img src="images/photo_icon.png" class="object-fit-cover fl" alt="">
-                </div>
-                <div class="fz30 cffffff fl dib">2/3</div>
-            </div>-->
             <ul>
                 <li class="w750 h420">
                     <img :src="model.data.mainImageLarge||model.data.descirbeText2" class="object-fit-cover" alt="">
@@ -115,9 +95,6 @@
                     </div>
                 </a>
                 <div class="w2 h60 bgcf5f5f5 fl mt10"></div>
-                <!--<a href="tel:133333333" class="w120 db tac fl">
-                    <img src="images/call_icon.png" class="w44 h44 mt20" alt="">
-                </a>-->
             </div>
         </section>
 
@@ -131,7 +108,7 @@
                 </div>
                 <div class="fz24 c888888 mt6">收藏</div>
             </a>
-            <a href="tel:4008897003" class="db w160 tac fl mt20">
+            <a :href="ContactUs" class="db w160 tac fl mt20">
                 <div class="w44 h44 m0a"><img src="images/icon_detail_02.png" class="object-fit-cover" alt=""></div>
                 <div class="fz24 c888888 mt6">咨询</div>
             </a>
@@ -141,10 +118,9 @@
         </section>
     </div>
 
-    <a href="index.html" class="db pf b600 r40">
-        <img src="images/home.png" style="max-width:50px;max-height:50px;" alt="" class="object-fit-cover">
-        <div style="text-align:center;color:black;">首页</div>
-    </a>
+    <div id="backhome">
+        <backhome></backhome>
+    </div>
 
     <div id="login">
         <login></login>
@@ -158,6 +134,7 @@
 
     <script src="Scripts/common.js"></script>
     <script src="template/login.js"></script>
+    <script src="template/backhome.js"></script>
     <script src="Scripts/detail.js"></script>
 </body>
 </html>

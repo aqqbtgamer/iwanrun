@@ -20,10 +20,16 @@
         }
 
         .pt6 {
-            padding-top:.6rem;
+            padding-top: .6rem;
         }
+
         .r333 {
             right: .333rem;
+        }
+
+        .more-info button {
+            width: auto;
+            font-size:10px;
         }
     </style>
 </head>
@@ -102,7 +108,7 @@
                     <div class="more-info w596 m0a ofh" v-show="model.isshowall">
                         <div class="w596 m0a">
                             <div class="pt40 pb20">活动人数</div>
-                            <div class="w596 m0a ofh">
+                            <div class="w596 m0a ofh ">
                                 <button v-for="item in model.groupNumberList" @click="buttonChange($event,item.id,'groupNumberCode')" class="w182 h64 lh64 b1se5e5e5 br10 mb20 mr16 fl">{{item.value}}</button>
                             </div>
                         </div>
