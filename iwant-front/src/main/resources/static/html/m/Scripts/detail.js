@@ -23,14 +23,16 @@
             var vm = this, url = requestUrl.getLocationDetailsById + '?id=' + vm.model.id + '&type=' + vm.model.type;
             axios.post(url, {}).then(function (response) {
                 if (response.data && response.data.location) {
-                    vm.model.data = response.data.location;
+                    vm.model.data = $.parseJSON(response.data.location);
                 }
             });
         },
         getCaseDetailsById: function () {
             var vm = this, url = requestUrl.getCaseDetailsById + '?id=' + vm.model.id + '&type=' + vm.model.type;
             axios.post(url, {}).then(function (response) {
-                vm.model.data = $.parseJSON(response.data.caseVo);
+                if (response.data && response.data.caseVo) {
+                    vm.model.data = $.parseJSON(response.data.caseVo);
+                }
             });
         },
         getFavourite: function () {
