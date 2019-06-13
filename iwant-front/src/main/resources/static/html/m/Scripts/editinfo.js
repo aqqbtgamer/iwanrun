@@ -24,12 +24,10 @@
         getuser: function () {
             var vm = this, url = requestUrl.findMixedByLoginId, param = {};
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 var data = response.data;
                 if (data) {
                     var errMsg = data.errMsg;
                     if (errMsg) {
-                        jQuery.cookie('accessToken', '');
                         window.location.href = 'index.html';
                     }
                     var info = data.userInfo;
@@ -70,21 +68,19 @@
         },
         save: function (param) {
             var vm = this, url = requestUrl.addAndModifyInfo;
-            console.log(param);
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
+                if (response.status != 200) {
+                    alert('保存失败,请刷新后重试');
+                }
             });
         },
         uploadimg: function ($event) {
             var vm = this;
-            //是否登录
-
             $($event.target).siblings('input:file').trigger('click');
         },
         headImgUpload: function ($event) {
             var vm = this, files = $event.target.files, url = requestUrl.fileupload
             fileUpload('uploadedHeadImages', url, files[0], function (data) {
-                //console.log(data);
                 vm.account.headimg = data;
                 var param = {};
                 param["headimg"] = data;
@@ -95,6 +91,7 @@
     created: function () {
         var vm = this;
         if (!jQuery.cookie('accessToken')) {
+            alert('请先登录');
             window.history.back();
         }
         vm.getuser();

@@ -35,7 +35,7 @@ var appIndex = new Vue({
             webSiteCooperatives: []
         },
         currentcity: '上海',//当前定位城市
-        isPlus: true
+        isPlus: $(window).width() > 400
     },
     methods: {
         showSlidemenu: function () {
@@ -44,64 +44,50 @@ var appIndex = new Vue({
                 sildemenu.getuser();
                 sildemenu.init = true;
             }
-        },
+        },//显示右侧侧滑栏
         showSearch: function () {
-            //search.showSearch();
-            //search.showSearch = true;
-            //document.activeElement.blur();
-            //document.getElementById('iptSearch').focus();
             search.show();
-        },
+        },//显示搜索
         linktoDetail: function (id, type) {
             location.href = 'detail.html?id=' + id + '&type=' + type;
-        },
+        },//跳转到详情页
         linktoWeb: function (url) {
             location.href = "http://" + url;
-        },
+        },//跳转到外部web地址
         getBanner: function () {
             var vm = this, url = requestUrl.castposition, param = {};
-            axios.post(url, param).then(
-                function (response) {
-                    //console.log(response.data);
-                    var data = response.data;
-                    vm.model.bannerList = $.parseJSON(data.list);
-                })
-        },
+            axios.post(url, param).then(function (response) {
+                var data = response.data;
+                vm.model.bannerList = $.parseJSON(data.list);
+            })
+        },//获取轮播图数据
         getwebSiteCooperativeLogo: function () {
             var vm = this, url = requestUrl.webSiteCooperativeLogo, param = {};
-            axios.post(url, param).then(
-                function (response) {
-                    //console.log(response.data);
-                    var data = response.data;
-                    vm.model.webSiteCooperatives = data;
-                })
-        },
+            axios.post(url, param).then(function (response) {
+                var data = response.data;
+                vm.model.webSiteCooperatives = data;
+            })
+        },//合作单位logo 
         queryCaseByCondition: function (pageIndex) {
             var vm = this, url = requestUrl.queryCaseByCondition, param = {};
             param.pageIndex = pageIndex - 1;
-            axios.post(url, param).then(
-                function (response) {
-                    //console.log(response.data);
-                    vm.model.cases = response.data.content;
-                })
+            axios.post(url, param).then(function (response) {
+                vm.model.cases = response.data.content;
+            })
         },
         queryProdutionByCondition: function (pageIndex) {
             var vm = this, url = requestUrl.queryProdutionByCondition, param = {};
             param.pageIndex = pageIndex - 1;
-            axios.post(url, param).then(
-                function (response) {
-                    //console.log(response.data);
-                    vm.model.productions = response.data.content;
-                })
+            axios.post(url, param).then(function (response) {
+                vm.model.productions = response.data.content;
+            })
         },
         queryLocationByCondition: function (pageIndex) {
             var vm = this, url = requestUrl.querylocationByCondition, param = {};
             param.pageIndex = pageIndex - 1;
-            axios.post(url, param).then(
-                function (response) {
-                    //console.log(response.data.content);
-                    vm.model.locations = response.data.content;
-                })
+            axios.post(url, param).then(function (response) {
+                vm.model.locations = response.data.content;
+            })
         },
     },
     components: {
@@ -117,17 +103,11 @@ var appIndex = new Vue({
             vm.currentcity = city;
         });
 
-        if ($(window).width() < 400) {
-            vm.isPlus = false;
-        }
-        console.log(vm.isPlus);
-
         login.callback = function () {
             vm.loginId = jQuery.cookie('loginId');
             vm.accessToken = jQuery.cookie('accessToken');
             sildemenu.loginId = jQuery.cookie('loginId');
             sildemenu.accessToken = jQuery.cookie('accessToken');
-            console.log(vm.accessToken);
         };
 
         vm.getBanner();

@@ -50,7 +50,7 @@
                     }
                 }
             });
-        },
+        },//是否收藏
         changeFavourite: function () {
             if (!jQuery.cookie('accessToken')) {
                 login.show = true;
@@ -67,7 +67,7 @@
                     vm.model.isFavourite = !vm.model.isFavourite;
                 }
             });
-        },
+        },//添加/移除收藏
         wishcartFindOne: function () {
             var vm = this, type = vm.model.type === 'product' ? 'production' : vm.model.type;
             var url = requestUrl.wishcartFindOne, param = {
@@ -80,7 +80,7 @@
                     vm.model.wishId = response.data.id;
                 }
             });
-        },
+        },//当前是否加入到心愿清单
         wishChange: function () {
             var vm = this, type = vm.model.type === 'product' ? 'production' : vm.model.type;
             if (!jQuery.cookie('accessToken')) {
@@ -97,7 +97,7 @@
                     vm.model.wishId = vm.model.wishId ? false : response.data.message;
                 }
             });
-        }
+        }//心愿清单 添加和移除
     },
     components: {
         login: login

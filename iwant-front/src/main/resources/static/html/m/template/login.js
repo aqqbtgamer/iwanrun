@@ -37,9 +37,6 @@
     + '         <div class="w596 m0a ofh">                                                                                                                                                                                             '
     + '             <a href="javascript:void(0)" @click="login" class="db w596 h78 lh78 tac cffffff fz36 login_btn fl mt76">登 录</a>                                                                                                  '
     + '     </div>                                                                                                                                                                                                                     '
-    //+ '     <div class="w596 m0a ofh">                                                                                                                                                                                                 '
-    //+ '         <a href="javascript:void(0)" @click="switchLogin(\'forgetpassword\')" class="fz24 c333333 fr mt20">忘记密码</a>                                                                                                                                                       '
-    //+ '     </div>                                                                                                                                                                                                                     '
     + '                 </div>                                                                                                                                                                                                         '
     + ' <!--动态码登录-->                                                                                                                                                                                                              '
     + '     <div class="login_area_02 pt40" v-show="model.isbymess">                                                                                                                                                                   '
@@ -60,9 +57,6 @@
     + '     <div class="w596 m0a ofh">                                                                                                                                                                                                 '
     + '         <a href="javascript:void(0)" @click="login" class="db w596 h78 lh78 tac cffffff fz36 login_btn fl mt76">登 录</a>                                                                                                      '
     + '                     </div >                                                                                                                                                                                                    '
-    //+ ' <div class="w596 m0a ofh">                                                                                                                                                                                                     '
-    //+ '     <a href="javascript:void(0)" @click="switchLogin(\'forgetpassword\')" class="fz24 c333333 fr mt20">忘记密码</a>                                                                                                                                                           '
-    //+ ' </div>                                                                                                                                                                                                                         '
     + '                 </div >                                                                                                                                                                                                        '
     + '             </div >                                                                                                                                                                                                            '
     + '         </section >                                                                                                                                                                                                            '
@@ -232,12 +226,12 @@ var login = new Vue({
             var vm = this;
             vm.model.showTab = tab;
             vm.model.errMsg = false;
-        },
+        },//登录 注册 忘记验证码 切换
         switchLogintype: function (isbymess) {
             var vm = this;
             vm.model.isbymess = !!isbymess;
             vm.model.errMsg = false;
-        },
+        },//登录中 密码登录和短信登录 切换
         sendVerifyCode: function () {
             var TIME_COUNT = 60, vm = this, url = requestUrl.getSMSCode, param = {
                 'mobile': vm.loginId
@@ -288,7 +282,7 @@ var login = new Vue({
                     vm.model.errMsg = '短信获取失败，请重新获取';
                 }
             });
-        },
+        },//发送验证码
         login: function () {
             var vm = this, url = requestUrl.login, param = {
                 smsCode: vm.model.smsCode,
@@ -333,8 +327,8 @@ var login = new Vue({
                     }
                 }
                 vm.accessToken = data.accessToken;
-                jQuery.cookie('loginId', vm.loginId);
-                jQuery.cookie('accessToken', vm.accessToken);
+                //jQuery.cookie('loginId', vm.loginId);//已在后端写到cookie
+                //jQuery.cookie('accessToken', vm.accessToken);
                 vm.show = false;
                 if (typeof vm.callback === 'function') {
                     vm.callback();
@@ -342,14 +336,16 @@ var login = new Vue({
             });
         },
         logout: function () {
-            var vm = this;
-            jQuery.cookie('loginId', '');
-            jQuery.cookie('accessToken', '');
-            jQuery.cookie('openId', '');
-            vm.loginId = '';
-            vm.accessToken = '';
-            vm.show = false;
-        },
+            var vm = this, url = requestUrl.logout, param = {};
+            axios.post(url, param).then(function (response) {
+                //if (response.status == 200) {
+                jQuery.cookie('openId', '');
+                vm.loginId = '';
+                vm.accessToken = '';
+                vm.show = false;
+                //}
+            });
+        },//退出
         verify: function () {
             var vm = this;
             // 先校验手机号
@@ -370,7 +366,7 @@ var login = new Vue({
             }
 
             return true;
-        },
+        },//校验
         register: function () {
             var vm = this, url = requestUrl.register, param = {
                 smsCode: vm.model.smsCode,
@@ -389,7 +385,6 @@ var login = new Vue({
             }
 
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 var data = response.data;
                 var messageBody = data.messageBody;
                 if (messageBody) {
@@ -401,14 +396,14 @@ var login = new Vue({
                     }
                 }
                 vm.accessToken = data.accessToken;
-                jQuery.cookie('loginId', vm.loginId);
-                jQuery.cookie('accessToken', vm.accessToken);
+                //jQuery.cookie('loginId', vm.loginId);
+                //jQuery.cookie('accessToken', vm.accessToken);
                 vm.show = false;
                 if (typeof vm.callback === 'function') {
                     vm.callback();
                 }
             });
-        },
+        },//注册
         modifyPwd: function () {
             var vm = this, url = requestUrl.modifyPwd, param = {
                 smsCode: vm.model.smsCode,
@@ -434,7 +429,6 @@ var login = new Vue({
             }
 
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 var data = response.data;
                 var messageBody = data.messageBody;
                 if (messageBody) {
@@ -445,30 +439,29 @@ var login = new Vue({
                     }
                 }
                 vm.accessToken = data.accessToken;
-                jQuery.cookie('loginId', vm.loginId);
-                jQuery.cookie('accessToken', vm.accessToken);
+                //jQuery.cookie('loginId', vm.loginId);
+                //jQuery.cookie('accessToken', vm.accessToken);
                 vm.show = false;
                 if (typeof vm.callback === 'function') {
                     vm.callback();
                 }
             });
 
-        },
+        },//修改密码
         wechatLogin: function () {
-            var appid = 'wx1fd018c55846c8c9';
+            var appid = dataConfig.WechatAppID;
             var url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + appid + '&redirect_uri=' + encodeURIComponent(window.location.href) + '&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect';
             window.location.href = url;
-        },
+        },//微信登录
         wechatCallback: function () {
             var vm = this, openId = jQuery.cookie('openId'), param = vm.wechatInfo, url = requestUrl.mobileWeixinCallBack + '?openId=' + openId;//微信登陆回调
             if (param) {
                 axios.post(url, param).then(function (response) {
-                    console.log(response.data);
                     var data = response.data;
                     if (data && data.token) {
                         vm.accessToken = data.token;
-                        jQuery.cookie('loginId', vm.loginId);
-                        jQuery.cookie('accessToken', data.token);
+                        //jQuery.cookie('loginId', vm.loginId);
+                        //jQuery.cookie('accessToken', data.token);
                         vm.show = false;
                         if (typeof vm.callback === 'function') {
                             vm.callback();
@@ -476,24 +469,22 @@ var login = new Vue({
                     }
                 });
             }
-        },
+        },//微信登录回调
         wechatBindPhone: function () {
             var vm = this, openId = jQuery.cookie('openId');
             var url = requestUrl.bindMobileNumber + '?openId=' + openId + '&mobileNumber=' + vm.loginId;//微信号绑手机号
             axios.post(url).then(function (response) {
-                console.log(response.data);
                 if (response.data) {
                     vm.wechatCallback();
                 }
             });
-        },
-        validateSmsCode: function () { //验证短信验证码
+        },//微信绑手机号
+        validateSmsCode: function () { 
             var vm = this, url = requestUrl.validateSmsCode + '?mobileNumber=' + vm.loginId + '&smsCode=' + vm.model.smsCode;
             if (!vm.verify()) {
                 return false;
             }
             axios.post(url).then(function (response) {
-                console.log(response.data);
                 if (response.data) {
                     vm.model.errMsg = '您的验证码错误,请重新获取';
                     return false;
@@ -502,38 +493,34 @@ var login = new Vue({
                     return true;
                 }
             });
-        }
+        }//微信登录 验证短信验证码
     },
     created: function () {
         var vm = this, code = getUrlParam('code');
         if (code && !vm.accessToken) {
             var url = requestUrl.getMobileWeixinOpenid + '?code=' + code;
             axios.post(url).then(function (response) {
-                console.log(response.data);
-                console.log(vm);
                 var data = response.data;
                 if (data && data.openid) {
                     jQuery.cookie('openId', data.openid);
                     vm.wechatInfo = data;
-                    var openId = data.openid, url = requestUrl.checkMobileOpenIdExists + '?openId=' + openId;//判断微信号是否绑过手机号
+                    var openId = data.openid, url = requestUrl.checkMobileOpenIdExists + '?openId=' + openId;
                     if (openId) {
                         axios.post(url).then(function (response) {
-                            console.log(vm);
-                            console.log(response.data);
                             if (!response.data) { //绑定手机号
                                 vm.show = true;
                                 vm.model.showTab = 'bindphone';
                             } else {
                                 var data = response.data;
                                 if (data && data.mobileNumber) {
-                                    jQuery.cookie('loginId', data.mobileNumber);
+                                    //jQuery.cookie('loginId', data.mobileNumber);
                                     vm.wechatCallback();
                                 }
                             }
                         });
-                    }
+                    }//判断微信号是否绑过手机号
                 }
             });
-        }
+        }//微信登录之后的跳转回调
     }
 })

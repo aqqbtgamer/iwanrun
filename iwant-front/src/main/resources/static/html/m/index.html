@@ -117,36 +117,19 @@
                 <section v-show="model.currentmenu=='location'" class="li_list w100p bgcffffff mt-4 pb40 ">
                     <ul class="pt40">
                         <li class="mb34" v-for="item in model.locations">
-                            <div class="w670 h392 bgcffffff bs-0-0-6-0-dddddd br10 m0a ">
-                                <div class="ofh">
-                                    <div class="w254 h254 br20 ml22 mt22 fl pr">
-                                        <div class="w130 h104 pa t0 l0">
-                                            <img src="images/label_tuijian.png" class="object-fit-cover" alt="">
-                                        </div>
-                                        <img @click="linktoDetail(item.id,'location')" :src="item.descirbeText2" class="object-fit-cover" alt="">
-                                    </div>
-                                    <div class="fl w382">
-                                        <div class="fz32 fw700 pl30 pt30 w382 mult-line-ellipsis-1">{{item.name}}</div>
-                                        <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
-                                            <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">{{str}}</span>
-                                        </div>
-                                        <div class="pl30 pr30 pt14 fz24 c666666">
-                                            <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
-                                            <p>{{item.designDuringCo}} / {{item.groupNumberLimit}}</p>
-                                        </div>
-                                        <div class="ml30 mr30 mt60 pr">
-                                            <div class="fz34 pa b0 l0" style="color: #fd5509">
-                                                ￥{{item.simulatePriceCode}}<span class="fz20">/人起</span>
-                                            </div>
-                                            <div v-show="item.isDiscount" class="fz20 pa b0 r0">支付立减 <span class="fz18 h30 lh30 dib" style="border:1px solid #fd5509;color: #fd5509;padding: 0 5px;border-radius: 3px;">红包</span></div>
-                                        </div>
-                                    </div>
+                            <div class="w670 bgcffffff bs-0-0-6-0-dddddd br10 m0a ">
+                                <div class="w100p h328">
+                                    <img @click="linktoDetail(item.id,'location')" :src="item.descirbeText2" class="object-fit-cover" alt="">
                                 </div>
 
+                                <div class="fz32 fw700 pl30 pt20 w534 mult-line-ellipsis-1">{{item.name}}</div>
+                                <div class="pl30 pr30 pt20 fz24 c666666">
+                                    <p>{{item.activityProvinceCodeDesc}}·{{item.activityCityCodeDesc}}</p>
+                                    <p>{{item.activeTypeCodeDesc}} / {{item.groupNumberLimitCodeDesc}}</p>
+                                </div>
                                 <div class="w612 h2 m0a bgcf5f5f5 mt22 mb22"></div>
-
                                 <div class="fz24 h46 lh46 ml22 mr22">
-                                    <span v-for="str in item.tipNotes" class="dib h46 br25 pl20 pr20" style="background-color: #fef7eb;color: #f6b03e;">{{str}}</span>
+                                    <span v-for="str in item.tips" class="dib h46 br25 pl20 pr20" style="background-color: #fef7eb;color: #f6b03e;">{{str}}</span>
                                 </div>
                             </div>
                         </li>
@@ -169,18 +152,17 @@
                                     </div>
                                     <div class="fl w382">
                                         <div class="fz32 fw700 pl30 pt30 w382 mult-line-ellipsis-1">{{item.name}}</div>
-                                        <div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
+                                        <!--<div class="pl30 pr30 pt14 fz22 w382 mult-line-ellipsis-1">
                                             <span v-for="(str,index) in item.tips" v-if="index<4" class="dib mr10">{{str}}</span>
-                                        </div>
+                                        </div>-->
                                         <div class="pl30 pr30 pt14 fz24 c666666">
-                                            <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
-                                            <p>{{item.designDuringCo}} / {{item.groupNumberLimit}}</p>
+                                            <p>{{item.activityProvinceCodeDesc}}·{{item.activityCityCodeDesc}}</p>
+                                            <p>{{item.activeTypeCodeDesc}} / {{item.groupNumberLimitCodeDesc}}</p>
                                         </div>
                                         <div class="ml30 mr30 mt60 pr">
                                             <div class="fz34 pa b0 l0" style="color: #fd5509">
-                                                ￥{{item.simulatePriceCode}}<span class="fz20">/人起</span>
+                                                {{item.simulatePriceCodeDesc}}
                                             </div>
-                                            <div v-show="item.isDiscount" class="fz20 pa b0 r0">支付立减 </div>
                                         </div>
                                     </div>
                                 </div>
@@ -188,7 +170,7 @@
                                 <div class="w612 h2 m0a bgcf5f5f5 mt22 mb22"></div>
 
                                 <div class="fz24 h46 lh46 ml22 mr22">
-                                    <span v-for="str in item.tipNotes" class="dib h46 br25 pl20 pr20" style="background-color: #fef7eb;color: #f6b03e;">{{str}}</span>
+                                    <span v-for="str in item.tips" class="dib h46 br25 pl20 pr20" style="background-color: #fef7eb;color: #f6b03e;">{{str}}</span>
                                 </div>
                             </div>
                         </li>
@@ -210,7 +192,6 @@
                                     <p>{{item.activityProvinceCode}}·{{item.activityCityCode}}</p>
                                     <p>{{item.designDuringCo}} / {{item.groupNumber}}</p>
                                 </div>
-
                             </div>
                         </li>
                     </ul>

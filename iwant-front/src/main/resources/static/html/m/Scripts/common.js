@@ -299,7 +299,8 @@ Vue.prototype.ValidateLogin = function (success, fail) { //判断是否登录有
         if (data) {
             var errMsg = data.errMsg;
             if (!!errMsg) {
-                jQuery.cookie('accessToken', '', { path: '/iwantrun'});
+                //jQuery.cookie('accessToken', '', { path: '/iwantrun' });
+                jQuery.cookie('accessToken', '', { path: '/' });
                 if (typeof fail === 'function') {
                     fail(response.data)
                 }
