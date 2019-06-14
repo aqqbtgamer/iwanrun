@@ -1,4 +1,7 @@
-﻿var logintemplate =
+﻿// ****
+// 登录注册
+// ***
+var logintemplate =
     '<div class="login" v-show="show">                                                                                                                                                                                                             '
     + '<div class="pf bgcffffff w100p h100p pf t0 l0" style="z-index: 777">                                                                                                                                                           '
     + '<header class="w100p h80 bgcffffff pf t0 l0" >                                                                                                                                                                                 '
@@ -257,11 +260,9 @@ var login = new Vue({
                 }, 1000);
             }
 
-
             axios.post(url, param).then(function (response) {
-                //console.log(response.data);
                 var data = response.data;
-                var encryptedSMSCode = $.cookie('encryptedSMSCode');
+                //var encryptedSMSCode = $.cookie('encryptedSMSCode');
                 if (data) {
                     var returnstatus = data.returnstatus;
                     var message = data.message;
@@ -269,7 +270,6 @@ var login = new Vue({
                     if (returnstatus == 'Success') {
                         vm.model.errMsg = '短信已发送';
                     } else if (returnstatus == 'Faild') {
-                        console.log(message);
                         vm.model.errMsg = '短信获取失败，请联系管理员';
                     } else {
                         if (message) {
@@ -316,7 +316,6 @@ var login = new Vue({
             }
 
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 var data = response.data;
                 var messageBody = data.messageBody;
                 if (messageBody) {

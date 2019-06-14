@@ -1,4 +1,7 @@
-﻿var sildemenutemplate =
+﻿// ****
+// 侧边栏
+// ***
+var sildemenutemplate =
     '<div class="sildeMenu w100p h100p pf t0 r0" v-show="show"> '
     + '<div class="w610 h100p bgcffffff fr pa t0 r0 zi2" >                                                              '
     + '<div class="" v-show="loginId&&accessToken">                                                                     '
@@ -74,33 +77,24 @@ var sildemenu = new Vue({
             login.show = true;
         },
         getuser: function () {
-            var vm = this, url = requestUrl.findMixedByLoginId, param = {};
-            axios.post(url, param).then(function (response) {
-                //console.log(response.data);
-                var data = response.data;
-                if (data) {
-                    var errMsg = data.errMsg;
-                    if (errMsg) {
-                        jQuery.cookie('accessToken', '');
-                        login.show = true;
+            var vm = this;
+            vm.ValidateLogin(function (data) {
+                var info = data.userInfo;
+                var headImgs = data.headImgs;
+                var companyCredentials = data.companyCredentials;
+                if (info) {
+                    if (headImgs && headImgs.length > 0) {
+                        vm.account.headimg = headImgs[0].filePath;
                     }
-                    var info = data.userInfo;
-                    var headImgs = data.headImgs;
-                    var companyCredentials = data.companyCredentials;
-                    if (info) {
-                        if (headImgs && headImgs.length > 0) {
-                            vm.account.headimg = headImgs[0].filePath;
+                    vm.account.nickname = info.name;
+                    if (companyCredentials) {
+                        for (var i = 0; i < companyCredentials.length; i++) {
+                            vm.account.company.licenses.push(companyCredentials[i].filePath);
                         }
-                        vm.account.nickname = info.name;
-                        if (companyCredentials) {
-                            for (var i = 0; i < companyCredentials.length; i++) {
-                                vm.account.company.licenses.push(companyCredentials[i].filePath);
-                            }
-                            vm.account.company.hasCredential = true;
-                        }
+                        vm.account.company.hasCredential = true;
                     }
                 }
-            })
+            }, function () { });
         }
     },
     created: function () {

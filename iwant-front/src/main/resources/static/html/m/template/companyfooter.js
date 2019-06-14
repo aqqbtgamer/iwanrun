@@ -1,4 +1,7 @@
-﻿var companyfootertemplate =
+﻿// ****
+// 底部公司信息
+// ***
+var companyfootertemplate =
     '<footer class="w100p h368 bgcffffff" style="margin-top: 60px;">'
     + '<div class="w100p h368 pt40 home_footer">'
     + '<div class="w218 h64 m0a ofh">'

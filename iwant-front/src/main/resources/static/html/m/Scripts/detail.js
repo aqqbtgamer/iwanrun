@@ -128,7 +128,7 @@
             vm.wishcartFindOne();
 
         }, function () {
-            login.show = true;
+            //login.show = true;
         });
     }
 });

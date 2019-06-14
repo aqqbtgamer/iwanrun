@@ -44,7 +44,6 @@
                 pageSize: page.pageSize
             };
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 if (vm.collection[vm.tab].pageIndex === 0) {
                     vm.collection[vm.tab].list = [];
                 }
@@ -69,7 +68,6 @@
                 return;
             }
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 if (response.data == 'success') {
                     vm.collection[vm.tab].pageIndex = 0;
                     vm.getFavourite();
@@ -82,6 +80,7 @@
     },
     created: function () {
         if (!jQuery.cookie('accessToken')) {
+            alert('请先登录');
             window.location.href = 'index.html';
         }
         var vm = this;
@@ -89,6 +88,7 @@
         vm.ValidateLogin(function () {
             vm.getFavourite();
         }, function () {
+            alert('登录失效，请重新登录');
             window.location.href = 'index.html';
         });
     }

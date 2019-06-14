@@ -28,9 +28,6 @@ var appIndex = new Vue({
             }
         },
         showSearch: function () {
-            ////search.showSearch();
-            //search.showSearch = true;
-            //document.getElementById('iptSearch').focus();
             search.show();
         },
         showFilter: function () {
@@ -42,7 +39,6 @@ var appIndex = new Vue({
         query: function () {
             var vm = this, url = requestUrl.queryCaseByCondition, param = vm.model.param;
             axios.post(url, param).then(function (response) {
-                //console.log(response.data);
                 if (vm.model.param.pageIndex === 0) {
                     vm.model.list = [];
                 }
@@ -62,14 +58,10 @@ var appIndex = new Vue({
             var idx = vm.model.searchlist.indexOf(item);
             vm.model.searchlist.splice(idx, 1);
 
-            //console.log('-----list remove');
-            //console.log(vm.model.param[item.type]);
             if (Array.isArray(vm.model.param[item.type])) {
                 idx = vm.model.param[item.type].indexOf(item.id);
                 vm.model.param[item.type].splice(idx, 1);
             }
-            //console.log(vm.model.param[item.type]);
-            //console.log('-----list remove');
 
             filter.remove(item);
             vm.model.param.pageIndex = 0;
@@ -96,14 +88,19 @@ var appIndex = new Vue({
             vm.accessToken = jQuery.cookie('accessToken');
             sildemenu.loginId = jQuery.cookie('loginId');
             sildemenu.accessToken = jQuery.cookie('accessToken');
-            console.log(vm.accessToken);
         };
 
         filter.type = 'case';
 
         filter.callback = function (data) {
-            console.log(data);
-            vm.model.param = {};
+            vm.model.param = {
+                duration: [],
+                activitytype: [],
+                personNum: [],
+                companytype: [],
+                pageIndex: 0,
+                pageSize: 10
+            };
             vm.model.searchlist = [];
             $.each(data, function (key, value) {
                 if (Array.isArray(value) && value.length > 0) {
@@ -114,9 +111,6 @@ var appIndex = new Vue({
                     });
                 }
             });
-            vm.model.param.pageIndex = 0;
-            //console.log(vm.model.param);
-            //console.log(vm.model.searchlist);
             vm.query();
         }
         filter.init();

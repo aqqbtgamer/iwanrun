@@ -1,4 +1,7 @@
-﻿var searchtemplate = ''
+﻿// ****
+// 搜索
+// ***
+var searchtemplate = ''
     + '<div id="divSearch" class="search pf bgcffffff w100p h100p pf t0 l0" style="z-index: 100" v-show="showSearch" >                            '
     + '<div class="pf bgcffffff w100p h100p pf t0 l0" style="z-index: 777">     '
     + '    <header class="w100p h172 bgcffffff pf t0 l0">                                                                   '
@@ -139,10 +142,6 @@ var search = new Vue({
             document.activeElement.blur();
             document.getElementById('iptSearch').focus();
 
-            //document.getElementById('divSearch').addEventListener('touchmove', function (e) {
-            //    e.stopPropagation();
-            //    e.preventDefault();
-            //});
             $('body').css('overflow-y', 'hidden');
             vm.showSearch = true;
         },
@@ -161,8 +160,6 @@ var search = new Vue({
         },
         inputChange: function () {
             var vm = this;
-            console.log(vm.searchContent);
-
             if (vm.searchContent && vm.searchHistory.indexOf(vm.searchContent) < 0) {
                 vm.searchHistory.push(vm.searchContent);
                 jQuery.cookie('searchHistory', vm.searchHistory.join(','));
@@ -183,7 +180,6 @@ var search = new Vue({
                 }
             };
             axios.post(url, param).then(function (response) {
-                //console.log(response.data);
                 vm.model.cases = response.data.content;
             })
         },
@@ -196,7 +192,6 @@ var search = new Vue({
                 }
             };
             axios.post(url, param).then(function (response) {
-                //console.log(response.data);
                 vm.model.productions = response.data.content;
             })
         },
@@ -209,7 +204,6 @@ var search = new Vue({
                 }
             };
             axios.post(url, param).then(function (response) {
-                //console.log(response.data.content);
                 vm.model.locations = response.data.content;
             })
         },
@@ -225,7 +219,6 @@ var search = new Vue({
             document.getElementById('iptSearch').focus();
         });
 
-        
         var vm = this, searchHistory = jQuery.cookie('searchHistory');
         if (searchHistory) {
             vm.searchHistory = searchHistory.split(',');

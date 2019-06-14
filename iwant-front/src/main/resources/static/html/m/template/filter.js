@@ -1,4 +1,7 @@
-﻿var filtertemplate = ''
+﻿// ****
+// production/location/case 筛选过滤
+// ***
+var filtertemplate = ''
     + '<div class="filter" v-show="show">                                                                                                                                                                                       '
     + '    <section class="w100p h100p pf t0 l0" style="z-index: 777">                                                                                                                                                   '
     + '        <div class="w750 bgcffffff" style="max-height: 100vh;overflow-y: auto;">                                                                                                                                                                              '
@@ -102,8 +105,6 @@ var filter = new Vue({
                 vm.filterData[type].splice(idx, 1);
                 $dom.removeClass('select-num');
             }
-            //console.log(vm.filterData[type]);
-            //console.log($dom);
         },
         finish: function () {
             var vm = this;
@@ -114,9 +115,6 @@ var filter = new Vue({
         },
         remove: function (item) {
             var vm = this;
-            console.log('-----filter remove');
-            console.log(vm.filterData[item.type]);
-
             var len = vm.filterData[item.type].length;
             for (var i = len - 1; i >= 0; i--) {
                 var index = vm.filterData[item.type][i];
@@ -126,8 +124,6 @@ var filter = new Vue({
             }
 
             $('.' + item.type).find('[data-id=' + item.id + ']').removeClass('select-num');
-            console.log(vm.filterData[item.type]);
-            console.log('-----filter remove');
         },
         init: function () {
             var vm = this, param = { name: 'common' }, type = vm.type;
@@ -138,14 +134,12 @@ var filter = new Vue({
             };
 
             axios.post(typeUrl[type], param).then(function (response) {
-                //console.log(response.data);
                 var data = response.data;
                 $.each(vm.model, function (key, value) {
                     if (Array.isArray(data[key])) {
                         vm.model[key] = data[key];
                     }
                 });
-                //console.log(vm.model);
             });
         }
     }

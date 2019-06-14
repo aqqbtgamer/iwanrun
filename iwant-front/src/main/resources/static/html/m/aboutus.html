@@ -14,7 +14,7 @@
     </style>
 </head>
 <body class="bgcffffff">
-    <div id="container" v-cloak>
+    <div id="container">
         <div class="aboutus_header pr">
             <div class="w750 h312"><img src="images/about_banner.jpg" class="object-fit-cover" alt=""></div>
         </div>
@@ -26,8 +26,8 @@
             <div class="w650 ml50 h2 mt40 mb40" style="border-bottom:1px dashed #cccccc;"></div>
             <label class="db fz30 mt40 mb30 ml50 fw700">联系电话</label>
             <div class="fz26 lh44 ml50 mr50">
-                <a href="tel:4008897003" class="db c333333">400-8897-003</a>
-                <a href="tel:02161152728" class="db c333333">021-61152728</a>
+                <a :href="ContactUs" class="db c333333">{{ContactUsText}}</a>
+                <a :href="ContactUs021" class="db c333333">{{ContactUs021Text}}</a>
             </div>
         </div>
     </div>
@@ -49,5 +49,6 @@
     <script src="Scripts/common.js"></script>
     <script src="template/backhome.js"></script>
     <script src="template/companyfooter.js"></script>
+    <script src="Scripts/aboutus.js"></script>
 </body>
 </html>

@@ -8,7 +8,8 @@
             orders: {},
             purchaserAccountInfo: {},
             purchaserAccount: {}
-        }
+        },
+        ContactUs: 'tel:' + dataConfig.ContactUs
     },
     methods: {
         getOrderByID: function () {
@@ -16,7 +17,6 @@
                 id: vm.id
             };
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 vm.model = response.data;
             });
         },
@@ -38,12 +38,14 @@
     created: function () {
         var vm = this;
         if (!jQuery.cookie('accessToken') || !vm.id) {
+            alert('请先登录');
             window.location.href = 'index.html';
         }
 
         vm.ValidateLogin(function () {
             vm.getOrderByID();
         }, function () {
+            alert('登录失效，请重新登录');
             window.location.href = 'index.html';
         });
     }

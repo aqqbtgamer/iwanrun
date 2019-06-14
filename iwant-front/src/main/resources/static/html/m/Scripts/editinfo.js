@@ -22,44 +22,39 @@
     },
     methods: {
         getuser: function () {
-            var vm = this, url = requestUrl.findMixedByLoginId, param = {};
-            axios.post(url, param).then(function (response) {
-                var data = response.data;
-                if (data) {
-                    var errMsg = data.errMsg;
-                    if (errMsg) {
-                        window.location.href = 'index.html';
+            var vm = this;
+            vm.ValidateLogin(function (data) {
+                var info = data.userInfo;
+                var headImgs = data.headImgs;
+                var companyCredentials = data.companyCredentials;
+                var loginInfo = data.loginInfo;
+                if (info) {
+                    if (headImgs && headImgs.length > 0) {
+                        vm.account.headimg = headImgs[0].filePath;
                     }
-                    var info = data.userInfo;
-                    var headImgs = data.headImgs;
-                    var companyCredentials = data.companyCredentials;
-                    var loginInfo = data.loginInfo;
-                    if (info) {
-                        if (headImgs && headImgs.length > 0) {
-                            vm.account.headimg = headImgs[0].filePath;
-                        }
-                        vm.account.name = info.name;
-                        vm.account.gender = info.gender;
-                        vm.account.email = info.email;
+                    vm.account.name = info.name;
+                    vm.account.gender = info.gender;
+                    vm.account.email = info.email;
 
-                        vm.account.company.name = info.companyName;
-                        vm.account.companyTypeId = info.companyTypeId;
-                        vm.account.companySizeId = info.companySizeId;
+                    vm.account.company.name = info.companyName;
+                    vm.account.companyTypeId = info.companyTypeId;
+                    vm.account.companySizeId = info.companySizeId;
 
-                        if (loginInfo) {
-                            vm.account.phone = loginInfo.mobileNumber;
-                        }
-
-                        if (companyCredentials) {
-                            for (var i = 0; i < companyCredentials.length; i++) {
-                                vm.account.company.licenses.push(companyCredentials[i].filePath);
-                            }
-                            vm.account.company.hasCredential = true;
-                        }
+                    if (loginInfo) {
+                        vm.account.phone = loginInfo.mobileNumber;
                     }
-                    //console.log(vm.account);
+
+                    if (companyCredentials) {
+                        for (var i = 0; i < companyCredentials.length; i++) {
+                            vm.account.company.licenses.push(companyCredentials[i].filePath);
+                        }
+                        vm.account.company.hasCredential = true;
+                    }
                 }
-            })
+            }, function () {
+                alert('登录失效，请重新登录');
+                window.location.href = 'index.html';
+            });
         },
         update: function ($event) {
             var vm = this, $dom = $($event.target), name = $dom.attr('name'), val = vm.account[name], param = {};
@@ -90,10 +85,6 @@
     },
     created: function () {
         var vm = this;
-        if (!jQuery.cookie('accessToken')) {
-            alert('请先登录');
-            window.history.back();
-        }
         vm.getuser();
     }
 });

@@ -18,7 +18,6 @@
                 pageSize: vm.param.pageSize
             };
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 if (vm.param.pageIndex === 0) {
                     vm.list = [];
                 }
@@ -31,7 +30,6 @@
                     for (var i = 0; i < data.content.length; i++) {
                         (function (i) {
                             axios.post(url, { id: data.content[i].id }).then(function (response) {
-                                console.log(response.data);
                                 vm.list[len + i].orderNo = response.data.orders;
                             });
                         })(i);
@@ -57,12 +55,14 @@
     },
     created: function () {
         if (!jQuery.cookie('accessToken')) {
+            alert('请先登录');
             window.location.href = 'index.html';
         }
         var vm = this;
         vm.ValidateLogin(function () {
             vm.getOrder();
         }, function () {
+            alert('登录失效，请重新登录');
             window.location.href = 'index.html';
         });
 

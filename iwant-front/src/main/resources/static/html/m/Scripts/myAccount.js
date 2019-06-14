@@ -15,37 +15,31 @@
     },
     methods: {
         getuser: function () {
-            var vm = this, url = requestUrl.findMixedByLoginId, param = {};
-            axios.post(url, param).then(function (response) {
-                console.log(response.data);
-                var data = response.data;
-                if (data) {
-                    var errMsg = data.errMsg;
-                    if (errMsg) {
-                        jQuery.cookie('accessToken', '');
-                        window.location.href = 'index.html';
+            var vm = this;
+            vm.ValidateLogin(function (data) {
+                var info = data.userInfo;
+                var headImgs = data.headImgs;
+                var companyCredentials = data.companyCredentials;
+                var loginInfo = data.loginInfo;
+                if (info) {
+                    if (headImgs && headImgs.length > 0) {
+                        vm.account.headimg = headImgs[0].filePath;
                     }
-                    var info = data.userInfo;
-                    var headImgs = data.headImgs;
-                    var companyCredentials = data.companyCredentials;
-                    var loginInfo = data.loginInfo;
-                    if (info) {
-                        if (headImgs && headImgs.length > 0) {
-                            vm.account.headimg = headImgs[0].filePath;
-                        }
-                        vm.account.nickname = info.name;
-                        vm.account.email = info.email;
-                        if (loginInfo) {
-                            vm.account.phone = loginInfo.mobileNumber;
-                        }
-                        vm.account.company.name = info.companyName;
-                        if (companyCredentials) {
-                            vm.account.company.hasCredential = true;
-                        }
+                    vm.account.nickname = info.name;
+                    vm.account.email = info.email;
+                    if (loginInfo) {
+                        vm.account.phone = loginInfo.mobileNumber;
+                    }
+                    vm.account.company.name = info.companyName;
+                    if (companyCredentials) {
+                        vm.account.company.hasCredential = true;
+                    }
 
-                    }
                 }
-            })
+            }, function () {
+                alert('登录失效，请重新登录');
+                window.location.href = 'index.html';
+            });
         },
         getOrders: function () {
             var vm = this, url = requestUrl.getOrderListByLoginId, param = {
@@ -53,7 +47,6 @@
                 loginId: vm.loginId
             };
             axios.post(url, param).then(function (response) {
-                console.log(response.data);
                 var data = response.data;
                 if (data && data.pageInfo && data.pageInfo.total) {
                     vm.account.ordersTotal = data.pageInfo.total;
@@ -65,7 +58,6 @@
             $.each(types, function (index, item) {
                 var param = { type: item };
                 axios.post(url, param).then(function (response) {
-                    console.log(response.data);
                     var data = response.data;
                     if (data && data.pageInfo && data.pageInfo.total) {
                         vm.account.favouriteTotal += data.pageInfo.total;
@@ -74,14 +66,19 @@
             });
         },
         logout: function () {
-            var vm = this;
-            jQuery.cookie('accessToken', '');
-            vm.accessToken = '';
-            window.location.href = "index.html";
+            var vm = this, url = requestUrl.logout, param = {};
+            axios.post(url, param).then(function (response) {
+                //if (response.status == 200) {
+                //alert('退出成功')
+                jQuery.cookie('openId', '');
+                window.location.href = "index.html";
+                //}
+            });
         }
     },
     created: function () {
         if (!jQuery.cookie('accessToken')) {
+            alert('请先登录');
             window.location.href = 'index.html';
         }
         var vm = this;

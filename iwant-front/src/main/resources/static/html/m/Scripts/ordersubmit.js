@@ -57,36 +57,14 @@ var appIndex = new Vue(
         methods: {
             submitOrder: function () {
                 var vm = this, url = requestUrl.orderSubmit;
+                if (!jQuery.cookie('accessToken')) {
+                    login.show = true;
+                    return;
+                }
                 if (!vm.varify()) {
                     return false;
                 }
-                //console.log(vm.order);
-                //var request = {
-                //    order: vm.order,
-                //    user: { loginId: vm.loginId }
-                //};
 
-                //var param = { requestJson: JSON.stringify(request) };
-                //var param = { requestJson: request };
-                //var data = new FormData();
-                //data.append('order', vm.order)
-                //data.append('user', { loginId: vm.loginId });
-                //var config = {
-                //    headers: {
-                //        'Content-Type': 'multipart/form-data'
-                //    }
-                //}
-
-                //axios.post(url, data, config).then(function (response) {
-                //    console.log(response.data);
-                //    var data = response.data;
-                //    if (data != null && data.submitResult && data.orders) {
-                //        vm.showDialog = true;
-                //        vm.orderId = data.orders.id;
-                //        //alert("需求提交成功");
-                //        //window.location.href = "./orderlist.html";
-                //    }
-                //});
                 var request = {
                     order: vm.order,
                     user: { loginId: vm.loginId }
@@ -107,18 +85,9 @@ var appIndex = new Vue(
                         }
                     }
                 };
-                //callback.request = requestData;
-                //callback.vm = vm;
-                //callback.success = function (result) {
-                //    if (result != null && result.submitResult == true) {
-                //        alert("需求提交成功");
-                //        window.location.href = "./orderlist.html";
-                //    }
-                //};
                 $http_form.post(url, callback);
             },
             showsildemenu: function () {
-                console.log(sildemenu);
                 sildemenu.show = true;
             },
             buttonChange: function ($event, id, type) {
@@ -131,8 +100,6 @@ var appIndex = new Vue(
                     $dom.siblings('button').removeClass('select-num');
                     $dom.addClass('select-num');
                 }
-                //console.log(vm.order[type]);
-                //console.log($dom);
             },
             varify: function () {
                 var vm = this;
@@ -165,7 +132,6 @@ var appIndex = new Vue(
                     pageSize: vm.collection.case.pageSize
                 };
                 axios.post(url, param).then(function (response) {
-                    //console.log(response.data);
                     vm.collection.case.list = response.data.content;
                 })
             },
@@ -175,7 +141,6 @@ var appIndex = new Vue(
                     pageSize: vm.collection.case.pageSize
                 };
                 axios.post(url, param).then(function (response) {
-                    //console.log(response.data);
                     vm.collection.product.list = response.data.content;
                 })
             },
@@ -185,7 +150,6 @@ var appIndex = new Vue(
                     pageSize: vm.collection.case.pageSize
                 };
                 axios.post(url, param).then(function (response) {
-                    //console.log(response.data.content);
                     vm.collection.location.list = response.data.content;
                 })
             },
@@ -200,7 +164,6 @@ var appIndex = new Vue(
                     loginId: vm.loginId
                 };
                 axios.post(url, param).then(function (response) {
-                    console.log(response.data);
                     if (response.data && response.data.success) {
                         vm.wishcartQuery(true, false);
                     }
@@ -228,7 +191,6 @@ var appIndex = new Vue(
                     vm.collection[vm.tab].list = [];
                 }
                 axios.post(url, param).then(function (response) {
-                    console.log(response.data);
                     if (response.data && Array.isArray(response.data.content)) {
                         $.each(response.data.content, function (index, item) {
                             var getUrl = getDetailById[item.type] + '?id=' + item.typeId;
@@ -241,13 +203,6 @@ var appIndex = new Vue(
                                 } else {
                                     item.class = response.data;
                                 }
-
-                                //vm.collection[item.type].list.push(item);
-                                //$.each(vm.collection[item.type].list, function (ind, val) {
-                                //    val.model = item;
-                                //});
-                                console.log(vm.collection[item.type]);
-
                             });
                         });
                         vm.collection[vm.tab].list = vm.collection[vm.tab].list.concat(response.data.content);
@@ -281,11 +236,9 @@ var appIndex = new Vue(
             });
 
             var vm = this;
-            //vm.login.show
             $.each(queryListByField, function (key, value) {
                 var url = value.url + '?name=' + value.param["name"] + '&used_field=' + value.param["used_field"] + '&field=' + value.param["field"];
                 axios.post(url, {}).then(function (response) {
-                    //console.log(response.data);
                     var data = response.data;
                     vm.model[key] = data;
                 });
@@ -298,18 +251,13 @@ var appIndex = new Vue(
                 sildemenu.accessToken = jQuery.cookie('accessToken');
                 vm.showWish = true;
                 vm.wishcartQuery(true, false);
-                //console.log(vm.accessToken);
             };
 
             vm.ValidateLogin(function () {
                 vm.showWish = true;
                 vm.wishcartQuery(true, false);
             }, function () {
-                login.show = true;
+                //login.show = true;
             });
-
-            //vm.queryCaseByCondition(); //TODO favourite/{query
-            //vm.queryProdutionByCondition();
-            //vm.queryLocationByCondition();
         }
     });

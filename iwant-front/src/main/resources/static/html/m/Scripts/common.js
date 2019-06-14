@@ -336,5 +336,17 @@ var $http_form = {
 
 //项目配置
 var dataConfig = {
-    ContactUs: 4008897003
+    ContactUs: '4008897003', //联系我们电话
+    ContactUsText: '400-8897-003',
+    ContactUs021: '02161152728',
+    ContactUs021Text: '021-61152728',
+    WechatAppID: 'wx1fd018c55846c8c9',//微信登录 公众号ID
 };
+
+//账户信息验证
+function IsUserLogined() {
+    if (!jQuery.cookie('accessToken')) {
+        alert('请先登录');
+        window.location.href = 'index.html';
+    }
+}
