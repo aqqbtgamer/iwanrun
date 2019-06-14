@@ -70,7 +70,7 @@
             axios.post(url, param).then(function (response) {
                 //if (response.status == 200) {
                 //alert('退出成功')
-                jQuery.cookie('openId', '');
+                jQuery.cookie('accessToken', '', { path: '/' });
                 window.location.href = "index.html";
                 //}
             });

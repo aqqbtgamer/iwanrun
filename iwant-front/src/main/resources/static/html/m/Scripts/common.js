@@ -260,7 +260,6 @@ axios.interceptors.request.use(config => {
 //  RESPONSE 响应异常拦截
 axios.interceptors.response.use(data => {
     //==============  所有请求完成后都要执行的操作  ==================
-    console.log(data);
 
     if (data.status && data.status == 500 && data.message == 'No message available') {
         alert('请求失败,请刷新后重试');
